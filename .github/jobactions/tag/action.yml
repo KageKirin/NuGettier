@@ -1,0 +1,50 @@
+name: jobactions/tag
+inputs:
+  prerelease:
+    description: version '-prerelease.num' part
+    required: false
+    default: ''
+  buildmeta:
+    description: version '+buildmeta.text' part
+    required: false
+    default: ''
+outputs:
+  version:
+    description: updated tag/version
+    value: ${{ steps.update-git-tag.outputs.version }}
+runs:
+  using: composite
+  steps:
+  - uses: kagekirin/gha-utils/.github/actions/install-prerequisites@main
+  - uses: kagekirin/gha-utils/.github/actions/install-version-tools@main
+  - id: update-package-tag
+    shell: pwsh
+    run: |-
+      $tag = @(csproj-version bump --patch NuGettier/NuGettier.csproj | rg -o '\d+\.\d+\.\d+')
+      echo "tag=$tag"
+      echo "tag=$tag" >> $Env:GITHUB_OUTPUT
+  - id: update-git-tag
+    uses: kagekirin/gha-utils/.github/actions/tag-generate@main
+    with:
+      version: ${{ steps.update-package-tag.outputs.tag }}
+      prerelease: ${{ inputs.prerelease }}
+      buildmeta: ${{ inputs.buildmeta }}
+      add-revcount: ${{ inputs.prerelease != '' }}
+  - shell: pwsh
+    run: |-
+      git config --local user.name "CI Bot [on behalf of Chris Helmich]"
+      git config --local user.email kagekirin+gha@gmail.com
+      git --no-pager status
+      git --no-pager tag -l --sort=-v:refname | head -n 1
+
+      $version = "${{ steps.update-git-tag.outputs.version }}"
+      echo "Version: $version"
+
+      fdfind "csproj$" -x csproj-version set --version $version --xpath '//PropertyGroup/Version' {}
+      fdfind "csproj$" -x git add {}
+
+      git commit -m "build: update version to $version"
+      git tag -f v$version
+
+      git --no-pager tag -l --sort=-v:refname | head -n 1
+      echo "version=$version" >> $Env:GITHUB_OUTPUT
