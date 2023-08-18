@@ -20,7 +20,7 @@ runs:
       registry: ${{ inputs.registry }}
       username: ${{ inputs.username }}
       token: ${{ inputs.token }}
-  - uses: ./.github/jobactions/build
+  - uses: kagekirin/gha-dotnet/.github/actions/build@main
     with:
       framework: net7.0
       configuration: Release
