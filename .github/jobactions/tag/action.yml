@@ -40,8 +40,12 @@ runs:
       $version = "${{ steps.update-git-tag.outputs.version }}"
       echo "Version: $version"
 
-      fdfind "csproj$" -X echo csproj-version set --version $version "{}"
-      fdfind "csproj$" -X csproj-version set --version $version "{}"
+      foreach ($project in @(fdfind "csproj$"))
+      {
+        echo "patching $project"
+        csproj-version set --version $version $project
+        git add $project
+      }
 
       git commit -am "build (ci): update version to $version"
       git tag -f v$version
