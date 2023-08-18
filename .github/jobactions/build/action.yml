@@ -11,7 +11,7 @@ runs:
   - uses: kagekirin/gha-utils/.github/actions/install-prerequisites@main
   - uses: kagekirin/gha-utils/.github/actions/install-version-tools@main
   - name: Build ${{ inputs.framework }} ${{ inputs.configuration }}
-    uses: ./.github/actions/build
+    uses: kagekirin/gha-dotnet/.github/actions/build@main
     with:
       framework: ${{ inputs.framework }}
       configuration: ${{ inputs.configuration }}
