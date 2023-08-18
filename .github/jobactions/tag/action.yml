@@ -40,8 +40,8 @@ runs:
       $version = "${{ steps.update-git-tag.outputs.version }}"
       echo "Version: $version"
 
-      fdfind "csproj$" -x csproj-version set --version $version --xpath '//PropertyGroup/Version' {}
-      fdfind "csproj$" -x git add {}
+      fdfind "csproj$" -X csproj-version set --version $version {}
+      fdfind "csproj$" -X git add {}
 
       git commit -m "build: update version to $version"
       git tag -f v$version
