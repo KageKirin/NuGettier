@@ -9,8 +9,10 @@ runs:
   using: composite
   steps:
   - name: Build (${{ inputs.configuration }}) ${{ inputs.framework }}
-    shell: bash
+    shell: pwsh
     run: |-
-      for a in $(fdfind "csproj$"); do
-        dotnet build -f ${{ inputs.framework }} -c ${{ inputs.configuration }} ${a}
-      done
+      foreach ($project in @(fdfind "csproj$"))
+      {
+        echo "building $project"
+        dotnet build -f ${{ inputs.framework }} -c ${{ inputs.configuration }} $project
+      }
