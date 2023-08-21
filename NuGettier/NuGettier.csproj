@@ -13,4 +13,12 @@
     <Version>0.0.5</Version>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NuGet.Commands" Version="6.7.0" />
+    <PackageReference Include="NuGet.LibraryModel" Version="6.7.0" />
+    <PackageReference Include="NuGet.Packaging" Version="6.7.0" />
+    <PackageReference Include="NuGet.Protocol" Version="6.7.0" />
+    <PackageReference Include="NuGet.Resolver" Version="6.7.0" />
+  </ItemGroup>
+
 </Project>
