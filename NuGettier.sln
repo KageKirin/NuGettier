@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGettier", "NuGettier\NuGe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prototype", "Prototype\Prototype.csproj", "{E39D6D3F-D97B-4A79-A042-7E0C54D016A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGettier.Core", "NuGettier.Core\NuGettier.Core.csproj", "{3049506B-85FD-4419-8CE0-BB807A60AE7D}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGettier.Upm", "NuGettier.Upm\NuGettier.Upm.csproj", "{9A36F4C0-9760-404A-9479-452A1CE4F21B}"
 EndProject
 Global
@@ -26,6 +28,10 @@ Global
 		{E39D6D3F-D97B-4A79-A042-7E0C54D016A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E39D6D3F-D97B-4A79-A042-7E0C54D016A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E39D6D3F-D97B-4A79-A042-7E0C54D016A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3049506B-85FD-4419-8CE0-BB807A60AE7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3049506B-85FD-4419-8CE0-BB807A60AE7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3049506B-85FD-4419-8CE0-BB807A60AE7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3049506B-85FD-4419-8CE0-BB807A60AE7D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A36F4C0-9760-404A-9479-452A1CE4F21B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A36F4C0-9760-404A-9479-452A1CE4F21B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A36F4C0-9760-404A-9479-452A1CE4F21B}.Release|Any CPU.ActiveCfg = Release|Any CPU
