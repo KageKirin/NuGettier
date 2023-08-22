@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text.Json;
 using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
 using System.CommandLine.Invocation;
@@ -41,18 +42,27 @@ public static partial class Program
         SourceCacheContext cache = new SourceCacheContext();
         SourceRepository repository = Repository.Factory.GetCoreV3($"{source.ToString()}");
 
-        FindPackageByIdResource resource =
-            await repository.GetResourceAsync<FindPackageByIdResource>();
-        IEnumerable<NuGetVersion> versions = await resource.GetAllVersionsAsync(
+        PackageMetadataResource resource =
+            await repository.GetResourceAsync<PackageMetadataResource>();
+        IEnumerable<IPackageSearchMetadata> packages = await resource.GetMetadataAsync(
             packageName,
+            includePrerelease: preRelease,
+            includeUnlisted: false,
             cache,
             NullLogger.Instance,
             cancellationToken
         );
 
-        foreach (NuGetVersion version in versions)
+        if (json)
         {
-            Console.WriteLine($"* {version}");
+            Console.WriteLine(@$"{JsonSerializer.Serialize(packages)}");
+        }
+        else
+        {
+            foreach (IPackageSearchMetadata package in packages)
+            {
+                Console.WriteLine($"* {package.Identity.Version}");
+            }
         }
 
         return 0;
