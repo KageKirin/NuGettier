@@ -1,5 +1,12 @@
 using System;
 using System.CommandLine;
+using System.CommandLine.Builder;
+using System.CommandLine.Completions;
+using System.CommandLine.Help;
+using System.CommandLine.Invocation;
+using System.CommandLine.IO;
+using System.CommandLine.NamingConventionBinder;
+using System.CommandLine.Parsing;
 
 namespace NuGettier;
 
@@ -55,4 +62,9 @@ public static partial class Program
         {
             IsRequired = true,
         };
+
+    private static void ValidateLatestOrVersion(CommandResult commandResult)
+    {
+        commandResult.ValidateOnlyOneOf(RetrieveLatestOption, SpecificVersionOption);
+    }
 }
