@@ -61,7 +61,7 @@ jobs:
         done
     - id: push-updates
       shell: bash
-      run: git push -u origin ${{ steps.create-branch.branch }}
+      run: git push -u origin ${{ steps.create-branch.outputs.branch }}
     - id: create-pr
       shell: bash
       env:
