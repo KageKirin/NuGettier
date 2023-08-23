@@ -36,6 +36,15 @@ public static partial class Program
     private static Option<string> SpecificVersionOption =
         new(aliases: new string[] { "--version", "-v" }, description: "version to fetch");
 
+    private static Option<string> FrameworkOption =
+        new(
+            aliases: new string[] { "--framework", "-f" },
+            description: "framework of DLL to repack"
+        )
+        {
+            IsRequired = true,
+        };
+
     private static Option<DirectoryInfo> OutputDirectoryOption =
         new(
             aliases: new string[] { "--outputDirectory", "-o" },
