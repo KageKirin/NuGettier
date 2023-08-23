@@ -20,6 +20,7 @@ public static partial class Program
             ListCommand,
             InfoCommand,
             GetCommand,
+            UpmCommand,
         };
         cmd.Name = "dotnet-nugettier";
         cmd.Description = "Extended NuGet helper util";
