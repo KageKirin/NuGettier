@@ -6,19 +6,33 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <!-- build metadata -->
   <PropertyGroup>
     <Version>0.0.6</Version>
+    <RepositoryUrl>https://github.com/KageKirin/NuGettier</RepositoryUrl>
+    <Authors>Chris Helmich</Authors>
+    <Company>KageKirin</Company>
+  </PropertyGroup>
+
+  <!-- tool metadata -->
+  <PropertyGroup>
+    <ToolCommandName>dotnet-nugettier</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
-    <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
-    <PackageReference Include="NuGet.Packaging" Version="6.7.0"/>
-    <PackageReference Include="NuGet.Protocol" Version="6.7.0"/>
-    <PackageReference Include="NuGet.Resolver" Version="6.7.0"/>
+    <PackageReference Include="NuGet.Commands" Version="6.7.0" />
+    <PackageReference Include="NuGet.LibraryModel" Version="6.7.0" />
+    <PackageReference Include="NuGet.Packaging" Version="6.7.0" />
+    <PackageReference Include="NuGet.Protocol" Version="6.7.0" />
+    <PackageReference Include="NuGet.Resolver" Version="6.7.0" />
+	<PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta4.22272.1" />
   </ItemGroup>
 
 </Project>
