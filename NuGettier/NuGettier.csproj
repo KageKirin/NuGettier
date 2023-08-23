@@ -20,6 +20,11 @@
     <Company>KageKirin</Company>
   </PropertyGroup>
 
+  <!-- tool metadata -->
+  <PropertyGroup>
+    <ToolCommandName>dotnet-nugettier</ToolCommandName>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="NuGet.Commands" Version="6.7.0" />
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0" />
