@@ -198,25 +198,9 @@ public static partial class Program
             }
 
             // write output package.tar.gz
-            if (!outputDirectory.Exists)
-            {
-                outputDirectory.Create();
-            }
-
-            FileInfo outputFile =
-                new(
-                    Path.Join(
-                        outputDirectory.FullName,
-                        $"{packageJson.Name}-{packageJson.Version}.tgz"
-                    )
-                );
-            using (var gzStream = new GZipOutputStream(File.OpenWrite(outputFile.FullName)))
-            {
-                using (var tarStream = new TarOutputStream(gzStream, Encoding.Default))
-                {
-                    tarStream.FromTarDictionary(tarDictionary);
-                }
-            }
+            tarDictionary.WriteToTarGz(
+                Path.Join(outputDirectory.FullName, $"{packageJson.Name}-{packageJson.Version}.tgz")
+            );
         }
         return 0;
     }
