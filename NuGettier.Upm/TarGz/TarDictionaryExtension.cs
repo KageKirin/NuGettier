@@ -49,4 +49,24 @@ public static class TarDictionaryExtension
         }
         return tos;
     }
+
+    public static void WriteToTar(this TarDictionary tarDictionary, string filePath)
+    {
+        DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath));
+        if (!outputDirectory.Exists)
+        {
+            outputDirectory.Create();
+        }
+
+        FileInfo outputFile = new(filePath);
+        tarDictionary.WriteToTar(outputFile.OpenWrite());
+    }
+
+    public static void WriteToTar(this TarDictionary tarDictionary, Stream outStream)
+    {
+        using (TarOutputStream tarStream = new(outStream, Encoding.Default))
+        {
+            tarStream.FromTarDictionary(tarDictionary);
+        }
+    }
 }
