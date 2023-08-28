@@ -14,7 +14,7 @@
 
   <!-- build metadata -->
   <PropertyGroup>
-    <Version>0.0.8</Version>
+    <Version>0.0.9</Version>
     <RepositoryUrl>https://github.com/KageKirin/NuGettier</RepositoryUrl>
     <Authors>Chris Helmich</Authors>
     <Company>KageKirin</Company>
@@ -26,7 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NuGettier.Upm\NuGettier.Upm.csproj" />
+    <ProjectReference Include="..\NuGettier.Upm\NuGettier.Upm.csproj"/>
     <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
     <PackageReference Include="NuGet.Packaging" Version="6.7.0"/>
