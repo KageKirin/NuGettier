@@ -26,6 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NuGettier.Upm\NuGettier.Upm.csproj" />
     <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
     <PackageReference Include="NuGet.Packaging" Version="6.7.0"/>
