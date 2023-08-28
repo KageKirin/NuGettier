@@ -69,4 +69,24 @@ public static class TarDictionaryExtension
             tarStream.FromTarDictionary(tarDictionary);
         }
     }
+
+    public static void WriteToTarGz(this TarDictionary tarDictionary, string filePath)
+    {
+        DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath));
+        if (!outputDirectory.Exists)
+        {
+            outputDirectory.Create();
+        }
+
+        FileInfo outputFile = new(filePath);
+        tarDictionary.WriteToTarGz(outputFile.OpenWrite());
+    }
+
+    public static void WriteToTarGz(this TarDictionary tarDictionary, Stream outStream)
+    {
+        using (GZipOutputStream gzStream = new(outStream))
+        {
+            tarDictionary.WriteToTar(gzStream);
+        }
+    }
 }
