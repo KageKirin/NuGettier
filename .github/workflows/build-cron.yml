@@ -45,7 +45,7 @@ jobs:
     - id: update-dependencies
       uses: ./.github/jobactions/update-dependencies
     - id: push-updates
-      shell: bash
+      shell: pwsh
       run: git push -u origin ${{ steps.update-dependencies.outputs.branch }}
     - id: create-pr
       shell: bash
