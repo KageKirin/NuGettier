@@ -48,7 +48,7 @@ jobs:
       shell: pwsh
       run: git push -u origin ${{ steps.update-dependencies.outputs.branch }}
     - id: create-pr
-      shell: bash
+      shell: pwsh
       env:
         GH_TOKEN: ${{ github.token }}
       run: |-
