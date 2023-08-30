@@ -9,11 +9,11 @@ runs:
   - uses: kagekirin/gha-utils/.github/actions/install-prerequisites@main
   - uses: kagekirin/gha-utils/.github/actions/install-version-tools@main
   - id: create-branch
-    shell: bash
+    shell: pwsh
     run: |-
-      branch="build/update-dependencies-${{ github.run_id }}"
+      $branch = "build/update-dependencies-${{ github.run_id }}"
       git checkout -b ${branch}
-      echo "branch='${branch}'" >> $GITHUB_OUTPUT
+      echo "branch=${branch}" >> $Env:GITHUB_OUTPUT
   - id: update-dependencies
     shell: bash
     run: |-
