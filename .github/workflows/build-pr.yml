@@ -59,10 +59,10 @@ jobs:
     needs: build
     steps:
     - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
-    - id: update-dependencies
-      uses: ./.github/jobactions/update-dependencies
       with:
         ssh-key: "${{ secrets.DEPLOY_KEY }}"
+    - id: update-dependencies
+      uses: ./.github/jobactions/update-dependencies
     - id: push-updates
       shell: pwsh
       run: git push --dry-run -u origin ${{ steps.update-dependencies.outputs.branch }}
