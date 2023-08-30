@@ -39,31 +39,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: test-nuget
     steps:
-    - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
-      with:
-        ssh-key: "${{secrets.DEPLOY_KEY}}"
-    - uses: kagekirin/gha-utils/.github/actions/install-prerequisites@main
-    - uses: kagekirin/gha-utils/.github/actions/install-version-tools@main
-    - id: create-branch
-      shell: bash
-      run: |-
-        branch="build/update-dependencies-${{ github.run_id }}"
-        git checkout -b ${branch}
-        echo "branch='${branch}'" >> $GITHUB_OUTPUT
     - id: update-dependencies
-      shell: bash
-      run: |-
-        for a in $(fdfind "csproj$"); do
-          for p in $(xq -x "//ItemGroup/PackageReference/@Include" ${a}); do
-            dotnet add ${p}
-            newVersion=$(xq -x "//ItemGroup/PackageReference[@Include='${p}']/@Version" ${a})
-            git add ${a}
-            git commit -m "build (${a}): update dependency ${p} to ${newVersion}" || echo "Nothing to commit for ${a} referencing ${p}"
-          done
-        done
+      uses: ./.github/jobactions/update-dependencies
     - id: push-updates
       shell: bash
-      run: git push -u origin ${{ steps.create-branch.outputs.branch }}
+      run: git push -u origin ${{ steps.update-dependencies.outputs.branch }}
     - id: create-pr
       shell: bash
       env:
