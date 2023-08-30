@@ -59,8 +59,8 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |-
-        j="$(gh pr status --json title,number,headRefName,body)"
-        num=$(jq -r .currentBranch.number <<< $j)
-        title="$(jq -r .currentBranch.title <<< $j) ($(jq -r .currentBranch.headRefName <<< $j)) [#$num]"
-        body="$(jq -r .currentBranch.body <<< $j)nn$(jq -r .currentBranch.body <<< $j)"
+        $j = "(gh pr status --json title,number,headRefName,body)"
+        $num = (jq -r .currentBranch.number <<< $j)
+        $title = "(jq -r .currentBranch.title <<< $j) ((jq -r .currentBranch.headRefName <<< $j)) [#$num]"
+        $body = "(jq -r .currentBranch.body <<< $j)\n\n(jq -r .currentBranch.body <<< $j)"
         gh pr merge --auto -d --squash --subject "$title" --body "$body"
