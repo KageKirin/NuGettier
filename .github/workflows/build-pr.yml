@@ -44,7 +44,6 @@ jobs:
         branch: ${{ github.head_ref || github.ref_name }}
         dry-run: true
 
-
   test-nuget:
     runs-on: ubuntu-latest
     needs: build
@@ -54,3 +53,16 @@ jobs:
       with:
         name: github-nuget
         token: ${{ secrets.GH_NUGET_TOKEN }}
+
+  test-update-dependencies:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
+    - id: update-dependencies
+      uses: ./.github/jobactions/update-dependencies
+      with:
+        ssh-key: "${{ secrets.DEPLOY_KEY }}"
+    - id: push-updates
+      shell: pwsh
+      run: git push --dry-run -u origin ${{ steps.update-dependencies.outputs.branch }}

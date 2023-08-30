@@ -1,4 +1,8 @@
 name: jobactions/update-dependencies
+inputs:
+  ssh-key:
+    description: GitHub SSH key required for checkout to allow pushing (e.g. secrets.DEPLOY_KEY)
+    required: true
 outputs:
   branch:
     description: Name of the branch created for the PR to merge the changes
@@ -8,7 +12,7 @@ runs:
   steps:
   - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
     with:
-      ssh-key: "${{secrets.DEPLOY_KEY}}"
+      ssh-key: "${{inputs.ssh-key}}"
   - uses: kagekirin/gha-utils/.github/actions/install-prerequisites@main
   - uses: kagekirin/gha-utils/.github/actions/install-version-tools@main
   - id: create-branch
@@ -22,7 +26,7 @@ runs:
     run: |-
       for a in $(fdfind "csproj$"); do
         for p in $(xq -x "//ItemGroup/PackageReference/@Include" ${a}); do
-          dotnet add ${p}
+          dotnet add ${a} package ${p} --prerelease
           newVersion=$(xq -x "//ItemGroup/PackageReference[@Include='${p}']/@Version" ${a})
           git add ${a}
           git commit -m "build (${a}): update dependency ${p} to ${newVersion}" || echo "Nothing to commit for ${a} referencing ${p}"
