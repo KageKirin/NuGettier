@@ -26,7 +26,7 @@ runs:
     run: |-
       for a in $(fdfind "csproj$"); do
         for p in $(xq -x "//ItemGroup/PackageReference/@Include" ${a}); do
-          dotnet add ${p}
+          dotnet add ${a} package ${p} --prerelease
           newVersion=$(xq -x "//ItemGroup/PackageReference[@Include='${p}']/@Version" ${a})
           git add ${a}
           git commit -m "build (${a}): update dependency ${p} to ${newVersion}" || echo "Nothing to commit for ${a} referencing ${p}"
