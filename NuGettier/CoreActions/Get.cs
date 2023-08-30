@@ -44,95 +44,16 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
-        SourceCacheContext cache = new SourceCacheContext();
-        SourceRepository repository = Repository.Factory.GetCoreV3($"{source.ToString()}");
-
-        FindPackageByIdResource resource =
-            await repository.GetResourceAsync<FindPackageByIdResource>();
-        IEnumerable<NuGetVersion> versions = await resource.GetAllVersionsAsync(
-            packageName,
-            cache,
-            NullLogger.Instance,
-            cancellationToken
+        Core.Context context = new();
+        return await context.FetchPackage(
+            packageName: packageName,
+            preRelease: preRelease,
+            latest: latest,
+            version: version,
+            source: source,
+            outputDirectory: outputDirectory,
+            console: console,
+            cancellationToken: cancellationToken
         );
-
-        NuGetVersion? packageVersion = null;
-        if (latest)
-        {
-            packageVersion = versions.Last();
-        }
-        else
-        {
-            packageVersion = new NuGetVersion(version);
-        }
-
-        if (
-            packageVersion != null
-            && await resource.DoesPackageExistAsync(
-                packageName,
-                packageVersion!,
-                cache,
-                NullLogger.Instance,
-                cancellationToken
-            )
-        )
-        {
-            using MemoryStream packageStream = new MemoryStream();
-
-            await resource.CopyNupkgToStreamAsync(
-                packageName,
-                packageVersion!,
-                packageStream,
-                cache,
-                NullLogger.Instance,
-                cancellationToken
-            );
-
-            using PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
-            NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
-
-            Console.WriteLine($"Tags: {nuspecReader.GetTags()}");
-            Console.WriteLine($"Description: {nuspecReader.GetDescription()}");
-
-            Console.WriteLine($"ID: {nuspecReader.GetId()}");
-
-            Console.WriteLine($"Version: {nuspecReader.GetVersion()}");
-            Console.WriteLine($"Description: {nuspecReader.GetDescription()}");
-            Console.WriteLine($"Authors: {nuspecReader.GetAuthors()}");
-
-            Console.WriteLine("Dependencies:");
-            foreach (var dependencyGroup in nuspecReader.GetDependencyGroups())
-            {
-                Console.WriteLine($" - {dependencyGroup.TargetFramework.GetShortFolderName()}");
-                foreach (var dependency in dependencyGroup.Packages)
-                {
-                    Console.WriteLine($"   > {dependency.Id} {dependency.VersionRange}");
-                }
-            }
-
-            Console.WriteLine("Files:");
-            foreach (var file in packageReader.GetFiles())
-            {
-                Console.WriteLine($" - {file}");
-            }
-
-            if (!outputDirectory.Exists)
-            {
-                outputDirectory.Create();
-            }
-
-            using (
-                FileStream fileStream = new FileStream(
-                    $"{Path.Join(outputDirectory.FullName, $"{packageName}-{nuspecReader.GetVersion()}.nupkg")}",
-                    FileMode.Create,
-                    FileAccess.Write
-                )
-            )
-            {
-                packageStream.WriteTo(fileStream);
-            }
-        }
-
-        return 0;
     }
 }
