@@ -1,8 +1,4 @@
 name: jobactions/update-dependencies
-inputs:
-  ssh-key:
-    description: GitHub SSH key required for checkout to allow pushing (e.g. secrets.DEPLOY_KEY)
-    required: true
 outputs:
   branch:
     description: Name of the branch created for the PR to merge the changes
@@ -10,9 +6,6 @@ outputs:
 runs:
   using: composite
   steps:
-  - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
-    with:
-      ssh-key: "${{inputs.ssh-key}}"
   - uses: kagekirin/gha-utils/.github/actions/install-prerequisites@main
   - uses: kagekirin/gha-utils/.github/actions/install-version-tools@main
   - id: create-branch

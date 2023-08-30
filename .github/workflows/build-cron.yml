@@ -39,10 +39,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: test-nuget
     steps:
-    - id: update-dependencies
-      uses: ./.github/jobactions/update-dependencies
+    - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
       with:
         ssh-key: "${{ secrets.DEPLOY_KEY }}"
+    - id: update-dependencies
+      uses: ./.github/jobactions/update-dependencies
     - id: push-updates
       shell: bash
       run: git push -u origin ${{ steps.update-dependencies.outputs.branch }}
