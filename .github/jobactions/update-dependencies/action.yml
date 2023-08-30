@@ -10,9 +10,6 @@ outputs:
 runs:
   using: composite
   steps:
-  - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
-    with:
-      ssh-key: "${{inputs.ssh-key}}"
   - uses: kagekirin/gha-utils/.github/actions/install-prerequisites@main
   - uses: kagekirin/gha-utils/.github/actions/install-version-tools@main
   - id: create-branch
