@@ -41,6 +41,8 @@ jobs:
     steps:
     - id: update-dependencies
       uses: ./.github/jobactions/update-dependencies
+      with:
+        ssh-key: "${{ secrets.DEPLOY_KEY }}"
     - id: push-updates
       shell: bash
       run: git push -u origin ${{ steps.update-dependencies.outputs.branch }}
