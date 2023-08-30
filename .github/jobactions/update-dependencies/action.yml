@@ -1,8 +1,4 @@
 name: jobactions/update-dependencies
-inputs:
-  ssh-key:
-    description: GitHub SSH key required for checkout to allow pushing (e.g. secrets.DEPLOY_KEY)
-    required: true
 outputs:
   branch:
     description: Name of the branch created for the PR to merge the changes
