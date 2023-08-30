@@ -15,13 +15,28 @@ runs:
       git checkout -b ${branch}
       echo "branch=${branch}" >> $Env:GITHUB_OUTPUT
   - id: update-dependencies
-    shell: bash
+    shell: pwsh
     run: |-
-      for a in $(fdfind "csproj$"); do
-        for p in $(xq -x "//ItemGroup/PackageReference/@Include" ${a}); do
-          dotnet add ${a} package ${p} --prerelease
-          newVersion=$(xq -x "//ItemGroup/PackageReference[@Include='${p}']/@Version" ${a})
-          git add ${a}
-          git commit -m "build (${a}): update dependency ${p} to ${newVersion}" || echo "Nothing to commit for ${a} referencing ${p}"
-        done
-      done
+      $ErrorActionPreference = 'Continue'
+      foreach (${project} in @(fdfind "\.csproj$"))
+      {
+        echo "updating ${project}"
+        foreach (${package} in @(xq -x "//ItemGroup/PackageReference/@Include" ${project}))
+        {
+          echo "updating ${package} in ${project}"
+          try
+          {
+            dotnet add ${project} package ${package} --prerelease
+            $newVersion = (xq -x "//ItemGroup/PackageReference[@Include='${package}']/@Version" ${project})
+            git add ${project}
+            git commit -m "build \(${project}\): update dependency ${package} to $newVersion"
+          }
+          catch
+          {
+            echo "Nothing to commit for ${project} referencing ${package}"
+          }
+          echo "done updating ${package} in ${project}"
+        }
+        echo "done updating ${project}"
+      }
+      echo "done updating all dependencies"
