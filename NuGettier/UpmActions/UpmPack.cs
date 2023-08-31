@@ -55,10 +55,7 @@ public static partial class Program
             latest: latest,
             version: version,
             framework: framework,
-            source: source,
-            target: target,
             outputDirectory: outputDirectory,
-            console: console,
             cancellationToken: cancellationToken
         );
     }

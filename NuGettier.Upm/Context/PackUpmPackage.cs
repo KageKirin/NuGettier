@@ -31,10 +31,7 @@ public partial class Context
         bool latest,
         string version,
         string framework,
-        Uri source,
-        Uri target,
         DirectoryInfo outputDirectory,
-        IConsole console,
         CancellationToken cancellationToken
     )
     {
