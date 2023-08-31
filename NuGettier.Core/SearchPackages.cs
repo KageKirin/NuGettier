@@ -18,16 +18,15 @@ namespace NuGettier.Core;
 
 public partial class Context
 {
-    public async Task<int> SearchPackages(
+    public async Task<IEnumerable<IPackageSearchMetadata>> SearchPackages(
         string searchTerm,
-        bool json,
         CancellationToken cancellationToken
     )
     {
         PackageSearchResource resource = await repository.GetResourceAsync<PackageSearchResource>();
         SearchFilter searchFilter = new SearchFilter(includePrerelease: true);
 
-        IEnumerable<IPackageSearchMetadata> results = await resource.SearchAsync(
+        return await resource.SearchAsync(
             searchTerm,
             searchFilter,
             skip: 0,
@@ -35,19 +34,5 @@ public partial class Context
             NullLogger.Instance,
             cancellationToken
         );
-
-        if (json)
-        {
-            Console.WriteLine(@$"{JsonSerializer.Serialize(results)}");
-        }
-        else
-        {
-            foreach (IPackageSearchMetadata result in results)
-            {
-                Console.WriteLine($"* {result.Identity.Id} {result.Identity.Version}");
-            }
-        }
-
-        return 0;
     }
 }

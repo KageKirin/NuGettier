@@ -38,10 +38,23 @@ public static partial class Program
     )
     {
         using var context = new Core.Context(source: source, console: console);
-        return await context.SearchPackages(
+        var results = await context.SearchPackages(
             searchTerm: searchTerm,
-            json: json,
             cancellationToken: cancellationToken
         );
+
+        if (json)
+        {
+            Console.WriteLine(@$"{JsonSerializer.Serialize(results)}");
+        }
+        else
+        {
+            foreach (IPackageSearchMetadata result in results)
+            {
+                Console.WriteLine($"* {result.Identity.Id} {result.Identity.Version}");
+            }
+        }
+
+        return 0;
     }
 }
