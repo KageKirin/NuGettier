@@ -18,16 +18,15 @@ namespace NuGettier.Core;
 
 public partial class Context
 {
-    public async Task<int> GetPackageVersions(
+    public async Task<IEnumerable<IPackageSearchMetadata>> GetPackageVersions(
         string packageName,
         bool preRelease,
-        bool json,
         CancellationToken cancellationToken
     )
     {
         PackageMetadataResource resource =
             await repository.GetResourceAsync<PackageMetadataResource>();
-        IEnumerable<IPackageSearchMetadata> packages = await resource.GetMetadataAsync(
+        return await resource.GetMetadataAsync(
             packageName,
             includePrerelease: preRelease,
             includeUnlisted: false,
@@ -35,19 +34,5 @@ public partial class Context
             NullLogger.Instance,
             cancellationToken
         );
-
-        if (json)
-        {
-            Console.WriteLine(@$"{JsonSerializer.Serialize(packages)}");
-        }
-        else
-        {
-            foreach (IPackageSearchMetadata package in packages)
-            {
-                Console.WriteLine($"* {package.Identity.Version}");
-            }
-        }
-
-        return 0;
     }
 }

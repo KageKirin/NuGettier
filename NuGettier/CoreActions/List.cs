@@ -40,11 +40,24 @@ public static partial class Program
     )
     {
         using var context = new Core.Context(source: source, console: console);
-        return await context.GetPackageVersions(
+        var results = await context.GetPackageVersions(
             packageName: packageName,
             preRelease: preRelease,
-            json: json,
             cancellationToken: cancellationToken
         );
+
+        if (json)
+        {
+            Console.WriteLine(@$"{JsonSerializer.Serialize(results)}");
+        }
+        else
+        {
+            foreach (IPackageSearchMetadata result in results)
+            {
+                Console.WriteLine($"* {result.Identity.Id} {result.Identity.Version}");
+            }
+        }
+
+        return 0;
     }
 }
