@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using NuGettier.Upm.TarGz;
 
 namespace NuGettier.Upm;
 
@@ -52,7 +53,7 @@ public class Package : IDisposable
         }
     }
 
-    public void Add(Readme readme)
+    public void Add(Templates.Readme readme)
     {
         Add("README.md", readme.ToString(), addMeta: true);
     }
@@ -65,5 +66,27 @@ public class Package : IDisposable
         }
 
         Add("package.json", packageJson.ToJson(), addMeta: true);
+    }
+
+    public void WriteToTarGz(string filename)
+    {
+        Files.WriteToTarGz(filename);
+    }
+
+    public Stream WriteToTarGz(Stream outStream)
+    {
+        Files.WriteToTarGz(outStream);
+        return outStream;
+    }
+
+    public async Task WriteToTarGzAsync(string filename)
+    {
+        await Files.WriteToTarGzAsync(filename);
+    }
+
+    public async Task<Stream> WriteToTarGzAsync(Stream outStream)
+    {
+        await Files.WriteToTarGzAsync(outStream);
+        return outStream;
     }
 }
