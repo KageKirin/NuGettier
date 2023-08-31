@@ -79,6 +79,30 @@ public static class TarDictionaryExtension
         return outStream;
     }
 
+    public static async Task WriteToTarAsync(this TarDictionary tarDictionary, string filePath)
+    {
+        DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath));
+        if (!outputDirectory.Exists)
+        {
+            outputDirectory.Create();
+        }
+
+        FileInfo outputFile = new(filePath);
+        await tarDictionary.WriteToTarAsync(outputFile.OpenWrite());
+    }
+
+    public static async Task<Stream> WriteToTarAsync(
+        this TarDictionary tarDictionary,
+        Stream outStream
+    )
+    {
+        using (TarOutputStream tarStream = new(outStream, Encoding.Default))
+        {
+            await tarStream.FromTarDictionaryAsync(tarDictionary);
+        }
+        return outStream;
+    }
+
     public static void WriteToTarGz(this TarDictionary tarDictionary, string filePath)
     {
         DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath));
