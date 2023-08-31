@@ -49,14 +49,21 @@ public static partial class Program
     )
     {
         using var context = new Upm.Context(source: source, target: target, console: console);
-        return await context.PackUpmPackage(
+        using var package = await context.PackUpmPackage(
             packageName: packageName,
             preRelease: preRelease,
             latest: latest,
             version: version,
             framework: framework,
-            outputDirectory: outputDirectory,
             cancellationToken: cancellationToken
         );
+
+        if (package != null)
+        {
+            // write output package.tar.gz
+            await package.WriteToTarGzAsync(Path.Join(outputDirectory.FullName, $"{package.Name}"));
+            return 0;
+        }
+        return 1;
     }
 }

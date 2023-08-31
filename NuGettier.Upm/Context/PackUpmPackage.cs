@@ -25,13 +25,12 @@ using NuRepository = NuGet.Protocol.Core.Types.Repository;
 
 public partial class Context
 {
-    public async Task<int> PackUpmPackage(
+    public async Task<Package?> PackUpmPackage(
         string packageName,
         bool preRelease,
         bool latest,
         string version,
         string framework,
-        DirectoryInfo outputDirectory,
         CancellationToken cancellationToken
     )
     {
@@ -48,7 +47,12 @@ public partial class Context
             using PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
             NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
 
-            TarDictionary tarDictionary = new();
+            // create the Package
+            Package package = new(packageName);
+
+            // get nugettier tool name+version
+            var executingAssembly = Assembly.GetEntryAssembly();
+            var assemblyName = executingAssembly.GetName();
 
             // generate and add README.md
             Upm.Templates.Readme readme =
@@ -60,16 +64,14 @@ public partial class Context
                 {
                     ReleaseNotes = nuspecReader.GetReleaseNotes(),
                 };
-            var readmeText = readme.ToString();
-            Console.WriteLine($"---\n{readmeText}\n---");
-            tarDictionary.Add("packages/README.md", Encoding.ASCII.GetBytes(readmeText));
+            package.Add(readme);
+            Console.WriteLine($"---\n{readme}\n---");
 
             // create package.json data (serialization happens later)
-            var executingAssembly = Assembly.GetEntryAssembly();
-            var assemblyName = executingAssembly.GetName();
             Upm.PackageJson packageJson =
                 new()
                 {
+                    // TODO: naming convention => separate function. use also on dependencies
                     Name = $"com.{nuspecReader.GetAuthors()}.{nuspecReader.GetId()}"
                         .ToLowerInvariant()
                         .Replace(@" ", @""),
@@ -78,7 +80,7 @@ public partial class Context
                         ? new List<string>()
                         : nuspecReader.GetTags().Split(@" ").ToList(),
                     Description = nuspecReader.GetDescription(),
-                    DisplayName =
+                    DisplayName = // TODO: separate function
                         (
                             string.IsNullOrWhiteSpace(nuspecReader.GetTitle())
                                 ? nuspecReader.GetId()
@@ -102,8 +104,8 @@ public partial class Context
             //Console.WriteLine($"License: {nuspecReader.GetLicense()}");
 
             // gather dependencies
-
-
+            // TODO: fetch more information (author)
+            // TODO: generate name for dependency
             Console.WriteLine("Dependencies:");
             var dependencyGroups = nuspecReader
                 .GetDependencyGroups()
@@ -117,6 +119,11 @@ public partial class Context
             }
 
             // gather files to pack
+            // TODO: standalone filter function
+            // -> framework dll/xml
+            // -> LICENSE*
+            // TODO: patch package.json/.files[] accordingly
+            // TODO: whitelist/blacklist
             Console.WriteLine("Files:");
             foreach (
                 var file in packageReader
@@ -129,31 +136,25 @@ public partial class Context
                 using var ms = new MemoryStream();
                 stream.CopyTo(ms);
                 Console.WriteLine($" {ms.Length}");
-                tarDictionary.Add($"packages/{file}", ms.GetBuffer());
+                package.Add(file, ms.GetBuffer());
             }
 
-            // generate and add package.json
-            var packageJsonText = packageJson.ToJson();
-            tarDictionary.Add("packages/package.json", Encoding.ASCII.GetBytes(packageJsonText));
-            console.WriteLine($"---\n{packageJsonText}\n---");
+            // add package.json
+            console.WriteLine($"---\n{packageJson.ToJson()}\n---");
+            package.Add(packageJson);
 
             // for all entries in tarDictionary, generate and add Meta files
             foreach (
-                var key in tarDictionary.Keys
-                    .Where(key => Path.GetExtension(key) != @".meta")
+                var file in package.Files.Keys
+                    .Where(file => Path.GetExtension(file) != @".meta")
                     .ToList()
             )
             {
-                var metaText = Upm.MetaGen.GenerateMeta(packageJson.Name, key);
-                tarDictionary.Add($"{key}.meta", Encoding.ASCII.GetBytes(metaText));
-                console.WriteLine($"---\n{metaText}\n---");
+                package.Add($"{file}.meta", Upm.MetaGen.GenerateMeta(packageJson.Name, file));
             }
 
-            // write output package.tar.gz
-            tarDictionary.WriteToTarGz(
-                Path.Join(outputDirectory.FullName, $"{packageJson.Name}-{packageJson.Version}.tgz")
-            );
+            return package;
         }
-        return 0;
+        return null;
     }
 }
