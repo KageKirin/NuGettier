@@ -16,14 +16,15 @@ using NuGet.Versioning;
 
 namespace NuGettier.Core;
 
+#nullable enable
+
 public partial class Context
 {
-    public async Task<int> GetPackageInformation(
+    public async Task<IPackageSearchMetadata?> GetPackageInformation(
         string packageName,
         bool preRelease,
         bool latest,
         string version,
-        bool json,
         CancellationToken cancellationToken
     )
     {
@@ -36,30 +37,10 @@ public partial class Context
         IPackageSearchMetadata? package = null;
         if (latest)
         {
-            package = packages.Last();
-        }
-        else
-        {
-            NuGetVersion cmpVersion = new(version);
-            package = packages.Where(p => p.Identity.Version == cmpVersion).FirstOrDefault();
+            return packages.Last();
         }
 
-        if (package != null)
-        {
-            if (json)
-            {
-                Console.WriteLine($"{JsonSerializer.Serialize(package)}");
-            }
-            else
-            {
-                Console.WriteLine($"Version: {package.Identity.Version}");
-                Console.WriteLine($"Listed: {package.IsListed}");
-                Console.WriteLine($"Tags: {package.Tags}");
-                Console.WriteLine($"Description: {package.Description}");
-                Console.WriteLine($"Authors: {package.Authors}");
-            }
-        }
-
-        return 0;
+        NuGetVersion cmpVersion = new(version);
+        return packages.Where(p => p.Identity.Version == cmpVersion).FirstOrDefault();
     }
 }

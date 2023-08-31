@@ -46,13 +46,30 @@ public static partial class Program
     )
     {
         using var context = new Core.Context(source: source, console: console);
-        return await context.GetPackageInformation(
+        var package = await context.GetPackageInformation(
             packageName: packageName,
             preRelease: preRelease,
             latest: latest,
             version: version,
-            json: json,
             cancellationToken: cancellationToken
         );
+
+        if (package != null)
+        {
+            if (json)
+            {
+                Console.WriteLine($"{JsonSerializer.Serialize(package)}");
+            }
+            else
+            {
+                Console.WriteLine($"Version: {package.Identity.Version}");
+                Console.WriteLine($"Listed: {package.IsListed}");
+                Console.WriteLine($"Tags: {package.Tags}");
+                Console.WriteLine($"Description: {package.Description}");
+                Console.WriteLine($"Authors: {package.Authors}");
+            }
+        }
+
+        return 0;
     }
 }
