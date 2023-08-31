@@ -22,8 +22,6 @@ public partial class Context
         string packageName,
         bool preRelease,
         bool json,
-        Uri source,
-        IConsole console,
         CancellationToken cancellationToken
     )
     {

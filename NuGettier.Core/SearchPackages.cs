@@ -21,8 +21,6 @@ public partial class Context
     public async Task<int> SearchPackages(
         string searchTerm,
         bool json,
-        Uri source,
-        IConsole console,
         CancellationToken cancellationToken
     )
     {

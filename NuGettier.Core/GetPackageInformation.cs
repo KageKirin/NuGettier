@@ -24,8 +24,6 @@ public partial class Context
         bool latest,
         string version,
         bool json,
-        Uri source,
-        IConsole console,
         CancellationToken cancellationToken
     )
     {

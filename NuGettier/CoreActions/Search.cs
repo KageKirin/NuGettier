@@ -41,8 +41,6 @@ public static partial class Program
         return await context.SearchPackages(
             searchTerm: searchTerm,
             json: json,
-            source: source,
-            console: console,
             cancellationToken: cancellationToken
         );
     }

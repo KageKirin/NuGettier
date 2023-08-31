@@ -52,8 +52,6 @@ public static partial class Program
             latest: latest,
             version: version,
             json: json,
-            source: source,
-            console: console,
             cancellationToken: cancellationToken
         );
     }

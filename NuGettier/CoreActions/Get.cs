@@ -50,9 +50,7 @@ public static partial class Program
             preRelease: preRelease,
             latest: latest,
             version: version,
-            source: source,
             outputDirectory: outputDirectory,
-            console: console,
             cancellationToken: cancellationToken
         );
     }

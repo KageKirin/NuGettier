@@ -44,8 +44,6 @@ public static partial class Program
             packageName: packageName,
             preRelease: preRelease,
             json: json,
-            source: source,
-            console: console,
             cancellationToken: cancellationToken
         );
     }

@@ -23,9 +23,7 @@ public partial class Context
         bool preRelease,
         bool latest,
         string version,
-        Uri source,
         DirectoryInfo outputDirectory,
-        IConsole console,
         CancellationToken cancellationToken
     )
     {
