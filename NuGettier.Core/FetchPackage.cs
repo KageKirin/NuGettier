@@ -16,14 +16,15 @@ using NuGet.Versioning;
 
 namespace NuGettier.Core;
 
+#nullable enable
+
 public partial class Context
 {
-    public async Task<int> FetchPackage(
+    public async Task<MemoryStream?> FetchPackage(
         string packageName,
         bool preRelease,
         bool latest,
         string version,
-        DirectoryInfo outputDirectory,
         CancellationToken cancellationToken
     )
     {
@@ -57,7 +58,7 @@ public partial class Context
             )
         )
         {
-            using MemoryStream packageStream = new MemoryStream();
+            MemoryStream packageStream = new MemoryStream();
 
             await resource.CopyNupkgToStreamAsync(
                 packageName,
@@ -68,49 +69,8 @@ public partial class Context
                 cancellationToken
             );
 
-            using PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
-            NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
-
-            Console.WriteLine($"ID: {nuspecReader.GetId()}");
-            Console.WriteLine($"Title: {nuspecReader.GetTitle()}");
-            Console.WriteLine($"Version: {nuspecReader.GetVersion()}");
-            Console.WriteLine($"Tags: {nuspecReader.GetTags()}");
-            Console.WriteLine($"Description: {nuspecReader.GetDescription()}");
-            Console.WriteLine($"Authors: {nuspecReader.GetAuthors()}");
-
-            Console.WriteLine("Dependencies:");
-            foreach (var dependencyGroup in nuspecReader.GetDependencyGroups())
-            {
-                Console.WriteLine($" - {dependencyGroup.TargetFramework.GetShortFolderName()}");
-                foreach (var dependency in dependencyGroup.Packages)
-                {
-                    Console.WriteLine($"   > {dependency.Id} {dependency.VersionRange}");
-                }
-            }
-
-            Console.WriteLine("Files:");
-            foreach (var file in packageReader.GetFiles())
-            {
-                Console.WriteLine($" - {file}");
-            }
-
-            if (!outputDirectory.Exists)
-            {
-                outputDirectory.Create();
-            }
-
-            using (
-                FileStream fileStream = new FileStream(
-                    $"{Path.Join(outputDirectory.FullName, $"{packageName}-{nuspecReader.GetVersion()}.nupkg")}",
-                    FileMode.Create,
-                    FileAccess.Write
-                )
-            )
-            {
-                packageStream.WriteTo(fileStream);
-            }
+            return packageStream;
         }
-
-        return 0;
+        return null;
     }
 }
