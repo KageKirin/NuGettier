@@ -123,4 +123,27 @@ public static class TarDictionaryExtension
         }
         return outStream;
     }
+
+    public static async Task WriteToTarGzAsync(this TarDictionary tarDictionary, string filePath)
+    {
+        DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath));
+        if (!outputDirectory.Exists)
+        {
+            outputDirectory.Create();
+        }
+
+        FileInfo outputFile = new(filePath);
+        await tarDictionary.WriteToTarGzAsync(outputFile.OpenWrite());
+    }
+
+    public static async Task<Stream> WriteToTarGzAsync(
+        this TarDictionary tarDictionary,
+        Stream outStream
+    )
+    {
+        using (GZipOutputStream gzStream = new(outStream))
+        {
+            return await tarDictionary.WriteToTarAsync(gzStream);
+        }
+    }
 }
