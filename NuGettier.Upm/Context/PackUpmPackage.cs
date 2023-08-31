@@ -35,50 +35,20 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        FindPackageByIdResource resource =
-            await repository.GetResourceAsync<FindPackageByIdResource>();
-        IEnumerable<NuGetVersion> versions = await resource.GetAllVersionsAsync(
-            packageName,
-            cache,
-            NullLogger.Instance,
-            cancellationToken
+        using var packageStream = await FetchPackage(
+            packageName: packageName,
+            preRelease: preRelease,
+            latest: latest,
+            version: version,
+            cancellationToken: cancellationToken
         );
 
-        NuGetVersion? packageVersion = null;
-        if (latest)
+        if (packageStream != null)
         {
-            packageVersion = versions.Last();
-        }
-        else
-        {
-            packageVersion = new NuGetVersion(version);
-        }
-
-        if (
-            packageVersion != null
-            && await resource.DoesPackageExistAsync(
-                packageName,
-                packageVersion!,
-                cache,
-                NullLogger.Instance,
-                cancellationToken
-            )
-        )
-        {
-            using Upm.TarGz.TarDictionary tarDictionary = new();
-
-            using MemoryStream packageStream = new();
-            await resource.CopyNupkgToStreamAsync(
-                packageName,
-                packageVersion!,
-                packageStream,
-                cache,
-                NullLogger.Instance,
-                cancellationToken
-            );
-
-            PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
+            using PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
             NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
+
+            TarDictionary tarDictionary = new();
 
             // generate and add README.md
             Upm.Templates.Readme readme =
