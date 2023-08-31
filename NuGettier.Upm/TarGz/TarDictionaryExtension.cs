@@ -50,6 +50,14 @@ public static class TarDictionaryExtension
         return tos;
     }
 
+    public static async Task<TarOutputStream> FromTarDictionaryAsync(
+        this TarOutputStream tos,
+        TarDictionary tarDictionary
+    )
+    {
+        return await new Task<TarOutputStream>(() => tos.FromTarDictionary(tarDictionary));
+    }
+
     public static void WriteToTar(this TarDictionary tarDictionary, string filePath)
     {
         DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath));
