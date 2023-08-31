@@ -26,9 +26,6 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        SourceCacheContext cache = new SourceCacheContext();
-        SourceRepository repository = Repository.Factory.GetCoreV3($"{source.ToString()}");
-
         PackageSearchResource resource = await repository.GetResourceAsync<PackageSearchResource>();
         SearchFilter searchFilter = new SearchFilter(includePrerelease: true);
 

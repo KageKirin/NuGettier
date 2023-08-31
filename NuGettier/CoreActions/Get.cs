@@ -44,7 +44,7 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
-        Core.Context context = new();
+        using var context = new Core.Context(source: source, console: console);
         return await context.FetchPackage(
             packageName: packageName,
             preRelease: preRelease,

@@ -29,9 +29,6 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        SourceCacheContext cache = new SourceCacheContext();
-        SourceRepository repository = Repository.Factory.GetCoreV3($"{source.ToString()}");
-
         FindPackageByIdResource resource =
             await repository.GetResourceAsync<FindPackageByIdResource>();
         IEnumerable<NuGetVersion> versions = await resource.GetAllVersionsAsync(
