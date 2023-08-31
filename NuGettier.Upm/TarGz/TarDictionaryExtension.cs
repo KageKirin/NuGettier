@@ -62,12 +62,13 @@ public static class TarDictionaryExtension
         tarDictionary.WriteToTar(outputFile.OpenWrite());
     }
 
-    public static void WriteToTar(this TarDictionary tarDictionary, Stream outStream)
+    public static Stream WriteToTar(this TarDictionary tarDictionary, Stream outStream)
     {
         using (TarOutputStream tarStream = new(outStream, Encoding.Default))
         {
             tarStream.FromTarDictionary(tarDictionary);
         }
+        return outStream;
     }
 
     public static void WriteToTarGz(this TarDictionary tarDictionary, string filePath)
