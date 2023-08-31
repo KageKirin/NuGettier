@@ -83,11 +83,12 @@ public static class TarDictionaryExtension
         tarDictionary.WriteToTarGz(outputFile.OpenWrite());
     }
 
-    public static void WriteToTarGz(this TarDictionary tarDictionary, Stream outStream)
+    public static Stream WriteToTarGz(this TarDictionary tarDictionary, Stream outStream)
     {
         using (GZipOutputStream gzStream = new(outStream))
         {
             tarDictionary.WriteToTar(gzStream);
         }
+        return outStream;
     }
 }
