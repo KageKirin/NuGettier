@@ -12,6 +12,11 @@
     <Version>0.0.13</Version>
   </PropertyGroup>
 
+  <!-- embedded files -->
+  <ItemGroup>
+    <EmbeddedResource Include="Templates/README.md" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Handlebars.Net" Version="2.1.4"/>
     <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
