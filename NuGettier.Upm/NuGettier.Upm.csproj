@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Handlebars.Net" Version="2.1.4"/>
     <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
     <PackageReference Include="NuGet.Packaging" Version="6.7.0"/>
