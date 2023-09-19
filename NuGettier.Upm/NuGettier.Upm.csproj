@@ -15,6 +15,7 @@
   <!-- embedded files -->
   <ItemGroup>
     <EmbeddedResource Include="Templates/README.md" />
+    <EmbeddedResource Include="Templates/CHANGELOG.md" />
   </ItemGroup>
 
   <ItemGroup>
