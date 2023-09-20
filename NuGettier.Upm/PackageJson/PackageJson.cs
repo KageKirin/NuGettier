@@ -22,6 +22,13 @@ public class PackageJson
         set { Version = value; }
     }
 
+    public string? License = null;
+    public string? license
+    {
+        get { return License; }
+        set { License = value; }
+    }
+
     public string DisplayName = String.Empty;
     public string displayName
     {
