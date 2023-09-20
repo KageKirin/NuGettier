@@ -8,6 +8,8 @@ namespace NuGettier.Upm.TarGz;
 
 public static class FileDictionaryExtension
 {
+    const string RootPath = @"packages";
+
     public static FileDictionary ToFileDictionary(this GZipInputStream gzStream)
     {
         using (var tarStream = new TarInputStream(gzStream, Encoding.Default))
@@ -41,7 +43,8 @@ public static class FileDictionaryExtension
     {
         foreach (var (k, v) in fileDictionary)
         {
-            var entry = TarEntry.CreateTarEntry(k);
+            var filePath = Path.GetPathRoot(k) == RootPath ? k : Path.Join(RootPath, k);
+            var entry = TarEntry.CreateTarEntry(filePath);
             entry.Size = v.Length;
             tos.PutNextEntry(entry);
             tos.Write(v, 0, v.Length);
