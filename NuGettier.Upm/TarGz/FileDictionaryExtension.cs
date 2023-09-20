@@ -8,17 +8,17 @@ namespace NuGettier.Upm.TarGz;
 
 public static class FileDictionaryExtension
 {
-    public static TarDictionary ToTarDictionary(this GZipInputStream gzStream)
+    public static FileDictionary ToFileDictionary(this GZipInputStream gzStream)
     {
         using (var tarStream = new TarInputStream(gzStream, Encoding.Default))
         {
-            return tarStream.ToTarDictionary();
+            return tarStream.ToFileDictionary();
         }
     }
 
-    public static TarDictionary ToTarDictionary(this TarInputStream tis)
+    public static FileDictionary ToFileDictionary(this TarInputStream tis)
     {
-        var tarDictionary = new TarDictionary();
+        var fileDictionary = new FileDictionary();
         while (true)
         {
             var entry = tis.GetNextEntry();
@@ -28,18 +28,18 @@ public static class FileDictionaryExtension
             var buffer = new byte[entry.Size];
             var read = tis.Read(buffer, 0, buffer.Length);
 
-            tarDictionary.Add(entry.Name, buffer);
+            fileDictionary.Add(entry.Name, buffer);
         }
 
-        return tarDictionary;
+        return fileDictionary;
     }
 
-    public static TarOutputStream FromTarDictionary(
+    public static TarOutputStream FromFileDictionary(
         this TarOutputStream tos,
-        TarDictionary tarDictionary
+        FileDictionary fileDictionary
     )
     {
-        foreach (var (k, v) in tarDictionary)
+        foreach (var (k, v) in fileDictionary)
         {
             var entry = TarEntry.CreateTarEntry(k);
             entry.Size = v.Length;
@@ -50,15 +50,15 @@ public static class FileDictionaryExtension
         return tos;
     }
 
-    public static async Task<TarOutputStream> FromTarDictionaryAsync(
+    public static async Task<TarOutputStream> FromFileDictionaryAsync(
         this TarOutputStream tos,
-        TarDictionary tarDictionary
+        FileDictionary fileDictionary
     )
     {
-        return await new Task<TarOutputStream>(() => tos.FromTarDictionary(tarDictionary));
+        return await new Task<TarOutputStream>(() => tos.FromFileDictionary(fileDictionary));
     }
 
-    public static void WriteToTar(this TarDictionary tarDictionary, string filePath)
+    public static void WriteToTar(this FileDictionary fileDictionary, string filePath)
     {
         DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath));
         if (!outputDirectory.Exists)
@@ -67,19 +67,19 @@ public static class FileDictionaryExtension
         }
 
         FileInfo outputFile = new(filePath);
-        tarDictionary.WriteToTar(outputFile.OpenWrite());
+        fileDictionary.WriteToTar(outputFile.OpenWrite());
     }
 
-    public static Stream WriteToTar(this TarDictionary tarDictionary, Stream outStream)
+    public static Stream WriteToTar(this FileDictionary fileDictionary, Stream outStream)
     {
         using (TarOutputStream tarStream = new(outStream, Encoding.Default))
         {
-            tarStream.FromTarDictionary(tarDictionary);
+            tarStream.FromFileDictionary(fileDictionary);
         }
         return outStream;
     }
 
-    public static async Task WriteToTarAsync(this TarDictionary tarDictionary, string filePath)
+    public static async Task WriteToTarAsync(this FileDictionary fileDictionary, string filePath)
     {
         DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath));
         if (!outputDirectory.Exists)
@@ -88,22 +88,22 @@ public static class FileDictionaryExtension
         }
 
         FileInfo outputFile = new(filePath);
-        await tarDictionary.WriteToTarAsync(outputFile.OpenWrite());
+        await fileDictionary.WriteToTarAsync(outputFile.OpenWrite());
     }
 
     public static async Task<Stream> WriteToTarAsync(
-        this TarDictionary tarDictionary,
+        this FileDictionary fileDictionary,
         Stream outStream
     )
     {
         using (TarOutputStream tarStream = new(outStream, Encoding.Default))
         {
-            await tarStream.FromTarDictionaryAsync(tarDictionary);
+            await tarStream.FromFileDictionaryAsync(fileDictionary);
         }
         return outStream;
     }
 
-    public static void WriteToTarGz(this TarDictionary tarDictionary, string filePath)
+    public static void WriteToTarGz(this FileDictionary fileDictionary, string filePath)
     {
         DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath));
         if (!outputDirectory.Exists)
@@ -112,19 +112,19 @@ public static class FileDictionaryExtension
         }
 
         FileInfo outputFile = new(filePath);
-        tarDictionary.WriteToTarGz(outputFile.OpenWrite());
+        fileDictionary.WriteToTarGz(outputFile.OpenWrite());
     }
 
-    public static Stream WriteToTarGz(this TarDictionary tarDictionary, Stream outStream)
+    public static Stream WriteToTarGz(this FileDictionary fileDictionary, Stream outStream)
     {
         using (GZipOutputStream gzStream = new(outStream))
         {
-            tarDictionary.WriteToTar(gzStream);
+            fileDictionary.WriteToTar(gzStream);
         }
         return outStream;
     }
 
-    public static async Task WriteToTarGzAsync(this TarDictionary tarDictionary, string filePath)
+    public static async Task WriteToTarGzAsync(this FileDictionary fileDictionary, string filePath)
     {
         DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath));
         if (!outputDirectory.Exists)
@@ -133,17 +133,17 @@ public static class FileDictionaryExtension
         }
 
         FileInfo outputFile = new(filePath);
-        await tarDictionary.WriteToTarGzAsync(outputFile.OpenWrite());
+        await fileDictionary.WriteToTarGzAsync(outputFile.OpenWrite());
     }
 
     public static async Task<Stream> WriteToTarGzAsync(
-        this TarDictionary tarDictionary,
+        this FileDictionary fileDictionary,
         Stream outStream
     )
     {
         using (GZipOutputStream gzStream = new(outStream))
         {
-            return await tarDictionary.WriteToTarAsync(gzStream);
+            return await fileDictionary.WriteToTarAsync(gzStream);
         }
     }
 }

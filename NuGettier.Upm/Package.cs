@@ -7,7 +7,7 @@ namespace NuGettier.Upm;
 public class Package : IDisposable
 {
     public string Name;
-    public TarGz.TarDictionary Files { get; protected set; } = new TarGz.TarDictionary();
+    public TarGz.FileDictionary Files { get; protected set; } = new();
 
     public Templates.Readme Readme { get; protected set; }
     public PackageJson PackageJson { get; protected set; }

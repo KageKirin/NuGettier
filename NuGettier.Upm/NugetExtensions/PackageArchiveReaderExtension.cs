@@ -38,12 +38,12 @@ public static class PackageArchiveReaderExtension
         return null;
     }
 
-    public static TarGz.TarDictionary GetFrameworkFiles(
+    public static TarGz.FileDictionary GetFrameworkFiles(
         this PackageArchiveReader packageReader,
         string framework
     )
     {
-        return new TarGz.TarDictionary(
+        return new TarGz.FileDictionary(
             packageReader
                 .GetFiles("lib")
                 .Where(f => Path.GetDirectoryName(f) == Path.Join("lib", framework))

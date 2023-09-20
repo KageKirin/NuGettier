@@ -4,7 +4,7 @@ using ICSharpCode.SharpZipLib.Tar;
 
 namespace NuGettier.Upm.TarGz;
 
-public sealed class TarDictionary : Dictionary<string, byte[]>, IDisposable
+public sealed class FileDictionary : Dictionary<string, byte[]>, IDisposable
 {
     public void Dispose()
     {
