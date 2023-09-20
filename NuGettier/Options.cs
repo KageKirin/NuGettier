@@ -40,10 +40,7 @@ public static partial class Program
         new(
             aliases: new string[] { "--framework", "-f" },
             description: "framework of DLL to repack"
-        )
-        {
-            IsRequired = true,
-        };
+        );
 
     private static Option<DirectoryInfo> OutputDirectoryOption =
         new(
