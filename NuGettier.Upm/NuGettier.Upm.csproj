@@ -16,6 +16,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Templates/README.md" />
     <EmbeddedResource Include="Templates/CHANGELOG.md" />
+    <EmbeddedResource Include="Templates/LICENSE.md" />
   </ItemGroup>
 
   <ItemGroup>

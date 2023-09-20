@@ -1,0 +1,7 @@
+# {{Name}} - {{Version}}
+
+{{Copyright}}
+
+```
+{{{License}}}
+```
