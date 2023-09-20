@@ -1,13 +1,63 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
-using ICSharpCode.SharpZipLib.Tar;
 
 namespace NuGettier.Upm.TarGz;
 
-public sealed class FileDictionary : Dictionary<string, byte[]>, IDisposable
+public class FileDictionary : Dictionary<string, byte[]>, IDisposable
 {
-    public void Dispose()
+    public virtual void Dispose()
     {
         Clear();
+    }
+
+    public virtual new byte[] this[string key]
+    {
+        get => base[key];
+        set => base[key] = value;
+    }
+
+    public virtual new void Add(string key, byte[] value)
+    {
+        base.Add(key, value);
+    }
+
+    public virtual void Add(KeyValuePair<string, byte[]> keyValuePair)
+    {
+        this.Add(keyValuePair.Key, keyValuePair.Value);
+    }
+
+    public virtual void Add(string key, string value)
+    {
+        this.Add(key, Encoding.Default.GetBytes(value));
+    }
+
+    public virtual void Add(KeyValuePair<string, string> keyValuePair)
+    {
+        this.Add(keyValuePair.Key, keyValuePair.Value);
+    }
+
+    public virtual void AddRange(FileDictionary files)
+    {
+        foreach (var kvp in files)
+        {
+            this.Add(kvp);
+        }
+    }
+
+    public virtual void AddRange(IEnumerable<KeyValuePair<string, byte[]>> keyValuePairs)
+    {
+        foreach (var kvp in keyValuePairs)
+        {
+            this.Add(kvp);
+        }
+    }
+
+    public virtual void AddRange(IEnumerable<KeyValuePair<string, string>> keyValuePairs)
+    {
+        foreach (var kvp in keyValuePairs)
+        {
+            this.Add(kvp);
+        }
     }
 }
