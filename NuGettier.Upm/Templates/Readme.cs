@@ -5,28 +5,32 @@ namespace NuGettier.Upm.Templates;
 
 public class Readme
 {
-    public string Name;
-    public string Version;
-    public string Description;
-    public string ReleaseNotes;
-    private string ApplicationName;
-    private string ApplicationVersion;
+    public string Name = string.Empty;
+    public string Version = string.Empty;
+    public string Description = string.Empty;
+    public string ReleaseNotes = string.Empty;
+    public string ApplicationName = string.Empty;
+    public string ApplicationVersion = string.Empty;
 
-    public Readme(string name, string version, string description)
-        : this()
+    public Readme() { }
+
+    public Readme(
+        string name,
+        string version,
+        string description,
+        string applicationName,
+        string applicationVersion
+    )
     {
         Name = name;
         Version = version;
         Description = description;
+        ApplicationName = applicationName;
+        ApplicationVersion = applicationVersion;
     }
 
-    public Readme()
-    {
-        var executingAssembly = Assembly.GetEntryAssembly();
-        var assemblyName = executingAssembly.GetName();
-        ApplicationName = assemblyName.Name;
-        ApplicationVersion = assemblyName.Version.ToString();
-    }
+    public Readme(string name, string version, string description, AssemblyName assemblyName)
+        : this(name, version, description, assemblyName.Name, assemblyName.Version.ToString()) { }
 
     public string ToString()
     {
