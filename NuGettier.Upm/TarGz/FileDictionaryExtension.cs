@@ -6,7 +6,7 @@ using ICSharpCode.SharpZipLib.GZip;
 
 namespace NuGettier.Upm.TarGz;
 
-public static class TarDictionaryExtension
+public static class FileDictionaryExtension
 {
     public static TarDictionary ToTarDictionary(this GZipInputStream gzStream)
     {
