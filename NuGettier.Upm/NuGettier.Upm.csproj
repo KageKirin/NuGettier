@@ -12,7 +12,15 @@
     <Version>0.0.13</Version>
   </PropertyGroup>
 
+  <!-- embedded files -->
   <ItemGroup>
+    <EmbeddedResource Include="Templates/README.md" />
+    <EmbeddedResource Include="Templates/CHANGELOG.md" />
+    <EmbeddedResource Include="Templates/LICENSE.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Handlebars.Net" Version="2.1.4"/>
     <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
     <PackageReference Include="NuGet.Packaging" Version="6.7.0"/>
@@ -23,6 +31,10 @@
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1"/>
     <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta4.22272.1"/>
     <PackageReference Include="System.Text.Json" Version="7.0.3"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NuGettier.Core\NuGettier.Core.csproj" />
   </ItemGroup>
 
 </Project>

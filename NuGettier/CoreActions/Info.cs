@@ -45,30 +45,14 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
-        SourceCacheContext cache = new SourceCacheContext();
-        SourceRepository repository = Repository.Factory.GetCoreV3($"{source.ToString()}");
-
-        PackageMetadataResource resource =
-            await repository.GetResourceAsync<PackageMetadataResource>();
-        IEnumerable<IPackageSearchMetadata> packages = await resource.GetMetadataAsync(
-            packageName,
-            includePrerelease: preRelease,
-            includeUnlisted: false,
-            cache,
-            NullLogger.Instance,
-            cancellationToken
+        using var context = new Core.Context(source: source, console: console);
+        var package = await context.GetPackageInformation(
+            packageName: packageName,
+            preRelease: preRelease,
+            latest: latest,
+            version: version,
+            cancellationToken: cancellationToken
         );
-
-        IPackageSearchMetadata? package = null;
-        if (latest)
-        {
-            package = packages.Last();
-        }
-        else
-        {
-            NuGetVersion cmpVersion = new(version);
-            package = packages.Where(p => p.Identity.Version == cmpVersion).FirstOrDefault();
-        }
 
         if (package != null)
         {
@@ -78,10 +62,39 @@ public static partial class Program
             }
             else
             {
+                Console.WriteLine($"Identity: {package.Identity}");
                 Console.WriteLine($"Version: {package.Identity.Version}");
                 Console.WriteLine($"Listed: {package.IsListed}");
-                Console.WriteLine($"Tags: {package.Tags}");
+                Console.WriteLine($"Title: {package.Title}");
+                Console.WriteLine($"Summary: {package.Summary}");
                 Console.WriteLine($"Description: {package.Description}");
+                Console.WriteLine($"Authors: {package.Authors}");
+                Console.WriteLine($"Owners: {package.Owners}");
+                Console.WriteLine($"Tags: {package.Tags}");
+                Console.WriteLine($"License: {package.LicenseMetadata?.License}");
+                Console.WriteLine($"Published: {package.Published}");
+                Console.WriteLine($"Prefix Reserved: {package.PrefixReserved}");
+                Console.WriteLine($"Project Url: {package.ProjectUrl}");
+                Console.WriteLine($"License Url: {package.LicenseUrl}");
+                Console.WriteLine(
+                    $"Require License Acceptance: {package.RequireLicenseAcceptance}"
+                );
+                Console.WriteLine($"Icon Url: {package.IconUrl}");
+                Console.WriteLine($"Readme Url: {package.ReadmeUrl}");
+                Console.WriteLine($"Report Abuse Url: {package.ReportAbuseUrl}");
+                Console.WriteLine($"Package Details Url: {package.PackageDetailsUrl}");
+                Console.WriteLine($"Dependencies:");
+                foreach (PackageDependencyGroup dependencyGroup in package.DependencySets)
+                {
+                    Console.WriteLine($"- {dependencyGroup.TargetFramework}:");
+                    foreach (PackageDependency dependency in dependencyGroup.Packages)
+                    {
+                        Console.WriteLine($"  - {dependency.ToString()}");
+                    }
+                }
+
+                //IEnumerable<PackageVulnerabilityMetadata> Vulnerabilities { get; }
+                //Task<IEnumerable<VersionInfo>> GetVersionsAsync();
             }
         }
 

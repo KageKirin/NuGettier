@@ -39,29 +39,22 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
-        SourceCacheContext cache = new SourceCacheContext();
-        SourceRepository repository = Repository.Factory.GetCoreV3($"{source.ToString()}");
-
-        PackageMetadataResource resource =
-            await repository.GetResourceAsync<PackageMetadataResource>();
-        IEnumerable<IPackageSearchMetadata> packages = await resource.GetMetadataAsync(
-            packageName,
-            includePrerelease: preRelease,
-            includeUnlisted: false,
-            cache,
-            NullLogger.Instance,
-            cancellationToken
+        using var context = new Core.Context(source: source, console: console);
+        var results = await context.GetPackageVersions(
+            packageName: packageName,
+            preRelease: preRelease,
+            cancellationToken: cancellationToken
         );
 
         if (json)
         {
-            Console.WriteLine(@$"{JsonSerializer.Serialize(packages)}");
+            Console.WriteLine(@$"{JsonSerializer.Serialize(results)}");
         }
         else
         {
-            foreach (IPackageSearchMetadata package in packages)
+            foreach (IPackageSearchMetadata result in results)
             {
-                Console.WriteLine($"* {package.Identity.Version}");
+                Console.WriteLine($"* {result.Identity.Id} {result.Identity.Version}");
             }
         }
 

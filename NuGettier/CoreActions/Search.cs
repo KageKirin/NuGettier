@@ -37,19 +37,10 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
-        SourceCacheContext cache = new SourceCacheContext();
-        SourceRepository repository = Repository.Factory.GetCoreV3($"{source.ToString()}");
-
-        PackageSearchResource resource = await repository.GetResourceAsync<PackageSearchResource>();
-        SearchFilter searchFilter = new SearchFilter(includePrerelease: true);
-
-        IEnumerable<IPackageSearchMetadata> results = await resource.SearchAsync(
-            searchTerm,
-            searchFilter,
-            skip: 0,
-            take: 100,
-            NullLogger.Instance,
-            cancellationToken
+        using var context = new Core.Context(source: source, console: console);
+        var results = await context.SearchPackages(
+            searchTerm: searchTerm,
+            cancellationToken: cancellationToken
         );
 
         if (json)

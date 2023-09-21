@@ -6,7 +6,20 @@ namespace NuGettier.Upm;
 
 public class PackageJson
 {
-    public sealed class StringStringDictionary : Dictionary<string, string> { }
+    public sealed class StringStringDictionary : Dictionary<string, string>
+    {
+        public StringStringDictionary()
+            : base() { }
+
+        public StringStringDictionary(StringStringDictionary reference)
+            : this(reference as Dictionary<string, string>) { }
+
+        public StringStringDictionary(Dictionary<string, string> reference)
+            : base(reference) { }
+
+        public StringStringDictionary(IEnumerable<KeyValuePair<string, string>> reference)
+            : base(reference) { }
+    }
 
     public string Name = String.Empty;
     public string name
@@ -20,6 +33,13 @@ public class PackageJson
     {
         get { return Version; }
         set { Version = value; }
+    }
+
+    public string? License = null;
+    public string? license
+    {
+        get { return License; }
+        set { License = value; }
     }
 
     public string DisplayName = String.Empty;
@@ -43,7 +63,7 @@ public class PackageJson
         set { Author = value; }
     }
 
-    public List<string> Files = new List<string>();
+    public List<string> Files = new List<string>() { @"**.meta", @"**.dll", @"**.xml", @"**.md", };
     public List<string> files
     {
         get { return Files; }
