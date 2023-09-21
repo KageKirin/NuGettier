@@ -13,10 +13,7 @@ namespace NuGettier;
 
 internal static class CommandWithValidatorExtension
 {
-    public static Command WithValidator(
-        this Command command,
-        ValidateSymbolResult<CommandResult> validationMethod
-    )
+    public static Command WithValidator(this Command command, ValidateSymbolResult<CommandResult> validationMethod)
     {
         command.AddValidator(validationMethod);
         return command;
@@ -24,12 +21,7 @@ internal static class CommandWithValidatorExtension
 
     public static Command WithValidator(this Command command, string methodName)
     {
-        var method = typeof(Program).GetMethod(
-            methodName,
-            BindingFlags.NonPublic | BindingFlags.Static
-        );
-        return command.WithValidator(
-            (commandResult) => method!.Invoke(null, new object[] { commandResult })
-        );
+        var method = typeof(Program).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
+        return command.WithValidator((commandResult) => method!.Invoke(null, new object[] { commandResult }));
     }
 }

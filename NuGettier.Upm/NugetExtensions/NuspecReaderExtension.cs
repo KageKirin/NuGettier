@@ -9,23 +9,15 @@ public static class NuspecReaderExtension
     public static string GetUpmPackageName(this NuspecReader nuspecReader)
     {
         // TODO: naming convention => separate function. use also on dependencies
-        return $"com.{nuspecReader.GetAuthors()}.{nuspecReader.GetId()}"
-            .ToLowerInvariant()
-            .Replace(@" ", @"");
+        return $"com.{nuspecReader.GetAuthors()}.{nuspecReader.GetId()}".ToLowerInvariant().Replace(@" ", @"");
     }
 
     public static string GetUpmName(this NuspecReader nuspecReader)
     {
-        return string.IsNullOrWhiteSpace(nuspecReader.GetTitle())
-            ? nuspecReader.GetId()
-            : nuspecReader.GetTitle();
+        return string.IsNullOrWhiteSpace(nuspecReader.GetTitle()) ? nuspecReader.GetId() : nuspecReader.GetTitle();
     }
 
-    public static string GetUpmDisplayName(
-        this NuspecReader nuspecReader,
-        string framework,
-        AssemblyName assemblyName
-    )
+    public static string GetUpmDisplayName(this NuspecReader nuspecReader, string framework, AssemblyName assemblyName)
     {
         return nuspecReader.GetUpmName()
             + $" ({framework} DLL)"
@@ -44,11 +36,7 @@ public static class NuspecReaderExtension
 
     public static Author GetUpmAuthor(this NuspecReader nuspecReader)
     {
-        return new Author()
-        {
-            Name = nuspecReader.GetAuthors(),
-            Url = nuspecReader.GetProjectUrl(),
-        };
+        return new Author() { Name = nuspecReader.GetAuthors(), Url = nuspecReader.GetProjectUrl(), };
     }
 
     public static PackageJson.StringStringDictionary GetUpmDependencies(
@@ -81,10 +69,7 @@ public static class NuspecReaderExtension
         return new PublishingConfiguration() { Registry = targetRegistry.ToString(), };
     }
 
-    public static string GenerateUpmReadme(
-        this NuspecReader nuspecReader,
-        AssemblyName assemblyName
-    )
+    public static string GenerateUpmReadme(this NuspecReader nuspecReader, AssemblyName assemblyName)
     {
         return ReadmeStringFactory.GenerateReadme(
             name: $"{nuspecReader.GetUpmName()} ({nuspecReader.GetUpmPackageName()})",
@@ -135,9 +120,7 @@ public static class NuspecReaderExtension
                 Keywords = nuspecReader.GetUpmKeywords(),
                 DisplayName = nuspecReader.GetUpmDisplayName(framework, assemblyName),
                 Repository = nuspecReader.GetUpmRepository(),
-                PublishingConfiguration = nuspecReader.GetUpmPublishingConfiguration(
-                    targetRegistry
-                ),
+                PublishingConfiguration = nuspecReader.GetUpmPublishingConfiguration(targetRegistry),
                 Dependencies = nuspecReader.GetUpmDependencies(framework),
             };
 

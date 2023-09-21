@@ -14,13 +14,7 @@ public class Readme
 
     public Readme() { }
 
-    public Readme(
-        string name,
-        string version,
-        string description,
-        string applicationName,
-        string applicationVersion
-    )
+    public Readme(string name, string version, string description, string applicationName, string applicationVersion)
     {
         Name = name;
         Version = version;

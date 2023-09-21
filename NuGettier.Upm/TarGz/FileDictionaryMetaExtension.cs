@@ -29,13 +29,7 @@ public static class FileDictionaryMetaExtension
             fsEntries
                 .Where(file => Path.GetExtension(file) != @".meta")
                 .OrderBy(f => f.Length)
-                .Select(
-                    file =>
-                        new KeyValuePair<string, string>(
-                            $"{file}.meta",
-                            Upm.MetaGen.GenerateMeta(seed, file)
-                        )
-                )
+                .Select(file => new KeyValuePair<string, string>($"{file}.meta", Upm.MetaGen.GenerateMeta(seed, file)))
         );
     }
 }
