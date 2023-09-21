@@ -38,10 +38,7 @@ public static partial class Program
     )
     {
         using var context = new Core.Context(source: source, console: console);
-        var results = await context.SearchPackages(
-            searchTerm: searchTerm,
-            cancellationToken: cancellationToken
-        );
+        var results = await context.SearchPackages(searchTerm: searchTerm, cancellationToken: cancellationToken);
 
         if (json)
         {

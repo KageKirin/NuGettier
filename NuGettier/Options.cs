@@ -19,16 +19,10 @@ public static partial class Program
         );
 
     private static Option<bool> IncludePrereleaseOption =
-        new(
-            aliases: new string[] { "--preRelease", "-p" },
-            description: "whether to include prerelease versions"
-        );
+        new(aliases: new string[] { "--preRelease", "-p" }, description: "whether to include prerelease versions");
 
     private static Option<bool> IncludeDependenciesOption =
-        new(
-            aliases: new string[] { "--includeDependencies", "-i" },
-            description: "whether to include dependencies"
-        );
+        new(aliases: new string[] { "--includeDependencies", "-i" }, description: "whether to include dependencies");
 
     private static Option<bool> RetrieveLatestOption =
         new(aliases: new string[] { "--latest", "-l" }, description: "fetch the latest version");
@@ -37,34 +31,22 @@ public static partial class Program
         new(aliases: new string[] { "--version", "-v" }, description: "version to fetch");
 
     private static Option<string> FrameworkOption =
-        new(
-            aliases: new string[] { "--framework", "-f" },
-            description: "framework of DLL to repack"
-        );
+        new(aliases: new string[] { "--framework", "-f" }, description: "framework of DLL to repack");
 
     private static Option<DirectoryInfo> OutputDirectoryOption =
-        new(
-            aliases: new string[] { "--outputDirectory", "-o" },
-            description: "directory to output files to"
-        )
+        new(aliases: new string[] { "--outputDirectory", "-o" }, description: "directory to output files to")
         {
             IsRequired = true,
         };
 
     private static Option<Uri> SourceRepositoryOption =
-        new(
-            aliases: new string[] { "--source", "-s" },
-            description: "source NuGet repository to fetch from"
-        )
+        new(aliases: new string[] { "--source", "-s" }, description: "source NuGet repository to fetch from")
         {
             IsRequired = true,
         };
 
     private static Option<Uri> TargetRegistryOption =
-        new(
-            aliases: new string[] { "--target", "-t" },
-            description: "target NPM registry to publish to"
-        )
+        new(aliases: new string[] { "--target", "-t" }, description: "target NPM registry to publish to")
         {
             IsRequired = true,
         };

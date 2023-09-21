@@ -36,10 +36,7 @@ public static class FileDictionaryExtension
         return fileDictionary;
     }
 
-    public static TarOutputStream FromFileDictionary(
-        this TarOutputStream tos,
-        FileDictionary fileDictionary
-    )
+    public static TarOutputStream FromFileDictionary(this TarOutputStream tos, FileDictionary fileDictionary)
     {
         foreach (var (k, v) in fileDictionary)
         {
@@ -94,10 +91,7 @@ public static class FileDictionaryExtension
         await fileDictionary.WriteToTarAsync(outputFile.OpenWrite());
     }
 
-    public static async Task<Stream> WriteToTarAsync(
-        this FileDictionary fileDictionary,
-        Stream outStream
-    )
+    public static async Task<Stream> WriteToTarAsync(this FileDictionary fileDictionary, Stream outStream)
     {
         using (TarOutputStream tarStream = new(outStream, Encoding.Default))
         {
@@ -139,10 +133,7 @@ public static class FileDictionaryExtension
         using var stream = await fileDictionary.WriteToTarGzAsync(outputFile.OpenWrite());
     }
 
-    public static async Task<Stream> WriteToTarGzAsync(
-        this FileDictionary fileDictionary,
-        Stream outStream
-    )
+    public static async Task<Stream> WriteToTarGzAsync(this FileDictionary fileDictionary, Stream outStream)
     {
         using (GZipOutputStream gzStream = new(outStream))
         {

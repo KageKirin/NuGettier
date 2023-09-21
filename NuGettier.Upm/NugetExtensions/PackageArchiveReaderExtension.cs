@@ -40,10 +40,7 @@ public static class PackageArchiveReaderExtension
         return string.Empty;
     }
 
-    public static TarGz.FileDictionary GetFrameworkFiles(
-        this PackageArchiveReader packageReader,
-        string framework
-    )
+    public static TarGz.FileDictionary GetFrameworkFiles(this PackageArchiveReader packageReader, string framework)
     {
         return new TarGz.FileDictionary(
             packageReader

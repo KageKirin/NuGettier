@@ -76,9 +76,7 @@ public static partial class Program
                 Console.WriteLine($"Prefix Reserved: {package.PrefixReserved}");
                 Console.WriteLine($"Project Url: {package.ProjectUrl}");
                 Console.WriteLine($"License Url: {package.LicenseUrl}");
-                Console.WriteLine(
-                    $"Require License Acceptance: {package.RequireLicenseAcceptance}"
-                );
+                Console.WriteLine($"Require License Acceptance: {package.RequireLicenseAcceptance}");
                 Console.WriteLine($"Icon Url: {package.IconUrl}");
                 Console.WriteLine($"Readme Url: {package.ReadmeUrl}");
                 Console.WriteLine($"Report Abuse Url: {package.ReportAbuseUrl}");
