@@ -68,6 +68,7 @@ public partial class Context
             Console.WriteLine($"selected framework: {selectedFramework}");
 
             var files = packageReader.GetFrameworkFiles(selectedFramework);
+            files.AddRange(packageReader.GetAdditionalFiles(nuspecReader));
 
             // create & add README
             var readme = nuspecReader.GenerateUpmReadme(assemblyName);
