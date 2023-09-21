@@ -6,6 +6,18 @@ namespace NuGettier.Upm.TarGz;
 
 public class FileDictionary : Dictionary<string, byte[]>, IDisposable
 {
+    public FileDictionary()
+        : base() { }
+
+    public FileDictionary(FileDictionary reference)
+        : this(reference as Dictionary<string, byte[]>) { }
+
+    public FileDictionary(Dictionary<string, byte[]> reference)
+        : base(reference) { }
+
+    public FileDictionary(IEnumerable<KeyValuePair<string, byte[]>> reference)
+        : base(reference) { }
+
     public virtual void Dispose()
     {
         Clear();
