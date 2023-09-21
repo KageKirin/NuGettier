@@ -23,7 +23,7 @@ public static class PackageArchiveReaderExtension
             .OrderDescending();
     }
 
-    public static string? GetPreferredFramework(
+    public static string GetPreferredFramework(
         this PackageArchiveReader packageReader,
         IEnumerable<string> frameworks
     )
@@ -36,7 +36,7 @@ public static class PackageArchiveReaderExtension
                 return framework;
         }
 
-        return null;
+        return string.Empty;
     }
 
     public static TarGz.FileDictionary GetFrameworkFiles(
