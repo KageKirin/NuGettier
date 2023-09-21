@@ -65,6 +65,7 @@ public partial class Context
             var selectedFramework = packageReader.SelectPreferredFramework(
                 framework != null ? new[] { framework } : DefaultFrameworks
             );
+            Console.WriteLine($"selected framework: {selectedFramework}");
 
             var files = packageReader.GetFrameworkFiles(selectedFramework);
 
