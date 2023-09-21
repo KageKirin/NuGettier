@@ -17,6 +17,8 @@ using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
+using NuGettier.Upm;
+using NuGettier.Upm.TarGz;
 
 namespace NuGettier;
 
@@ -49,7 +51,7 @@ public static partial class Program
     )
     {
         using var context = new Upm.Context(source: source, target: target, console: console);
-        using var package = await context.PackUpmPackage(
+        var tuple = await context.PackUpmPackage(
             packageName: packageName,
             preRelease: preRelease,
             latest: latest,
@@ -58,11 +60,18 @@ public static partial class Program
             cancellationToken: cancellationToken
         );
 
-        if (package != null)
+        if (tuple != null)
         {
-            // write output package.tar.gz
-            await package.WriteToTarGzAsync(Path.Join(outputDirectory.FullName, $"{package.Name}"));
-            return 0;
+            var (packageIdentifier, package) = tuple!;
+            using (package)
+            {
+                // write output package.tar.gz
+                Console.WriteLine($"writing package {packageIdentifier}.tgz");
+                await package.WriteToTarGzAsync(
+                    Path.Join(outputDirectory.FullName, $"{packageIdentifier}.tgz")
+                );
+                return 0;
+            }
         }
         return 1;
     }

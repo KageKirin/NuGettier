@@ -25,12 +25,22 @@ using NuRepository = NuGet.Protocol.Core.Types.Repository;
 
 public partial class Context
 {
-    public async Task<Package?> PackUpmPackage(
+    static readonly string[] DefaultFrameworks = new[]
+    {
+        // by order of preference
+        "netstandard2.1",
+        "netstandard2.0",
+        "netstandard1.2",
+        "netstandard1.1",
+        "netstandard1.0",
+    };
+
+    public async Task<Tuple<string, FileDictionary>?> PackUpmPackage(
         string packageName,
         bool preRelease,
         bool latest,
-        string version,
-        string framework,
+        string? version,
+        string? framework,
         CancellationToken cancellationToken
     )
     {
@@ -41,120 +51,57 @@ public partial class Context
             version: version,
             cancellationToken: cancellationToken
         );
-
         if (packageStream != null)
         {
             using PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
             NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
 
-            // create the Package
-            Package package = new(packageName);
-
             // get nugettier tool name+version
+            // required for README, PackageJson
             var executingAssembly = Assembly.GetEntryAssembly();
             var assemblyName = executingAssembly.GetName();
 
-            // generate and add README.md
-            Upm.Templates.Readme readme =
-                new(
-                    name: packageName,
-                    version: nuspecReader.GetVersion().ToString(),
-                    description: nuspecReader.GetDescription()
-                )
-                {
-                    ReleaseNotes = nuspecReader.GetReleaseNotes(),
-                };
-            package.Add(readme);
-            Console.WriteLine($"---\n{readme}\n---");
+            framework = packageReader.GetPreferredFramework(
+                framework != null ? new[] { framework } : DefaultFrameworks
+            );
 
-            // create package.json data (serialization happens later)
-            Upm.PackageJson packageJson =
-                new()
-                {
-                    // TODO: naming convention => separate function. use also on dependencies
-                    Name = $"com.{nuspecReader.GetAuthors()}.{nuspecReader.GetId()}"
-                        .ToLowerInvariant()
-                        .Replace(@" ", @""),
-                    Version = nuspecReader.GetVersion().ToString(),
-                    Keywords = string.IsNullOrWhiteSpace(nuspecReader.GetTags())
-                        ? new List<string>()
-                        : nuspecReader.GetTags().Split(@" ").ToList(),
-                    Description = nuspecReader.GetDescription(),
-                    DisplayName = // TODO: separate function
-                        (
-                            string.IsNullOrWhiteSpace(nuspecReader.GetTitle())
-                                ? nuspecReader.GetId()
-                                : nuspecReader.GetTitle()
-                        )
-                        + $" ({framework} DLL) [repacked by {assemblyName.Name} v{assemblyName.Version.ToString()}]",
-                    Author = new()
-                    {
-                        Name = nuspecReader.GetAuthors(),
-                        Url = nuspecReader.GetProjectUrl(),
-                    },
-                    Repository = new() { Url = nuspecReader.GetProjectUrl(), },
-                    PublishingConfiguration = new() { Registry = target.ToString(), }
-                };
-            packageJson.Files.Add(@"**.meta");
-            packageJson.Files.Add(@"**.dll");
-            packageJson.Files.Add(@"**.xml");
-            packageJson.Files.Add(@"**.md");
+            var files = packageReader.GetFrameworkFiles(framework);
 
-            Console.WriteLine($"Authors: {nuspecReader.GetAuthors()}");
-            //Console.WriteLine($"License: {nuspecReader.GetLicense()}");
+            // create & add README
+            var readme = nuspecReader.GenerateUpmReadme(assemblyName);
+            files.Add("README.md", readme);
+            Console.WriteLine($"--- README\n{readme}\n---");
 
-            // gather dependencies
-            // TODO: fetch more information (author)
-            // TODO: generate name for dependency
-            Console.WriteLine("Dependencies:");
-            var dependencyGroups = nuspecReader
-                .GetDependencyGroups()
-                .Where(d => d.TargetFramework.GetShortFolderName() == framework);
-            foreach (var dependencyGroup in dependencyGroups)
-            {
-                foreach (var dependency in dependencyGroup.Packages)
-                {
-                    Console.WriteLine($"   > {dependency.Id} {dependency.VersionRange}");
-                }
-            }
+            // create & add LICENSE
+            var license = nuspecReader.GenerateUpmLicense();
+            files.Add("LICENSE.md", license);
+            Console.WriteLine($"--- LICENSE\n{license}\n---");
 
-            // gather files to pack
-            // TODO: standalone filter function
-            // -> framework dll/xml
-            // -> LICENSE*
-            // TODO: patch package.json/.files[] accordingly
-            // TODO: whitelist/blacklist
-            Console.WriteLine("Files:");
-            foreach (
-                var file in packageReader
-                    .GetFiles()
-                    .Where(f => Path.GetDirectoryName(f) == Path.Join("lib", framework))
-            )
-            {
-                Console.WriteLine($" - {file} [{Path.GetDirectoryName(file)}]");
-                using var stream = packageReader.GetStream(file);
-                using var ms = new MemoryStream();
-                stream.CopyTo(ms);
-                Console.WriteLine($" {ms.Length}");
-                package.Add(file, ms.GetBuffer());
-            }
+            // create & add CHANGELOG
+            var changelog = nuspecReader.GenerateUpmChangelog();
+            files.Add("CHANGELOG.md", changelog);
+            Console.WriteLine($"--- CHANGELOG\n{changelog}\n---");
+
+            // create package.json
+            var packageJson = nuspecReader.GenerateUpmPackageJson(
+                framework: framework,
+                targetRegistry: target,
+                assemblyName: assemblyName
+            );
+
+            // add file references to package.json
+            packageJson.Files.AddRange(files.Keys);
 
             // add package.json
-            console.WriteLine($"---\n{packageJson.ToJson()}\n---");
-            package.Add(packageJson);
+            files.Add("package.json", packageJson.ToJson());
 
-            // for all entries in tarDictionary, generate and add Meta files
-            foreach (
-                var file in package.Files.Keys
-                    .Where(file => Path.GetExtension(file) != @".meta")
-                    .ToList()
-            )
-            {
-                package.Add($"{file}.meta", Upm.MetaGen.GenerateMeta(packageJson.Name, file));
-            }
+            // add meta files
+            files.AddMetaFiles(packageJson.Name);
 
-            return package;
+            var packageIdentifier = $"{packageJson.Name}.{packageJson.Version}";
+            return new Tuple<string, FileDictionary>(packageIdentifier, files);
         }
+
         return null;
     }
 }
