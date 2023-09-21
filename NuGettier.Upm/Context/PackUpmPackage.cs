@@ -62,11 +62,11 @@ public partial class Context
             var executingAssembly = Assembly.GetEntryAssembly();
             var assemblyName = executingAssembly.GetName();
 
-            framework = packageReader.SelectPreferredFramework(
+            var selectedFramework = packageReader.SelectPreferredFramework(
                 framework != null ? new[] { framework } : DefaultFrameworks
             );
 
-            var files = packageReader.GetFrameworkFiles(framework);
+            var files = packageReader.GetFrameworkFiles(selectedFramework);
 
             // create & add README
             var readme = nuspecReader.GenerateUpmReadme(assemblyName);
@@ -85,7 +85,7 @@ public partial class Context
 
             // create package.json
             var packageJson = nuspecReader.GenerateUpmPackageJson(
-                framework: framework,
+                framework: selectedFramework,
                 targetRegistry: target,
                 assemblyName: assemblyName
             );
