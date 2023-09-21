@@ -17,17 +17,19 @@ public static class PackageArchiveReaderExtension
     {
         return packageReader
             .GetFiles("lib")
-            .Select(f => f.Replace("lib/", string.Empty))
-            .Select(f => Path.GetPathRoot(f))
-            .Distinct();
+            .Select(f => Path.GetDirectoryName(f))
+            .Select(f => f?.Replace("lib/", string.Empty))
+            .Distinct()
+            .OrderDescending();
     }
 
-    public static string? GetPreferredFramework(
+    public static string SelectPreferredFramework(
         this PackageArchiveReader packageReader,
         IEnumerable<string> frameworks
     )
     {
         var assemblyFrameworks = packageReader.GetAssemblyFrameworks();
+        Console.WriteLine($"assemblyFrameworks: {string.Join(", ", assemblyFrameworks)}");
 
         foreach (var framework in frameworks)
         {
@@ -35,7 +37,7 @@ public static class PackageArchiveReaderExtension
                 return framework;
         }
 
-        return null;
+        return string.Empty;
     }
 
     public static TarGz.FileDictionary GetFrameworkFiles(
@@ -46,8 +48,8 @@ public static class PackageArchiveReaderExtension
         return new TarGz.FileDictionary(
             packageReader
                 .GetFiles("lib")
-                .Where(f => Path.GetDirectoryName(f) == Path.Join("lib", framework))
-                .ToDictionary(f => Path.GetFileName(f), f => packageReader.GetBytes(f))
+                .Where(f => f.Contains(framework))
+                .ToDictionary(f => f, f => packageReader.GetBytes(f))
         );
     }
 }

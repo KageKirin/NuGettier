@@ -33,6 +33,7 @@ public partial class Context
         "netstandard1.2",
         "netstandard1.1",
         "netstandard1.0",
+        "net462",
     };
 
     public async Task<Tuple<string, FileDictionary>?> PackUpmPackage(
@@ -61,11 +62,12 @@ public partial class Context
             var executingAssembly = Assembly.GetEntryAssembly();
             var assemblyName = executingAssembly.GetName();
 
-            framework = packageReader.GetPreferredFramework(
+            var selectedFramework = packageReader.SelectPreferredFramework(
                 framework != null ? new[] { framework } : DefaultFrameworks
             );
+            Console.WriteLine($"selected framework: {selectedFramework}");
 
-            var files = packageReader.GetFrameworkFiles(framework);
+            var files = packageReader.GetFrameworkFiles(selectedFramework);
 
             // create & add README
             var readme = nuspecReader.GenerateUpmReadme(assemblyName);
@@ -84,7 +86,7 @@ public partial class Context
 
             // create package.json
             var packageJson = nuspecReader.GenerateUpmPackageJson(
-                framework: framework,
+                framework: selectedFramework,
                 targetRegistry: target,
                 assemblyName: assemblyName
             );
