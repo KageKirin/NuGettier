@@ -8,13 +8,11 @@ public static class FileDictionaryMetaExtension
 {
     public static void AddMetaFiles(this FileDictionary fileDictionary, string seed)
     {
-        var files = fileDictionary.Keys.ToList(); //< make a temp copy to avoid modifying the collection
-
-        // gather folders: Unity requires .meta files for each included folder as well
-        var folders = files
+        var fsEntries = fileDictionary.Keys
             .SelectMany(f =>
+            // gather folders: Unity requires .meta files for each included folder as well
             {
-                var parents = new List<string>();
+                var parents = new HashSet<string>();
                 var p = Path.GetDirectoryName(f);
                 while (!string.IsNullOrEmpty(p))
                 {
@@ -23,12 +21,14 @@ public static class FileDictionaryMetaExtension
                 }
                 return parents;
             })
-            .Distinct();
+            .Distinct()
+            .Concat(fileDictionary.Keys)
+            .ToHashSet();
 
         fileDictionary.AddRange(
-            files
-                .Concat(folders) //< files AND folders
+            fsEntries
                 .Where(file => Path.GetExtension(file) != @".meta")
+                .OrderBy(f => f.Length)
                 .Select(
                     file =>
                         new KeyValuePair<string, string>(
