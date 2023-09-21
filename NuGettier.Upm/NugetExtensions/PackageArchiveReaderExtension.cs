@@ -48,8 +48,8 @@ public static class PackageArchiveReaderExtension
         return new TarGz.FileDictionary(
             packageReader
                 .GetFiles("lib")
-                .Where(f => Path.GetDirectoryName(f) == Path.Join("lib", framework))
-                .ToDictionary(f => Path.GetFileName(f), f => packageReader.GetBytes(f))
+                .Where(f => f.Contains(framework))
+                .ToDictionary(f => f, f => packageReader.GetBytes(f))
         );
     }
 }
