@@ -52,4 +52,20 @@ public static class PackageArchiveReaderExtension
                 .ToDictionary(f => f, f => packageReader.GetBytes(f))
         );
     }
+
+    public static TarGz.FileDictionary GetAdditionalFiles(
+        this PackageArchiveReader packageReader,
+        NuspecReader nuspecReader
+    )
+    {
+        List<string> additionalFiles =
+            new() { nuspecReader.GetReadme(), nuspecReader.GetReleaseNotes(), };
+
+        return new TarGz.FileDictionary(
+            packageReader
+                .GetFiles()
+                .Where(f => additionalFiles.Contains(f))
+                .ToDictionary(f => f, f => packageReader.GetBytes(f))
+        );
+    }
 }
