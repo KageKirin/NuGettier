@@ -33,6 +33,7 @@ public partial class Context
         "netstandard1.2",
         "netstandard1.1",
         "netstandard1.0",
+        "net462",
     };
 
     public async Task<Tuple<string, FileDictionary>?> PackUpmPackage(
