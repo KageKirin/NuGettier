@@ -58,7 +58,7 @@ public static class FileDictionaryExtension
         FileDictionary fileDictionary
     )
     {
-        return await new Task<TarOutputStream>(() => tos.FromFileDictionary(fileDictionary));
+        return await Task.Run(() => tos.FromFileDictionary(fileDictionary));
     }
 
     public static void WriteToTar(this FileDictionary fileDictionary, string filePath)
@@ -136,7 +136,7 @@ public static class FileDictionaryExtension
         }
 
         FileInfo outputFile = new(filePath);
-        await fileDictionary.WriteToTarGzAsync(outputFile.OpenWrite());
+        using var stream = await fileDictionary.WriteToTarGzAsync(outputFile.OpenWrite());
     }
 
     public static async Task<Stream> WriteToTarGzAsync(
