@@ -50,7 +50,7 @@ public class PackageJson
         set { Author = value; }
     }
 
-    public List<string> Files = new List<string>();
+    public List<string> Files = new List<string>() { @"**.meta", @"**.dll", @"**.xml", @"**.md", };
     public List<string> files
     {
         get { return Files; }
