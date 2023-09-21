@@ -23,12 +23,13 @@ public static class PackageArchiveReaderExtension
             .OrderDescending();
     }
 
-    public static string GetPreferredFramework(
+    public static string SelectPreferredFramework(
         this PackageArchiveReader packageReader,
         IEnumerable<string> frameworks
     )
     {
         var assemblyFrameworks = packageReader.GetAssemblyFrameworks();
+        Console.WriteLine($"assemblyFrameworks: {string.Join(", ", assemblyFrameworks)}");
 
         foreach (var framework in frameworks)
         {

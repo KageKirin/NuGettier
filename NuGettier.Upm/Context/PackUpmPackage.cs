@@ -61,7 +61,7 @@ public partial class Context
             var executingAssembly = Assembly.GetEntryAssembly();
             var assemblyName = executingAssembly.GetName();
 
-            framework = packageReader.GetPreferredFramework(
+            framework = packageReader.SelectPreferredFramework(
                 framework != null ? new[] { framework } : DefaultFrameworks
             );
 
