@@ -1,88 +1,44 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace NuGettier.Upm;
 
 public class PackageJson
 {
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = String.Empty;
 
-    public string Name = String.Empty;
-    public string name
-    {
-        get { return Name; }
-        set { Name = value; }
-    }
+    [JsonPropertyName("version")]
+    public string Version { get; set; } = String.Empty;
 
-    public string Version = String.Empty;
-    public string version
-    {
-        get { return Version; }
-        set { Version = value; }
-    }
+    [JsonPropertyName("license")]
+    public string? License { get; set; } = null;
 
-    public string? License = null;
-    public string? license
-    {
-        get { return License; }
-        set { License = value; }
-    }
+    [JsonPropertyName("displayName")]
+    public string DisplayName { get; set; } = String.Empty;
 
-    public string DisplayName = String.Empty;
-    public string displayName
-    {
-        get { return DisplayName; }
-        set { DisplayName = value; }
-    }
+    [JsonPropertyName("description")]
+    public string Description { get; set; } = String.Empty;
 
-    public string Description = String.Empty;
-    public string description
-    {
-        get { return Description; }
-        set { Description = value; }
-    }
+    [JsonPropertyName("author")]
+    public Author Author { get; set; } = new Author();
 
-    public Author Author = new Author();
-    public Author author
-    {
-        get { return Author; }
-        set { Author = value; }
-    }
+    [JsonPropertyName("files")]
+    public List<string> Files { get; set; } = new List<string>() { @"**.meta", @"**.dll", @"**.xml", @"**.md", };
 
-    public List<string> Files = new List<string>() { @"**.meta", @"**.dll", @"**.xml", @"**.md", };
-    public List<string> files
-    {
-        get { return Files; }
-        set { Files = value; }
-    }
+    [JsonPropertyName("dependencies")]
+    public StringStringDictionary Dependencies { get; set; } = new StringStringDictionary();
 
-    public StringStringDictionary Dependencies = new StringStringDictionary();
-    public StringStringDictionary dependencies
-    {
-        get { return Dependencies; }
-        set { Dependencies = value; }
-    }
+    [JsonPropertyName("keywords")]
+    public List<string> Keywords { get; set; } = new List<string>();
 
-    public List<string> Keywords = new List<string>();
-    public List<string> keywords
-    {
-        get { return Keywords; }
-        set { Keywords = value; }
-    }
+    [JsonPropertyName("repository")]
+    public Repository Repository { get; set; } = new Repository();
 
-    public Repository Repository = new Repository();
-    public Repository repository
-    {
-        get { return Repository; }
-        set { Repository = value; }
-    }
-
-    public PublishingConfiguration PublishingConfiguration = new PublishingConfiguration();
-    public PublishingConfiguration publishingConfiguration
-    {
-        get { return PublishingConfiguration; }
-        set { PublishingConfiguration = value; }
-    }
+    [JsonPropertyName("publishingConfiguration")]
+    public PublishingConfiguration PublishingConfiguration { get; set; } = new PublishingConfiguration();
 
     public static PackageJson? FromJson(in string json)
     {

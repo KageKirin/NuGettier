@@ -1,29 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace NuGettier.Upm;
 
 public class Repository
 {
-    public string RepoType = String.Empty;
-    public string type
-    {
-        get { return RepoType; }
-        set { RepoType = value; }
-    }
+    [JsonPropertyName("type")]
+    public string RepoType { get; set; } = String.Empty;
 
-    public string Url = String.Empty;
-    public string url
-    {
-        get { return Url; }
-        set { Url = value; }
-    }
+    [JsonPropertyName("url")]
+    public string Url { get; set; } = String.Empty;
 
-    public string Directory = String.Empty;
-    public string directory
-    {
-        get { return Directory; }
-        set { Directory = value; }
-    }
+    [JsonPropertyName("directory")]
+    public string Directory { get; set; } = String.Empty;
 }
