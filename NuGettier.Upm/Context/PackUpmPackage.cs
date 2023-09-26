@@ -92,6 +92,17 @@ public partial class Context
                 framework: selectedFramework,
                 targetRegistry: target,
                 assemblyName: assemblyName,
+                async (dependencyPackageName, dependencyPackageVersion) =>
+                {
+                    var dependencyPackage = await GetPackageInformation(
+                        packageName: dependencyPackageName,
+                        preRelease: true,
+                        latest: false,
+                        version: dependencyPackageVersion,
+                        cancellationToken: cancellationToken
+                    );
+                    return ((IPackageSearchMetadata)dependencyPackage!).GetUpmPackageName();
+                },
                 prereleaseSuffix: prereleaseSuffix,
                 buildmetaSuffix: buildmetaSuffix
             );
@@ -100,7 +111,9 @@ public partial class Context
             packageJson.Files.AddRange(files.Keys);
 
             // add package.json
-            files.Add("package.json", packageJson.ToJson());
+            var packageJsonString = packageJson.ToJson();
+            files.Add("package.json", packageJsonString);
+            Console.WriteLine($"--- PACKAGE.JSON\n{packageJsonString}\n---");
 
             // add meta files
             files.AddMetaFiles(packageJson.Name);

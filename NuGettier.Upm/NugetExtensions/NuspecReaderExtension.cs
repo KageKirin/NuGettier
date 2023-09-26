@@ -66,18 +66,19 @@ public static class NuspecReaderExtension
         return new Author() { Name = nuspecReader.GetAuthors(), Url = nuspecReader.GetProjectUrl(), };
     }
 
-    public static PackageJson.StringStringDictionary GetUpmDependencies(
+    public static StringStringDictionary GetUpmDependencies(
         this NuspecReader nuspecReader,
-        string framework
+        string framework,
+        Func<string, string, Task<string?>> getDependencyName
     )
     {
-        return new PackageJson.StringStringDictionary(
+        return new StringStringDictionary(
             nuspecReader
                 .GetDependencyGroups()
                 .Where(d => d.TargetFramework.GetShortFolderName() == framework)
                 .SelectMany(d => d.Packages)
                 .ToDictionary(
-                    p => p.Id, // TODO: use GetUpmPackageName
+                    p => (getDependencyName(p.Id, p.VersionRange.ToLegacyShortString())).Result,
                     p => p.VersionRange.ToLegacyShortString()
                 )
         );
@@ -148,6 +149,7 @@ public static class NuspecReaderExtension
         string framework,
         Uri targetRegistry,
         AssemblyName assemblyName,
+        Func<string, string, Task<string?>> getDependencyName,
         string? prereleaseSuffix = null,
         string? buildmetaSuffix = null
     )
@@ -163,7 +165,7 @@ public static class NuspecReaderExtension
                 DisplayName = nuspecReader.GetUpmDisplayName(framework, assemblyName),
                 Repository = nuspecReader.GetUpmRepository(),
                 PublishingConfiguration = nuspecReader.GetUpmPublishingConfiguration(targetRegistry),
-                Dependencies = nuspecReader.GetUpmDependencies(framework),
+                Dependencies = nuspecReader.GetUpmDependencies(framework, getDependencyName),
             };
 
         return packageJson;
