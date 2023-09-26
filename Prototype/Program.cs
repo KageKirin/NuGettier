@@ -1,4 +1,4 @@
-﻿using NuGet.Common;
+using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
 using NuGet.Packaging;
@@ -47,7 +47,8 @@ IEnumerable<IPackageSearchMetadata> packages = await packageMetadataResource.Get
     includeUnlisted: false,
     cache,
     logger,
-    cancellationToken);
+    cancellationToken
+);
 
 foreach (IPackageSearchMetadata package in packages)
 {
@@ -64,7 +65,8 @@ IEnumerable<NuGetVersion> versions = await packageIdResource.GetAllVersionsAsync
     PACKAGE,
     cache,
     logger,
-    cancellationToken);
+    cancellationToken
+);
 
 foreach (NuGetVersion version in versions)
 {
@@ -82,7 +84,8 @@ IEnumerable<IPackageSearchMetadata> results = await packageSearchResource.Search
     skip: 0,
     take: 20,
     logger,
-    cancellationToken);
+    cancellationToken
+);
 
 foreach (IPackageSearchMetadata result in results)
 {
@@ -102,7 +105,8 @@ await findPackageByIdResource.CopyNupkgToStreamAsync(
     packageStream,
     cache,
     logger,
-    cancellationToken);
+    cancellationToken
+);
 
 Console.WriteLine($"Downloaded package {PACKAGE} {packageVersion}");
 
