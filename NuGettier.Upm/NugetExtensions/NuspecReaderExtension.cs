@@ -149,6 +149,7 @@ public static class NuspecReaderExtension
         string framework,
         Uri targetRegistry,
         AssemblyName assemblyName,
+        Func<string, string, Task<string?>> getDependencyName,
         string? prereleaseSuffix = null,
         string? buildmetaSuffix = null
     )
@@ -164,7 +165,7 @@ public static class NuspecReaderExtension
                 DisplayName = nuspecReader.GetUpmDisplayName(framework, assemblyName),
                 Repository = nuspecReader.GetUpmRepository(),
                 PublishingConfiguration = nuspecReader.GetUpmPublishingConfiguration(targetRegistry),
-                Dependencies = nuspecReader.GetUpmDependencies(framework),
+                Dependencies = nuspecReader.GetUpmDependencies(framework, getDependencyName),
             };
 
         return packageJson;
