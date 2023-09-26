@@ -130,11 +130,15 @@ public static class NuspecReaderExtension
         );
     }
 
-    public static string GenerateUpmChangelog(this NuspecReader nuspecReader)
+    public static string GenerateUpmChangelog(
+        this NuspecReader nuspecReader,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
+    )
     {
         return ChangelogStringFactory.GenerateChangelog(
             name: nuspecReader.GetUpmName(),
-            version: nuspecReader.GetUpmVersion(),
+            version: nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
             releaseNotes: nuspecReader.GetReleaseNotes()
         );
     }
