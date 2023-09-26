@@ -112,11 +112,15 @@ public static class NuspecReaderExtension
         );
     }
 
-    public static string GenerateUpmLicense(this NuspecReader nuspecReader)
+    public static string GenerateUpmLicense(
+        this NuspecReader nuspecReader,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
+    )
     {
         return LicenseStringFactory.GenerateLicense(
             name: nuspecReader.GetUpmName(),
-            version: nuspecReader.GetUpmVersion(),
+            version: nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
             copyright: nuspecReader.GetCopyright(),
             copyrightHolder: string.IsNullOrEmpty(nuspecReader.GetOwners())
                 ? nuspecReader.GetAuthors()
