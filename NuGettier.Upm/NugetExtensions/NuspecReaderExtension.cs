@@ -100,7 +100,7 @@ public static class NuspecReaderExtension
     {
         return ReadmeStringFactory.GenerateReadme(
             name: $"{nuspecReader.GetUpmName()} ({nuspecReader.GetUpmPackageName()})",
-            version: nuspecReader.GetVersion().ToString(),
+            version: nuspecReader.GetUpmVersion(),
             description: nuspecReader.GetDescription(),
             applicationName: assemblyName.Name,
             applicationVersion: assemblyName.Version.ToString()
@@ -111,7 +111,7 @@ public static class NuspecReaderExtension
     {
         return LicenseStringFactory.GenerateLicense(
             name: nuspecReader.GetUpmName(),
-            version: nuspecReader.GetVersion().ToString(),
+            version: nuspecReader.GetUpmVersion(),
             copyright: nuspecReader.GetCopyright(),
             copyrightHolder: string.IsNullOrEmpty(nuspecReader.GetOwners())
                 ? nuspecReader.GetAuthors()
@@ -125,7 +125,7 @@ public static class NuspecReaderExtension
     {
         return ChangelogStringFactory.GenerateChangelog(
             name: nuspecReader.GetUpmName(),
-            version: nuspecReader.GetVersion().ToString(),
+            version: nuspecReader.GetUpmVersion(),
             releaseNotes: nuspecReader.GetReleaseNotes()
         );
     }
@@ -141,7 +141,7 @@ public static class NuspecReaderExtension
             new()
             {
                 Name = nuspecReader.GetUpmPackageName(),
-                Version = nuspecReader.GetVersion().ToString(),
+                Version = nuspecReader.GetUpmVersion(),
                 License = nuspecReader.GetLicenseMetadata()?.License,
                 Description = nuspecReader.GetDescription(),
                 Keywords = nuspecReader.GetUpmKeywords(),
