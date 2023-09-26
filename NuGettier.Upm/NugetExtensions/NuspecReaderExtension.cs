@@ -66,12 +66,12 @@ public static class NuspecReaderExtension
         return new Author() { Name = nuspecReader.GetAuthors(), Url = nuspecReader.GetProjectUrl(), };
     }
 
-    public static PackageJson.StringStringDictionary GetUpmDependencies(
+    public static StringStringDictionary GetUpmDependencies(
         this NuspecReader nuspecReader,
         string framework
     )
     {
-        return new PackageJson.StringStringDictionary(
+        return new StringStringDictionary(
             nuspecReader
                 .GetDependencyGroups()
                 .Where(d => d.TargetFramework.GetShortFolderName() == framework)
