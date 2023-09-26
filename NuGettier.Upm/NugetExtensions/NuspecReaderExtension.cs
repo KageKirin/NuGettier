@@ -68,7 +68,8 @@ public static class NuspecReaderExtension
 
     public static StringStringDictionary GetUpmDependencies(
         this NuspecReader nuspecReader,
-        string framework
+        string framework,
+        Func<string, string, Task<string?>> getDependencyName
     )
     {
         return new StringStringDictionary(
