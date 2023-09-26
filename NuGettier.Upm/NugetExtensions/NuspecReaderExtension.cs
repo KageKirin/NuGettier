@@ -10,13 +10,18 @@ public static class NuspecReaderExtension
     // put here to keep package name formatting in 1 single location
     public static string GetUpmPackageName(this IPackageSearchMetadata searchMetadata)
     {
-        return $"com.{searchMetadata.Authors}.{searchMetadata.Identity.Id}".ToLowerInvariant().Replace(@" ", @"");
+        return GetUpmPackageName(searchMetadata.Authors, searchMetadata.Identity.Id);
     }
 
     public static string GetUpmPackageName(this NuspecReader nuspecReader)
     {
         // TODO: naming convention => separate function. use also on dependencies
-        return $"com.{nuspecReader.GetAuthors()}.{nuspecReader.GetId()}".ToLowerInvariant().Replace(@" ", @"");
+        return GetUpmPackageName(nuspecReader.GetAuthors(), nuspecReader.GetId());
+    }
+
+    public static string GetUpmPackageName(string author, string id)
+    {
+        return $"com.{author}.{id}".ToLowerInvariant().Replace(@" ", @"");
     }
 
     public static string GetUpmName(this NuspecReader nuspecReader)
