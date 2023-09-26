@@ -15,13 +15,28 @@ public static class NuspecReaderExtension
 
     public static string GetUpmPackageName(this NuspecReader nuspecReader)
     {
-        // TODO: naming convention => separate function. use also on dependencies
         return GetUpmPackageName(nuspecReader.GetAuthors(), nuspecReader.GetId());
     }
 
     public static string GetUpmPackageName(string author, string id)
     {
+        // TODO: use config string + Handlebars template
         return $"com.{author}.{id}".ToLowerInvariant().Replace(@" ", @"");
+    }
+
+    public static string GetUpmVersion(
+        this NuspecReader nuspecReader,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
+    )
+    {
+        var version = nuspecReader.GetVersion().ToString();
+        if (prereleaseSuffix != null)
+            version += $"-{prereleaseSuffix}";
+        if (buildmetaSuffix != null)
+            version += $"+{buildmetaSuffix}";
+
+        return version;
     }
 
     public static string GetUpmName(this NuspecReader nuspecReader)
