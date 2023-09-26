@@ -147,14 +147,16 @@ public static class NuspecReaderExtension
         this NuspecReader nuspecReader,
         string framework,
         Uri targetRegistry,
-        AssemblyName assemblyName
+        AssemblyName assemblyName,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
     )
     {
         PackageJson packageJson =
             new()
             {
                 Name = nuspecReader.GetUpmPackageName(),
-                Version = nuspecReader.GetUpmVersion(),
+                Version = nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
                 License = nuspecReader.GetLicenseMetadata()?.License,
                 Description = nuspecReader.GetDescription(),
                 Keywords = nuspecReader.GetUpmKeywords(),
