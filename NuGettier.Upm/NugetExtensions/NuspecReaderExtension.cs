@@ -1,11 +1,18 @@
 using System.Linq;
 using System.Reflection;
 using NuGet.Packaging;
+using NuGet.Protocol.Core.Types;
 
 namespace NuGettier.Upm;
 
 public static class NuspecReaderExtension
 {
+    // put here to keep package name formatting in 1 single location
+    public static string GetUpmPackageName(this IPackageSearchMetadata searchMetadata)
+    {
+        return $"com.{searchMetadata.Authors}.{searchMetadata.Identity.Id}".ToLowerInvariant().Replace(@" ", @"");
+    }
+
     public static string GetUpmPackageName(this NuspecReader nuspecReader)
     {
         // TODO: naming convention => separate function. use also on dependencies
