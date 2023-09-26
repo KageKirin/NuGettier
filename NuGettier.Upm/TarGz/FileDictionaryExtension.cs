@@ -8,7 +8,7 @@ namespace NuGettier.Upm.TarGz;
 
 public static class FileDictionaryExtension
 {
-    const string RootPath = @"packages";
+    const string RootPath = @"package";
 
     public static FileDictionary ToFileDictionary(this GZipInputStream gzStream)
     {
@@ -30,7 +30,10 @@ public static class FileDictionaryExtension
             var buffer = new byte[entry.Size];
             var read = tis.Read(buffer, 0, buffer.Length);
 
-            fileDictionary.Add(entry.Name, buffer);
+            var filePath = entry.Name;
+            if (filePath.StartsWith(RootPath))
+                filePath.Replace($"{RootPath}/", "");
+            fileDictionary.Add(filePath, buffer);
         }
 
         return fileDictionary;
