@@ -9,7 +9,7 @@
 
   <!-- build metadata -->
   <PropertyGroup>
-    <Version>0.0.17</Version>
+    <Version>0.0.18</Version>
   </PropertyGroup>
 
   <ItemGroup>
