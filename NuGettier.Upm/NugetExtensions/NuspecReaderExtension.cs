@@ -78,7 +78,7 @@ public static class NuspecReaderExtension
                 .Where(d => d.TargetFramework.GetShortFolderName() == framework)
                 .SelectMany(d => d.Packages)
                 .ToDictionary(
-                    p => p.Id, // TODO: use GetUpmPackageName
+                    p => (getDependencyName(p.Id, p.VersionRange.ToLegacyShortString())).Result,
                     p => p.VersionRange.ToLegacyShortString()
                 )
         );
