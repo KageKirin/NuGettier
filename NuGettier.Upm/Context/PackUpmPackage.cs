@@ -42,6 +42,8 @@ public partial class Context
         bool latest,
         string? version,
         string? framework,
+        string? prereleaseSuffix,
+        string? buildmetaSuffix,
         CancellationToken cancellationToken
     )
     {
@@ -71,17 +73,17 @@ public partial class Context
             files.AddRange(packageReader.GetAdditionalFiles(nuspecReader));
 
             // create & add README
-            var readme = nuspecReader.GenerateUpmReadme(assemblyName);
+            var readme = nuspecReader.GenerateUpmReadme(assemblyName, prereleaseSuffix, buildmetaSuffix);
             files.Add("README.md", readme);
             Console.WriteLine($"--- README\n{readme}\n---");
 
             // create & add LICENSE
-            var license = nuspecReader.GenerateUpmLicense();
+            var license = nuspecReader.GenerateUpmLicense(prereleaseSuffix, buildmetaSuffix);
             files.Add("LICENSE.md", license);
             Console.WriteLine($"--- LICENSE\n{license}\n---");
 
             // create & add CHANGELOG
-            var changelog = nuspecReader.GenerateUpmChangelog();
+            var changelog = nuspecReader.GenerateUpmChangelog(prereleaseSuffix, buildmetaSuffix);
             files.Add("CHANGELOG.md", changelog);
             Console.WriteLine($"--- CHANGELOG\n{changelog}\n---");
 
@@ -89,7 +91,9 @@ public partial class Context
             var packageJson = nuspecReader.GenerateUpmPackageJson(
                 framework: selectedFramework,
                 targetRegistry: target,
-                assemblyName: assemblyName
+                assemblyName: assemblyName,
+                prereleaseSuffix: prereleaseSuffix,
+                buildmetaSuffix: buildmetaSuffix
             );
 
             // add file references to package.json
