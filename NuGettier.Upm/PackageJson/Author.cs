@@ -1,29 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace NuGettier.Upm;
 
 public class Author
 {
-    public string Name = String.Empty;
-    public string name
-    {
-        get { return Name; }
-        set { Name = value; }
-    }
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = String.Empty;
 
-    public string Email = String.Empty;
-    public string email
-    {
-        get { return Email; }
-        set { Email = value; }
-    }
+    [JsonPropertyName("email")]
+    public string Email { get; set; } = String.Empty;
 
-    public string Url = String.Empty;
-    public string url
-    {
-        get { return Url; }
-        set { Url = value; }
-    }
+    [JsonPropertyName("url")]
+    public string Url { get; set; } = String.Empty;
 }

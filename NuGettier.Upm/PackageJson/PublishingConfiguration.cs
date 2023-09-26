@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace NuGettier.Upm;
 
 public class PublishingConfiguration
 {
-    public string Registry = String.Empty;
-    public string registry
-    {
-        get { return Registry; }
-        set { Registry = value; }
-    }
+    [JsonPropertyName("registry")]
+    public string Registry { get; set; } = String.Empty;
 }
