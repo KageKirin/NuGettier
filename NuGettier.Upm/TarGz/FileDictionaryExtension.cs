@@ -30,7 +30,10 @@ public static class FileDictionaryExtension
             var buffer = new byte[entry.Size];
             var read = tis.Read(buffer, 0, buffer.Length);
 
-            fileDictionary.Add(entry.Name, buffer);
+            var filePath = entry.Name;
+            if (filePath.StartsWith(RootPath))
+                filePath.Replace($"{RootPath}/", "");
+            fileDictionary.Add(filePath, buffer);
         }
 
         return fileDictionary;
