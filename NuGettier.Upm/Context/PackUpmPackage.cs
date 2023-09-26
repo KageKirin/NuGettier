@@ -92,6 +92,17 @@ public partial class Context
                 framework: selectedFramework,
                 targetRegistry: target,
                 assemblyName: assemblyName,
+                async (dependencyPackageName, dependencyPackageVersion) =>
+                {
+                    var dependencyPackage = await GetPackageInformation(
+                        packageName: dependencyPackageName,
+                        preRelease: true,
+                        latest: false,
+                        version: dependencyPackageVersion,
+                        cancellationToken: cancellationToken
+                    );
+                    return ((IPackageSearchMetadata)dependencyPackage!).GetUpmPackageName();
+                },
                 prereleaseSuffix: prereleaseSuffix,
                 buildmetaSuffix: buildmetaSuffix
             );
