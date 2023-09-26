@@ -15,13 +15,28 @@ public static class NuspecReaderExtension
 
     public static string GetUpmPackageName(this NuspecReader nuspecReader)
     {
-        // TODO: naming convention => separate function. use also on dependencies
         return GetUpmPackageName(nuspecReader.GetAuthors(), nuspecReader.GetId());
     }
 
     public static string GetUpmPackageName(string author, string id)
     {
+        // TODO: use config string + Handlebars template
         return $"com.{author}.{id}".ToLowerInvariant().Replace(@" ", @"");
+    }
+
+    public static string GetUpmVersion(
+        this NuspecReader nuspecReader,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
+    )
+    {
+        var version = nuspecReader.GetVersion().ToString();
+        if (prereleaseSuffix != null)
+            version += $"-{prereleaseSuffix}";
+        if (buildmetaSuffix != null)
+            version += $"+{buildmetaSuffix}";
+
+        return version;
     }
 
     public static string GetUpmName(this NuspecReader nuspecReader)
@@ -81,22 +96,31 @@ public static class NuspecReaderExtension
         return new PublishingConfiguration() { Registry = targetRegistry.ToString(), };
     }
 
-    public static string GenerateUpmReadme(this NuspecReader nuspecReader, AssemblyName assemblyName)
+    public static string GenerateUpmReadme(
+        this NuspecReader nuspecReader,
+        AssemblyName assemblyName,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
+    )
     {
         return ReadmeStringFactory.GenerateReadme(
             name: $"{nuspecReader.GetUpmName()} ({nuspecReader.GetUpmPackageName()})",
-            version: nuspecReader.GetVersion().ToString(),
+            version: nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
             description: nuspecReader.GetDescription(),
             applicationName: assemblyName.Name,
             applicationVersion: assemblyName.Version.ToString()
         );
     }
 
-    public static string GenerateUpmLicense(this NuspecReader nuspecReader)
+    public static string GenerateUpmLicense(
+        this NuspecReader nuspecReader,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
+    )
     {
         return LicenseStringFactory.GenerateLicense(
             name: nuspecReader.GetUpmName(),
-            version: nuspecReader.GetVersion().ToString(),
+            version: nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
             copyright: nuspecReader.GetCopyright(),
             copyrightHolder: string.IsNullOrEmpty(nuspecReader.GetOwners())
                 ? nuspecReader.GetAuthors()
@@ -106,11 +130,15 @@ public static class NuspecReaderExtension
         );
     }
 
-    public static string GenerateUpmChangelog(this NuspecReader nuspecReader)
+    public static string GenerateUpmChangelog(
+        this NuspecReader nuspecReader,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
+    )
     {
         return ChangelogStringFactory.GenerateChangelog(
             name: nuspecReader.GetUpmName(),
-            version: nuspecReader.GetVersion().ToString(),
+            version: nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
             releaseNotes: nuspecReader.GetReleaseNotes()
         );
     }
@@ -119,14 +147,16 @@ public static class NuspecReaderExtension
         this NuspecReader nuspecReader,
         string framework,
         Uri targetRegistry,
-        AssemblyName assemblyName
+        AssemblyName assemblyName,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
     )
     {
         PackageJson packageJson =
             new()
             {
                 Name = nuspecReader.GetUpmPackageName(),
-                Version = nuspecReader.GetVersion().ToString(),
+                Version = nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
                 License = nuspecReader.GetLicenseMetadata()?.License,
                 Description = nuspecReader.GetDescription(),
                 Keywords = nuspecReader.GetUpmKeywords(),

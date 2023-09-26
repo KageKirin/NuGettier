@@ -35,6 +35,8 @@ public static partial class Program
             SourceRepositoryOption,
             TargetRegistryOption,
             OutputDirectoryOption,
+            UpmPrereleaseSuffixOption,
+            UpmBuildmetaSuffixOption,
         }.WithHandler(CommandHandler.Create(UpmPack));
 
     private static async Task<int> UpmPack(
@@ -46,6 +48,8 @@ public static partial class Program
         Uri source,
         Uri target,
         DirectoryInfo outputDirectory,
+        string? prereleaseSuffix,
+        string? buildmetaSuffix,
         IConsole console,
         CancellationToken cancellationToken
     )
@@ -57,6 +61,8 @@ public static partial class Program
             latest: latest,
             version: version,
             framework: framework,
+            prereleaseSuffix: prereleaseSuffix,
+            buildmetaSuffix: buildmetaSuffix,
             cancellationToken: cancellationToken
         );
 
