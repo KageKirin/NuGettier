@@ -96,11 +96,16 @@ public static class NuspecReaderExtension
         return new PublishingConfiguration() { Registry = targetRegistry.ToString(), };
     }
 
-    public static string GenerateUpmReadme(this NuspecReader nuspecReader, AssemblyName assemblyName)
+    public static string GenerateUpmReadme(
+        this NuspecReader nuspecReader,
+        AssemblyName assemblyName,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
+    )
     {
         return ReadmeStringFactory.GenerateReadme(
             name: $"{nuspecReader.GetUpmName()} ({nuspecReader.GetUpmPackageName()})",
-            version: nuspecReader.GetUpmVersion(),
+            version: nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
             description: nuspecReader.GetDescription(),
             applicationName: assemblyName.Name,
             applicationVersion: assemblyName.Version.ToString()
