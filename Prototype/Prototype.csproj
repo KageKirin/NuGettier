@@ -36,4 +36,12 @@
     <PackageReference Include="NuGet.Resolver" Version="6.7.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.toml" Link="appsettings.toml" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.ini" Link="appsettings.ini" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.xml" Link="appsettings.xml" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.yml" Link="appsettings.yml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
