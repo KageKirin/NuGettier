@@ -1,4 +1,4 @@
-﻿using NuGet.Common;
+using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
 using NuGet.Packaging;
@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 const string PACKAGE = "System.Text.Json";
 
@@ -19,6 +20,22 @@ CancellationToken cancellationToken = CancellationToken.None;
 
 SourceCacheContext cache = new SourceCacheContext();
 SourceRepository repository = Repository.Factory.GetCoreV3("https://api.nuget.org/v3/index.json");
+
+var configurationBuilder = new ConfigurationBuilder()
+    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+    .AddJsonFile(@"appsettings.json", optional: true, reloadOnChange: false) //works
+    .AddXmlFile(@"appsettings.xml", optional: true, reloadOnChange: false) //works, supersedes ↑
+    .AddIniFile(@"appsettings.ini", optional: true, reloadOnChange: false) //works, supersedes ↑
+    .AddYamlFile(@"appsettings.yml", optional: true, reloadOnChange: false) //works, supersedes ↑
+    .AddTomlFile(@"appsettings.toml", optional: true, reloadOnChange: false) //works, supersedes ↑
+    .AddEnvironmentVariables()
+    .AddCommandLine(args);
+
+IConfiguration configuration = configurationBuilder.Build();
+
+AppSettings appSettings = new(configuration);
+Console.WriteLine($"appSettings.AppName: {appSettings.AppName}");
+Console.WriteLine($"appSettings.AppVersion: {appSettings.AppVersion}");
 
 #region settings
 // Load machine and user settings
@@ -47,7 +64,8 @@ IEnumerable<IPackageSearchMetadata> packages = await packageMetadataResource.Get
     includeUnlisted: false,
     cache,
     logger,
-    cancellationToken);
+    cancellationToken
+);
 
 foreach (IPackageSearchMetadata package in packages)
 {
@@ -64,7 +82,8 @@ IEnumerable<NuGetVersion> versions = await packageIdResource.GetAllVersionsAsync
     PACKAGE,
     cache,
     logger,
-    cancellationToken);
+    cancellationToken
+);
 
 foreach (NuGetVersion version in versions)
 {
@@ -82,7 +101,8 @@ IEnumerable<IPackageSearchMetadata> results = await packageSearchResource.Search
     skip: 0,
     take: 20,
     logger,
-    cancellationToken);
+    cancellationToken
+);
 
 foreach (IPackageSearchMetadata result in results)
 {
@@ -102,7 +122,8 @@ await findPackageByIdResource.CopyNupkgToStreamAsync(
     packageStream,
     cache,
     logger,
-    cancellationToken);
+    cancellationToken
+);
 
 Console.WriteLine($"Downloaded package {PACKAGE} {packageVersion}");
 

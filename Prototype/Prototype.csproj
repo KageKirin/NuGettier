@@ -1,18 +1,47 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- build settings -->
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <!-- build metadata -->
+  <PropertyGroup>
+    <Version>0.0.6</Version>
+    <RepositoryUrl>https://github.com/KageKirin/NuGettier</RepositoryUrl>
+    <Authors>Chris Helmich</Authors>
+    <Company>KageKirin</Company>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Alexinea.Extensions.Configuration.Toml" Version="7.0.0" />
+    <PackageReference Include="Alexinea.Extensions.Configuration.Yaml" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="7.0.0" />
     <PackageReference Include="NuGet.Commands" Version="6.7.0" />
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0" />
     <PackageReference Include="NuGet.Packaging" Version="6.7.0" />
     <PackageReference Include="NuGet.Protocol" Version="6.7.0" />
     <PackageReference Include="NuGet.Resolver" Version="6.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.toml" Link="appsettings.toml" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.ini" Link="appsettings.ini" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.xml" Link="appsettings.xml" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.yml" Link="appsettings.yml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
