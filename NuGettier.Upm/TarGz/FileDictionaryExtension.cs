@@ -143,4 +143,54 @@ public static class FileDictionaryExtension
             return await fileDictionary.WriteToTarAsync(gzStream);
         }
     }
+
+    public static void WriteToDirectory(this FileDictionary fileDictionary, string outputDirectory)
+    {
+        fileDictionary.WriteToDirectory(new DirectoryInfo(outputDirectory));
+    }
+
+    public static void WriteToDirectory(this FileDictionary fileDictionary, DirectoryInfo outputDirectory)
+    {
+        if (!outputDirectory.Exists)
+        {
+            outputDirectory.Create();
+        }
+
+        foreach (var (filePath, buffer) in fileDictionary)
+        {
+            FileInfo fileInfo = new(Path.Join(outputDirectory.FullName, filePath));
+            if (fileInfo.Directory != null && !fileInfo.Directory.Exists)
+            {
+                fileInfo.Directory.Create();
+            }
+
+            using var stream = fileInfo.OpenWrite();
+            stream.Write(buffer);
+        }
+    }
+
+    public static async Task WriteToDirectoryAsync(this FileDictionary fileDictionary, string outputDirectory)
+    {
+        await fileDictionary.WriteToDirectoryAsync(new DirectoryInfo(outputDirectory));
+    }
+
+    public static async Task WriteToDirectoryAsync(this FileDictionary fileDictionary, DirectoryInfo outputDirectory)
+    {
+        if (!outputDirectory.Exists)
+        {
+            outputDirectory.Create();
+        }
+
+        foreach (var (filePath, buffer) in fileDictionary)
+        {
+            FileInfo fileInfo = new(Path.Join(outputDirectory.FullName, filePath));
+            if (fileInfo.Directory != null && !fileInfo.Directory.Exists)
+            {
+                fileInfo.Directory.Create();
+            }
+
+            using var stream = fileInfo.OpenWrite();
+            await stream.WriteAsync(buffer);
+        }
+    }
 }
