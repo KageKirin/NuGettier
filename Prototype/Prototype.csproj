@@ -20,6 +20,7 @@
     <Company>KageKirin</Company>
   </PropertyGroup>
 
+  <!-- package dependencies -->
   <ItemGroup>
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" Version="7.0.0"/>
     <PackageReference Include="Alexinea.Extensions.Configuration.Yaml" Version="7.0.0"/>
@@ -36,6 +37,7 @@
     <PackageReference Include="NuGet.Resolver" Version="6.7.0"/>
   </ItemGroup>
 
+  <!-- embedded resources -->
   <ItemGroup>
     <Content Include="appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest"/>
     <Content Include="appsettings.toml" Link="appsettings.toml" CopyToOutputDirectory="PreserveNewest"/>

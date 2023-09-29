@@ -12,6 +12,7 @@
     <Version>0.0.25</Version>
   </PropertyGroup>
 
+  <!-- package dependencies -->
   <ItemGroup>
     <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
