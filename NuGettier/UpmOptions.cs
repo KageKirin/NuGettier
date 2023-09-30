@@ -23,4 +23,10 @@ public static partial class Program
             aliases: new string[] { "--buildmeta-suffix", },
             description: "version buildmeta suffix ('foobar' -> '1.2.3-prerelease+foobar)"
         );
+
+    private static Option<string> UpmToken =
+        new(aliases: new string[] { "--token", }, description: "authentication token required to connect to NPM server")
+        {
+            IsRequired = true,
+        };
 }
