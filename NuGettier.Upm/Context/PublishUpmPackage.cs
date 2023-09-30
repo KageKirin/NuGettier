@@ -34,6 +34,7 @@ public partial class Context
         string? buildmetaSuffix,
         string token,
         bool dryRun,
+        PackageAccessLevel packageAccessLevel,
         CancellationToken cancellationToken
     )
     {
@@ -82,7 +83,7 @@ public partial class Context
                     $"--registry={target.SchemelessUri()}",
                     dryRun ? "--dry-run" : string.Empty,
                     "--verbose",
-                    "--access public" // TODO: add argument `--access [restricted|public]`
+                    $"--access {packageAccessLevel.ToString().ToLowerInvariant()}"
                 );
 
                 process.Start();

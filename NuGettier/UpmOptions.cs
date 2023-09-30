@@ -31,4 +31,30 @@ public static partial class Program
         };
 
     private static Option<bool> UpmDryRun = new(aliases: new string[] { "--dry-run", "-n" }, description: "Dry run");
+
+    private static Option<Upm.PackageAccessLevel> UpmPackageAccessLevel =
+        new(
+            aliases: new string[] { "--access", "-a", },
+            //getDefaultValue => Upm.PackageAccessLevel.Public,
+            parseArgument: result =>
+            {
+                if (result.Tokens.Count != 1)
+                {
+                    result.ErrorMessage = "--access requires 1 argument";
+                }
+                else
+                {
+                    switch (result.Tokens.First().Value.ToLowerInvariant())
+                    {
+                        case "public":
+                            return Upm.PackageAccessLevel.Public;
+
+                        case "private":
+                            return Upm.PackageAccessLevel.Private;
+                    }
+                }
+                return Upm.PackageAccessLevel.Public;
+            },
+            description: $"package access level: [{string.Join("|", Enum.GetValues(typeof(Upm.PackageAccessLevel)).Cast<Upm.PackageAccessLevel>()).ToLowerInvariant()}]"
+        );
 }
