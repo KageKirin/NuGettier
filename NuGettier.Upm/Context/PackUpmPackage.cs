@@ -118,7 +118,7 @@ public partial class Context
             // add meta files
             files.AddMetaFiles(packageJson.Name);
 
-            var packageIdentifier = $"{packageJson.Name}.{packageJson.Version}";
+            var packageIdentifier = $"{packageJson.Name}-{packageJson.Version}";
             return new Tuple<string, FileDictionary>(packageIdentifier, files);
         }
 

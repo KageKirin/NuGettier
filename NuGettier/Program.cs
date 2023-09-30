@@ -23,7 +23,7 @@ public static partial class Program
             UpmCommand,
         };
         cmd.Name = "dotnet-nugettier";
-        cmd.Description = "Extended NuGet helper util";
+        cmd.Description = "Extended NuGet helper utility";
 
         return await cmd.InvokeAsync(args);
     }
