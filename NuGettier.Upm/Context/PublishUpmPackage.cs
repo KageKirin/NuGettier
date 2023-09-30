@@ -33,6 +33,8 @@ public partial class Context
         string? prereleaseSuffix,
         string? buildmetaSuffix,
         string token,
+        bool dryRun,
+        PackageAccessLevel packageAccessLevel,
         CancellationToken cancellationToken
     )
     {
@@ -79,9 +81,9 @@ public partial class Context
                     "publish",
                     packageFile,
                     $"--registry={target.SchemelessUri()}",
-                    "--dry-run", // TODO: add argument `--n/--dry-run`
+                    dryRun ? "--dry-run" : string.Empty,
                     "--verbose",
-                    "--access public" // TODO: add argument `--access [restricted|public]`
+                    $"--access {packageAccessLevel.ToString().ToLowerInvariant()}"
                 );
 
                 process.Start();
