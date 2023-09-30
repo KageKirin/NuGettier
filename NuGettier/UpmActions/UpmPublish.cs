@@ -25,6 +25,7 @@ public static partial class Program
             UpmPrereleaseSuffixOption,
             UpmBuildmetaSuffixOption,
             UpmToken,
+            UpmDryRun,
         }.WithHandler(CommandHandler.Create(UpmPublish));
 
     private static async Task<int> UpmPublish(
@@ -38,6 +39,7 @@ public static partial class Program
         string? prereleaseSuffix,
         string? buildmetaSuffix,
         string token,
+        bool dryRun,
         IConsole console,
         CancellationToken cancellationToken
     )
@@ -52,6 +54,7 @@ public static partial class Program
             prereleaseSuffix: prereleaseSuffix,
             buildmetaSuffix: buildmetaSuffix,
             token: token,
+            dryRun: dryRun,
             cancellationToken: cancellationToken
         );
 

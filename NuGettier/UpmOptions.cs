@@ -29,4 +29,6 @@ public static partial class Program
         {
             IsRequired = true,
         };
+
+    private static Option<bool> UpmDryRun = new(aliases: new string[] { "--dry-run", "-n" }, description: "Dry run");
 }
