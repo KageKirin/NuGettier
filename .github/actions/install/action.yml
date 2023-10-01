@@ -1,0 +1,21 @@
+name: Install NuGettier
+runs:
+  using: composite
+  steps:
+  - name: Display license
+    shell: bash
+    run: |-
+      echo "By running this installation script"
+      echo "you automatically agree to the license terms of this Software Product"
+      echo ""
+      cat LICENSE
+  - name: Install
+    shell: bash
+    run: |-
+      dotnet nuget add source --name kagekirin-github "https://nuget.pkg.github.com/KageKirin/index.json"
+      tool install NuGettier -g
+  - name: Verify installation
+    shell: bash
+    run: |-
+      which dotnet-nugettier
+      dotnet nugettier --version
