@@ -8,12 +8,12 @@ runs:
       echo "By running this installation script"
       echo "you automatically agree to the license terms of this Software Product"
       echo ""
-      curl https://raw.githubusercontent.com/KageKirin/NuGettier/main/LICENSE
+      curl -s https://raw.githubusercontent.com/KageKirin/NuGettier/main/LICENSE
   - name: Install
     shell: bash
     run: |-
-      dotnet nuget add source --name kagekirin-github "https://nuget.pkg.github.com/KageKirin/index.json"
-      tool install NuGettier -g
+      dotnet nuget add source --username ${{ github.actor }} --password ${{ github.token }} --store-password-in-clear-text --name kagekirin-github "https://nuget.pkg.github.com/KageKirin/index.json"
+      dotnet tool install NuGettier -g
   - name: Verify installation
     shell: bash
     run: |-
