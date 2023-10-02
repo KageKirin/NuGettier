@@ -24,6 +24,7 @@ runs:
     with:
       framework: net7.0
       configuration: Release
+      exclude: Prototype
   - uses: kagekirin/gha-dotnet/.github/actions/nuget-pack@main
     with:
       framework: net7.0
