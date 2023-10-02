@@ -8,7 +8,7 @@ runs:
       echo "By running this installation script"
       echo "you automatically agree to the license terms of this Software Product"
       echo ""
-      cat LICENSE
+      curl https://raw.githubusercontent.com/KageKirin/NuGettier/main/LICENSE
   - name: Install
     shell: bash
     run: |-
