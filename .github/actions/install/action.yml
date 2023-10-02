@@ -13,7 +13,7 @@ runs:
     shell: bash
     run: |-
       dotnet nuget add source --name kagekirin-github "https://nuget.pkg.github.com/KageKirin/index.json"
-      tool install NuGettier -g
+      dotnet tool install NuGettier -g
   - name: Verify installation
     shell: bash
     run: |-
