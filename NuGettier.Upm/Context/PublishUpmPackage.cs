@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Reflection;
 using System.CommandLine;
+using System.CommandLine.IO;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;

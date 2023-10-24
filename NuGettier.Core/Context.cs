@@ -19,7 +19,7 @@ public partial class Context : IDisposable
     public Uri Source { get; protected set; }
     public SourceCacheContext Cache { get; protected set; }
     public SourceRepository Repository { get; protected set; }
-    public IConsole console { get; set; }
+    public IConsole Console { get; set; }
 
     public Context(Uri source, string? username, string? password, IConsole console)
     {
@@ -43,7 +43,7 @@ public partial class Context : IDisposable
             };
 
         this.Repository = NuGet.Protocol.Core.Types.Repository.Factory.GetCoreV3(packageSource);
-        this.console = console;
+        this.Console = console;
     }
 
     public void Dispose() { }
