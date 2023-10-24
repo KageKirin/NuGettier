@@ -30,6 +30,8 @@ public static partial class Program
             SpecificVersionOption,
             OutputJsonOption,
             SourceRepositoryOption,
+            SourceRepositoryUsernameOption,
+            SourceRepositoryPasswordOption,
         }
             .WithValidator(ValidateLatestOrVersion)
             .WithHandler(CommandHandler.Create(Info));
@@ -41,11 +43,13 @@ public static partial class Program
         string version,
         bool json,
         Uri source,
+        string? username,
+        string? password,
         IConsole console,
         CancellationToken cancellationToken
     )
     {
-        using var context = new Core.Context(source: source, console: console);
+        using var context = new Core.Context(source: source, username: username, password: password, console: console);
         var package = await context.GetPackageInformation(
             packageName: packageName,
             preRelease: preRelease,

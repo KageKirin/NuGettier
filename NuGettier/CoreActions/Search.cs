@@ -27,17 +27,21 @@ public static partial class Program
             SearchTermArgument,
             OutputJsonOption,
             SourceRepositoryOption,
+            SourceRepositoryUsernameOption,
+            SourceRepositoryPasswordOption,
         }.WithHandler(CommandHandler.Create(Search));
 
     private static async Task<int> Search(
         string searchTerm,
         bool json,
         Uri source,
+        string? username,
+        string? password,
         IConsole console,
         CancellationToken cancellationToken
     )
     {
-        using var context = new Core.Context(source: source, console: console);
+        using var context = new Core.Context(source: source, username: username, password: password, console: console);
         var results = await context.SearchPackages(searchTerm: searchTerm, cancellationToken: cancellationToken);
 
         if (json)

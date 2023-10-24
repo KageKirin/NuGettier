@@ -45,6 +45,24 @@ public static partial class Program
             IsRequired = true,
         };
 
+    private static Option<string> SourceRepositoryUsernameOption =
+        new(
+            aliases: new string[] { "--username", },
+            description: "username or API user for source NuGet repository to fetch from"
+        )
+        {
+            IsRequired = false, // optional, b/c public repos don't need one
+        };
+
+    private static Option<string> SourceRepositoryPasswordOption =
+        new(
+            aliases: new string[] { "--password", },
+            description: "password or API key for source NuGet repository to fetch from"
+        )
+        {
+            IsRequired = false, // optional, b/c public repos don't need one
+        };
+
     private static Option<Uri> TargetRegistryOption =
         new(aliases: new string[] { "--target", "-t" }, description: "target NPM registry to publish to")
         {

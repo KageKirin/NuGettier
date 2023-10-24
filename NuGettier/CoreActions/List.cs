@@ -28,6 +28,8 @@ public static partial class Program
             IncludePrereleaseOption,
             OutputJsonOption,
             SourceRepositoryOption,
+            SourceRepositoryUsernameOption,
+            SourceRepositoryPasswordOption,
         }.WithHandler(CommandHandler.Create(List));
 
     private static async Task<int> List(
@@ -35,11 +37,13 @@ public static partial class Program
         bool preRelease,
         bool json,
         Uri source,
+        string? username,
+        string? password,
         IConsole console,
         CancellationToken cancellationToken
     )
     {
-        using var context = new Core.Context(source: source, console: console);
+        using var context = new Core.Context(source: source, username: username, password: password, console: console);
         var results = await context.GetPackageVersions(
             packageName: packageName,
             preRelease: preRelease,
