@@ -9,7 +9,7 @@
 
   <!-- build metadata -->
   <PropertyGroup>
-    <Version>0.0.32</Version>
+    <Version>0.0.33</Version>
   </PropertyGroup>
 
   <!-- embedded files -->
