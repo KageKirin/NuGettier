@@ -23,9 +23,26 @@ public partial class Context : IDisposable
 
     public Context(Uri source, string? username, string? password, IConsole console)
     {
+        console.WriteLine($"username: {username}");
+        console.WriteLine($"password: {password}");
         this.source = source;
         this.cache = new();
-        this.repository = Repository.Factory.GetCoreV3($"{source.ToString()}");
+        PackageSource packageSource =
+            new(source.ToString(), @"source")
+            {
+                Credentials =
+                    (username is not null && password is not null)
+                        ? PackageSourceCredential.FromUserInput(
+                            source: @"source",
+                            username: username,
+                            password: password,
+                            storePasswordInClearText: true,
+                            validAuthenticationTypesText: null
+                        )
+                        : null,
+            };
+
+        this.repository = Repository.Factory.GetCoreV3(packageSource);
         this.console = console;
     }
 
