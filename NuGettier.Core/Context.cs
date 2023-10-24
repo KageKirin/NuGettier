@@ -21,7 +21,7 @@ public partial class Context : IDisposable
     public SourceRepository repository { get; protected set; }
     public IConsole console { get; set; }
 
-    public Context(Uri source, IConsole console)
+    public Context(Uri source, string? username, string? password, IConsole console)
     {
         this.source = source;
         this.cache = new();
