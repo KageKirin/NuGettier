@@ -28,7 +28,9 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        FindPackageByIdResource resource = await repository.GetResourceAsync<FindPackageByIdResource>();
+        FindPackageByIdResource resource = await repository.GetResourceAsync<FindPackageByIdResource>(
+            cancellationToken
+        );
         IEnumerable<NuGetVersion> versions = await resource.GetAllVersionsAsync(
             packageName,
             cache,
