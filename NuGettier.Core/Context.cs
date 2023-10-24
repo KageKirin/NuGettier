@@ -16,17 +16,17 @@ namespace NuGettier.Core;
 
 public partial class Context : IDisposable
 {
-    public Uri source { get; protected set; }
-    public SourceCacheContext cache { get; protected set; }
-    public SourceRepository repository { get; protected set; }
-    public IConsole console { get; set; }
+    public Uri Source { get; protected set; }
+    public SourceCacheContext Cache { get; protected set; }
+    public SourceRepository Repository { get; protected set; }
+    public IConsole Console { get; set; }
 
     public Context(Uri source, string? username, string? password, IConsole console)
     {
         console.WriteLine($"username: {username}");
         console.WriteLine($"password: {password}");
-        this.source = source;
-        this.cache = new();
+        this.Source = source;
+        this.Cache = new();
         PackageSource packageSource =
             new(source.ToString(), @"source")
             {
@@ -42,8 +42,8 @@ public partial class Context : IDisposable
                         : null,
             };
 
-        this.repository = Repository.Factory.GetCoreV3(packageSource);
-        this.console = console;
+        this.Repository = NuGet.Protocol.Core.Types.Repository.Factory.GetCoreV3(packageSource);
+        this.Console = console;
     }
 
     public void Dispose() { }

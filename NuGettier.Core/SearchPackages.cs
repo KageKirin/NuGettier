@@ -23,7 +23,7 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        PackageSearchResource resource = await repository.GetResourceAsync<PackageSearchResource>(cancellationToken);
+        PackageSearchResource resource = await Repository.GetResourceAsync<PackageSearchResource>(cancellationToken);
         SearchFilter searchFilter = new SearchFilter(includePrerelease: true);
 
         return await resource.SearchAsync(

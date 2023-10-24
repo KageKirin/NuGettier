@@ -90,7 +90,7 @@ public partial class Context
             // create package.json
             var packageJson = nuspecReader.GenerateUpmPackageJson(
                 framework: selectedFramework,
-                targetRegistry: target,
+                targetRegistry: Target,
                 assemblyName: assemblyName,
                 async (dependencyPackageName, dependencyPackageVersion) =>
                 {
