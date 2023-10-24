@@ -43,7 +43,7 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
-        using var context = new Core.Context(source: source, console: console);
+        using var context = new Core.Context(source: source, username: username, password: password, console: console);
         var results = await context.GetPackageVersions(
             packageName: packageName,
             preRelease: preRelease,
