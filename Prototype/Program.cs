@@ -57,7 +57,9 @@ foreach (var source in sources)
 
 
 #region metadata
-PackageMetadataResource packageMetadataResource = await repository.GetResourceAsync<PackageMetadataResource>();
+PackageMetadataResource packageMetadataResource = await repository.GetResourceAsync<PackageMetadataResource>(
+    cancellationToken
+);
 IEnumerable<IPackageSearchMetadata> packages = await packageMetadataResource.GetMetadataAsync(
     PACKAGE,
     includePrerelease: false,
@@ -77,7 +79,9 @@ foreach (IPackageSearchMetadata package in packages)
 #endregion
 
 #region versions
-FindPackageByIdResource packageIdResource = await repository.GetResourceAsync<FindPackageByIdResource>();
+FindPackageByIdResource packageIdResource = await repository.GetResourceAsync<FindPackageByIdResource>(
+    cancellationToken
+);
 IEnumerable<NuGetVersion> versions = await packageIdResource.GetAllVersionsAsync(
     PACKAGE,
     cache,
@@ -92,7 +96,9 @@ foreach (NuGetVersion version in versions)
 #endregion
 
 #region search packages
-PackageSearchResource packageSearchResource = await repository.GetResourceAsync<PackageSearchResource>();
+PackageSearchResource packageSearchResource = await repository.GetResourceAsync<PackageSearchResource>(
+    cancellationToken
+);
 SearchFilter searchFilter = new SearchFilter(includePrerelease: true);
 
 IEnumerable<IPackageSearchMetadata> results = await packageSearchResource.SearchAsync(
@@ -111,7 +117,9 @@ foreach (IPackageSearchMetadata result in results)
 #endregion
 
 #region download package
-FindPackageByIdResource findPackageByIdResource = await repository.GetResourceAsync<FindPackageByIdResource>();
+FindPackageByIdResource findPackageByIdResource = await repository.GetResourceAsync<FindPackageByIdResource>(
+    cancellationToken
+);
 
 NuGetVersion packageVersion = new NuGetVersion("7.0.3");
 using MemoryStream packageStream = new MemoryStream();

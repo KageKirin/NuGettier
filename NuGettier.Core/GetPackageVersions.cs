@@ -24,7 +24,9 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        PackageMetadataResource resource = await repository.GetResourceAsync<PackageMetadataResource>();
+        PackageMetadataResource resource = await repository.GetResourceAsync<PackageMetadataResource>(
+            cancellationToken
+        );
         return await resource.GetMetadataAsync(
             packageName,
             includePrerelease: preRelease,
