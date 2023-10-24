@@ -24,7 +24,7 @@ public static partial class MetaGen
             lower = xxHash64.ComputeHash(Encoding.UTF8.GetBytes(value), upper);
         }
 
-        public override string ToString()
+        public override readonly string ToString()
         {
             return $"{upper:x8}{lower:x8}";
         }
