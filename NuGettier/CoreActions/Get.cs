@@ -30,6 +30,8 @@ public static partial class Program
             RetrieveLatestOption,
             SpecificVersionOption,
             SourceRepositoryOption,
+            SourceRepositoryUsernameOption,
+            SourceRepositoryPasswordOption,
             OutputDirectoryOption,
         }
             .WithValidator(ValidateLatestOrVersion)
@@ -41,6 +43,8 @@ public static partial class Program
         bool latest,
         string version,
         Uri source,
+        string? username,
+        string? password,
         DirectoryInfo outputDirectory,
         IConsole console,
         CancellationToken cancellationToken
