@@ -30,6 +30,8 @@ public static partial class Program
             SpecificVersionOption,
             OutputJsonOption,
             SourceRepositoryOption,
+            SourceRepositoryUsernameOption,
+            SourceRepositoryPasswordOption,
         }
             .WithValidator(ValidateLatestOrVersion)
             .WithHandler(CommandHandler.Create(Info));
@@ -41,6 +43,8 @@ public static partial class Program
         string version,
         bool json,
         Uri source,
+        string? username,
+        string? password,
         IConsole console,
         CancellationToken cancellationToken
     )
