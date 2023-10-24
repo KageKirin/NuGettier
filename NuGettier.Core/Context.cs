@@ -17,7 +17,7 @@ namespace NuGettier.Core;
 public partial class Context : IDisposable
 {
     public Uri Source { get; protected set; }
-    public SourceCacheContext cache { get; protected set; }
+    public SourceCacheContext Cache { get; protected set; }
     public SourceRepository repository { get; protected set; }
     public IConsole console { get; set; }
 
@@ -26,7 +26,7 @@ public partial class Context : IDisposable
         console.WriteLine($"username: {username}");
         console.WriteLine($"password: {password}");
         this.Source = source;
-        this.cache = new();
+        this.Cache = new();
         PackageSource packageSource =
             new(source.ToString(), @"source")
             {

@@ -31,7 +31,7 @@ public partial class Context
             packageName,
             includePrerelease: preRelease,
             includeUnlisted: false,
-            cache,
+            Cache,
             NullLogger.Instance,
             cancellationToken
         );
