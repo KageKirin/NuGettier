@@ -37,7 +37,7 @@ public partial class Context
         IPackageSearchMetadata? package = null;
         if (latest)
         {
-            return packages.Last();
+            return packages.First();
         }
 
         NuGetVersion cmpVersion = new(version);
