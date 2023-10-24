@@ -64,7 +64,7 @@ public partial class Context
             using (var npmrcWriter = new StreamWriter(File.OpenWrite(Path.Join(tempDir, ".npmrc"))))
             {
                 // format is "//${schemeless_registry}/:_authToken=${token}"
-                npmrcWriter.WriteLine($"//{target.SchemelessUri()}:_authToken={token}");
+                npmrcWriter.WriteLine($"//{Target.SchemelessUri()}:_authToken={token}");
             }
 
             try
@@ -81,7 +81,7 @@ public partial class Context
                     " ",
                     "publish",
                     packageFile,
-                    $"--registry={target.SchemelessUri()}",
+                    $"--registry={Target.SchemelessUri()}",
                     dryRun ? "--dry-run" : string.Empty,
                     "--verbose",
                     $"--access {packageAccessLevel.ToString().ToLowerInvariant()}"
