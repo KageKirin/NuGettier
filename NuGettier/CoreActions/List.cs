@@ -28,6 +28,8 @@ public static partial class Program
             IncludePrereleaseOption,
             OutputJsonOption,
             SourceRepositoryOption,
+            SourceRepositoryUsernameOption,
+            SourceRepositoryPasswordOption,
         }.WithHandler(CommandHandler.Create(List));
 
     private static async Task<int> List(
@@ -35,6 +37,8 @@ public static partial class Program
         bool preRelease,
         bool json,
         Uri source,
+        string? username,
+        string? password,
         IConsole console,
         CancellationToken cancellationToken
     )
