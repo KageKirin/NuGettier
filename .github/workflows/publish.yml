@@ -50,3 +50,9 @@ jobs:
       with:
         registry: ${{ matrix.registry }}
         token: ${{ secrets[matrix.token] }}
+
+  test-install:
+    runs-on: ubuntu-latest
+    needs: nuget
+    steps:
+    - uses: kagekirin/nugettier/.github/actions/install@main
