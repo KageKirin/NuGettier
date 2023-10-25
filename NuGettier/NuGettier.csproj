@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- build settings -->
-  <PropertyGroup>
+  <PropertyGroup Label="build settings">
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -12,15 +11,13 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <!-- build metadata -->
-  <PropertyGroup>
+  <PropertyGroup Label="version metadata">
     <Version>0.0.35</Version>
     <AssemblyVersion>0.0.35.0</AssemblyVersion>
     <FileVersion>0.0.35.0</FileVersion>
   </PropertyGroup>
 
-  <!-- tool metadata -->
-  <PropertyGroup>
+  <PropertyGroup Label="tool metadata">
     <ToolCommandName>dotnet-nugettier</ToolCommandName>
   </PropertyGroup>
 
