@@ -15,9 +15,6 @@
   <!-- build metadata -->
   <PropertyGroup>
     <Version>0.0.35</Version>
-    <RepositoryUrl>https://github.com/KageKirin/NuGettier</RepositoryUrl>
-    <Authors>Chris Helmich</Authors>
-    <Company>KageKirin</Company>
   </PropertyGroup>
 
   <!-- tool metadata -->
