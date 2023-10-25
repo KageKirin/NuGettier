@@ -12,7 +12,7 @@ runs:
   - name: Install
     shell: bash
     run: |-
-      dotnet tool install NuGettier -g
+      dotnet tool install NuGettier -g --prerelease
   - name: Verify installation
     shell: bash
     run: |-
