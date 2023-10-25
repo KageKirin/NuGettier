@@ -17,8 +17,7 @@
     <FileVersion>0.0.35.0</FileVersion>
   </PropertyGroup>
 
-  <!-- package dependencies -->
-  <ItemGroup>
+  <ItemGroup Label="package dependencies">
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" Version="7.0.0"/>
     <PackageReference Include="Alexinea.Extensions.Configuration.Yaml" Version="7.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0"/>
@@ -34,8 +33,7 @@
     <PackageReference Include="NuGet.Resolver" Version="6.7.0"/>
   </ItemGroup>
 
-  <!-- embedded resources -->
-  <ItemGroup>
+  <ItemGroup Label="embedded resources">
     <Content Include="appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest"/>
     <Content Include="appsettings.toml" Link="appsettings.toml" CopyToOutputDirectory="PreserveNewest"/>
     <Content Include="appsettings.ini" Link="appsettings.ini" CopyToOutputDirectory="PreserveNewest"/>
