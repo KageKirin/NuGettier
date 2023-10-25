@@ -12,7 +12,6 @@ runs:
   - name: Install
     shell: bash
     run: |-
-      dotnet nuget add source --username ${{ github.actor }} --password ${{ github.token }} --store-password-in-clear-text --name kagekirin-github "https://nuget.pkg.github.com/KageKirin/index.json"
       dotnet tool install NuGettier -g
   - name: Verify installation
     shell: bash
