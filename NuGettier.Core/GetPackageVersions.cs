@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text.Json;
@@ -27,7 +28,7 @@ public partial class Context
         PackageMetadataResource resource = await Repository.GetResourceAsync<PackageMetadataResource>(
             cancellationToken
         );
-        return await resource.GetMetadataAsync(
+        var packages = await resource.GetMetadataAsync(
             packageName,
             includePrerelease: preRelease,
             includeUnlisted: false,
@@ -35,5 +36,6 @@ public partial class Context
             NullLogger.Instance,
             cancellationToken
         );
+        return packages.OrderByDescending(p => p.Identity.Version);
     }
 }
