@@ -12,15 +12,13 @@
     <FileVersion>0.0.35.0</FileVersion>
   </PropertyGroup>
 
-  <!-- embedded files -->
-  <ItemGroup>
+  <ItemGroup Label="embedded files">
     <EmbeddedResource Include="Templates/README.md"/>
     <EmbeddedResource Include="Templates/CHANGELOG.md"/>
     <EmbeddedResource Include="Templates/LICENSE.md"/>
   </ItemGroup>
 
-  <!-- package dependencies -->
-  <ItemGroup>
+  <ItemGroup Label="package dependencies">
     <PackageReference Include="Handlebars.Net" Version="2.1.4"/>
     <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
@@ -34,13 +32,11 @@
     <PackageReference Include="System.Text.Json" Version="7.0.3"/>
   </ItemGroup>
 
-  <!-- project references -->
-  <ItemGroup>
+  <ItemGroup Label="project references">
     <ProjectReference Include="..\NuGettier.Core\NuGettier.Core.csproj"/>
   </ItemGroup>
 
-  <!-- packaged files -->
-  <ItemGroup>
+  <ItemGroup Label="packaged files">
     <None Include="$(MSBuildThisFileDirectory)Icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
