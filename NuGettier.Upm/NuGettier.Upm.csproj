@@ -1,26 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- build settings -->
-  <PropertyGroup>
+  <PropertyGroup Label="build settings">
     <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <!-- build metadata -->
-  <PropertyGroup>
+  <PropertyGroup Label="version metadata">
     <Version>0.0.35</Version>
+    <AssemblyVersion>0.0.35.0</AssemblyVersion>
+    <FileVersion>0.0.35.0</FileVersion>
   </PropertyGroup>
 
-  <!-- embedded files -->
-  <ItemGroup>
+  <PropertyGroup Label="project metadata">
+    <Title>NuGettier.Upm</Title>
+    <Description>UPM/NPM-specific library for NuGettier, implements package content generation for UPM (NPM) packages.</Description>
+    <PackageTags>npm;upm</PackageTags>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl>https://raw.github.com/kagekirin/NuGettier/main/NuGettier.Upm/Icon.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <ItemGroup Label="embedded files">
     <EmbeddedResource Include="Templates/README.md"/>
     <EmbeddedResource Include="Templates/CHANGELOG.md"/>
     <EmbeddedResource Include="Templates/LICENSE.md"/>
   </ItemGroup>
 
-  <!-- package dependencies -->
-  <ItemGroup>
+  <ItemGroup Label="package dependencies">
     <PackageReference Include="Handlebars.Net" Version="2.1.4"/>
     <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
@@ -34,9 +39,12 @@
     <PackageReference Include="System.Text.Json" Version="7.0.3"/>
   </ItemGroup>
 
-  <!-- project references -->
-  <ItemGroup>
+  <ItemGroup Label="project references">
     <ProjectReference Include="..\NuGettier.Core\NuGettier.Core.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup Label="packaged files">
+    <None Include="$(MSBuildThisFileDirectory)Icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
