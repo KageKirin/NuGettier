@@ -41,4 +41,9 @@
     <ProjectReference Include="..\NuGettier.Core\NuGettier.Core.csproj"/>
   </ItemGroup>
 
+  <!-- packaged files -->
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
 </Project>
