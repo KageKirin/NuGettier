@@ -12,8 +12,7 @@
     <FileVersion>0.0.35.0</FileVersion>
   </PropertyGroup>
 
-  <!-- package dependencies -->
-  <ItemGroup>
+  <ItemGroup Label="package dependencies">
     <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
     <PackageReference Include="NuGet.Packaging" Version="6.7.0"/>
@@ -23,8 +22,7 @@
     <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta4.22272.1"/>
   </ItemGroup>
 
-  <!-- packaged files -->
-  <ItemGroup>
+  <ItemGroup Label="packaged files">
     <None Include="$(MSBuildThisFileDirectory)Icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
