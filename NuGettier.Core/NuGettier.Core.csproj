@@ -12,6 +12,14 @@
     <FileVersion>0.0.35.0</FileVersion>
   </PropertyGroup>
 
+  <PropertyGroup Label="project metadata">
+    <Title>NuGettier.Core</Title>
+    <Description>Core library for NuGettier, wraps NuGet API calls into simpler async functions.</Description>
+    <PackageTags>NuGet</PackageTags>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl>https://raw.github.com/kagekirin/NuGettier/main/NuGettier.Core/Icon.png</PackageIconUrl>
+  </PropertyGroup>
+
   <ItemGroup Label="package dependencies">
     <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
