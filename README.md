@@ -1,6 +1,6 @@
 # NuGettier
 
-A nuget helper tool for dotnet.
+A nuget helper tool for dotnet with integrated support for Unity package creation.
 
 ## Installation
 
