@@ -17,6 +17,14 @@
     <FileVersion>0.0.35.0</FileVersion>
   </PropertyGroup>
 
+  <PropertyGroup Label="project metadata">
+    <Title>NuGettier</Title>
+    <Description>A nuget helper tool for dotnet with integrated support for Unity package creation.</Description>
+    <PackageTags>NuGet;npm;upm;unity</PackageTags>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl>https://raw.github.com/kagekirin/NuGettier/main/NuGettier/Icon.png</PackageIconUrl>
+  </PropertyGroup>
+
   <PropertyGroup Label="tool metadata">
     <ToolCommandName>dotnet-nugettier</ToolCommandName>
   </PropertyGroup>
