@@ -24,54 +24,59 @@ public partial class Context
         string packageName,
         bool preRelease,
         bool latest,
-        string version,
+        string? version,
         CancellationToken cancellationToken
     )
     {
-        FindPackageByIdResource resource = await Repository.GetResourceAsync<FindPackageByIdResource>(
+        IEnumerable<FindPackageByIdResource> resources = await Repositories.GetResourceAsync<FindPackageByIdResource>(
             cancellationToken
         );
-        IEnumerable<NuGetVersion> versions = await resource.GetAllVersionsAsync(
-            packageName,
-            Cache,
-            NullLogger.Instance,
-            cancellationToken
-        );
+        IEnumerable<NuGetVersion> versions = (
+            await resources.GetAllVersionsAsync(packageName, Cache, NullLogger.Instance, cancellationToken)
+        ).Distinct();
 
-        NuGetVersion? packageVersion = null;
+        NuGetVersion? packageVersion = default;
         if (latest)
         {
             packageVersion = versions.Last();
         }
-        else
+        else if (version != null)
         {
             packageVersion = new NuGetVersion(version);
         }
 
-        if (
-            packageVersion != null
-            && await resource.DoesPackageExistAsync(
-                packageName,
-                packageVersion!,
-                Cache,
-                NullLogger.Instance,
-                cancellationToken
-            )
-        )
+        // no assert here
+        // `null` is a valid case when latest==true and no version could not be retrieved (b/c package doesn't exist, e.g.)
+        if (packageVersion != null)
         {
-            MemoryStream packageStream = new MemoryStream();
+            // return first match
+            foreach (var resource in resources)
+            {
+                if (
+                    await resource.DoesPackageExistAsync(
+                        packageName,
+                        packageVersion!,
+                        Cache,
+                        NullLogger.Instance,
+                        cancellationToken
+                    )
+                )
+                {
+                    MemoryStream packageStream = new();
+                    await resource.CopyNupkgToStreamAsync(
+                        packageName,
+                        packageVersion!,
+                        packageStream,
+                        Cache,
+                        NullLogger.Instance,
+                        cancellationToken
+                    );
 
-            await resource.CopyNupkgToStreamAsync(
-                packageName,
-                packageVersion!,
-                packageStream,
-                Cache,
-                NullLogger.Instance,
-                cancellationToken
-            );
-
-            return packageStream;
+                    return packageStream;
+                }
+            }
         }
+
         return null;
     }
 }
