@@ -8,8 +8,8 @@ public partial class Context : Core.Context
 {
     public Uri Target { get; protected set; }
 
-    public Context(Uri source, string? username, string? password, Uri target, IConsole console)
-        : base(source, username, password, console)
+    public Context(Uri source, Uri target, IConsole console)
+        : base(source, console)
     {
         this.Target = target;
     }

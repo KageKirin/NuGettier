@@ -21,8 +21,6 @@ public static partial class Program
             SpecificVersionOption,
             FrameworkOption,
             SourceRepositoryOption,
-            SourceRepositoryUsernameOption,
-            SourceRepositoryPasswordOption,
             TargetRegistryOption,
             UpmPrereleaseSuffixOption,
             UpmBuildmetaSuffixOption,
@@ -38,8 +36,6 @@ public static partial class Program
         string version,
         string framework,
         Uri source,
-        string? username,
-        string? password,
         Uri target,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
@@ -50,13 +46,7 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
-        using var context = new Upm.Context(
-            source: source,
-            username: username,
-            password: password,
-            target: target,
-            console: console
-        );
+        using var context = new Upm.Context(source: source, target: target, console: console);
         var result = await context.PublishUpmPackage(
             packageName: packageName,
             preRelease: preRelease,

@@ -21,8 +21,16 @@ public partial class Context : IDisposable
     public SourceRepository Repository { get; protected set; }
     public IConsole Console { get; set; }
 
-    public Context(Uri source, string? username, string? password, IConsole console)
+    public Context(Uri source, IConsole console)
     {
+        string? username = null;
+        string? password = null;
+        if (!string.IsNullOrEmpty(source.UserInfo))
+        {
+            var userInfo = source.UserInfo.Split(':');
+            username = userInfo[0];
+            password = userInfo[1];
+        }
         console.WriteLine($"username: {username}");
         console.WriteLine($"password: {password}");
         this.Source = source;

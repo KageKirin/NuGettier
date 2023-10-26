@@ -30,8 +30,6 @@ public static partial class Program
             RetrieveLatestOption,
             SpecificVersionOption,
             SourceRepositoryOption,
-            SourceRepositoryUsernameOption,
-            SourceRepositoryPasswordOption,
             OutputDirectoryOption,
         }
             .WithValidator(ValidateLatestOrVersion)
@@ -43,14 +41,12 @@ public static partial class Program
         bool latest,
         string version,
         Uri source,
-        string? username,
-        string? password,
         DirectoryInfo outputDirectory,
         IConsole console,
         CancellationToken cancellationToken
     )
     {
-        using var context = new Core.Context(source: source, username: username, password: password, console: console);
+        using var context = new Core.Context(source: source, console: console);
         using var packageStream = await context.FetchPackage(
             packageName: packageName,
             preRelease: preRelease,
