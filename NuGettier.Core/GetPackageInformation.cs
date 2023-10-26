@@ -34,10 +34,9 @@ public partial class Context
             cancellationToken: cancellationToken
         );
 
-        IPackageSearchMetadata? package = null;
         if (latest)
         {
-            return packages.First();
+            return packages.FirstOrDefault();
         }
 
         NuGetVersion cmpVersion = new(version);
