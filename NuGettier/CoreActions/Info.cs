@@ -29,7 +29,7 @@ public static partial class Program
             RetrieveLatestOption,
             SpecificVersionOption,
             OutputJsonOption,
-            SourceRepositoryOption,
+            SourceRepositoriesOption,
         }
             .WithValidator(ValidateLatestOrVersion)
             .WithHandler(CommandHandler.Create(Info));
@@ -40,12 +40,12 @@ public static partial class Program
         bool latest,
         string version,
         bool json,
-        Uri source,
+        IEnumerable<Uri> sources,
         IConsole console,
         CancellationToken cancellationToken
     )
     {
-        using var context = new Core.Context(source: source, console: console);
+        using var context = new Core.Context(sources: sources, console: console);
         var package = await context.GetPackageInformation(
             packageName: packageName,
             preRelease: preRelease,

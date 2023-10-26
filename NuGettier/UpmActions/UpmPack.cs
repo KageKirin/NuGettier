@@ -32,7 +32,7 @@ public static partial class Program
             RetrieveLatestOption,
             SpecificVersionOption,
             FrameworkOption,
-            SourceRepositoryOption,
+            SourceRepositoriesOption,
             TargetRegistryOption,
             OutputDirectoryOption,
             UpmPrereleaseSuffixOption,
@@ -45,7 +45,7 @@ public static partial class Program
         bool latest,
         string version,
         string framework,
-        Uri source,
+        IEnumerable<Uri> sources,
         Uri target,
         DirectoryInfo outputDirectory,
         string? prereleaseSuffix,
@@ -54,7 +54,7 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
-        using var context = new Upm.Context(source: source, target: target, console: console);
+        using var context = new Upm.Context(sources: sources, target: target, console: console);
         var tuple = await context.PackUpmPackage(
             packageName: packageName,
             preRelease: preRelease,

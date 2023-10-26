@@ -26,18 +26,18 @@ public static partial class Program
         {
             SearchTermArgument,
             OutputJsonOption,
-            SourceRepositoryOption,
+            SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(Search));
 
     private static async Task<int> Search(
         string searchTerm,
         bool json,
-        Uri source,
+        IEnumerable<Uri> sources,
         IConsole console,
         CancellationToken cancellationToken
     )
     {
-        using var context = new Core.Context(source: source, console: console);
+        using var context = new Core.Context(sources: sources, console: console);
         var results = await context.SearchPackages(searchTerm: searchTerm, cancellationToken: cancellationToken);
 
         if (json)

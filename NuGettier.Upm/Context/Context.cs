@@ -8,8 +8,8 @@ public partial class Context : Core.Context
 {
     public Uri Target { get; protected set; }
 
-    public Context(Uri source, Uri target, IConsole console)
-        : base(source, console)
+    public Context(IEnumerable<Uri> sources, Uri target, IConsole console)
+        : base(sources, console)
     {
         this.Target = target;
     }

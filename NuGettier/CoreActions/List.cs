@@ -27,19 +27,19 @@ public static partial class Program
             PackageNameArgument,
             IncludePrereleaseOption,
             OutputJsonOption,
-            SourceRepositoryOption,
+            SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(List));
 
     private static async Task<int> List(
         string packageName,
         bool preRelease,
         bool json,
-        Uri source,
+        IEnumerable<Uri> sources,
         IConsole console,
         CancellationToken cancellationToken
     )
     {
-        using var context = new Core.Context(source: source, console: console);
+        using var context = new Core.Context(sources: sources, console: console);
         var results = await context.GetPackageVersions(
             packageName: packageName,
             preRelease: preRelease,

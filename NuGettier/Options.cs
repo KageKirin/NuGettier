@@ -39,10 +39,13 @@ public static partial class Program
             IsRequired = true,
         };
 
-    private static Option<Uri> SourceRepositoryOption =
-        new(aliases: new string[] { "--source", "-s" }, description: "source NuGet repository to fetch from")
+    private static Option<Uri[]> SourceRepositoriesOption =
+        new(aliases: new string[] { "--source", "-s" }, description: "source NuGet repositories to fetch from")
         {
+            Name = "sources",
             IsRequired = true,
+            AllowMultipleArgumentsPerToken = false, //< explicitly one value per --source argument
+            Arity = ArgumentArity.OneOrMore,
         };
 
     private static Option<string> SourceRepositoryUsernameOption =

@@ -20,7 +20,7 @@ public static partial class Program
             RetrieveLatestOption,
             SpecificVersionOption,
             FrameworkOption,
-            SourceRepositoryOption,
+            SourceRepositoriesOption,
             TargetRegistryOption,
             UpmPrereleaseSuffixOption,
             UpmBuildmetaSuffixOption,
@@ -35,7 +35,7 @@ public static partial class Program
         bool latest,
         string version,
         string framework,
-        Uri source,
+        IEnumerable<Uri> sources,
         Uri target,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
@@ -46,7 +46,7 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
-        using var context = new Upm.Context(source: source, target: target, console: console);
+        using var context = new Upm.Context(sources: sources, target: target, console: console);
         var result = await context.PublishUpmPackage(
             packageName: packageName,
             preRelease: preRelease,
