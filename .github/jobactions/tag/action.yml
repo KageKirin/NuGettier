@@ -43,10 +43,16 @@ runs:
 
       foreach ($project in @(fdfind "csproj$"))
       {
+        $revision = "$(git rev-list --all --count -- $project)"
+        $assemblyVersion = "$version.${{ github.run_id }}"
+        $fileVersion = "$version.$revision"
         echo "patching $project"
+        echo "assembly version: $assemblyVersion"
+        echo "file version: $fileVersion"
+
         csproj-version set --version $version $project
-        csproj-version set --version $version.${{ github.run_id }} --xpath '//PropertyGroup/AssemblyVersion' --regex $mmpr_regex $project
-        csproj-version set --version $version.$(git rev-list --all --count -- $project) --xpath '//PropertyGroup/FileVersion' --regex $mmpr_regex $project
+        csproj-version set --version $assemblyVersion --xpath '//PropertyGroup/AssemblyVersion' --regex "$mmpr_regex" $project
+        csproj-version set --version $fileVersion     --xpath '//PropertyGroup/FileVersion'     --regex "$mmpr_regex" $project
         git add $project
       }
 
