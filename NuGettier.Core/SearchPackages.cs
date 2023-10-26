@@ -23,18 +23,27 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        IEnumerable<PackageSearchResource> resources = await Repositories.GetResourceAsync<PackageSearchResource>(
-            cancellationToken
-        );
         SearchFilter searchFilter = new(includePrerelease: true);
 
-        return await resources.SearchAsync(
-            searchTerm,
-            searchFilter,
-            skip: 0,
-            take: 100,
-            NullLogger.Instance,
-            cancellationToken
-        );
+        List<IPackageSearchMetadata> results = new();
+        foreach (var repository in Repositories)
+        {
+            PackageSearchResource resource = await repository.GetResourceAsync<PackageSearchResource>(
+                cancellationToken
+            );
+
+            results.AddRange(
+                await resource.SearchAsync(
+                    searchTerm,
+                    searchFilter,
+                    skip: 0,
+                    take: 100,
+                    NullLogger.Instance,
+                    cancellationToken
+                )
+            );
+        }
+
+        return results;
     }
 }

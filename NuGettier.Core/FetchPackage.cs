@@ -28,29 +28,29 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        IEnumerable<FindPackageByIdResource> resources = await Repositories.GetResourceAsync<FindPackageByIdResource>(
-            cancellationToken
-        );
-        IEnumerable<NuGetVersion> versions = (
-            await resources.GetAllVersionsAsync(packageName, Cache, NullLogger.Instance, cancellationToken)
-        ).Distinct();
+        foreach (var repository in Repositories)
+        {
+            FindPackageByIdResource resource = await repository.GetResourceAsync<FindPackageByIdResource>(
+                cancellationToken
+            );
 
-        NuGetVersion? packageVersion = default;
-        if (latest)
-        {
-            packageVersion = versions.Last();
-        }
-        else if (version != null)
-        {
-            packageVersion = new NuGetVersion(version);
-        }
+            IEnumerable<NuGetVersion> versions = (
+                await resource.GetAllVersionsAsync(packageName, Cache, NullLogger.Instance, cancellationToken)
+            ).Distinct();
 
-        // no assert here
-        // `null` is a valid case when latest==true and no version could not be retrieved (b/c package doesn't exist, e.g.)
-        if (packageVersion != null)
-        {
-            // return first match
-            foreach (var resource in resources)
+            NuGetVersion? packageVersion = default;
+            if (latest)
+            {
+                packageVersion = versions.Last();
+            }
+            else if (version != null)
+            {
+                packageVersion = new NuGetVersion(version);
+            }
+
+            // no assert here
+            // `null` is a valid case when latest==true and no version could not be retrieved (b/c package doesn't exist, e.g.)
+            if (packageVersion != null)
             {
                 if (
                     await resource.DoesPackageExistAsync(
