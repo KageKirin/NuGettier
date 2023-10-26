@@ -36,7 +36,7 @@ public partial class Context
 
         if (latest)
         {
-            return packages.First();
+            return packages.FirstOrDefault();
         }
 
         NuGetVersion cmpVersion = new(version);
