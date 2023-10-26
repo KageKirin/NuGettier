@@ -34,12 +34,12 @@ public static partial class Program
         string packageName,
         bool preRelease,
         bool json,
-        Uri source,
+        IEnumerable<Uri> sources,
         IConsole console,
         CancellationToken cancellationToken
     )
     {
-        using var context = new Core.Context(source: source, console: console);
+        using var context = new Core.Context(source: sources.First(), console: console);
         var results = await context.GetPackageVersions(
             packageName: packageName,
             preRelease: preRelease,
