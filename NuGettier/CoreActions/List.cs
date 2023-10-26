@@ -27,7 +27,7 @@ public static partial class Program
             PackageNameArgument,
             IncludePrereleaseOption,
             OutputJsonOption,
-            SourceRepositoryOption,
+            SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(List));
 
     private static async Task<int> List(

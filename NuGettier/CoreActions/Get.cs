@@ -29,7 +29,7 @@ public static partial class Program
             IncludePrereleaseOption,
             RetrieveLatestOption,
             SpecificVersionOption,
-            SourceRepositoryOption,
+            SourceRepositoriesOption,
             OutputDirectoryOption,
         }
             .WithValidator(ValidateLatestOrVersion)

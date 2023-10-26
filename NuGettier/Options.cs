@@ -39,8 +39,8 @@ public static partial class Program
             IsRequired = true,
         };
 
-    private static Option<Uri> SourceRepositoryOption =
-        new(aliases: new string[] { "--source", "-s" }, description: "source NuGet repository to fetch from")
+    private static Option<Uri> SourceRepositoriesOption =
+        new(aliases: new string[] { "--source", "-s" }, description: "source NuGet repositories to fetch from")
         {
             IsRequired = true,
         };

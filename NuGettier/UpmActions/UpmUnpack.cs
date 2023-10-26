@@ -32,7 +32,7 @@ public static partial class Program
             RetrieveLatestOption,
             SpecificVersionOption,
             FrameworkOption,
-            SourceRepositoryOption,
+            SourceRepositoriesOption,
             TargetRegistryOption,
             OutputDirectoryOption,
             UpmPrereleaseSuffixOption,

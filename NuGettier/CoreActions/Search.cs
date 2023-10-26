@@ -26,7 +26,7 @@ public static partial class Program
         {
             SearchTermArgument,
             OutputJsonOption,
-            SourceRepositoryOption,
+            SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(Search));
 
     private static async Task<int> Search(

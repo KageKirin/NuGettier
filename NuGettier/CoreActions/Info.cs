@@ -29,7 +29,7 @@ public static partial class Program
             RetrieveLatestOption,
             SpecificVersionOption,
             OutputJsonOption,
-            SourceRepositoryOption,
+            SourceRepositoriesOption,
         }
             .WithValidator(ValidateLatestOrVersion)
             .WithHandler(CommandHandler.Create(Info));
