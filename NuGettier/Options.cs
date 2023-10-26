@@ -44,7 +44,7 @@ public static partial class Program
         {
             Name = "sources",
             IsRequired = true,
-            AllowMultipleArgumentsPerToken = true,
+            AllowMultipleArgumentsPerToken = false, //< explicitly one value per --source argument
             Arity = ArgumentArity.OneOrMore,
         };
 
