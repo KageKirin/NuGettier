@@ -23,6 +23,9 @@ public partial class Context : IDisposable
 
     public Context(Uri source, IConsole console)
     {
+        var userInfo = source.UserInfo.Split(':');
+        string? username = userInfo[0];
+        string? password = userInfo[1];
         console.WriteLine($"username: {username}");
         console.WriteLine($"password: {password}");
         this.Source = source;
