@@ -32,12 +32,12 @@ public static partial class Program
     private static async Task<int> Search(
         string searchTerm,
         bool json,
-        Uri source,
+        IEnumerable<Uri> sources,
         IConsole console,
         CancellationToken cancellationToken
     )
     {
-        using var context = new Core.Context(source: source, console: console);
+        using var context = new Core.Context(source: sources.First(), console: console);
         var results = await context.SearchPackages(searchTerm: searchTerm, cancellationToken: cancellationToken);
 
         if (json)
