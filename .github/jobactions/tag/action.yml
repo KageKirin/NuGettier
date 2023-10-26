@@ -37,7 +37,7 @@ runs:
       git --no-pager status
       git --no-pager tag -l --sort=-v:refname | head -n 1
 
-      $mmpr_regex = "^(?<major>0|[1-9]\\d*)\\.(?<minor>0|[1-9]\\d*)\\.(?<patch>0|[1-9]\\d*)\\.(?<revision>0|[1-9]\\d*)"
+      $mmpr_regex = '^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)\.(?<revision>0|[1-9]\d*)'
       $version = "${{ steps.update-git-tag.outputs.version }}"
       echo "Version: $version"
 
@@ -51,8 +51,8 @@ runs:
         echo "file version: $fileVersion"
 
         csproj-version set --version $version $project
-        csproj-version set --version $assemblyVersion --xpath '//PropertyGroup/AssemblyVersion' --regex "$mmpr_regex" $project
-        csproj-version set --version $fileVersion     --xpath '//PropertyGroup/FileVersion'     --regex "$mmpr_regex" $project
+        csproj-version set --version $assemblyVersion --xpath '//PropertyGroup/AssemblyVersion' --regex $mmpr_regex $project
+        csproj-version set --version $fileVersion     --xpath '//PropertyGroup/FileVersion'     --regex $mmpr_regex $project
         git add $project
       }
 
