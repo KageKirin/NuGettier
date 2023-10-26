@@ -23,6 +23,29 @@ namespace NuGettier.Core;
 
 public static class IEnumerableFindPackageByIdResourceExtension
 {
+    public static async Task<IEnumerable<bool>> DoesPackageExistAsync(
+        this IEnumerable<FindPackageByIdResource> findPackageByIdResources,
+        string id,
+        NuGetVersion version,
+        SourceCacheContext cacheContext,
+        ILogger logger,
+        CancellationToken cancellationToken
+    )
+    {
+        return await Task.WhenAll(
+            findPackageByIdResources.Select(
+                r =>
+                    r.DoesPackageExistAsync(
+                        id: id,
+                        version: version,
+                        cacheContext: cacheContext,
+                        logger: logger,
+                        cancellationToken: cancellationToken
+                    )
+            )
+        );
+    }
+
     public static async Task<IEnumerable<NuGetVersion>> GetAllVersionsAsync(
         this IEnumerable<FindPackageByIdResource> findPackageByIdResources,
         string id,
