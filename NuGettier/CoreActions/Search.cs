@@ -27,16 +27,12 @@ public static partial class Program
             SearchTermArgument,
             OutputJsonOption,
             SourceRepositoryOption,
-            SourceRepositoryUsernameOption,
-            SourceRepositoryPasswordOption,
         }.WithHandler(CommandHandler.Create(Search));
 
     private static async Task<int> Search(
         string searchTerm,
         bool json,
         Uri source,
-        string? username,
-        string? password,
         IConsole console,
         CancellationToken cancellationToken
     )
