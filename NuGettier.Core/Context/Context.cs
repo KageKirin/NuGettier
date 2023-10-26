@@ -29,6 +29,7 @@ public partial class Context : IDisposable
 
         Repositories = Sources.Select(source =>
         {
+            var requestSource = source.GetComponents(UriComponents.HttpRequestUrl, UriFormat.UriEscaped);
             string? username = null;
             string? password = null;
             if (!string.IsNullOrEmpty(source.UserInfo))
@@ -40,7 +41,7 @@ public partial class Context : IDisposable
             console.WriteLine($"username: {username}");
             console.WriteLine($"password: {password}");
             PackageSource packageSource =
-                new(source.ToString(), source.Authority)
+                new(requestSource, source.Authority)
                 {
                     Credentials =
                         (username is not null && password is not null)
