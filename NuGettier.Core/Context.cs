@@ -16,12 +16,12 @@ namespace NuGettier.Core;
 
 public partial class Context : IDisposable
 {
-    public Uri Source { get; protected set; }
+    public IEnumerable<Uri> Sources { get; protected set; }
     public SourceCacheContext Cache { get; protected set; }
     public SourceRepository Repository { get; protected set; }
     public IConsole Console { get; set; }
 
-    public Context(Uri source, IConsole console)
+    public Context(IEnumerable<Uri> sources, IConsole console)
     {
         string? username = null;
         string? password = null;
