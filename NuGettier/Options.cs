@@ -42,6 +42,7 @@ public static partial class Program
     private static Option<Uri[]> SourceRepositoriesOption =
         new(aliases: new string[] { "--source", "-s" }, description: "source NuGet repositories to fetch from")
         {
+            Name = "sources",
             IsRequired = true,
             AllowMultipleArgumentsPerToken = true,
             Arity = ArgumentArity.OneOrMore,
