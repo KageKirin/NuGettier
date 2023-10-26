@@ -40,13 +40,13 @@ public static partial class Program
         bool preRelease,
         bool latest,
         string version,
-        Uri source,
+        IEnumerable<Uri> sources,
         DirectoryInfo outputDirectory,
         IConsole console,
         CancellationToken cancellationToken
     )
     {
-        using var context = new Core.Context(source: source, console: console);
+        using var context = new Core.Context(source: sources.First(), console: console);
         using var packageStream = await context.FetchPackage(
             packageName: packageName,
             preRelease: preRelease,
