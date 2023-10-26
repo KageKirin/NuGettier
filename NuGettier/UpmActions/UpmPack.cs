@@ -58,13 +58,7 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
-        using var context = new Upm.Context(
-            source: source,
-            username: username,
-            password: password,
-            target: target,
-            console: console
-        );
+        using var context = new Upm.Context(source: source, target: target, console: console);
         var tuple = await context.PackUpmPackage(
             packageName: packageName,
             preRelease: preRelease,
