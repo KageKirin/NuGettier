@@ -82,8 +82,11 @@ public partial class Context
 
             // create & add LICENSE
             var license = nuspecReader.GenerateUpmLicense(prereleaseSuffix, buildmetaSuffix);
-            files.Add("LICENSE.md", license);
-            Console.WriteLine($"--- LICENSE\n{license}\n---");
+            if (!files.ContainsKey(@"LICENSE.md"))
+            {
+                files.Add(@"LICENSE.md", license);
+                Console.WriteLine($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
+            }
 
             // create & add CHANGELOG
             var changelog = nuspecReader.GenerateUpmChangelog(prereleaseSuffix, buildmetaSuffix);
