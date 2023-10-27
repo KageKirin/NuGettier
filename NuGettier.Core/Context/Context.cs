@@ -79,5 +79,14 @@ public partial class Context : IDisposable
         });
     }
 
+    public Context(Context other)
+    {
+        Configuration = other.Configuration;
+        Console = other.Console;
+        Sources = other.Sources;
+        Cache = other.Cache;
+        Repositories = other.Repositories;
+    }
+
     public void Dispose() { }
 }
