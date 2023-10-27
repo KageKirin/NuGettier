@@ -9,6 +9,7 @@ using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
+using Microsoft.Extensions.Configuration;
 
 namespace NuGettier.Core;
 
@@ -16,13 +17,15 @@ namespace NuGettier.Core;
 
 public partial class Context : IDisposable
 {
+    public IConfigurationRoot Configuration { get; protected set; }
     public IEnumerable<Uri> Sources { get; protected set; }
     public SourceCacheContext Cache { get; protected set; }
     public IEnumerable<SourceRepository> Repositories { get; protected set; }
     public IConsole Console { get; set; }
 
-    public Context(IEnumerable<Uri> sources, IConsole console)
+    public Context(IConfigurationRoot configuration, IEnumerable<Uri> sources, IConsole console)
     {
+        Configuration = configuration;
         Console = console;
         Sources = sources;
         Cache = new();
