@@ -10,6 +10,7 @@ using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
 using Microsoft.Extensions.Configuration;
+using Xunit;
 
 namespace NuGettier.Core;
 
@@ -25,6 +26,7 @@ public partial class Context : IDisposable
 
     public Context(IConfigurationRoot configuration, IEnumerable<Uri> sources, IConsole console)
     {
+        Assert.NotNull(configuration);
         Configuration = configuration;
         Console = console;
         Sources = sources;
