@@ -27,6 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="package dependencies">
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0"/>
     <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
     <PackageReference Include="NuGet.Packaging" Version="6.7.0"/>
