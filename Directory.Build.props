@@ -41,7 +41,7 @@
     <Company>KageKirin</Company>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>CHANGELOG.md</PackageReleaseNotes>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageLicenseExpression>BUSL-1.0 AND SSPL-1.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
