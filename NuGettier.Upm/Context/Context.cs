@@ -14,4 +14,10 @@ public partial class Context : Core.Context
     {
         this.Target = target;
     }
+
+    public Context(Context other)
+        : base(other)
+    {
+        Target = other.Target;
+    }
 }
