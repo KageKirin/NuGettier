@@ -19,6 +19,7 @@ using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
 using NuGettier.Upm;
 using NuGettier.Upm.TarGz;
+using Xunit;
 
 namespace NuGettier;
 
@@ -54,6 +55,7 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
+        Assert.NotNull(Configuration);
         using var context = new Upm.Context(
             configuration: Configuration!,
             sources: sources,
