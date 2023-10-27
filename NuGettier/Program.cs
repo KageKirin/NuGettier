@@ -16,12 +16,22 @@ namespace NuGettier;
 
 public static partial class Program
 {
-    private static IConfigurationRoot? Configuration;
+    private static IConfigurationRoot? configurationRoot = null;
+    private static IConfigurationRoot Configuration
+    {
+        get
+        {
+            // Config.GlobalLocation = Path.Combine(Directory.GetCurrentDirectory(), "Content", "global.netconfig");
+            // Config.SystemLocation = Path.Combine(Directory.GetCurrentDirectory(), "Content", ".netconfig");
+            configurationRoot ??= new ConfigurationBuilder()
+                .AddDotNetConfig()
+                .Build();
+            return configurationRoot;
+        }
+    }
+
     static async Task<int> Main(string[] args)
     {
-        var Configuration = new ConfigurationBuilder()
-            .AddDotNetConfig()
-            .Build();
 
         var cmd = new RootCommand("Extended NuGet helper utility")
         { //
