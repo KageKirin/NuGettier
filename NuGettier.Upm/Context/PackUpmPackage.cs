@@ -74,18 +74,27 @@ public partial class Context
 
             // create & add README
             var readme = nuspecReader.GenerateUpmReadme(assemblyName, prereleaseSuffix, buildmetaSuffix);
-            files.Add("README.md", readme);
-            Console.WriteLine($"--- README\n{readme}\n---");
+            if (!files.ContainsKey(@"README.md"))
+            {
+                files.Add(@"README.md", readme);
+                Console.WriteLine($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
+            }
 
             // create & add LICENSE
             var license = nuspecReader.GenerateUpmLicense(prereleaseSuffix, buildmetaSuffix);
-            files.Add("LICENSE.md", license);
-            Console.WriteLine($"--- LICENSE\n{license}\n---");
+            if (!files.ContainsKey(@"LICENSE.md"))
+            {
+                files.Add(@"LICENSE.md", license);
+                Console.WriteLine($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
+            }
 
             // create & add CHANGELOG
             var changelog = nuspecReader.GenerateUpmChangelog(prereleaseSuffix, buildmetaSuffix);
-            files.Add("CHANGELOG.md", changelog);
-            Console.WriteLine($"--- CHANGELOG\n{changelog}\n---");
+            if (!files.ContainsKey(@"CHANGELOG.md"))
+            {
+                files.Add(@"CHANGELOG.md", license);
+                Console.WriteLine($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
+            }
 
             // create package.json
             var packageJson = nuspecReader.GenerateUpmPackageJson(
