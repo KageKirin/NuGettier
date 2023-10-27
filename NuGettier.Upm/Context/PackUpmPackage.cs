@@ -90,8 +90,11 @@ public partial class Context
 
             // create & add CHANGELOG
             var changelog = nuspecReader.GenerateUpmChangelog(prereleaseSuffix, buildmetaSuffix);
-            files.Add("CHANGELOG.md", changelog);
-            Console.WriteLine($"--- CHANGELOG\n{changelog}\n---");
+            if (!files.ContainsKey(@"CHANGELOG.md"))
+            {
+                files.Add(@"CHANGELOG.md", license);
+                Console.WriteLine($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
+            }
 
             // create package.json
             var packageJson = nuspecReader.GenerateUpmPackageJson(
