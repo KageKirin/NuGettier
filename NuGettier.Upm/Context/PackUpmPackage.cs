@@ -74,8 +74,11 @@ public partial class Context
 
             // create & add README
             var readme = nuspecReader.GenerateUpmReadme(assemblyName, prereleaseSuffix, buildmetaSuffix);
-            files.Add("README.md", readme);
-            Console.WriteLine($"--- README\n{readme}\n---");
+            if (!files.ContainsKey(@"README.md"))
+            {
+                files.Add(@"README.md", readme);
+                Console.WriteLine($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
+            }
 
             // create & add LICENSE
             var license = nuspecReader.GenerateUpmLicense(prereleaseSuffix, buildmetaSuffix);
