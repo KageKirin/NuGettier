@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.CommandLine;
 using NuGet.Common;
 using NuGet.Configuration;
@@ -29,8 +30,22 @@ public partial class Context : IDisposable
         Assert.NotNull(configuration);
         Configuration = configuration;
         Console = console;
-        Sources = sources;
         Cache = new();
+
+
+        Sources = Configuration
+            .GetSection(@"source")
+            .GetChildren()
+            .Select(sourceSection =>
+            {
+                string url =
+                    (string.IsNullOrEmpty(sourceSection["username"]) && string.IsNullOrEmpty(sourceSection["password"]))
+                        ? $"{sourceSection["protocol"]}://{sourceSection.Key}"
+                        : $"{sourceSection["protocol"]}://{sourceSection["username"]}:{sourceSection["password"]}@{sourceSection.Key}";
+                return new Uri(url);
+            })
+            .Concat(sources)
+            .Distinct();
 
         Repositories = Sources.Select(source =>
         {
