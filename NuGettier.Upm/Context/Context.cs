@@ -1,6 +1,7 @@
 using System;
 using System.CommandLine;
 using NuGettier;
+using Microsoft.Extensions.Configuration;
 
 namespace NuGettier.Upm;
 
@@ -8,9 +9,15 @@ public partial class Context : Core.Context
 {
     public Uri Target { get; protected set; }
 
-    public Context(IEnumerable<Uri> sources, Uri target, IConsole console)
-        : base(sources, console)
+    public Context(IConfigurationRoot configuration, IEnumerable<Uri> sources, Uri target, IConsole console)
+        : base(configuration, sources, console)
     {
         this.Target = target;
+    }
+
+    public Context(Context other)
+        : base(other)
+    {
+        Target = other.Target;
     }
 }
