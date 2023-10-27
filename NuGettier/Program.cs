@@ -9,6 +9,7 @@ using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using DotNetConfig;
 using Microsoft.Extensions.Configuration;
+using Xunit;
 
 #nullable enable
 
@@ -32,6 +33,8 @@ public static partial class Program
 
     static async Task<int> Main(string[] args)
     {
+        Assert.NotNull(Configuration);
+
 
         var cmd = new RootCommand("Extended NuGet helper utility")
         { //
