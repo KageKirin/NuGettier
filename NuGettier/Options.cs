@@ -43,7 +43,7 @@ public static partial class Program
         new(aliases: new string[] { "--source", "-s" }, description: "source NuGet repositories to fetch from")
         {
             Name = "sources",
-            IsRequired = true,
+            IsRequired = false,
             AllowMultipleArgumentsPerToken = false, //< explicitly one value per --source argument
             Arity = ArgumentArity.OneOrMore,
         };
