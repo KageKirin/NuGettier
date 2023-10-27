@@ -23,7 +23,7 @@ public static partial class Program
             .AddDotNetConfig()
             .Build();
 
-        var cmd = new RootCommand
+        var cmd = new RootCommand("Extended NuGet helper utility")
         { //
             SearchCommand,
             ListCommand,
@@ -32,7 +32,6 @@ public static partial class Program
             UpmCommand,
         };
         cmd.Name = "dotnet-nugettier";
-        cmd.Description = "Extended NuGet helper utility";
 
         return await cmd.InvokeAsync(args);
     }
