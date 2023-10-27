@@ -17,6 +17,7 @@ using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
+using Xunit;
 
 namespace NuGettier;
 
@@ -46,6 +47,7 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
+        Assert.NotNull(Configuration);
         using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
         using var packageStream = await context.FetchPackage(
             packageName: packageName,
