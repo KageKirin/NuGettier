@@ -7,6 +7,7 @@ using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
+using Xunit;
 
 namespace NuGettier;
 
@@ -46,6 +47,7 @@ public static partial class Program
         CancellationToken cancellationToken
     )
     {
+        Assert.NotNull(Configuration);
         using var context = new Upm.Context(
             configuration: Configuration!,
             sources: sources,
