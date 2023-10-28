@@ -1,7 +1,9 @@
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Reflection;
 using NuGet.Packaging;
 using NuGet.Protocol.Core.Types;
+using NuGet.Packaging.Core;
 
 namespace NuGettier.Upm;
 
@@ -86,14 +88,37 @@ public static class NuspecReaderExtension
                 .GetDependencyGroups()
                 .Where(d => d.TargetFramework.GetShortFolderName() == framework)
                 .SelectMany(d => d.Packages)
-                .Where(p =>
-                {
-                    bool? isIgnored = packageRules.Where(r => r.Id == p.Id).Select(r => r.IsIgnored).FirstOrDefault();
-                    return !(isIgnored ?? false); //< false if isIgnored==true, true else
-                })
+                .Select(
+                    p =>
+                        new KeyValuePair<PackageDependency, Context.PackageRule>(
+                            p,
+                            packageRules
+                                .Where(r => r.Id == p.Id)
+                                .FirstOrDefault(
+                                    new Context.PackageRule(
+                                        Id: p.Id,
+                                        IsIgnored: false,
+                                        Name: (getDependencyName(p.Id, p.VersionRange.ToLegacyShortString())).Result,
+                                        Version: string.Empty
+                                    )
+                                )
+                        )
+                )
+                .Where(pr => !pr.Value.IsIgnored)
                 .ToDictionary(
-                    p => (getDependencyName(p.Id, p.VersionRange.ToLegacyShortString())).Result,
-                    p => p.VersionRange.ToLegacyShortString()
+                    pr => pr.Value.Name,
+                    pr =>
+                    {
+                        if (!string.IsNullOrEmpty(pr.Value.Version))
+                        {
+                            string match = Regex
+                                .Match(pr.Key.VersionRange.ToLegacyShortString(), pr.Value.Version)
+                                .Value;
+                            if (!string.IsNullOrEmpty(match))
+                                return match;
+                        }
+                        return pr.Key.VersionRange.ToLegacyShortString();
+                    }
                 )
         );
     }
