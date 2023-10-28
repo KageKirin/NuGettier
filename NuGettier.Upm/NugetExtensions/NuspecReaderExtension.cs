@@ -96,6 +96,7 @@ public static class NuspecReaderExtension
     public static string GenerateUpmReadme(
         this NuspecReader nuspecReader,
         AssemblyName assemblyName,
+        IEnumerable<Context.PackageRule> packageRules,
         string? prereleaseSuffix = null,
         string? buildmetaSuffix = null
     )
