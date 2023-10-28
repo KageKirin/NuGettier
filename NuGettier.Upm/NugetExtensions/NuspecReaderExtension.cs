@@ -77,7 +77,8 @@ public static class NuspecReaderExtension
     public static StringStringDictionary GetUpmDependencies(
         this NuspecReader nuspecReader,
         string framework,
-        Func<string, string, Task<string?>> getDependencyName
+        Func<string, string, Task<string?>> getDependencyName,
+        IEnumerable<Context.PackageRule> packageRules
     )
     {
         return new StringStringDictionary(
@@ -175,7 +176,7 @@ public static class NuspecReaderExtension
                 DisplayName = nuspecReader.GetUpmDisplayName(framework, assemblyName),
                 Repository = nuspecReader.GetUpmRepository(),
                 PublishingConfiguration = nuspecReader.GetUpmPublishingConfiguration(targetRegistry),
-                Dependencies = nuspecReader.GetUpmDependencies(framework, getDependencyName),
+                Dependencies = nuspecReader.GetUpmDependencies(framework, getDependencyName, packageRules),
             };
 
         return packageJson;
