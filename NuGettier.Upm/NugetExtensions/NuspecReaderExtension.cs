@@ -8,16 +8,28 @@ namespace NuGettier.Upm;
 public static class NuspecReaderExtension
 {
     // put here to keep package name formatting in 1 single location
-
-    public static string GetUpmPackageName(this NuspecReader nuspecReader)
+    public static string GetUpmPackageName(
+        this IPackageSearchMetadata searchMetadata,
+        IEnumerable<Context.PackageRule> packageRules
+    )
     {
-        return GetUpmPackageName(nuspecReader.GetAuthors(), nuspecReader.GetId());
+        return GetUpmPackageName(searchMetadata.Authors, searchMetadata.Identity.Id, packageRules);
     }
 
-    public static string GetUpmPackageName(string author, string id)
+    public static string GetUpmPackageName(
+        this NuspecReader nuspecReader,
+        IEnumerable<Context.PackageRule> packageRules
+    )
     {
-        // TODO: use config string + Handlebars template
-        return $"com.{author}.{id}".ToLowerInvariant().Replace(@" ", @"");
+        return GetUpmPackageName(nuspecReader.GetAuthors(), nuspecReader.GetId(), packageRules);
+    }
+
+    public static string GetUpmPackageName(string author, string id, IEnumerable<Context.PackageRule> packageRules)
+    {
+        return packageRules.Where(p => p.Id == id && !string.IsNullOrEmpty(p.Name)).Select(p => p.Name).FirstOrDefault()
+            ??
+            // TODO: use config string + Handlebars template
+            $"com.{author}.{id}".ToLowerInvariant().Replace(@" ", @"");
     }
 
     public static string GetUpmVersion(
@@ -102,7 +114,7 @@ public static class NuspecReaderExtension
     )
     {
         return ReadmeStringFactory.GenerateReadme(
-            name: $"{nuspecReader.GetUpmName()} ({nuspecReader.GetUpmPackageName()})",
+            name: $"{nuspecReader.GetUpmName()} ({nuspecReader.GetUpmPackageName(packageRules)})",
             version: nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
             description: nuspecReader.GetDescription(),
             applicationName: assemblyName.Name,
@@ -155,7 +167,7 @@ public static class NuspecReaderExtension
         PackageJson packageJson =
             new()
             {
-                Name = nuspecReader.GetUpmPackageName(),
+                Name = nuspecReader.GetUpmPackageName(packageRules),
                 Version = nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
                 License = nuspecReader.GetLicenseMetadata()?.License,
                 Description = nuspecReader.GetDescription(),

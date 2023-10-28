@@ -96,7 +96,7 @@ public partial class Context
                         version: dependencyPackageVersion,
                         cancellationToken: cancellationToken
                     );
-                    return ((IPackageSearchMetadata)dependencyPackage!).GetUpmPackageName();
+                    return ((IPackageSearchMetadata)dependencyPackage!).GetUpmPackageName(PackageRules);
                 },
                 PackageRules,
                 prereleaseSuffix: prereleaseSuffix,
