@@ -98,6 +98,7 @@ public partial class Context
                     );
                     return ((IPackageSearchMetadata)dependencyPackage!).GetUpmPackageName();
                 },
+                PackageRules,
                 prereleaseSuffix: prereleaseSuffix,
                 buildmetaSuffix: buildmetaSuffix
             );

@@ -147,6 +147,7 @@ public static class NuspecReaderExtension
         Uri targetRegistry,
         AssemblyName assemblyName,
         Func<string, string, Task<string?>> getDependencyName,
+        IEnumerable<Context.PackageRule> packageRules,
         string? prereleaseSuffix = null,
         string? buildmetaSuffix = null
     )
