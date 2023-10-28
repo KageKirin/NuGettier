@@ -86,6 +86,11 @@ public static class NuspecReaderExtension
                 .GetDependencyGroups()
                 .Where(d => d.TargetFramework.GetShortFolderName() == framework)
                 .SelectMany(d => d.Packages)
+                .Where(p =>
+                {
+                    bool? isIgnored = packageRules.Where(r => r.Id == p.Id).Select(r => r.IsIgnored).FirstOrDefault();
+                    return !(isIgnored ?? false); //< false if isIgnored==true, true else
+                })
                 .ToDictionary(
                     p => (getDependencyName(p.Id, p.VersionRange.ToLegacyShortString())).Result,
                     p => p.VersionRange.ToLegacyShortString()
