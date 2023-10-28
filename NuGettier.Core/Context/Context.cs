@@ -32,18 +32,20 @@ public partial class Context : IDisposable
         Console = console;
         Cache = new();
 
-
         Sources = Configuration
             .GetSection(@"source")
             .GetChildren()
-            .Select(sourceSection =>
-            {
-                string url =
-                    (string.IsNullOrEmpty(sourceSection["username"]) && string.IsNullOrEmpty(sourceSection["password"]))
-                        ? $"{sourceSection["protocol"]}://{sourceSection.Key}"
-                        : $"{sourceSection["protocol"]}://{sourceSection["username"]}:{sourceSection["password"]}@{sourceSection.Key}";
-                return new Uri(url);
-            })
+            .Select(
+                sourceSection =>
+                    new Uri(
+                        (
+                            string.IsNullOrEmpty(sourceSection.GetValue<string>("username"))
+                            && string.IsNullOrEmpty(sourceSection.GetValue<string>("password"))
+                        )
+                            ? $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection.Key}"
+                            : $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection["username"]}:{sourceSection["password"]}@{sourceSection.Key}"
+                    )
+            )
             .Concat(sources)
             .Distinct();
 
