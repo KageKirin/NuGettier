@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.CommandLine;
 using NuGettier;
@@ -17,6 +18,26 @@ public partial class Context : Core.Context
         : base(configuration, sources, console)
     {
         this.Target = target;
+
+        this.PackageRules = Configuration
+            .GetSection(@"package")
+            .GetChildren()
+            .Select(packageSection =>
+            {
+                console.WriteLine($"package key: {packageSection.Key}");
+                return new PackageRule(
+                    Id: packageSection.Key,
+                    IsIgnored: packageSection.GetValue<bool>("ignore"),
+                    Name: packageSection.GetValue<string>("name") ?? string.Empty,
+                    Version: packageSection.GetValue<string>("version") ?? string.Empty
+                );
+            })
+            .Distinct();
+
+        foreach (var p in PackageRules)
+        {
+            console.WriteLine($"{p}");
+        }
     }
 
     public Context(Context other)
