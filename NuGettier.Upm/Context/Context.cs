@@ -7,6 +7,8 @@ namespace NuGettier.Upm;
 
 public partial class Context : Core.Context
 {
+    public record struct PackageRule(string Id, bool IsIgnored, string Name, string Version);
+
     public Uri Target { get; protected set; }
 
     public Context(IConfigurationRoot configuration, IEnumerable<Uri> sources, Uri target, IConsole console)
