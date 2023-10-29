@@ -32,7 +32,7 @@ public class PackageJson
     public IDictionary<string, string> Dependencies { get; set; } = new StringStringDictionary();
 
     [JsonPropertyName("keywords")]
-    public List<string> Keywords { get; set; } = new List<string>();
+    public IEnumerable<string> Keywords { get; set; } = new List<string>();
 
     [JsonPropertyName("repository")]
     public Repository Repository { get; set; } = new Repository();
