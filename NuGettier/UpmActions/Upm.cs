@@ -15,6 +15,7 @@ public static partial class Program
     private static Command UpmCommand =>
         new Command("upm", "root command for a number of commands specific to Unity packages")
         {
+            UpmInfoCommand,
             UpmPackCommand,
             UpmUnpackCommand,
             UpmPublishCommand,
