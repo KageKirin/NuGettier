@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace NuGettier.Upm;
 
-public class PackageJson
+public record class PackageJson
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = String.Empty;
