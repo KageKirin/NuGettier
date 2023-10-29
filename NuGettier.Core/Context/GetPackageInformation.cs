@@ -20,7 +20,7 @@ namespace NuGettier.Core;
 
 public partial class Context
 {
-    public async Task<IPackageSearchMetadata?> GetPackageInformation(
+    public virtual async Task<IPackageSearchMetadata?> GetPackageInformation(
         string packageName,
         bool preRelease,
         bool latest,
