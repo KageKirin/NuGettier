@@ -19,7 +19,7 @@ namespace NuGettier.Core;
 
 public partial class Context
 {
-    public async Task<IEnumerable<IPackageSearchMetadata>> GetPackageVersions(
+    public virtual async Task<IEnumerable<IPackageSearchMetadata>> GetPackageVersions(
         string packageName,
         bool preRelease,
         CancellationToken cancellationToken

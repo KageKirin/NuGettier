@@ -18,7 +18,7 @@ namespace NuGettier.Core;
 
 public partial class Context
 {
-    public async Task<IEnumerable<IPackageSearchMetadata>> SearchPackages(
+    public virtual async Task<IEnumerable<IPackageSearchMetadata>> SearchPackages(
         string searchTerm,
         CancellationToken cancellationToken
     )

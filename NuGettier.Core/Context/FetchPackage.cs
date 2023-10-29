@@ -20,7 +20,7 @@ namespace NuGettier.Core;
 
 public partial class Context
 {
-    public async Task<MemoryStream?> FetchPackage(
+    public virtual async Task<MemoryStream?> FetchPackage(
         string packageName,
         bool preRelease,
         bool latest,
