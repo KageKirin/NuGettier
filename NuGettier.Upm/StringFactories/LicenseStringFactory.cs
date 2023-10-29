@@ -10,12 +10,10 @@ public static class LicenseStringFactory
 {
     private static async Task<string> GetLicense(Uri licenseUrl)
     {
-        HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(licenseUrl);
-        httpRequest.Timeout = 10000; // 10 secs
-        httpRequest.UserAgent = "NuGettier";
-
-        HttpWebResponse webResponse = (HttpWebResponse)await httpRequest.GetResponseAsync();
-        StreamReader responseStream = new StreamReader(webResponse.GetResponseStream());
+        HttpClientHandler httpClientHandler = new() { UseDefaultCredentials = true, };
+        HttpClient httpClient = new(httpClientHandler) { Timeout = TimeSpan.FromSeconds(10), };
+        var response = await httpClient.GetAsync(licenseUrl);
+        StreamReader responseStream = new(response.Content.ReadAsStream());
 
         return await responseStream.ReadToEndAsync();
     }
