@@ -1,0 +1,108 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.CommandLine;
+using System.CommandLine.NamingConventionBinder;
+using System.CommandLine.Invocation;
+using System.CommandLine.IO;
+using NuGet.Common;
+using NuGet.Configuration;
+using NuGet.Frameworks;
+using NuGet.Packaging;
+using NuGet.Packaging.Core;
+using NuGet.Protocol;
+using NuGet.Protocol.Core.Types;
+using NuGet.Versioning;
+using NuGettier.Upm;
+using NuGettier.Upm.TarGz;
+using Xunit;
+
+namespace NuGettier;
+
+public static partial class Program
+{
+    private static Command UpmInfoCommand =>
+        new Command("info", "preview Unity package informations for the given NuPkg at the given version")
+        {
+            PackageNameArgument,
+            OutputJsonOption,
+            IncludePrereleaseOption,
+            RetrieveLatestOption,
+            SpecificVersionOption,
+            FrameworkOption,
+            SourceRepositoriesOption,
+            TargetRegistryOption,
+            UpmPrereleaseSuffixOption,
+            UpmBuildmetaSuffixOption,
+        }.WithHandler(CommandHandler.Create(UpmInfo));
+
+    private static async Task<int> UpmInfo(
+        string packageName,
+        bool json,
+        bool preRelease,
+        bool latest,
+        string version,
+        string framework,
+        IEnumerable<Uri> sources,
+        Uri target,
+        string? prereleaseSuffix,
+        string? buildmetaSuffix,
+        IConsole console,
+        CancellationToken cancellationToken
+    )
+    {
+        Assert.NotNull(Configuration);
+        using var context = new Upm.Context(
+            configuration: Configuration!,
+            sources: sources,
+            target: target,
+            console: console
+        );
+
+        var package = await context.GetPackageInformation(
+            packageName: packageName,
+            preRelease: preRelease,
+            latest: latest,
+            version: version,
+            cancellationToken: cancellationToken
+        );
+
+        if (package == null)
+            return 1;
+
+        var packageJson = package.ToPackageJson();
+
+        if (json)
+        {
+            console.WriteLine(@$"""packageJson"": {packageJson.ToJson()}");
+        }
+        else
+        {
+            Console.WriteLine($"Name: {packageJson.Name}");
+            Console.WriteLine($"Version: {packageJson.Version}");
+            Console.WriteLine($"DisplayName: {packageJson.DisplayName}");
+            Console.WriteLine($"Description: {packageJson.Description}");
+            Console.WriteLine($"License: {packageJson.License}");
+            Console.WriteLine(
+                $"Author: {packageJson.Author.Name} <{packageJson.Author.Email}> ({packageJson.Author.Url})"
+            );
+            Console.WriteLine(
+                $"Repository: {packageJson.Repository.Url} ({packageJson.Repository.RepoType}) {packageJson.Repository.Directory}"
+            );
+            Console.WriteLine($"Registry: {packageJson.PublishingConfiguration.Registry}");
+            Console.WriteLine($"Keywords: {string.Join(", ", packageJson.Keywords)}");
+            Console.WriteLine($"Files: {string.Join(", ", packageJson.Files)}");
+            Console.WriteLine($"Dependencies:");
+            foreach (var kvp in packageJson.Dependencies)
+            {
+                Console.WriteLine($"- {kvp.Key} @{kvp.Value}");
+            }
+        }
+
+        return 0;
+    }
+}
