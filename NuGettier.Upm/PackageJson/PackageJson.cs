@@ -29,7 +29,7 @@ public class PackageJson
     public List<string> Files { get; set; } = new List<string>() { @"**.meta", @"**.dll", @"**.xml", @"**.md", };
 
     [JsonPropertyName("dependencies")]
-    public StringStringDictionary Dependencies { get; set; } = new StringStringDictionary();
+    public IDictionary<string, string> Dependencies { get; set; } = new StringStringDictionary();
 
     [JsonPropertyName("keywords")]
     public List<string> Keywords { get; set; } = new List<string>();
