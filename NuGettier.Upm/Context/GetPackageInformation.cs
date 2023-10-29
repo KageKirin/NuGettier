@@ -28,6 +28,48 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        return await base.GetPackageInformation(packageName, preRelease, latest, version, cancellationToken);
+        var packageSearchMetadata = await base.GetPackageInformation(
+            packageName,
+            preRelease,
+            latest,
+            version,
+            cancellationToken
+        );
+        if (packageSearchMetadata != null)
+        {
+            CachedMetadata[packageName] = packageSearchMetadata;
+
+            var dependencies = packageSearchMetadata.DependencySets
+                .Where(
+                    dependencyGroup =>
+                        Context.DefaultFrameworks.Contains(dependencyGroup.TargetFramework.GetShortFolderName())
+                )
+                .SelectMany(dependencyGroup => dependencyGroup.Packages)
+                .Distinct();
+
+            var dependencyPackageSearchMetadata = await Task.WhenAll(
+                dependencies.Select(
+                    async dependency =>
+                        await base.GetPackageInformation(
+                            packageName: dependency.Id,
+                            preRelease: true,
+                            latest: false,
+                            version: dependency.VersionRange.ToLegacyShortString(),
+                            cancellationToken: cancellationToken
+                        )
+                )
+            );
+
+            if (dependencyPackageSearchMetadata != null)
+            {
+                foreach (var metadata in dependencyPackageSearchMetadata)
+                {
+                    if (metadata != null)
+                        CachedMetadata[metadata.Identity.Id] = metadata;
+                }
+            }
+        }
+
+        return packageSearchMetadata;
     }
 }
