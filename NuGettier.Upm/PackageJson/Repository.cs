@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace NuGettier.Upm;
 
-public class Repository
+public record class Repository
 {
     [JsonPropertyName("type")]
     public string RepoType { get; set; } = String.Empty;
