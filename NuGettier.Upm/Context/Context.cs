@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.CommandLine;
 using NuGettier;
+using NuGet.Protocol.Core.Types;
 using Microsoft.Extensions.Configuration;
 
 namespace NuGettier.Upm;
@@ -13,11 +14,13 @@ public partial class Context : Core.Context
 
     public Uri Target { get; protected set; }
     public IEnumerable<PackageRule> PackageRules { get; protected set; }
+    public IDictionary<string, IPackageSearchMetadata> CachedMetadata { get; protected set; }
 
     public Context(IConfigurationRoot configuration, IEnumerable<Uri> sources, Uri target, IConsole console)
         : base(configuration, sources, console)
     {
         this.Target = target;
+        this.CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
 
         this.PackageRules = Configuration
             .GetSection(@"package")
@@ -46,5 +49,6 @@ public partial class Context : Core.Context
     {
         Target = other.Target;
         PackageRules = other.PackageRules;
+        CachedMetadata = other.CachedMetadata;
     }
 }
