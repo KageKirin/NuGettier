@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace NuGettier.Upm;
 
-public class PublishingConfiguration
+public record class PublishingConfiguration
 {
     [JsonPropertyName("registry")]
     public string Registry { get; set; } = String.Empty;
