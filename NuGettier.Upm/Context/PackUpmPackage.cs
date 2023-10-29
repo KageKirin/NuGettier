@@ -25,7 +25,7 @@ using NuRepository = NuGet.Protocol.Core.Types.Repository;
 
 public partial class Context
 {
-    static readonly string[] DefaultFrameworks = new[]
+    public static readonly string[] DefaultFrameworks = new[]
     {
         // by order of preference
         "netstandard2.1",
