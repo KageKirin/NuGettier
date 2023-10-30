@@ -63,7 +63,7 @@ public static partial class Program
             console: console
         );
 
-        var package = await context.GetPackageInformation(
+        var packageJson = await context.GetPackageJson(
             packageName: packageName,
             preRelease: preRelease,
             latest: latest,
@@ -71,10 +71,8 @@ public static partial class Program
             cancellationToken: cancellationToken
         );
 
-        if (package == null)
+        if (packageJson == null)
             return 1;
-
-        var packageJson = context.PatchPackageJson(package.ToPackageJson());
 
         if (json)
         {
