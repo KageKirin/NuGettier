@@ -9,14 +9,15 @@ namespace NuGettier.Upm;
 
 public partial class Context : Core.Context
 {
-    public record class PackageRule(string Id, bool IsIgnored, string Name, string Version);
+    public record class PackageRule(string Id, bool IsIgnored, string Name, string Version, string Framework);
 
     public static PackageRule DefaultPackageRule =
         new(
             string.Empty,
             false,
             @"com.{{{package.author}}}.{{{package.id}}}",
-            @"^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)(\.(?<patch>0|[1-9]\d*))?(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
+            @"^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)(\.(?<patch>0|[1-9]\d*))?(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$",
+            string.Empty
         );
 
     public Uri Target { get; protected set; }
@@ -37,7 +38,8 @@ public partial class Context : Core.Context
                     Id: packageSection.Key,
                     IsIgnored: packageSection.GetValue<bool>("ignore"),
                     Name: packageSection.GetValue<string>("name") ?? string.Empty,
-                    Version: packageSection.GetValue<string>("version") ?? string.Empty
+                    Version: packageSection.GetValue<string>("version") ?? string.Empty,
+                    Framework: packageSection.GetValue<string>("framework") ?? string.Empty
                 );
             })
             .Distinct();
