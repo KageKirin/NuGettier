@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.CommandLine;
 using NuGet.Common;
 using NuGet.Configuration;
@@ -26,6 +27,7 @@ public partial class Context : IDisposable
     public SourceCacheContext Cache { get; protected set; }
     public IEnumerable<SourceRepository> Repositories { get; protected set; }
     public IConsole Console { get; set; }
+    public BuildInfo Build { get; protected set; }
 
     public Context(IConfigurationRoot configuration, IEnumerable<Uri> sources, IConsole console)
     {
@@ -33,6 +35,23 @@ public partial class Context : IDisposable
         Configuration = configuration;
         Console = console;
         Cache = new();
+
+        var entryAssembly = Assembly.GetEntryAssembly();
+        var assemblyName = entryAssembly?.GetName();
+        console.WriteLine($"assembly name: {assemblyName?.Name}");
+        console.WriteLine($"assembly version: {assemblyName?.Version?.ToString(3)}");
+        console.WriteLine(
+            $"assembly informational version: {entryAssembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion}"
+        );
+
+        Build = new(
+            AssemblyName: assemblyName?.Name ?? @"unknown assembly",
+            AssemblyVersion: entryAssembly
+                ?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                ?.InformationalVersion
+                ?? assemblyName?.Version?.ToString(3)
+                ?? @"47.1.1"
+        );
 
         Sources = Configuration
             .GetSection(@"source")
@@ -89,6 +108,7 @@ public partial class Context : IDisposable
         Console = other.Console;
         Sources = other.Sources;
         Cache = other.Cache;
+        Build = other.Build;
         Repositories = other.Repositories;
     }
 
