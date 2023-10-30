@@ -26,7 +26,7 @@ public partial class Context : IDisposable
     public IEnumerable<Uri> Sources { get; protected set; }
     public SourceCacheContext Cache { get; protected set; }
     public IEnumerable<SourceRepository> Repositories { get; protected set; }
-    public IConsole Console { get; set; }
+    public IConsole Console { get; protected set; }
     public BuildInfo Build { get; protected set; }
 
     public Context(IConfigurationRoot configuration, IEnumerable<Uri> sources, IConsole console)
