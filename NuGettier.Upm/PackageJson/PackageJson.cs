@@ -28,6 +28,9 @@ public record class PackageJson
     [JsonPropertyName("author")]
     public Person Author { get; set; } = new Person();
 
+    [JsonPropertyName("contributors")]
+    public IEnumerable<Person> Contributors { get; set; } = new List<Person>();
+
     [JsonPropertyName("files")]
     public List<string> Files { get; set; } = new List<string>() { @"**.meta", @"**.dll", @"**.xml", @"**.md", };
 
