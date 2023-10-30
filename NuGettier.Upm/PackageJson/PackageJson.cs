@@ -32,7 +32,7 @@ public record class PackageJson
     public IEnumerable<Person> Contributors { get; set; } = new List<Person>();
 
     [JsonPropertyName("files")]
-    public List<string> Files { get; set; } = new List<string>() { @"**.meta", @"**.dll", @"**.xml", @"**.md", };
+    public IList<string> Files { get; set; } = new List<string>() { @"**.meta", @"**.dll", @"**.xml", @"**.md", };
 
     [JsonPropertyName("dependencies")]
     public IDictionary<string, string> Dependencies { get; set; } = new StringStringDictionary();
