@@ -74,7 +74,7 @@ public static partial class Program
         if (package == null)
             return 1;
 
-        var packageJson = package.ToPackageJson();
+        var packageJson = context.PatchPackageJson(package.ToPackageJson());
 
         if (json)
         {
