@@ -37,6 +37,9 @@ public record class PackageJson
     [JsonPropertyName("dependencies")]
     public IDictionary<string, string> Dependencies { get; set; } = new StringStringDictionary();
 
+    [JsonPropertyName("devDependencies")]
+    public IDictionary<string, string>? DevDependencies { get; set; }
+
     [JsonPropertyName("keywords")]
     public IEnumerable<string> Keywords { get; set; } = new List<string>();
 
