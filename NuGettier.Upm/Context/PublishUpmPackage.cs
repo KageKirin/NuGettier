@@ -30,7 +30,6 @@ public partial class Context
         bool preRelease,
         bool latest,
         string? version,
-        string? framework,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
         string token,
