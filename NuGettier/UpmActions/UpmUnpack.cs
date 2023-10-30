@@ -67,7 +67,6 @@ public static partial class Program
             preRelease: preRelease,
             latest: latest,
             version: version,
-            framework: framework,
             prereleaseSuffix: prereleaseSuffix,
             buildmetaSuffix: buildmetaSuffix,
             cancellationToken: cancellationToken

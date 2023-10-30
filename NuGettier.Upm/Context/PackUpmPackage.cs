@@ -30,7 +30,6 @@ public partial class Context
         bool preRelease,
         bool latest,
         string? version,
-        string? framework,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
         CancellationToken cancellationToken
@@ -53,9 +52,7 @@ public partial class Context
             var executingAssembly = Assembly.GetEntryAssembly();
             var assemblyName = executingAssembly.GetName();
 
-            var selectedFramework = packageReader.SelectPreferredFramework(
-                framework != null ? new[] { framework } : DefaultFrameworks
-            );
+            var selectedFramework = packageReader.SelectPreferredFramework(DefaultFrameworks);
             Console.WriteLine($"selected framework: {selectedFramework}");
 
             var files = packageReader.GetFrameworkFiles(selectedFramework);
