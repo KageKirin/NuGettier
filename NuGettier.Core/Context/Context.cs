@@ -19,6 +19,8 @@ namespace NuGettier.Core;
 
 public partial class Context : IDisposable
 {
+    public record class BuildInfo(string AssemblyName, string AssemblyVersion);
+
     public IConfigurationRoot Configuration { get; protected set; }
     public IEnumerable<Uri> Sources { get; protected set; }
     public SourceCacheContext Cache { get; protected set; }
