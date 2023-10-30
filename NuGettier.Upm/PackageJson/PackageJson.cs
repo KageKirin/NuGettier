@@ -22,6 +22,9 @@ public record class PackageJson
     [JsonPropertyName("description")]
     public string Description { get; set; } = String.Empty;
 
+    [JsonPropertyName("homepage")]
+    public string? Homepage { get; set; }
+
     [JsonPropertyName("author")]
     public Person Author { get; set; } = new Person();
 
