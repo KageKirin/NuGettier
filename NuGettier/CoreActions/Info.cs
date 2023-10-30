@@ -39,7 +39,7 @@ public static partial class Program
         string packageName,
         bool preRelease,
         bool latest,
-        string version,
+        string? version,
         bool json,
         IEnumerable<Uri> sources,
         IConsole console,
