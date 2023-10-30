@@ -9,7 +9,7 @@ namespace NuGettier.Upm;
 
 public partial class Context : Core.Context
 {
-    public record struct PackageRule(string Id, bool IsIgnored, string Name, string Version);
+    public record class PackageRule(string Id, bool IsIgnored, string Name, string Version);
 
     public Uri Target { get; protected set; }
     public IEnumerable<PackageRule> PackageRules { get; protected set; }
