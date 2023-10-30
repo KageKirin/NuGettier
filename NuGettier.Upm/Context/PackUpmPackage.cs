@@ -25,17 +25,6 @@ using NuRepository = NuGet.Protocol.Core.Types.Repository;
 
 public partial class Context
 {
-    public static readonly string[] DefaultFrameworks = new[]
-    {
-        // by order of preference
-        "netstandard2.1",
-        "netstandard2.0",
-        "netstandard1.2",
-        "netstandard1.1",
-        "netstandard1.0",
-        "net462",
-    };
-
     public async Task<Tuple<string, FileDictionary>?> PackUpmPackage(
         string packageName,
         bool preRelease,
