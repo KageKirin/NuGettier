@@ -24,7 +24,7 @@ public partial class Context
         string packageName,
         bool preRelease,
         bool latest,
-        string version,
+        string? version,
         CancellationToken cancellationToken
     )
     {
@@ -37,6 +37,10 @@ public partial class Context
         if (latest)
         {
             return packages.FirstOrDefault();
+        }
+        else if(version == null)
+        {
+            return null;
         }
 
         NuGetVersion cmpVersion = new(version);

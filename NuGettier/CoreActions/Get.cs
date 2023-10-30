@@ -40,7 +40,7 @@ public static partial class Program
         string packageName,
         bool preRelease,
         bool latest,
-        string version,
+        string? version,
         IEnumerable<Uri> sources,
         DirectoryInfo outputDirectory,
         IConsole console,
