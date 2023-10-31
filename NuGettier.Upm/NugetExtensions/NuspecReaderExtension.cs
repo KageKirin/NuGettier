@@ -51,14 +51,4 @@ public static class NuspecReaderExtension
             + $" ({framework} DLL)"
             + $" [repacked by {assemblyName.Name} v{assemblyName.Version?.ToString()}]";
     }
-
-    public static List<string> GetUpmKeywords(this NuspecReader nuspecReader)
-    {
-        List<string> keywords = new();
-        if (!string.IsNullOrWhiteSpace(nuspecReader.GetTags()))
-        {
-            keywords.AddRange(nuspecReader.GetTags().Split(@" "));
-        }
-        return keywords;
-    }
 }
