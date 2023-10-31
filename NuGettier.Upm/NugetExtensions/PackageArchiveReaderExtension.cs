@@ -76,7 +76,7 @@ public static class PackageArchiveReaderExtension
                     f =>
                         new KeyValuePair<string, byte[]>(
                             renameOriginalMarkdownFiles && Path.GetExtension(f) == ".md"
-                                ? $"{Path.GetFileName(f)}.orig.{Path.GetExtension(f)}"
+                                ? $"{Path.GetFileNameWithoutExtension(f)}.orig{Path.GetExtension(f)}"
                                 : f,
                             packageReader.GetBytes(f)
                         )
