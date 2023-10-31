@@ -8,28 +8,37 @@ namespace NuGettier.Upm;
 public record class PackageJson
 {
     [JsonPropertyName("name")]
-    public string Name { get; set; } = String.Empty;
+    public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("version")]
-    public string Version { get; set; } = String.Empty;
+    public string Version { get; set; } = string.Empty;
 
     [JsonPropertyName("license")]
-    public string? License { get; set; } = null;
+    public string License { get; set; } = string.Empty;
 
     [JsonPropertyName("displayName")]
-    public string DisplayName { get; set; } = String.Empty;
+    public string DisplayName { get; set; } = string.Empty;
 
     [JsonPropertyName("description")]
-    public string Description { get; set; } = String.Empty;
+    public string Description { get; set; } = string.Empty;
+
+    [JsonPropertyName("homepage")]
+    public string? Homepage { get; set; }
 
     [JsonPropertyName("author")]
-    public Author Author { get; set; } = new Author();
+    public Person Author { get; set; } = new Person();
+
+    [JsonPropertyName("contributors")]
+    public IEnumerable<Person> Contributors { get; set; } = new List<Person>();
 
     [JsonPropertyName("files")]
-    public List<string> Files { get; set; } = new List<string>() { @"**.meta", @"**.dll", @"**.xml", @"**.md", };
+    public IList<string> Files { get; set; } = new List<string>() { @"**.meta", @"**.dll", @"**.xml", @"**.md", };
 
     [JsonPropertyName("dependencies")]
     public IDictionary<string, string> Dependencies { get; set; } = new StringStringDictionary();
+
+    [JsonPropertyName("devDependencies")]
+    public IDictionary<string, string>? DevDependencies { get; set; }
 
     [JsonPropertyName("keywords")]
     public IEnumerable<string> Keywords { get; set; } = new List<string>();

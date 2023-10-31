@@ -67,9 +67,9 @@ public static class IPackageSearchMetadataExtension
         return packageSearchMetadata.Tags.Split(',', ';', ' ').Where(t => !string.IsNullOrEmpty(t));
     }
 
-    public static Author GetUpmAuthor(this IPackageSearchMetadata packageSearchMetadata)
+    public static Person GetUpmAuthor(this IPackageSearchMetadata packageSearchMetadata)
     {
-        return new Author()
+        return new Person()
         {
             Name = packageSearchMetadata.Authors,
             Url = packageSearchMetadata.ProjectUrl?.ToString(),

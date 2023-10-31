@@ -57,9 +57,9 @@ public static class NuspecReaderExtension
         return keywords;
     }
 
-    public static Author GetUpmAuthor(this NuspecReader nuspecReader)
+    public static Person GetUpmAuthor(this NuspecReader nuspecReader)
     {
-        return new Author() { Name = nuspecReader.GetAuthors(), Url = nuspecReader.GetProjectUrl(), };
+        return new Person() { Name = nuspecReader.GetAuthors(), Url = nuspecReader.GetProjectUrl(), };
     }
 
     public static StringStringDictionary GetUpmDependencies(
