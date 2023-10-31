@@ -24,19 +24,4 @@ public static class NuspecReaderExtension
             // TODO: use config string + Handlebars template
             $"com.{author}.{id}".ToLowerInvariant().Replace(@" ", @"");
     }
-
-    public static string GetUpmVersion(
-        this NuspecReader nuspecReader,
-        string? prereleaseSuffix = null,
-        string? buildmetaSuffix = null
-    )
-    {
-        var version = nuspecReader.GetVersion().ToString();
-        if (prereleaseSuffix != null)
-            version += $"-{prereleaseSuffix}";
-        if (buildmetaSuffix != null)
-            version += $"+{buildmetaSuffix}";
-
-        return version;
-    }
 }
