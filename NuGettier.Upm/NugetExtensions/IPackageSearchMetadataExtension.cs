@@ -70,11 +70,19 @@ public static class IPackageSearchMetadataExtension
 
     public static Person GetUpmAuthor(this IPackageSearchMetadata packageSearchMetadata)
     {
-        return new Person()
+        var firstAuthor = packageSearchMetadata.Authors.Split(',', ';', ' ').First();
+        if (string.IsNullOrEmpty(firstAuthor))
         {
-            Name = packageSearchMetadata.Authors,
-            Url = packageSearchMetadata.ProjectUrl?.ToString(),
-        };
+            firstAuthor = packageSearchMetadata.Owners.Split(',', ';', ' ').First();
+        }
+
+        if (string.IsNullOrEmpty(firstAuthor))
+        {
+            firstAuthor = @"unknown author, early 21st century";
+        }
+
+        return new Person() { Name = firstAuthor, };
+    }
 
     public static IEnumerable<Person>? GetUpmContributors(this IPackageSearchMetadata packageSearchMetadata)
     {
