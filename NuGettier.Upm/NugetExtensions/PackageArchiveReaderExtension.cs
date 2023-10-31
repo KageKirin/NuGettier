@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text;
 using NuGet.Packaging;
 
 namespace NuGettier.Upm;
@@ -81,5 +82,22 @@ public static class PackageArchiveReaderExtension
                         )
                 )
         );
+    }
+
+    public static byte[]? GetReadmeFile(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
+    {
+        if (string.IsNullOrEmpty(nuspecReader.GetReadme()))
+            return null;
+
+        return packageReader.GetBytes(nuspecReader.GetReadme());
+    }
+
+    public static string GetReadme(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
+    {
+        byte[]? data = packageReader.GetReadmeFile(nuspecReader);
+        if (data == null || data.Length == 0)
+            return string.Empty;
+
+        return Encoding.Default.GetString(data);
     }
 }
