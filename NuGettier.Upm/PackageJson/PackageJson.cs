@@ -14,7 +14,7 @@ public record class PackageJson
     public string Version { get; set; } = String.Empty;
 
     [JsonPropertyName("license")]
-    public string? License { get; set; } = null;
+    public string License { get; set; } = String.Empty;
 
     [JsonPropertyName("displayName")]
     public string DisplayName { get; set; } = String.Empty;
