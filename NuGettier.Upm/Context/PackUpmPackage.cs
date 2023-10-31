@@ -18,6 +18,7 @@ using NuGet.Versioning;
 using ICSharpCode.SharpZipLib.Tar;
 using ICSharpCode.SharpZipLib.GZip;
 using NuGettier.Upm.TarGz;
+using Xunit;
 
 namespace NuGettier.Upm;
 
@@ -35,6 +36,29 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
+        // build package.json from package information
+        var packageJson = await GetPackageJson(
+            packageName: packageName,
+            preRelease: preRelease,
+            latest: latest,
+            version: version,
+            cancellationToken: cancellationToken
+        );
+
+        if (packageJson == null)
+            return null;
+
+        // add version suffixes
+        if (!string.IsNullOrEmpty(prereleaseSuffix))
+            packageJson.Version += $"-{prereleaseSuffix}";
+        if (!string.IsNullOrEmpty(buildmetaSuffix))
+            packageJson.Version += $"+{buildmetaSuffix}";
+
+        // get package rule
+        PackageRule packageRule = PackageRules.Where(r => r.Id == packageName).FirstOrDefault(DefaultPackageRule);
+        Assert.NotNull(packageRule);
+
+        // fetch package contents for NuGet
         using var packageStream = await FetchPackage(
             packageName: packageName,
             preRelease: preRelease,
@@ -42,82 +66,61 @@ public partial class Context
             version: version,
             cancellationToken: cancellationToken
         );
-        if (packageStream != null)
+        if (packageStream == null)
+            return null;
+
+        using PackageArchiveReader packageReader = new(packageStream);
+        NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
+
+        var selectedFramework = packageReader.SelectPreferredFramework(
+            !string.IsNullOrEmpty(packageRule.Framework) ? new[] { packageRule.Framework } : DefaultFrameworks
+        );
+        Console.WriteLine($"selected framework: {selectedFramework}");
+
+        var files = packageReader.GetFrameworkFiles(selectedFramework);
+        files.AddRange(packageReader.GetAdditionalFiles(nuspecReader, renameOriginalMarkdownFiles: true));
+
+        // create & add README
+        if (!files.ContainsKey(@"README.md"))
         {
-            using PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
-            NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
-
-            // get nugettier tool name+version
-            // required for README, PackageJson
-            var executingAssembly = Assembly.GetEntryAssembly();
-            var assemblyName = executingAssembly.GetName();
-
-            var selectedFramework = packageReader.SelectPreferredFramework(DefaultFrameworks);
-            Console.WriteLine($"selected framework: {selectedFramework}");
-
-            var files = packageReader.GetFrameworkFiles(selectedFramework);
-            files.AddRange(packageReader.GetAdditionalFiles(nuspecReader, renameOriginalMarkdownFiles: true));
-
-            // create & add README
-            var readme = nuspecReader.GenerateUpmReadme(assemblyName, PackageRules, prereleaseSuffix, buildmetaSuffix);
-            if (!files.ContainsKey(@"README.md"))
-            {
-                files.Add(@"README.md", readme);
-                Console.WriteLine($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
-            }
-
-            // create & add LICENSE
-            var license = nuspecReader.GenerateUpmLicense(prereleaseSuffix, buildmetaSuffix);
-            if (!files.ContainsKey(@"LICENSE.md"))
-            {
-                files.Add(@"LICENSE.md", license);
-                Console.WriteLine($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
-            }
-
-            // create & add CHANGELOG
-            var changelog = nuspecReader.GenerateUpmChangelog(prereleaseSuffix, buildmetaSuffix);
-            if (!files.ContainsKey(@"CHANGELOG.md"))
-            {
-                files.Add(@"CHANGELOG.md", license);
-                Console.WriteLine($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
-            }
-
-            // create package.json
-            var packageJson = nuspecReader.GenerateUpmPackageJson(
-                framework: selectedFramework,
-                targetRegistry: Target,
-                assemblyName: assemblyName,
-                async (dependencyPackageName, dependencyPackageVersion) =>
-                {
-                    var dependencyPackage = await GetPackageInformation(
-                        packageName: dependencyPackageName,
-                        preRelease: true,
-                        latest: false,
-                        version: dependencyPackageVersion,
-                        cancellationToken: cancellationToken
-                    );
-                    return ((IPackageSearchMetadata)dependencyPackage!).GetUpmPackageName(PackageRules);
-                },
-                PackageRules,
-                prereleaseSuffix: prereleaseSuffix,
-                buildmetaSuffix: buildmetaSuffix
-            );
-
-            // add file references to package.json
-            packageJson.Files.AddRange(files.Keys);
-
-            // add package.json
-            var packageJsonString = packageJson.ToJson();
-            files.Add("package.json", packageJsonString);
-            Console.WriteLine($"--- PACKAGE.JSON\n{packageJsonString}\n---");
-
-            // add meta files
-            files.AddMetaFiles(packageJson.Name);
-
-            var packageIdentifier = $"{packageJson.Name}-{packageJson.Version}";
-            return new Tuple<string, FileDictionary>(packageIdentifier, files);
+            var license = packageJson.GenerateReadme(originalReadme: packageReader.GetReadme(nuspecReader));
+            files.Add(@"README.md", license);
+            Console.WriteLine($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
         }
 
-        return null;
+        // create & add LICENSE
+        if (!files.ContainsKey(@"LICENSE.md"))
+        {
+            var license = packageJson.GenerateLicense(
+                originalLicense: packageReader.GetLicense(nuspecReader),
+                copyright: nuspecReader.GetCopyright(),
+                copyrightHolder: nuspecReader.GetOwners()
+            );
+            files.Add(@"LICENSE.md", license);
+            Console.WriteLine($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
+        }
+
+        // create & add CHANGELOG
+        if (!files.ContainsKey(@"CHANGELOG.md"))
+        {
+            var changelog = packageJson.GenerateChangelog(nuspecReader.GetReleaseNotes());
+            files.Add(@"CHANGELOG.md", changelog);
+            Console.WriteLine($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
+        }
+
+        // add file references to package.json
+        packageJson.Files.AddRange(files.Keys);
+
+        // add package.json to FileDictionary
+        Assert.False(files.ContainsKey(@"package.json"));
+        var packageJsonString = packageJson.ToJson();
+        files.Add(@"package.json", packageJsonString);
+        Console.WriteLine($"--- PACKAGE.JSON\n{packageJsonString}\n---");
+
+        // add meta files
+        files.AddMetaFiles(packageJson.Name);
+
+        var packageIdentifier = $"{packageJson.Name}-{packageJson.Version}";
+        return new Tuple<string, FileDictionary>(packageIdentifier, files);
     }
 }

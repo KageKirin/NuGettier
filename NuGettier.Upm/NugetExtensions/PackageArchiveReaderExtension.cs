@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text;
 using NuGet.Packaging;
 
 namespace NuGettier.Upm;
@@ -63,6 +64,7 @@ public static class PackageArchiveReaderExtension
                 nuspecReader.GetReadme(),
                 nuspecReader.GetReleaseNotes(),
                 "LICENSE.TXT",
+                "LICENSE.md",
                 "LICENSE",
             };
 
@@ -74,11 +76,49 @@ public static class PackageArchiveReaderExtension
                     f =>
                         new KeyValuePair<string, byte[]>(
                             renameOriginalMarkdownFiles && Path.GetExtension(f) == ".md"
-                                ? $"{Path.GetFileName(f)}.orig.{Path.GetExtension(f)}"
+                                ? $"{Path.GetFileNameWithoutExtension(f)}.orig{Path.GetExtension(f)}"
                                 : f,
                             packageReader.GetBytes(f)
                         )
                 )
         );
+    }
+
+    public static byte[]? GetReadmeFile(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
+    {
+        if (string.IsNullOrEmpty(nuspecReader.GetReadme()))
+            return null;
+
+        return packageReader.GetBytes(nuspecReader.GetReadme());
+    }
+
+    public static string GetReadme(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
+    {
+        byte[]? data = packageReader.GetReadmeFile(nuspecReader);
+        if (data == null || data.Length == 0)
+            return string.Empty;
+
+        return Encoding.Default.GetString(data);
+    }
+
+    public static byte[]? GetLicenseFile(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
+    {
+        var packageFiles = packageReader.GetFiles();
+        foreach (var f in packageFiles)
+        {
+            if (Path.GetFileName(f).ToLowerInvariant() == @"license")
+                packageReader.GetBytes(f);
+        }
+
+        return null;
+    }
+
+    public static string GetLicense(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
+    {
+        byte[]? data = packageReader.GetLicenseFile(nuspecReader);
+        if (data == null || data.Length == 0)
+            return string.Empty;
+
+        return Encoding.Default.GetString(data);
     }
 }
