@@ -18,9 +18,11 @@ public static class IPackageSearchMetadataExtension
             Version = packageSearchMetadata.GetUpmVersion(),
             License = packageSearchMetadata.GetUpmLicense() ?? string.Empty,
             Description = packageSearchMetadata.GetUpmDescription(),
+            Homepage = packageSearchMetadata.GetUpmHomepage(),
             Keywords = packageSearchMetadata.GetUpmKeywords(),
             DisplayName = packageSearchMetadata.GetUpmDisplayName(),
             Author = packageSearchMetadata.GetUpmAuthor(),
+            Contributors = packageSearchMetadata.GetUpmContributors(),
             Repository = packageSearchMetadata.GetUpmRepository(),
             PublishingConfiguration = packageSearchMetadata.GetUpmPublishingConfiguration(),
             Dependencies = packageSearchMetadata.GetUpmDependencies(),
@@ -58,6 +60,11 @@ public static class IPackageSearchMetadataExtension
         return packageSearchMetadata.Title;
     }
 
+    public static string? GetUpmHomepage(this IPackageSearchMetadata packageSearchMetadata)
+    {
+        return packageSearchMetadata.ProjectUrl?.ToString();
+    }
+
     public static IEnumerable<string> GetUpmKeywords(this IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Tags.Split(',', ';', ' ').Where(t => !string.IsNullOrEmpty(t));
@@ -65,11 +72,27 @@ public static class IPackageSearchMetadataExtension
 
     public static Person GetUpmAuthor(this IPackageSearchMetadata packageSearchMetadata)
     {
-        return new Person()
+        var firstAuthor = packageSearchMetadata.Authors.Split(',', ';', ' ').First();
+        if (string.IsNullOrEmpty(firstAuthor))
         {
-            Name = packageSearchMetadata.Authors,
-            Url = packageSearchMetadata.ProjectUrl?.ToString(),
-        };
+            firstAuthor = packageSearchMetadata.Owners.Split(',', ';', ' ').First();
+        }
+
+        if (string.IsNullOrEmpty(firstAuthor))
+        {
+            firstAuthor = @"unknown author, early 21st century";
+        }
+
+        return new Person() { Name = firstAuthor, };
+    }
+
+    public static IEnumerable<Person>? GetUpmContributors(this IPackageSearchMetadata packageSearchMetadata)
+    {
+        var otherAuthors = packageSearchMetadata.Authors.Split(',', ';', ' ');
+        if (otherAuthors.Length <= 1)
+            return null;
+
+        return otherAuthors[1..].Select(author => new Person() { Name = author, });
     }
 
     public static Repository GetUpmRepository(this IPackageSearchMetadata packageSearchMetadata)
