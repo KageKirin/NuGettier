@@ -113,23 +113,6 @@ public static class NuspecReaderExtension
         return new PublishingConfiguration() { Registry = targetRegistry.ToString(), };
     }
 
-    public static string GenerateUpmReadme(
-        this NuspecReader nuspecReader,
-        AssemblyName assemblyName,
-        IEnumerable<Context.PackageRule> packageRules,
-        string? prereleaseSuffix = null,
-        string? buildmetaSuffix = null
-    )
-    {
-        return ReadmeStringFactory.GenerateReadme(
-            name: $"{nuspecReader.GetUpmName()} ({nuspecReader.GetUpmPackageName(packageRules)})",
-            version: nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
-            description: nuspecReader.GetDescription(),
-            applicationName: assemblyName.Name,
-            applicationVersion: assemblyName.Version.ToString()
-        );
-    }
-
     public static string GenerateUpmLicense(
         this NuspecReader nuspecReader,
         string? prereleaseSuffix = null,
