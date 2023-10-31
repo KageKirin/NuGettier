@@ -58,7 +58,7 @@ public static class NuspecReaderExtension
     {
         return nuspecReader.GetUpmName()
             + $" ({framework} DLL)"
-            + $" [repacked by {assemblyName.Name} v{assemblyName.Version.ToString()}]";
+            + $" [repacked by {assemblyName.Name} v{assemblyName.Version?.ToString()}]";
     }
 
     public static List<string> GetUpmKeywords(this NuspecReader nuspecReader)
