@@ -34,13 +34,9 @@ public partial class Context
             cancellationToken: cancellationToken
         );
 
-        if (latest)
+        if (latest || string.IsNullOrEmpty(version))
         {
             return packages.FirstOrDefault();
-        }
-        else if(version == null)
-        {
-            return null;
         }
 
         NuGetVersion cmpVersion = new(version);
