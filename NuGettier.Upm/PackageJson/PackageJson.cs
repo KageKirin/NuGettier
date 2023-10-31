@@ -23,7 +23,7 @@ public record class PackageJson
     public string Description { get; set; } = String.Empty;
 
     [JsonPropertyName("author")]
-    public Author Author { get; set; } = new Author();
+    public Person Author { get; set; } = new Person();
 
     [JsonPropertyName("files")]
     public List<string> Files { get; set; } = new List<string>() { @"**.meta", @"**.dll", @"**.xml", @"**.md", };
