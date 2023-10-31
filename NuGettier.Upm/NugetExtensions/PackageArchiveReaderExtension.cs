@@ -18,10 +18,13 @@ public static class PackageArchiveReaderExtension
     {
         return packageReader
             .GetFiles("lib")
-            .Select(f => Path.GetDirectoryName(f))
-            .Select(f => f?.Replace("lib/", string.Empty))
+            .Select(f => Path.GetDirectoryName(f) ?? string.Empty)
+            .Where(f => f != null)
+            .Select(f => f!)
+            .Select(f => f.Replace("lib/", string.Empty))
             .Distinct()
-            .OrderDescending();
+            .OrderDescending()
+            .ToList();
     }
 
     public static string SelectPreferredFramework(
