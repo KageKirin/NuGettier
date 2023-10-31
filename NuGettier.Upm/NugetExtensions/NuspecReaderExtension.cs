@@ -61,42 +61,4 @@ public static class NuspecReaderExtension
         }
         return keywords;
     }
-
-    public static StringStringDictionary GetUpmDependencies(
-        this NuspecReader nuspecReader,
-        string framework,
-        Func<string, string, Task<string?>> getDependencyName,
-        IEnumerable<Context.PackageRule> packageRules
-    )
-    {
-        return new StringStringDictionary(
-            nuspecReader
-                .GetDependencyGroups()
-                .Where(d => d.TargetFramework.GetShortFolderName() == framework)
-                .SelectMany(d => d.Packages)
-                .Select(
-                    p =>
-                        new KeyValuePair<PackageDependency, Context.PackageRule>(
-                            p,
-                            packageRules.Where(r => r.Id == p.Id).FirstOrDefault(Upm.Context.DefaultPackageRule)
-                        )
-                )
-                .Where(pr => !pr.Value.IsIgnored)
-                .ToDictionary(
-                    pr => pr.Value.Name,
-                    pr =>
-                    {
-                        if (!string.IsNullOrEmpty(pr.Value.Version))
-                        {
-                            string match = Regex
-                                .Match(pr.Key.VersionRange.ToLegacyShortString(), pr.Value.Version)
-                                .Value;
-                            if (!string.IsNullOrEmpty(match))
-                                return match;
-                        }
-                        return pr.Key.VersionRange.ToLegacyShortString();
-                    }
-                )
-        );
-    }
 }
