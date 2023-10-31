@@ -39,9 +39,4 @@ public static class NuspecReaderExtension
 
         return version;
     }
-
-    public static string GetUpmName(this NuspecReader nuspecReader)
-    {
-        return string.IsNullOrWhiteSpace(nuspecReader.GetTitle()) ? nuspecReader.GetId() : nuspecReader.GetTitle();
-    }
 }
