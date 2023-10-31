@@ -32,7 +32,6 @@ public static partial class Program
             IncludePrereleaseOption,
             RetrieveLatestOption,
             SpecificVersionOption,
-            FrameworkOption,
             SourceRepositoriesOption,
             TargetRegistryOption,
             OutputDirectoryOption,
@@ -45,7 +44,6 @@ public static partial class Program
         bool preRelease,
         bool latest,
         string version,
-        string framework,
         IEnumerable<Uri> sources,
         Uri target,
         DirectoryInfo outputDirectory,
@@ -67,7 +65,6 @@ public static partial class Program
             preRelease: preRelease,
             latest: latest,
             version: version,
-            framework: framework,
             prereleaseSuffix: prereleaseSuffix,
             buildmetaSuffix: buildmetaSuffix,
             cancellationToken: cancellationToken

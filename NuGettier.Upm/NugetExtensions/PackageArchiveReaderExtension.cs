@@ -52,7 +52,8 @@ public static class PackageArchiveReaderExtension
 
     public static TarGz.FileDictionary GetAdditionalFiles(
         this PackageArchiveReader packageReader,
-        NuspecReader nuspecReader
+        NuspecReader nuspecReader,
+        bool renameOriginalMarkdownFiles
     )
     {
         List<string> additionalFiles =
@@ -69,7 +70,15 @@ public static class PackageArchiveReaderExtension
             packageReader
                 .GetFiles()
                 .Where(f => additionalFiles.Contains(f))
-                .ToDictionary(f => f, f => packageReader.GetBytes(f))
+                .Select(
+                    f =>
+                        new KeyValuePair<string, byte[]>(
+                            renameOriginalMarkdownFiles && Path.GetExtension(f) == ".md"
+                                ? $"{Path.GetFileName(f)}.orig.{Path.GetExtension(f)}"
+                                : f,
+                            packageReader.GetBytes(f)
+                        )
+                )
         );
     }
 }

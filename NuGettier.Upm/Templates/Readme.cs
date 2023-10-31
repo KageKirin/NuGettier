@@ -24,7 +24,7 @@ public class Readme
     }
 
     public Readme(string name, string version, string description, AssemblyName assemblyName)
-        : this(name, version, description, assemblyName.Name, assemblyName.Version.ToString()) { }
+        : this(name, version, description, assemblyName.Name, assemblyName.Version?.ToString()) { }
 
     public override string ToString()
     {

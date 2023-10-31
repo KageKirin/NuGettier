@@ -16,7 +16,7 @@ public static class ChangelogStringFactory
             {
                 Name = name,
                 Version = version,
-                ReleaseNotes = releaseNotes,
+                ReleaseNotes = Uri.IsWellFormedUriString(releaseNotes, UriKind.Absolute) ? $"[release notes]({releaseNotes})": releaseNotes,
             }
         );
     }
