@@ -27,4 +27,28 @@ public static class PackageJsonExtension
 
         return readme;
     }
+
+    public static string GenerateLicense(
+        this PackageJson packageJson,
+        string originalLicense,
+        string copyright,
+        string copyrightHolder
+    )
+    {
+        var license = LicenseStringFactory.GenerateLicense(
+            name: $"{packageJson.DisplayName} ({packageJson.Name})",
+            version: packageJson.Version,
+            copyright: copyright,
+            copyrightHolder: copyrightHolder,
+            license: packageJson.License,
+            licenseUrl: string.Empty
+        );
+
+        if (!string.IsNullOrEmpty(originalLicense))
+        {
+            license += $"\n\n---\n\n{originalLicense}";
+        }
+
+        return license;
+    }
 }
