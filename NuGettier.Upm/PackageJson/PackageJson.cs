@@ -8,19 +8,19 @@ namespace NuGettier.Upm;
 public record class PackageJson
 {
     [JsonPropertyName("name")]
-    public string Name { get; set; } = String.Empty;
+    public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("version")]
-    public string Version { get; set; } = String.Empty;
+    public string Version { get; set; } = string.Empty;
 
     [JsonPropertyName("license")]
-    public string License { get; set; } = String.Empty;
+    public string License { get; set; } = string.Empty;
 
     [JsonPropertyName("displayName")]
-    public string DisplayName { get; set; } = String.Empty;
+    public string DisplayName { get; set; } = string.Empty;
 
     [JsonPropertyName("description")]
-    public string Description { get; set; } = String.Empty;
+    public string Description { get; set; } = string.Empty;
 
     [JsonPropertyName("homepage")]
     public string? Homepage { get; set; }
