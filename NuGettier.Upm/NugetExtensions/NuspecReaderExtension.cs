@@ -104,12 +104,4 @@ public static class NuspecReaderExtension
     {
         return new Repository() { Url = nuspecReader.GetProjectUrl(), };
     }
-
-    public static PublishingConfiguration GetUpmPublishingConfiguration(
-        this NuspecReader nuspecReader,
-        Uri targetRegistry
-    )
-    {
-        return new PublishingConfiguration() { Registry = targetRegistry.ToString(), };
-    }
 }
