@@ -99,9 +99,4 @@ public static class NuspecReaderExtension
                 )
         );
     }
-
-    public static Repository GetUpmRepository(this NuspecReader nuspecReader)
-    {
-        return new Repository() { Url = nuspecReader.GetProjectUrl(), };
-    }
 }
