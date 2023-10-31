@@ -44,11 +44,4 @@ public static class NuspecReaderExtension
     {
         return string.IsNullOrWhiteSpace(nuspecReader.GetTitle()) ? nuspecReader.GetId() : nuspecReader.GetTitle();
     }
-
-    public static string GetUpmDisplayName(this NuspecReader nuspecReader, string framework, AssemblyName assemblyName)
-    {
-        return nuspecReader.GetUpmName()
-            + $" ({framework} DLL)"
-            + $" [repacked by {assemblyName.Name} v{assemblyName.Version?.ToString()}]";
-    }
 }
