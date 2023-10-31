@@ -33,7 +33,6 @@ public static partial class Program
             IncludePrereleaseOption,
             RetrieveLatestOption,
             SpecificVersionOption,
-            FrameworkOption,
             SourceRepositoriesOption,
             TargetRegistryOption,
             UpmPrereleaseSuffixOption,
@@ -46,7 +45,6 @@ public static partial class Program
         bool preRelease,
         bool latest,
         string version,
-        string framework,
         IEnumerable<Uri> sources,
         Uri target,
         string? prereleaseSuffix,
@@ -63,7 +61,7 @@ public static partial class Program
             console: console
         );
 
-        var package = await context.GetPackageInformation(
+        var packageJson = await context.GetPackageJson(
             packageName: packageName,
             preRelease: preRelease,
             latest: latest,
@@ -71,10 +69,8 @@ public static partial class Program
             cancellationToken: cancellationToken
         );
 
-        if (package == null)
+        if (packageJson == null)
             return 1;
-
-        var packageJson = package.ToPackageJson();
 
         if (json)
         {

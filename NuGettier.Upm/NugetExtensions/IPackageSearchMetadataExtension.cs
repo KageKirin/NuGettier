@@ -29,11 +29,7 @@ public static class IPackageSearchMetadataExtension
 
     public static string GetUpmPackageName(this IPackageSearchMetadata packageSearchMetadata)
     {
-        return NuspecReaderExtension.GetUpmPackageName(
-            packageSearchMetadata.Authors,
-            packageSearchMetadata.Identity.Id
-        );
-        ;
+        return packageSearchMetadata.Identity.Id;
     }
 
     public static string GetUpmVersion(this IPackageSearchMetadata packageSearchMetadata)
