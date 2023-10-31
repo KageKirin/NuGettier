@@ -112,32 +112,4 @@ public static class NuspecReaderExtension
     {
         return new PublishingConfiguration() { Registry = targetRegistry.ToString(), };
     }
-
-    public static PackageJson GenerateUpmPackageJson(
-        this NuspecReader nuspecReader,
-        string framework,
-        Uri targetRegistry,
-        AssemblyName assemblyName,
-        Func<string, string, Task<string?>> getDependencyName,
-        IEnumerable<Context.PackageRule> packageRules,
-        string? prereleaseSuffix = null,
-        string? buildmetaSuffix = null
-    )
-    {
-        PackageJson packageJson =
-            new()
-            {
-                Name = nuspecReader.GetUpmPackageName(packageRules),
-                Version = nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
-                License = nuspecReader.GetLicenseMetadata()?.License,
-                Description = nuspecReader.GetDescription(),
-                Keywords = nuspecReader.GetUpmKeywords(),
-                DisplayName = nuspecReader.GetUpmDisplayName(framework, assemblyName),
-                Repository = nuspecReader.GetUpmRepository(),
-                PublishingConfiguration = nuspecReader.GetUpmPublishingConfiguration(targetRegistry),
-                Dependencies = nuspecReader.GetUpmDependencies(framework, getDependencyName, packageRules),
-            };
-
-        return packageJson;
-    }
 }
