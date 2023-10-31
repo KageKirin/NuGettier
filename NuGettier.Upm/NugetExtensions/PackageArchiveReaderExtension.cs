@@ -100,4 +100,25 @@ public static class PackageArchiveReaderExtension
 
         return Encoding.Default.GetString(data);
     }
+
+    public static byte[]? GetLicenseFile(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
+    {
+        var packageFiles = packageReader.GetFiles();
+        foreach (var f in packageFiles)
+        {
+            if (Path.GetFileName(f).ToLowerInvariant() == @"license")
+                packageReader.GetBytes(f);
+        }
+
+        return null;
+    }
+
+    public static string GetLicense(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
+    {
+        byte[]? data = packageReader.GetLicenseFile(nuspecReader);
+        if (data == null || data.Length == 0)
+            return string.Empty;
+
+        return Encoding.Default.GetString(data);
+    }
 }
