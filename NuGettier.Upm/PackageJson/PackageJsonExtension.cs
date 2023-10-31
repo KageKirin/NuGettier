@@ -51,4 +51,13 @@ public static class PackageJsonExtension
 
         return license;
     }
+
+    public static string GenerateChangelog(this PackageJson packageJson, string releaseNotes)
+    {
+        return ChangelogStringFactory.GenerateChangelog(
+            name: $"{packageJson.DisplayName} ({packageJson.Name})",
+            version: packageJson.Version,
+            releaseNotes: releaseNotes
+        );
+    }
 }
