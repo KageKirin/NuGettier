@@ -63,6 +63,7 @@ public static class PackageArchiveReaderExtension
                 nuspecReader.GetReadme(),
                 nuspecReader.GetReleaseNotes(),
                 "LICENSE.TXT",
+                "LICENSE.md",
                 "LICENSE",
             };
 
