@@ -92,16 +92,7 @@ public static class NuspecReaderExtension
                     p =>
                         new KeyValuePair<PackageDependency, Context.PackageRule>(
                             p,
-                            packageRules
-                                .Where(r => r.Id == p.Id)
-                                .FirstOrDefault(
-                                    new Context.PackageRule(
-                                        Id: p.Id,
-                                        IsIgnored: false,
-                                        Name: (getDependencyName(p.Id, p.VersionRange.ToLegacyShortString())).Result,
-                                        Version: string.Empty
-                                    )
-                                )
+                            packageRules.Where(r => r.Id == p.Id).FirstOrDefault(Upm.Context.DefaultPackageRule)
                         )
                 )
                 .Where(pr => !pr.Value.IsIgnored)
