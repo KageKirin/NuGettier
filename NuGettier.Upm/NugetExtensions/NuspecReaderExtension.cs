@@ -9,15 +9,6 @@ namespace NuGettier.Upm;
 
 public static class NuspecReaderExtension
 {
-    // put here to keep package name formatting in 1 single location
-    public static string GetUpmPackageName(
-        this IPackageSearchMetadata searchMetadata,
-        IEnumerable<Context.PackageRule> packageRules
-    )
-    {
-        return GetUpmPackageName(searchMetadata.Authors, searchMetadata.Identity.Id, packageRules);
-    }
-
     public static string GetUpmPackageName(
         this NuspecReader nuspecReader,
         IEnumerable<Context.PackageRule> packageRules
