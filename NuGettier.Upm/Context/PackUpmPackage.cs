@@ -59,7 +59,7 @@ public partial class Context
             files.AddRange(packageReader.GetAdditionalFiles(nuspecReader, renameOriginalMarkdownFiles: true));
 
             // create & add README
-            var readme = nuspecReader.GenerateUpmReadme(assemblyName, prereleaseSuffix, buildmetaSuffix);
+            var readme = nuspecReader.GenerateUpmReadme(assemblyName, PackageRules, prereleaseSuffix, buildmetaSuffix);
             if (!files.ContainsKey(@"README.md"))
             {
                 files.Add(@"README.md", readme);
@@ -96,8 +96,9 @@ public partial class Context
                         version: dependencyPackageVersion,
                         cancellationToken: cancellationToken
                     );
-                    return ((IPackageSearchMetadata)dependencyPackage!).GetUpmPackageName();
+                    return ((IPackageSearchMetadata)dependencyPackage!).GetUpmPackageName(PackageRules);
                 },
+                PackageRules,
                 prereleaseSuffix: prereleaseSuffix,
                 buildmetaSuffix: buildmetaSuffix
             );

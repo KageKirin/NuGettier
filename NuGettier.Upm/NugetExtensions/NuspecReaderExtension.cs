@@ -1,23 +1,37 @@
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Reflection;
 using NuGet.Packaging;
 using NuGet.Protocol.Core.Types;
+using NuGet.Packaging.Core;
 
 namespace NuGettier.Upm;
 
 public static class NuspecReaderExtension
 {
     // put here to keep package name formatting in 1 single location
-
-    public static string GetUpmPackageName(this NuspecReader nuspecReader)
+    public static string GetUpmPackageName(
+        this IPackageSearchMetadata searchMetadata,
+        IEnumerable<Context.PackageRule> packageRules
+    )
     {
-        return GetUpmPackageName(nuspecReader.GetAuthors(), nuspecReader.GetId());
+        return GetUpmPackageName(searchMetadata.Authors, searchMetadata.Identity.Id, packageRules);
     }
 
-    public static string GetUpmPackageName(string author, string id)
+    public static string GetUpmPackageName(
+        this NuspecReader nuspecReader,
+        IEnumerable<Context.PackageRule> packageRules
+    )
     {
-        // TODO: use config string + Handlebars template
-        return $"com.{author}.{id}".ToLowerInvariant().Replace(@" ", @"");
+        return GetUpmPackageName(nuspecReader.GetAuthors(), nuspecReader.GetId(), packageRules);
+    }
+
+    public static string GetUpmPackageName(string author, string id, IEnumerable<Context.PackageRule> packageRules)
+    {
+        return packageRules.Where(p => p.Id == id && !string.IsNullOrEmpty(p.Name)).Select(p => p.Name).FirstOrDefault()
+            ??
+            // TODO: use config string + Handlebars template
+            $"com.{author}.{id}".ToLowerInvariant().Replace(@" ", @"");
     }
 
     public static string GetUpmVersion(
@@ -44,7 +58,7 @@ public static class NuspecReaderExtension
     {
         return nuspecReader.GetUpmName()
             + $" ({framework} DLL)"
-            + $" [repacked by {assemblyName.Name} v{assemblyName.Version.ToString()}]";
+            + $" [repacked by {assemblyName.Name} v{assemblyName.Version?.ToString()}]";
     }
 
     public static List<string> GetUpmKeywords(this NuspecReader nuspecReader)
@@ -65,7 +79,8 @@ public static class NuspecReaderExtension
     public static StringStringDictionary GetUpmDependencies(
         this NuspecReader nuspecReader,
         string framework,
-        Func<string, string, Task<string?>> getDependencyName
+        Func<string, string, Task<string?>> getDependencyName,
+        IEnumerable<Context.PackageRule> packageRules
     )
     {
         return new StringStringDictionary(
@@ -73,9 +88,28 @@ public static class NuspecReaderExtension
                 .GetDependencyGroups()
                 .Where(d => d.TargetFramework.GetShortFolderName() == framework)
                 .SelectMany(d => d.Packages)
+                .Select(
+                    p =>
+                        new KeyValuePair<PackageDependency, Context.PackageRule>(
+                            p,
+                            packageRules.Where(r => r.Id == p.Id).FirstOrDefault(Upm.Context.DefaultPackageRule)
+                        )
+                )
+                .Where(pr => !pr.Value.IsIgnored)
                 .ToDictionary(
-                    p => (getDependencyName(p.Id, p.VersionRange.ToLegacyShortString())).Result,
-                    p => p.VersionRange.ToLegacyShortString()
+                    pr => pr.Value.Name,
+                    pr =>
+                    {
+                        if (!string.IsNullOrEmpty(pr.Value.Version))
+                        {
+                            string match = Regex
+                                .Match(pr.Key.VersionRange.ToLegacyShortString(), pr.Value.Version)
+                                .Value;
+                            if (!string.IsNullOrEmpty(match))
+                                return match;
+                        }
+                        return pr.Key.VersionRange.ToLegacyShortString();
+                    }
                 )
         );
     }
@@ -96,12 +130,13 @@ public static class NuspecReaderExtension
     public static string GenerateUpmReadme(
         this NuspecReader nuspecReader,
         AssemblyName assemblyName,
+        IEnumerable<Context.PackageRule> packageRules,
         string? prereleaseSuffix = null,
         string? buildmetaSuffix = null
     )
     {
         return ReadmeStringFactory.GenerateReadme(
-            name: $"{nuspecReader.GetUpmName()} ({nuspecReader.GetUpmPackageName()})",
+            name: $"{nuspecReader.GetUpmName()} ({nuspecReader.GetUpmPackageName(packageRules)})",
             version: nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
             description: nuspecReader.GetDescription(),
             applicationName: assemblyName.Name,
@@ -146,6 +181,7 @@ public static class NuspecReaderExtension
         Uri targetRegistry,
         AssemblyName assemblyName,
         Func<string, string, Task<string?>> getDependencyName,
+        IEnumerable<Context.PackageRule> packageRules,
         string? prereleaseSuffix = null,
         string? buildmetaSuffix = null
     )
@@ -153,7 +189,7 @@ public static class NuspecReaderExtension
         PackageJson packageJson =
             new()
             {
-                Name = nuspecReader.GetUpmPackageName(),
+                Name = nuspecReader.GetUpmPackageName(packageRules),
                 Version = nuspecReader.GetUpmVersion(prereleaseSuffix, buildmetaSuffix),
                 License = nuspecReader.GetLicenseMetadata()?.License,
                 Description = nuspecReader.GetDescription(),
@@ -161,7 +197,7 @@ public static class NuspecReaderExtension
                 DisplayName = nuspecReader.GetUpmDisplayName(framework, assemblyName),
                 Repository = nuspecReader.GetUpmRepository(),
                 PublishingConfiguration = nuspecReader.GetUpmPublishingConfiguration(targetRegistry),
-                Dependencies = nuspecReader.GetUpmDependencies(framework, getDependencyName),
+                Dependencies = nuspecReader.GetUpmDependencies(framework, getDependencyName, packageRules),
             };
 
         return packageJson;
