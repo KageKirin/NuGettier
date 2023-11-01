@@ -27,7 +27,13 @@ public static partial class Program
     private static Option<string> UpmToken =
         new(aliases: new string[] { "--token", }, description: "authentication token required to connect to NPM server")
         {
-            IsRequired = true,
+            IsRequired = false,
+        };
+
+    private static Option<string> UpmNpmrc =
+        new(aliases: new string[] { "--npmrc", }, description: "path to existing .npmrc required to connect to NPM server")
+        {
+            IsRequired = false,
         };
 
     private static Option<bool> UpmDryRun = new(aliases: new string[] { "--dry-run", "-n" }, description: "Dry run");

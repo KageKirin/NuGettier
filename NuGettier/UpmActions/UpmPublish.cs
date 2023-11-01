@@ -25,6 +25,7 @@ public static partial class Program
             UpmPrereleaseSuffixOption,
             UpmBuildmetaSuffixOption,
             UpmToken,
+            UpmNpmrc,
             UpmDryRun,
             UpmPackageAccessLevel,
         }.WithHandler(CommandHandler.Create(UpmPublish));
@@ -38,7 +39,8 @@ public static partial class Program
         Uri target,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
-        string token,
+        string? token,
+        string? npmrc,
         bool dryRun,
         Upm.PackageAccessLevel access,
         IConsole console,
@@ -60,6 +62,7 @@ public static partial class Program
             prereleaseSuffix: prereleaseSuffix,
             buildmetaSuffix: buildmetaSuffix,
             token: token,
+            npmrc: npmrc,
             dryRun: dryRun,
             packageAccessLevel: access,
             cancellationToken: cancellationToken
