@@ -33,6 +33,7 @@ public partial class Context
         string? prereleaseSuffix,
         string? buildmetaSuffix,
         string? token,
+        string? npmrc,
         bool dryRun,
         PackageAccessLevel packageAccessLevel,
         CancellationToken cancellationToken
@@ -65,6 +66,10 @@ public partial class Context
 
                 // format is "//${schemeless_registry}/:_authToken=${token}"
                 npmrcWriter.WriteLine($"//{Target.SchemelessUri()}:_authToken={token}");
+            }
+            else if (npmrc != null)
+            {
+                File.Copy(npmrc, Path.Join(tempDir, ".npmrc"));
             }
 
             try
