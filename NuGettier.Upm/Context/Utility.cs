@@ -41,6 +41,12 @@ public partial class Context
         packageJson.PublishingConfiguration ??= new PublishingConfiguration();
         packageJson.PublishingConfiguration.Registry = Target.ToString();
 
+        // add repository/directory
+        if (!string.IsNullOrEmpty(Repository))
+            packageJson.Repository.Url = Repository;
+        if (!string.IsNullOrEmpty(Directory))
+            packageJson.Repository.Directory = Directory;
+
         return packageJson;
     }
 
