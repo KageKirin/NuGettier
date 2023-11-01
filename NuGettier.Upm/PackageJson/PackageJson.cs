@@ -22,6 +22,9 @@ public record class PackageJson
     [JsonPropertyName("description")]
     public string Description { get; set; } = string.Empty;
 
+    [JsonPropertyName("unity")]
+    public string MinUnityVersion { get; set; } = "2023.1";
+
     [JsonPropertyName("homepage")]
     public string? Homepage { get; set; }
 
