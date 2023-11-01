@@ -39,7 +39,8 @@ public static partial class Program
             IsRequired = false,
         };
 
-    private static Option<bool> UpmDryRun = new(aliases: new string[] { "--dry-run", "-n" }, description: "Dry run");
+    private static Option<bool> UpmDryRunOption =
+        new(aliases: new string[] { "--dry-run", "-n" }, description: "Dry run");
 
     private static Option<Upm.PackageAccessLevel> UpmPackageAccessLevel =
         new(
