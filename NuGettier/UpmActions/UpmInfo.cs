@@ -37,6 +37,7 @@ public static partial class Program
             TargetRegistryOption,
             UpmPrereleaseSuffixOption,
             UpmBuildmetaSuffixOption,
+            UpmRepositoryUrlOption,
         }.WithHandler(CommandHandler.Create(UpmInfo));
 
     private static async Task<int> UpmInfo(
@@ -49,6 +50,7 @@ public static partial class Program
         Uri target,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
+        string? repository,
         IConsole console,
         CancellationToken cancellationToken
     )
@@ -58,6 +60,7 @@ public static partial class Program
             configuration: Configuration!,
             sources: sources,
             target: target,
+            repository: repository,
             console: console
         );
 
