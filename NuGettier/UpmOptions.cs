@@ -39,6 +39,15 @@ public static partial class Program
             IsRequired = false,
         };
 
+    private static Option<Uri> UpmRepositoryUrlOption =
+        new(
+            aliases: new string[] { "--repository", },
+            description: "NPM package repository URL, assigned to `{.repository.url`}"
+        )
+        {
+            IsRequired = false,
+        };
+
     private static Option<bool> UpmDryRunOption =
         new(aliases: new string[] { "--dry-run", "-n" }, description: "Dry run");
 
