@@ -48,6 +48,15 @@ public static partial class Program
             IsRequired = false,
         };
 
+    private static Option<string> UpmDirectoryUrlOption =
+        new(
+            aliases: new string[] { "--directory", },
+            description: "NPM package directory path, assigned to `{.repository.directory`}"
+        )
+        {
+            IsRequired = false,
+        };
+
     private static Option<bool> UpmDryRunOption =
         new(aliases: new string[] { "--dry-run", "-n" }, description: "Dry run");
 
