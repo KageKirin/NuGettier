@@ -24,9 +24,10 @@ public partial class Context
         // get packageRule for this package
         var packageRule = GetPackageRule(packageJson.Name);
 
-        // patch packageJson.Name and .Version
+        // patch packageJson.Name, .Version and .MinUnityVersion
         packageJson.Name = PatchPackageName(packageJson.Name);
         packageJson.Version = PatchPackageVersion(packageJson.Name, packageJson.Version);
+        packageJson.MinUnityVersion = MinUnityVersion;
 
         // filter and patch dependencies' name and version
         packageJson.Dependencies = packageJson.Dependencies

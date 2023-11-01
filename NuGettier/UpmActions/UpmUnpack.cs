@@ -35,6 +35,7 @@ public static partial class Program
             SourceRepositoriesOption,
             TargetRegistryOption,
             OutputDirectoryOption,
+            UpmUnityVersionOption,
             UpmPrereleaseSuffixOption,
             UpmBuildmetaSuffixOption,
             UpmRepositoryUrlOption,
@@ -49,6 +50,7 @@ public static partial class Program
         IEnumerable<Uri> sources,
         Uri target,
         DirectoryInfo outputDirectory,
+        string unity,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
         string? repository,
@@ -61,6 +63,7 @@ public static partial class Program
         using var context = new Upm.Context(
             configuration: Configuration!,
             sources: sources,
+            minUnityVersion: unity,
             target: target,
             repository: repository,
             directory: directory,
