@@ -12,6 +12,12 @@ namespace NuGettier;
 
 public static partial class Program
 {
+    private static Option<string> UpmUnityVersionOption =
+        new(aliases: new string[] { "--unity", "-u" }, description: "minimum Unity version required by package.json")
+        {
+            IsRequired = true,
+        };
+
     private static Option<string> UpmPrereleaseSuffixOption =
         new(
             aliases: new string[] { "--prerelease-suffix", },
