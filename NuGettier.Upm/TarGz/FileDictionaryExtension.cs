@@ -63,7 +63,7 @@ public static class FileDictionaryExtension
 
     public static void WriteToTar(this FileDictionary fileDictionary, string filePath)
     {
-        DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath));
+        DirectoryInfo outputDirectory = new(Path.GetDirectoryName(filePath) ?? Environment.CurrentDirectory);
         if (!outputDirectory.Exists)
         {
             outputDirectory.Create();

@@ -21,7 +21,7 @@ public partial class Context
         "net462",
     };
 
-    public static PackageRule DefaultPackageRule =
+    public static readonly PackageRule DefaultPackageRule =
         new(
             Id: string.Empty,
             IsIgnored: false,
