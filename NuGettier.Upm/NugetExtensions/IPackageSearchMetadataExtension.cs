@@ -99,9 +99,9 @@ public static class IPackageSearchMetadataExtension
     {
         return new Repository()
         {
-            RepoType = string.Empty,
-            Url = string.Empty,
-            Directory = string.Empty,
+            RepoType = @"git",
+            Url = packageSearchMetadata.ProjectUrl.ToString(),
+            Directory = packageSearchMetadata.Identity.Id.ToLowerInvariant(),
         };
     }
 
