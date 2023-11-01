@@ -15,11 +15,19 @@ public partial class Context : Core.Context
     public Uri Target { get; protected set; }
     public IEnumerable<PackageRule> PackageRules { get; protected set; }
     public IDictionary<string, IPackageSearchMetadata> CachedMetadata { get; protected set; }
+    public string? Repository { get; protected set; }
 
-    public Context(IConfigurationRoot configuration, IEnumerable<Uri> sources, Uri target, IConsole console)
+    public Context(
+        IConfigurationRoot configuration,
+        IEnumerable<Uri> sources,
+        Uri target,
+        string? repository,
+        IConsole console
+    )
         : base(configuration, sources, console)
     {
         this.Target = target;
+        this.Repository = repository;
         this.CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
 
         this.PackageRules = Configuration
@@ -48,6 +56,7 @@ public partial class Context : Core.Context
         : base(other)
     {
         Target = other.Target;
+        Repository = other.Repository;
         PackageRules = other.PackageRules;
         CachedMetadata = other.CachedMetadata;
     }
