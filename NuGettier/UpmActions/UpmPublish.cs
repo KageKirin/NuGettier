@@ -24,7 +24,7 @@ public static partial class Program
             TargetRegistryOption,
             UpmPrereleaseSuffixOption,
             UpmBuildmetaSuffixOption,
-            UpmToken,
+            UpmTokenOption,
             UpmNpmrc,
             UpmDryRun,
             UpmPackageAccessLevel,
