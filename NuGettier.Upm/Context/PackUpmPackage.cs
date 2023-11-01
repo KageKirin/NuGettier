@@ -55,7 +55,7 @@ public partial class Context
             packageJson.Version += $"+{buildmetaSuffix}";
 
         // get package rule
-        PackageRule packageRule = PackageRules.Where(r => r.Id == packageName).FirstOrDefault(DefaultPackageRule);
+        PackageRule packageRule = GetPackageRule(packageName);
         Assert.NotNull(packageRule);
 
         // fetch package contents for NuGet
