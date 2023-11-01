@@ -22,11 +22,7 @@ public static partial class Program
     {
         get
         {
-            // Config.GlobalLocation = Path.Combine(Directory.GetCurrentDirectory(), "Content", "global.netconfig");
-            // Config.SystemLocation = Path.Combine(Directory.GetCurrentDirectory(), "Content", ".netconfig");
-            configurationRoot ??= new ConfigurationBuilder()
-                .AddDotNetConfig()
-                .Build();
+            configurationRoot ??= new ConfigurationBuilder().AddDotNetConfig().Build();
             return configurationRoot;
         }
     }
