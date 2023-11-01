@@ -30,8 +30,11 @@ public static partial class Program
             IsRequired = false,
         };
 
-    private static Option<string> UpmNpmrc =
-        new(aliases: new string[] { "--npmrc", }, description: "path to existing .npmrc required to connect to NPM server")
+    private static Option<string> UpmNpmrcOption =
+        new(
+            aliases: new string[] { "--npmrc", },
+            description: "path to existing .npmrc required to connect to NPM server"
+        )
         {
             IsRequired = false,
         };

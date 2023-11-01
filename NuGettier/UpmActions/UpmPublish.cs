@@ -25,7 +25,7 @@ public static partial class Program
             UpmPrereleaseSuffixOption,
             UpmBuildmetaSuffixOption,
             UpmTokenOption,
-            UpmNpmrc,
+            UpmNpmrcOption,
             UpmDryRun,
             UpmPackageAccessLevel,
         }.WithHandler(CommandHandler.Create(UpmPublish));
