@@ -38,7 +38,7 @@ public static partial class Program
         Uri target,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
-        string token,
+        string? token,
         bool dryRun,
         Upm.PackageAccessLevel access,
         IConsole console,

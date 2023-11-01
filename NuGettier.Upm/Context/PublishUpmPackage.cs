@@ -32,7 +32,7 @@ public partial class Context
         string? version,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
-        string token,
+        string? token,
         bool dryRun,
         PackageAccessLevel packageAccessLevel,
         CancellationToken cancellationToken
@@ -59,8 +59,10 @@ public partial class Context
             var packageFile = $"{packageIdentifier}.tgz";
             await package.WriteToTarGzAsync(Path.Join(tempDir, packageFile));
 
-            using (var npmrcWriter = new StreamWriter(File.OpenWrite(Path.Join(tempDir, ".npmrc"))))
+            if (token != null)
             {
+                using var npmrcWriter = new StreamWriter(File.OpenWrite(Path.Join(tempDir, ".npmrc")));
+
                 // format is "//${schemeless_registry}/:_authToken=${token}"
                 npmrcWriter.WriteLine($"//{Target.SchemelessUri()}:_authToken={token}");
             }
