@@ -56,7 +56,9 @@ public partial class Context
         Assert.NotNull(CachedMetadata[packageName]);
 
         var packageRule = GetPackageRule(packageName);
-        string namingTemplate = !string.IsNullOrEmpty(packageRule.Name) ? packageRule.Name : Context.DefaultPackageRule.Name;
+        string namingTemplate = !string.IsNullOrEmpty(packageRule.Name)
+            ? packageRule.Name
+            : Context.DefaultPackageRule.Name;
 
         var template = Handlebars.Compile(namingTemplate);
         var result = template(CachedMetadata[packageName]).ToLowerInvariant().Replace(@" ", @"");
@@ -68,7 +70,9 @@ public partial class Context
     {
         Console.WriteLine($"before: {packageName}: {packageVersion}");
         var packageRule = GetPackageRule(packageName);
-        var versionRegex = !string.IsNullOrEmpty(packageRule.Version) ? packageRule.Version : Context.DefaultPackageRule.Version;
+        var versionRegex = !string.IsNullOrEmpty(packageRule.Version)
+            ? packageRule.Version
+            : Context.DefaultPackageRule.Version;
 
         var result = Regex.Match(packageVersion, versionRegex).Value;
         Console.WriteLine($"after: {packageName}: {result}");
