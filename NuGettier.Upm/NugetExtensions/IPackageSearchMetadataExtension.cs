@@ -86,11 +86,11 @@ public static class IPackageSearchMetadataExtension
         return new Person() { Name = firstAuthor, };
     }
 
-    public static IEnumerable<Person>? GetUpmContributors(this IPackageSearchMetadata packageSearchMetadata)
+    public static IEnumerable<Person> GetUpmContributors(this IPackageSearchMetadata packageSearchMetadata)
     {
         var otherAuthors = packageSearchMetadata.Authors.Split(',', ';', ' ');
         if (otherAuthors.Length <= 1)
-            return null;
+            return new List<Person>();
 
         return otherAuthors[1..].Select(author => new Person() { Name = author, });
     }
