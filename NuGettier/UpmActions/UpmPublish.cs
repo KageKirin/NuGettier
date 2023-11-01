@@ -25,6 +25,7 @@ public static partial class Program
             UpmPrereleaseSuffixOption,
             UpmBuildmetaSuffixOption,
             UpmRepositoryUrlOption,
+            UpmDirectoryUrlOption,
             UpmTokenOption,
             UpmNpmrcOption,
             UpmDryRunOption,
@@ -41,6 +42,7 @@ public static partial class Program
         string? prereleaseSuffix,
         string? buildmetaSuffix,
         string? repository,
+        string? directory,
         string? token,
         string? npmrc,
         bool dryRun,
@@ -55,6 +57,7 @@ public static partial class Program
             sources: sources,
             target: target,
             repository: repository,
+            directory: directory,
             console: console
         );
         var result = await context.PublishUpmPackage(
