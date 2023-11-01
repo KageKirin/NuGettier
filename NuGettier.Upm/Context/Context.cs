@@ -12,6 +12,7 @@ public partial class Context : Core.Context
 {
     public record class PackageRule(string Id, bool IsIgnored, string Name, string Version, string Framework);
 
+    public string MinUnityVersion { get; protected set; }
     public Uri Target { get; protected set; }
     public IEnumerable<PackageRule> PackageRules { get; protected set; }
     public IDictionary<string, IPackageSearchMetadata> CachedMetadata { get; protected set; }
@@ -21,6 +22,7 @@ public partial class Context : Core.Context
     public Context(
         IConfigurationRoot configuration,
         IEnumerable<Uri> sources,
+        string minUnityVersion,
         Uri target,
         string? repository,
         string? directory,
@@ -28,6 +30,7 @@ public partial class Context : Core.Context
     )
         : base(configuration, sources, console)
     {
+        this.MinUnityVersion = minUnityVersion;
         this.Target = target;
         this.Repository = repository;
         this.Directory = directory;
@@ -58,6 +61,7 @@ public partial class Context : Core.Context
     public Context(Context other)
         : base(other)
     {
+        MinUnityVersion = other.MinUnityVersion;
         Target = other.Target;
         Repository = other.Repository;
         Directory = other.Directory;

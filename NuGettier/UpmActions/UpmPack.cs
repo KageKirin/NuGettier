@@ -63,6 +63,7 @@ public static partial class Program
         using var context = new Upm.Context(
             configuration: Configuration!,
             sources: sources,
+            minUnityVersion: unity,
             target: target,
             repository: repository,
             directory: directory,
