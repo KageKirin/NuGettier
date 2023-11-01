@@ -109,7 +109,7 @@ public partial class Context
                 Console.Error.WriteLine($"NPM: {e.Message}");
             }
 
-            Directory.Delete(tempDir, recursive: true);
+            System.IO.Directory.Delete(tempDir, recursive: true);
             return exitCode;
         }
     }

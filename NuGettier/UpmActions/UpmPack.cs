@@ -37,6 +37,8 @@ public static partial class Program
             OutputDirectoryOption,
             UpmPrereleaseSuffixOption,
             UpmBuildmetaSuffixOption,
+            UpmRepositoryUrlOption,
+            UpmDirectoryUrlOption,
         }.WithHandler(CommandHandler.Create(UpmPack));
 
     private static async Task<int> UpmPack(
@@ -49,6 +51,8 @@ public static partial class Program
         DirectoryInfo outputDirectory,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
+        string? repository,
+        string? directory,
         IConsole console,
         CancellationToken cancellationToken
     )
@@ -58,6 +62,8 @@ public static partial class Program
             configuration: Configuration!,
             sources: sources,
             target: target,
+            repository: repository,
+            directory: directory,
             console: console
         );
         var tuple = await context.PackUpmPackage(

@@ -29,8 +29,8 @@ public static partial class Program
 
     static async Task<int> Main(string[] args)
     {
+        Console.WriteLine($"called with args: {string.Join(" ", args.Select(a => $"'{a}'"))}");
         Assert.NotNull(Configuration);
-
 
         var cmd = new RootCommand("Extended NuGet helper utility")
         { //

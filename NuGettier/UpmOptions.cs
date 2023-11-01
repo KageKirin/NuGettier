@@ -24,19 +24,41 @@ public static partial class Program
             description: "version buildmeta suffix ('foobar' -> '1.2.3-prerelease+foobar)"
         );
 
-    private static Option<string> UpmToken =
+    private static Option<string> UpmTokenOption =
         new(aliases: new string[] { "--token", }, description: "authentication token required to connect to NPM server")
         {
             IsRequired = false,
         };
 
-    private static Option<string> UpmNpmrc =
-        new(aliases: new string[] { "--npmrc", }, description: "path to existing .npmrc required to connect to NPM server")
+    private static Option<string> UpmNpmrcOption =
+        new(
+            aliases: new string[] { "--npmrc", },
+            description: "path to existing .npmrc required to connect to NPM server"
+        )
         {
             IsRequired = false,
         };
 
-    private static Option<bool> UpmDryRun = new(aliases: new string[] { "--dry-run", "-n" }, description: "Dry run");
+    private static Option<Uri> UpmRepositoryUrlOption =
+        new(
+            aliases: new string[] { "--repository", },
+            description: "NPM package repository URL, assigned to `{.repository.url`}"
+        )
+        {
+            IsRequired = false,
+        };
+
+    private static Option<string> UpmDirectoryUrlOption =
+        new(
+            aliases: new string[] { "--directory", },
+            description: "NPM package directory path, assigned to `{.repository.directory`}"
+        )
+        {
+            IsRequired = false,
+        };
+
+    private static Option<bool> UpmDryRunOption =
+        new(aliases: new string[] { "--dry-run", "-n" }, description: "Dry run");
 
     private static Option<Upm.PackageAccessLevel> UpmPackageAccessLevel =
         new(
