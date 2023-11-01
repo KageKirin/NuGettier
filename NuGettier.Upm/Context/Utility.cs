@@ -12,6 +12,13 @@ namespace NuGettier.Upm;
 
 public partial class Context
 {
+    public PackageRule GetPackageRule(string packageId)
+    {
+        return PackageRules
+            .Where(r => r.Id == packageId)
+            .FirstOrDefault(PackageRules.Where(r => string.IsNullOrEmpty(r.Id)).FirstOrDefault(DefaultPackageRule));
+    }
+
     public PackageJson PatchPackageJson(PackageJson packageJson)
     {
         // patch packageJson.Name and .Version
