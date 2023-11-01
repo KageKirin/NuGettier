@@ -1,0 +1,3 @@
+
+[source "api.nuget.org/v3/index.json"]
+protocol = https
