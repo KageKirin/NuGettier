@@ -40,7 +40,7 @@ public partial class Context
         if (package == null)
             return null;
 
-        var packageJson = package.ToPackageJson();
+        var packageJson = package.ToPackageJson(SupportedFrameworks);
         Assert.NotNull(packageJson);
         if (packageJson == null)
             return null;
