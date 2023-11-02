@@ -30,7 +30,7 @@ public static class IPackageSearchMetadataExtension
             Contributors = packageSearchMetadata.GetUpmContributors(),
             Repository = packageSearchMetadata.GetUpmRepository(),
             PublishingConfiguration = packageSearchMetadata.GetUpmPublishingConfiguration(),
-            Dependencies = packageSearchMetadata.GetUpmDependencies(Context.DefaultFrameworks),
+            Dependencies = packageSearchMetadata.GetUpmDependencies(supportedUnityFrameworks.Keys),
         };
     }
 
