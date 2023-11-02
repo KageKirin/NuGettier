@@ -40,10 +40,7 @@ public partial class Context
             CachedMetadata[packageName] = packageSearchMetadata;
 
             var dependencies = packageSearchMetadata.DependencySets
-                .Where(
-                    dependencyGroup =>
-                        Context.DefaultFrameworks.Contains(dependencyGroup.TargetFramework.GetShortFolderName())
-                )
+                .Where(dependencyGroup => Frameworks.Contains(dependencyGroup.TargetFramework.GetShortFolderName()))
                 .SelectMany(dependencyGroup => dependencyGroup.Packages)
                 .Distinct();
 
