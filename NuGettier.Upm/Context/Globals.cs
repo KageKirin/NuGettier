@@ -10,6 +10,13 @@ namespace NuGettier.Upm;
 
 public partial class Context
 {
+    public static readonly IDictionary<string, string> DefaultSupportedFrameworks = new Dictionary<string, string>()
+    {
+        { "netstandard2.1", "2021.3" },
+        { "netstandard2.0", "2018.1" },
+        { "net462", "2017.4" },
+    };
+
     public static readonly string[] DefaultFrameworks = new[]
     {
         // by order of preference
