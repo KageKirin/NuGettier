@@ -126,4 +126,15 @@ public static class IPackageSearchMetadataExtension
                 .ToDictionary(d => d.Id, d => d.VersionRange.ToLegacyShortString())
         );
     }
+
+    public static string GetUpmPreferredFramework(
+        this IPackageSearchMetadata packageSearchMetadata,
+        IEnumerable<string> frameworks
+    )
+    {
+        var ourFrameworks = packageSearchMetadata.DependencySets
+            .Select(dependencyGroup => dependencyGroup.TargetFramework.GetShortFolderName())
+            .ToHashSet();
+        return ourFrameworks.Intersect(frameworks).OrderDescending().FirstOrDefault(frameworks.First());
+    }
 }
