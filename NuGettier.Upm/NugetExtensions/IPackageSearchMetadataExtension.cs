@@ -10,7 +10,10 @@ namespace NuGettier.Upm;
 
 public static class IPackageSearchMetadataExtension
 {
-    public static PackageJson ToPackageJson(this IPackageSearchMetadata packageSearchMetadata)
+    public static PackageJson ToPackageJson(
+        this IPackageSearchMetadata packageSearchMetadata,
+        IDictionary<string, string> supportedUnityFrameworks
+    )
     {
         return new PackageJson()
         {
