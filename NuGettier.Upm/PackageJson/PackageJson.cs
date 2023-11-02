@@ -25,6 +25,9 @@ public record class PackageJson
     [JsonPropertyName("unity")]
     public string MinUnityVersion { get; set; } = "2023.1";
 
+    [JsonPropertyName("dotnetframework")]
+    public string DotNetFramework { get; set; } = "netstandard2.1";
+
     [JsonPropertyName("homepage")]
     public string? Homepage { get; set; }
 
