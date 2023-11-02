@@ -17,7 +17,10 @@ public partial class Context
         { "net462", "2017.4" },
     };
 
-    public static readonly string[] DefaultFrameworks = DefaultSupportedFrameworks.Keys.OrderDescending().ToArray();
+    public static string[] DefaultFrameworks
+    {
+        get => DefaultSupportedFrameworks.Keys.OrderDescending().ToArray();
+    }
 
     public static readonly PackageRule DefaultPackageRule =
         new(
