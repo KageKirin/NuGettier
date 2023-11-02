@@ -13,6 +13,7 @@ using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
+using Xunit;
 
 namespace NuGettier.Upm;
 
@@ -39,6 +40,11 @@ public partial class Context
         if (package == null)
             return null;
 
-        return PatchPackageJson(package.ToPackageJson());
+        var packageJson = package.ToPackageJson();
+        Assert.NotNull(packageJson);
+        if (packageJson == null)
+            return null;
+
+        return PatchPackageJson(packageJson);
     }
 }
