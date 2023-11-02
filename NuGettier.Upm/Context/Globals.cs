@@ -17,16 +17,7 @@ public partial class Context
         { "net462", "2017.4" },
     };
 
-    public static readonly string[] DefaultFrameworks = new[]
-    {
-        // by order of preference
-        "netstandard2.1",
-        "netstandard2.0",
-        "netstandard1.2",
-        "netstandard1.1",
-        "netstandard1.0",
-        "net462",
-    };
+    public static readonly string[] DefaultFrameworks = DefaultSupportedFrameworks.Keys.OrderDescending().ToArray();
 
     public static readonly PackageRule DefaultPackageRule =
         new(
