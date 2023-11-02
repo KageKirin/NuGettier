@@ -22,6 +22,7 @@ public static class IPackageSearchMetadataExtension
             License = packageSearchMetadata.GetUpmLicense() ?? string.Empty,
             Description = packageSearchMetadata.GetUpmDescription(),
             DotNetFramework = packageSearchMetadata.GetUpmPreferredFramework(supportedUnityFrameworks.Keys),
+            MinUnityVersion = packageSearchMetadata.GetUpmPreferredUnityVersion(supportedUnityFrameworks),
             Homepage = packageSearchMetadata.GetUpmHomepage(),
             Keywords = packageSearchMetadata.GetUpmKeywords(),
             DisplayName = packageSearchMetadata.GetUpmDisplayName(),
