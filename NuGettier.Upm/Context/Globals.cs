@@ -10,16 +10,17 @@ namespace NuGettier.Upm;
 
 public partial class Context
 {
-    public static readonly string[] DefaultFrameworks = new[]
+    public static readonly IDictionary<string, string> DefaultSupportedFrameworks = new Dictionary<string, string>()
     {
-        // by order of preference
-        "netstandard2.1",
-        "netstandard2.0",
-        "netstandard1.2",
-        "netstandard1.1",
-        "netstandard1.0",
-        "net462",
+        { "netstandard2.1", "2021.3" },
+        { "netstandard2.0", "2018.1" },
+        { "net462", "2017.4" },
     };
+
+    public static string[] DefaultFrameworks
+    {
+        get => DefaultSupportedFrameworks.Keys.OrderDescending().ToArray();
+    }
 
     public static readonly PackageRule DefaultPackageRule =
         new(

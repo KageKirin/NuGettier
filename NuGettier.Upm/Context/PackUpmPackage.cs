@@ -73,7 +73,7 @@ public partial class Context
         NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
 
         var selectedFramework = packageReader.SelectPreferredFramework(
-            !string.IsNullOrEmpty(packageRule.Framework) ? new[] { packageRule.Framework } : DefaultFrameworks
+            !string.IsNullOrEmpty(packageRule.Framework) ? new[] { packageRule.Framework } : Frameworks
         );
         Console.WriteLine($"selected framework: {selectedFramework}");
 

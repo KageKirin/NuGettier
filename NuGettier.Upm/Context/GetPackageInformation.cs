@@ -42,7 +42,8 @@ public partial class Context
             var dependencies = packageSearchMetadata.DependencySets
                 .Where(
                     dependencyGroup =>
-                        Context.DefaultFrameworks.Contains(dependencyGroup.TargetFramework.GetShortFolderName())
+                        dependencyGroup.TargetFramework.GetShortFolderName()
+                        == packageSearchMetadata.GetUpmPreferredFramework(Frameworks)
                 )
                 .SelectMany(dependencyGroup => dependencyGroup.Packages)
                 .Distinct();
