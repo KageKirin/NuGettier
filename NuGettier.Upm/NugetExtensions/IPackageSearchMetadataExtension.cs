@@ -25,7 +25,7 @@ public static class IPackageSearchMetadataExtension
             Contributors = packageSearchMetadata.GetUpmContributors(),
             Repository = packageSearchMetadata.GetUpmRepository(),
             PublishingConfiguration = packageSearchMetadata.GetUpmPublishingConfiguration(),
-            Dependencies = packageSearchMetadata.GetUpmDependencies(),
+            Dependencies = packageSearchMetadata.GetUpmDependencies(Context.DefaultFrameworks),
         };
     }
 
@@ -112,13 +112,12 @@ public static class IPackageSearchMetadataExtension
         return new PublishingConfiguration() { Registry = string.Empty, };
     }
 
-    public static IDictionary<string, string> GetUpmDependencies(this IPackageSearchMetadata packageSearchMetadata)
+    public static IDictionary<string, string> GetUpmDependencies(
+        this IPackageSearchMetadata packageSearchMetadata,
+        IEnumerable<string> frameworks
+    )
     {
-        var framework = packageSearchMetadata.DependencySets
-            .Select(dependencyGroup => dependencyGroup.TargetFramework.GetShortFolderName())
-            .Where(framework => Context.DefaultFrameworks.Contains(framework))
-            .FirstOrDefault(Context.DefaultFrameworks.First());
-
+        var framework = packageSearchMetadata.GetUpmPreferredFramework(frameworks);
         return new StringStringDictionary(
             packageSearchMetadata.DependencySets
                 .Where(dependencyGroup => dependencyGroup.TargetFramework.GetShortFolderName() == framework)
