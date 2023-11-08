@@ -54,7 +54,8 @@ public partial class Context
     private string PatchPackageName(string packageName)
     {
         Console.WriteLine($"before: {packageName}");
-        Assert.NotNull(CachedMetadata[packageName]);
+        var metadata = CachedMetadata[packageName.ToLowerInvariant()];
+        Assert.NotNull(metadata);
 
         var packageRule = GetPackageRule(packageName);
         string namingTemplate = !string.IsNullOrEmpty(packageRule.Name)
@@ -63,7 +64,7 @@ public partial class Context
 
         var template = Handlebars.Compile(namingTemplate);
         var result = Regex.Replace(
-            template(CachedMetadata[packageName]).ToLowerInvariant().Replace(@" ", ""),
+            template(metadata).ToLowerInvariant().Replace(@" ", ""),
             @"\W",
             @"."
         );
