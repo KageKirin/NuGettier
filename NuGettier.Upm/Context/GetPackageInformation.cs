@@ -37,7 +37,7 @@ public partial class Context
         );
         if (packageSearchMetadata != null)
         {
-            CachedMetadata[packageName] = packageSearchMetadata;
+            CachedMetadata[packageName.ToLowerInvariant()] = packageSearchMetadata;
 
             var dependencies = packageSearchMetadata.DependencySets
                 .Where(
@@ -66,7 +66,7 @@ public partial class Context
                 foreach (var metadata in dependencyPackageSearchMetadata)
                 {
                     if (metadata != null)
-                        CachedMetadata[metadata.Identity.Id] = metadata;
+                        CachedMetadata[metadata.Identity.Id.ToLowerInvariant()] = metadata;
                 }
             }
         }
