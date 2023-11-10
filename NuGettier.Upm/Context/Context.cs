@@ -10,8 +10,6 @@ namespace NuGettier.Upm;
 
 public partial class Context : Core.Context
 {
-    public record class PackageRule(string Id, bool IsIgnored, string Name, string Version, string Framework);
-
     public string MinUnityVersion { get; protected set; }
     public Uri Target { get; protected set; }
     public IEnumerable<PackageRule> PackageRules { get; protected set; }

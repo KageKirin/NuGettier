@@ -22,6 +22,8 @@ public partial class Context : IDisposable
 {
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
+    public record class PackageRule(string Id, bool IsIgnored, string Name, string Version, string Framework);
+
     public IConfigurationRoot Configuration { get; protected set; }
     public IEnumerable<Uri> Sources { get; protected set; }
     public SourceCacheContext Cache { get; protected set; }
