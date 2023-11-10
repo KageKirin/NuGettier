@@ -10,11 +10,8 @@ namespace NuGettier.Upm;
 
 public partial class Context : Core.Context
 {
-    public record class PackageRule(string Id, bool IsIgnored, string Name, string Version, string Framework);
-
     public string MinUnityVersion { get; protected set; }
     public Uri Target { get; protected set; }
-    public IEnumerable<PackageRule> PackageRules { get; protected set; }
     public IDictionary<string, string> SupportedFrameworks { get; protected set; }
     public IEnumerable<string> Frameworks
     {
@@ -40,27 +37,6 @@ public partial class Context : Core.Context
         this.Repository = repository;
         this.Directory = directory;
         this.CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
-
-        this.PackageRules = Configuration
-            .GetSection(@"package")
-            .GetChildren()
-            .Select(packageSection =>
-            {
-                console.WriteLine($"package key: {packageSection.Key}");
-                return new PackageRule(
-                    Id: packageSection.Key,
-                    IsIgnored: packageSection.GetValue<bool>("ignore"),
-                    Name: packageSection.GetValue<string>("name") ?? string.Empty,
-                    Version: packageSection.GetValue<string>("version") ?? string.Empty,
-                    Framework: packageSection.GetValue<string>("framework") ?? string.Empty
-                );
-            })
-            .Distinct();
-
-        foreach (var p in PackageRules)
-        {
-            console.WriteLine($"{p}");
-        }
 
         this.SupportedFrameworks = new Dictionary<string, string>(DefaultSupportedFrameworks); //< cctor b/c modifications below
         foreach (var frameworkSection in Configuration.GetSection(@"framework").GetChildren())
@@ -88,7 +64,6 @@ public partial class Context : Core.Context
         Target = other.Target;
         Repository = other.Repository;
         Directory = other.Directory;
-        PackageRules = other.PackageRules;
         CachedMetadata = other.CachedMetadata;
         SupportedFrameworks = other.SupportedFrameworks;
     }
