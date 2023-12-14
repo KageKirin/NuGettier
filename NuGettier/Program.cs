@@ -38,6 +38,7 @@ public static partial class Program
             ListCommand,
             InfoCommand,
             GetCommand,
+            ListDependenciesCommand,
             UpmCommand,
         };
         cmd.Name = "dotnet-nugettier";
