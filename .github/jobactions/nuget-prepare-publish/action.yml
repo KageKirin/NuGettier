@@ -22,9 +22,9 @@ runs:
       token: ${{ inputs.token }}
   - uses: ./.github/jobactions/build
     with:
-      framework: net7.0
+      framework: net8.0
       configuration: Release
       exclude: Prototype
   - uses: kagekirin/gha-dotnet/.github/actions/nuget-pack@main
     with:
-      framework: net7.0
+      framework: net8.0
