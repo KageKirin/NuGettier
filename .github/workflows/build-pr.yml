@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-        framework: [net8.0, net7.0]
+        framework: [net8.0]
     steps:
     - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
     - uses: kagekirin/gha-dotnet/.github/actions/nuget-add-registry@main
