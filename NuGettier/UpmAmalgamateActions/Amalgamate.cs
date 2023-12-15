@@ -18,5 +18,6 @@ public static partial class Program
             AmalgamateInfoCommand,
             AmalgamatePackCommand,
             AmalgamateUnpackCommand,
+            AmalgamatePublishCommand,
         };
 }
