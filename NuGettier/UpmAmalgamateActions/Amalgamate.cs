@@ -12,13 +12,8 @@ namespace NuGettier;
 
 public static partial class Program
 {
-    private static Command UpmCommand =>
-        new Command("upm", "root command for a number of commands specific to Unity packages")
+    private static Command AmalgamateCommand =>
+        new Command("amalgamate", "root command for a number of commands specific to amalgamated Unity packages")
         {
-            UpmInfoCommand,
-            UpmPackCommand,
-            UpmUnpackCommand,
-            UpmPublishCommand,
-            AmalgamateCommand,
         };
 }
