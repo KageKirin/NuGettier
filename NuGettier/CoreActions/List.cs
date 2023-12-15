@@ -50,7 +50,7 @@ public static partial class Program
 
         if (json)
         {
-            Console.WriteLine(@$"{JsonSerializer.Serialize(results)}");
+            Console.WriteLine(@$"{JsonSerializer.Serialize(results, JsonOptions)}");
         }
         else
         {
