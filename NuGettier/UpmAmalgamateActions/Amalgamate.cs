@@ -16,5 +16,6 @@ public static partial class Program
         new Command("amalgamate", "root command for a number of commands specific to amalgamated Unity packages")
         {
             AmalgamateInfoCommand,
+            AmalgamatePackCommand,
         };
 }
