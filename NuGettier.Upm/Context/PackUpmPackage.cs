@@ -26,7 +26,7 @@ using NuRepository = NuGet.Protocol.Core.Types.Repository;
 
 public partial class Context
 {
-    public async Task<Tuple<string, FileDictionary>?> PackUpmPackage(
+    public virtual async Task<Tuple<string, FileDictionary>?> PackUpmPackage(
         string packageName,
         bool preRelease,
         bool latest,
