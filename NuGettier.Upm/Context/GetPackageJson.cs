@@ -21,7 +21,7 @@ namespace NuGettier.Upm;
 
 public partial class Context
 {
-    public async Task<PackageJson?> GetPackageJson(
+    public virtual async Task<PackageJson?> GetPackageJson(
         string packageName,
         bool preRelease,
         bool latest,
