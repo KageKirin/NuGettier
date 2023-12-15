@@ -25,7 +25,7 @@ namespace NuGettier.Upm;
 
 public partial class Context
 {
-    public async Task<int> PublishUpmPackage(
+    public virtual async Task<int> PublishUpmPackage(
         string packageName,
         bool preRelease,
         bool latest,
