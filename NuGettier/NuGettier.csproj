@@ -32,30 +32,30 @@
   </PropertyGroup>
 
   <ItemGroup Label="package dependencies">
-    <PackageReference Include="DotNetConfig" Version="1.0.6"/>
-    <PackageReference Include="DotNetConfig.Configuration" Version="1.0.6"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0"/>
-    <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
-    <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
-    <PackageReference Include="NuGet.Packaging" Version="6.7.0"/>
-    <PackageReference Include="NuGet.Protocol" Version="6.7.0"/>
-    <PackageReference Include="NuGet.Resolver" Version="6.7.0"/>
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1"/>
-    <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta4.22272.1"/>
-    <PackageReference Include="Xunit" Version="2.5.3"/>
+    <PackageReference Include="DotNetConfig" Version="1.0.6" />
+    <PackageReference Include="DotNetConfig.Configuration" Version="1.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="NuGet.Commands" Version="6.7.0" />
+    <PackageReference Include="NuGet.LibraryModel" Version="6.7.0" />
+    <PackageReference Include="NuGet.Packaging" Version="6.7.0" />
+    <PackageReference Include="NuGet.Protocol" Version="6.7.0" />
+    <PackageReference Include="NuGet.Resolver" Version="6.7.0" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="Xunit" Version="2.5.3" />
   </ItemGroup>
 
   <ItemGroup Label="project references">
-    <ProjectReference Include="..\NuGettier.Core\NuGettier.Core.csproj"/>
-    <ProjectReference Include="..\NuGettier.Upm\NuGettier.Upm.csproj"/>
+    <ProjectReference Include="..\NuGettier.Core\NuGettier.Core.csproj" />
+    <ProjectReference Include="..\NuGettier.Upm\NuGettier.Upm.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="packaged files">
-    <None Include="$(MSBuildThisFileDirectory)Icon.png" Pack="true" PackagePath="\"/>
+    <None Include="$(MSBuildThisFileDirectory)Icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup Label="configuration files">
-    <Content Include="$(MSBuildThisFileDirectory).netconfig" Link=".netconfig" Pack="true" CopyToOutputDirectory="PreserveNewest" PackagePath="\"/>
+    <Content Include="$(MSBuildThisFileDirectory).netconfig" Link=".netconfig" Pack="true" CopyToOutputDirectory="PreserveNewest" PackagePath="\" />
   </ItemGroup>
 
 </Project>
