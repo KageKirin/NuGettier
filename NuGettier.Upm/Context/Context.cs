@@ -28,7 +28,6 @@ public partial class Context : Core.Context
         protected set { NugetFramework = NuGetFramework.Parse(value); }
     }
 
-    public IDictionary<string, string> SupportedFrameworks { get; protected set; }
     public IDictionary<string, IPackageSearchMetadata> CachedMetadata { get; protected set; }
     public string? Repository { get; protected set; }
     public string? Directory { get; protected set; }
@@ -50,24 +49,6 @@ public partial class Context : Core.Context
         this.Directory = directory;
         this.CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
         this.Framework = GetFrameworkFromUnitySettings(minUnityVersion);
-
-        this.SupportedFrameworks = new Dictionary<string, string>(DefaultSupportedFrameworks); //< cctor b/c modifications below
-        foreach (var frameworkSection in Configuration.GetSection(kFrameworkSection).GetChildren())
-        {
-            var unityVersion = frameworkSection.GetValue<string>(kUnityKey);
-            if (unityVersion != null)
-            {
-                console.WriteLine($"framework: {frameworkSection.Key} => {unityVersion}");
-                SupportedFrameworks[frameworkSection.Key] = unityVersion;
-            }
-
-            var ignoreFlag = frameworkSection.GetValue<bool>(kIgnoreKey);
-            if (ignoreFlag)
-            {
-                console.WriteLine($"deleting framework: {frameworkSection.Key}");
-                SupportedFrameworks.Remove(frameworkSection.Key);
-            }
-        }
     }
 
     public Context(Context other)
@@ -79,8 +60,6 @@ public partial class Context : Core.Context
         Directory = other.Directory;
         CachedMetadata = other.CachedMetadata;
         NugetFramework = other.NugetFramework;
-
-        SupportedFrameworks = other.SupportedFrameworks;
     }
 
     internal string GetFrameworkFromUnitySettings(string minUnityVersion)
