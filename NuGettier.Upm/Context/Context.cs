@@ -1,10 +1,14 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.CommandLine;
 using NuGettier;
+using NuGet.Configuration;
+using NuGet.Frameworks;
 using NuGet.Protocol.Core.Types;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NuGettier.Upm;
 
@@ -15,6 +19,15 @@ public partial class Context : Core.Context
 
     public string MinUnityVersion { get; protected set; }
     public Uri Target { get; protected set; }
+
+    public NuGetFramework NugetFramework { get; protected set; }
+    public string Framework
+    {
+        get => NugetFramework.GetShortFolderName();
+        [MemberNotNull(nameof(NugetFramework))]
+        protected set { NugetFramework = NuGetFramework.Parse(value); }
+    }
+
     public IDictionary<string, string> SupportedFrameworks { get; protected set; }
     public IEnumerable<string> Frameworks
     {
@@ -40,6 +53,7 @@ public partial class Context : Core.Context
         this.Repository = repository;
         this.Directory = directory;
         this.CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
+        this.Framework = GetFrameworkFromUnitySettings(minUnityVersion);
 
         this.SupportedFrameworks = new Dictionary<string, string>(DefaultSupportedFrameworks); //< cctor b/c modifications below
         foreach (var frameworkSection in Configuration.GetSection(kFrameworkSection).GetChildren())
@@ -68,6 +82,8 @@ public partial class Context : Core.Context
         Repository = other.Repository;
         Directory = other.Directory;
         CachedMetadata = other.CachedMetadata;
+        NugetFramework = other.NugetFramework;
+
         SupportedFrameworks = other.SupportedFrameworks;
     }
 
