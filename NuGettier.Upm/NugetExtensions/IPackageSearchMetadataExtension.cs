@@ -119,16 +119,18 @@ public static class IPackageSearchMetadataExtension
 
     public static IDictionary<string, string> GetUpmDependencies(
         this IPackageSearchMetadata packageSearchMetadata,
-        IEnumerable<string> frameworks
+        NuGetFramework nugetFramework
     )
     {
-        var framework = packageSearchMetadata.GetUpmPreferredFramework(frameworks);
-        return new StringStringDictionary(
-            packageSearchMetadata.DependencySets
-                .Where(dependencyGroup => dependencyGroup.TargetFramework.GetShortFolderName() == framework)
-                .SelectMany(dependencyGroup => dependencyGroup.Packages)
-                .ToDictionary(d => d.Id, d => d.VersionRange.ToLegacyShortString())
+        var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
+            packageSearchMetadata.DependencySets,
+            nugetFramework
         );
+
+        if (packageDependencyGroup is null)
+            return new Dictionary<string, string>();
+
+        return packageDependencyGroup.Packages.ToDictionary(d => d.Id, d => d.VersionRange.ToLegacyShortString());
     }
 
     public static string GetUpmPreferredFramework(
