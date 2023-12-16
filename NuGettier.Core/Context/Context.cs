@@ -20,6 +20,8 @@ namespace NuGettier.Core;
 
 public partial class Context : IDisposable
 {
+    protected const string kSourceSection = @"source";
+
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
     public record class PackageRule(string Id, bool IsIgnored, string Name, string Version, string Framework);
