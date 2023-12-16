@@ -23,6 +23,7 @@ public partial class Context : IDisposable
     protected const string kSourceSection = @"source";
     protected const string kUsernameKey = @"username";
     protected const string kPasswordKey = @"password";
+    protected const string kProtocolKey = @"protocol";
 
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
@@ -70,8 +71,8 @@ public partial class Context : IDisposable
                             string.IsNullOrEmpty(sourceSection.GetValue<string>(kUsernameKey))
                             && string.IsNullOrEmpty(sourceSection.GetValue<string>(kPasswordKey))
                         )
-                            ? $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection.Key}"
-                            : $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection[kUsernameKey]}:{sourceSection[kPasswordKey]}@{sourceSection.Key}"
+                            ? $"{sourceSection.GetValue<string>(kProtocolKey) ?? "https"}://{sourceSection.Key}"
+                            : $"{sourceSection.GetValue<string>(kProtocolKey) ?? "https"}://{sourceSection[kUsernameKey]}:{sourceSection[kPasswordKey]}@{sourceSection.Key}"
                     )
             )
             .Concat(sources)
