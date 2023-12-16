@@ -28,6 +28,7 @@ public partial class Context : IDisposable
     protected const string kIgnoreKey = @"ignore";
     protected const string kNameKey = @"name";
     protected const string kVersionKey = @"version";
+    protected const string kFrameworkKey = @"framework";
 
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
@@ -124,7 +125,7 @@ public partial class Context : IDisposable
                     IsIgnored: packageSection.GetValue<bool>(kIgnoreKey),
                     Name: packageSection.GetValue<string>(kNameKey) ?? string.Empty,
                     Version: packageSection.GetValue<string>(kVersionKey) ?? string.Empty,
-                    Framework: packageSection.GetValue<string>("framework") ?? string.Empty
+                    Framework: packageSection.GetValue<string>(kFrameworkKey) ?? string.Empty
                 );
             })
             .Distinct();
