@@ -22,7 +22,7 @@ namespace NuGettier.Amalgamate;
 
 public partial class Context
 {
-    public override async Task<PackageJson?> GetPackageJson(
+    public override async Task<Upm.PackageJson?> GetPackageJson(
         string packageName,
         bool preRelease,
         bool latest,
