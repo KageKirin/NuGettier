@@ -114,7 +114,7 @@ public partial class Context : IDisposable
             return NuGet.Protocol.Core.Types.Repository.Factory.GetCoreV3(packageSource);
         });
 
-        this.PackageRules = Configuration
+        PackageRules = Configuration
             .GetSection(kPackageSection)
             .GetChildren()
             .Select(packageSection =>
