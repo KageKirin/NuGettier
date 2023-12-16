@@ -29,10 +29,6 @@ public partial class Context : Core.Context
     }
 
     public IDictionary<string, string> SupportedFrameworks { get; protected set; }
-    public IEnumerable<string> Frameworks
-    {
-        get => SupportedFrameworks.Keys.OrderDescending().ToArray();
-    }
     public IDictionary<string, IPackageSearchMetadata> CachedMetadata { get; protected set; }
     public string? Repository { get; protected set; }
     public string? Directory { get; protected set; }
