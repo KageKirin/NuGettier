@@ -10,6 +10,9 @@ namespace NuGettier.Upm;
 
 public partial class Context : Core.Context
 {
+    protected const string kFrameworkSection = @"framework";
+    protected const string kUnityKey = @"unity";
+
     public string MinUnityVersion { get; protected set; }
     public Uri Target { get; protected set; }
     public IDictionary<string, string> SupportedFrameworks { get; protected set; }
@@ -39,16 +42,16 @@ public partial class Context : Core.Context
         this.CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
 
         this.SupportedFrameworks = new Dictionary<string, string>(DefaultSupportedFrameworks); //< cctor b/c modifications below
-        foreach (var frameworkSection in Configuration.GetSection(@"framework").GetChildren())
+        foreach (var frameworkSection in Configuration.GetSection(kFrameworkSection).GetChildren())
         {
-            var unityVersion = frameworkSection.GetValue<string>("unity");
+            var unityVersion = frameworkSection.GetValue<string>(kUnityKey);
             if (unityVersion != null)
             {
                 console.WriteLine($"framework: {frameworkSection.Key} => {unityVersion}");
                 SupportedFrameworks[frameworkSection.Key] = unityVersion;
             }
 
-            var ignoreFlag = frameworkSection.GetValue<bool>("ignore");
+            var ignoreFlag = frameworkSection.GetValue<bool>(kIgnoreKey);
             if (ignoreFlag)
             {
                 console.WriteLine($"deleting framework: {frameworkSection.Key}");

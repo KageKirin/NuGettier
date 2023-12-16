@@ -20,6 +20,16 @@ namespace NuGettier.Core;
 
 public partial class Context : IDisposable
 {
+    protected const string kSourceSection = @"source";
+    protected const string kUsernameKey = @"username";
+    protected const string kPasswordKey = @"password";
+    protected const string kProtocolKey = @"protocol";
+    protected const string kPackageSection = @"package";
+    protected const string kIgnoreKey = @"ignore";
+    protected const string kNameKey = @"name";
+    protected const string kVersionKey = @"version";
+    protected const string kFrameworkKey = @"framework";
+
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
     public record class PackageRule(string Id, bool IsIgnored, string Name, string Version, string Framework);
@@ -57,17 +67,17 @@ public partial class Context : IDisposable
         );
 
         Sources = Configuration
-            .GetSection(@"source")
+            .GetSection(kSourceSection)
             .GetChildren()
             .Select(
                 sourceSection =>
                     new Uri(
                         (
-                            string.IsNullOrEmpty(sourceSection.GetValue<string>("username"))
-                            && string.IsNullOrEmpty(sourceSection.GetValue<string>("password"))
+                            string.IsNullOrEmpty(sourceSection.GetValue<string>(kUsernameKey))
+                            && string.IsNullOrEmpty(sourceSection.GetValue<string>(kPasswordKey))
                         )
-                            ? $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection.Key}"
-                            : $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection["username"]}:{sourceSection["password"]}@{sourceSection.Key}"
+                            ? $"{sourceSection.GetValue<string>(kProtocolKey) ?? "https"}://{sourceSection.Key}"
+                            : $"{sourceSection.GetValue<string>(kProtocolKey) ?? "https"}://{sourceSection[kUsernameKey]}:{sourceSection[kPasswordKey]}@{sourceSection.Key}"
                     )
             )
             .Concat(sources)
@@ -105,17 +115,17 @@ public partial class Context : IDisposable
         });
 
         this.PackageRules = Configuration
-            .GetSection(@"package")
+            .GetSection(kPackageSection)
             .GetChildren()
             .Select(packageSection =>
             {
                 console.WriteLine($"package key: {packageSection.Key}");
                 return new PackageRule(
                     Id: packageSection.Key,
-                    IsIgnored: packageSection.GetValue<bool>("ignore"),
-                    Name: packageSection.GetValue<string>("name") ?? string.Empty,
-                    Version: packageSection.GetValue<string>("version") ?? string.Empty,
-                    Framework: packageSection.GetValue<string>("framework") ?? string.Empty
+                    IsIgnored: packageSection.GetValue<bool>(kIgnoreKey),
+                    Name: packageSection.GetValue<string>(kNameKey) ?? string.Empty,
+                    Version: packageSection.GetValue<string>(kVersionKey) ?? string.Empty,
+                    Framework: packageSection.GetValue<string>(kFrameworkKey) ?? string.Empty
                 );
             })
             .Distinct();
