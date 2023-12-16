@@ -1,5 +1,7 @@
 using System.Linq;
 using System.Reflection;
+using NuGet.Configuration;
+using NuGet.Frameworks;
 using NuGet.Packaging;
 using NuGet.Protocol.Core.Types;
 using NuGet.Packaging.Licenses;
@@ -12,7 +14,8 @@ public static class IPackageSearchMetadataExtension
 {
     public static PackageJson ToPackageJson(
         this IPackageSearchMetadata packageSearchMetadata,
-        IDictionary<string, string> supportedUnityFrameworks
+        NuGetFramework nugetFramework,
+        string minUnityVersion
     )
     {
         return new PackageJson()
@@ -21,8 +24,8 @@ public static class IPackageSearchMetadataExtension
             Version = packageSearchMetadata.GetUpmVersion(),
             License = packageSearchMetadata.GetUpmLicense() ?? string.Empty,
             Description = packageSearchMetadata.GetUpmDescription(),
-            DotNetFramework = packageSearchMetadata.GetUpmPreferredFramework(supportedUnityFrameworks.Keys),
-            MinUnityVersion = packageSearchMetadata.GetUpmPreferredUnityVersion(supportedUnityFrameworks),
+            DotNetFramework = nugetFramework.GetShortFolderName(),
+            MinUnityVersion = minUnityVersion,
             Homepage = packageSearchMetadata.GetUpmHomepage(),
             Keywords = packageSearchMetadata.GetUpmKeywords(),
             DisplayName = packageSearchMetadata.GetUpmDisplayName(),
@@ -30,7 +33,7 @@ public static class IPackageSearchMetadataExtension
             Contributors = packageSearchMetadata.GetUpmContributors(),
             Repository = packageSearchMetadata.GetUpmRepository(),
             PublishingConfiguration = packageSearchMetadata.GetUpmPublishingConfiguration(),
-            Dependencies = packageSearchMetadata.GetUpmDependencies(supportedUnityFrameworks.Keys),
+            Dependencies = packageSearchMetadata.GetUpmDependencies(nugetFramework),
         };
     }
 
@@ -119,16 +122,18 @@ public static class IPackageSearchMetadataExtension
 
     public static IDictionary<string, string> GetUpmDependencies(
         this IPackageSearchMetadata packageSearchMetadata,
-        IEnumerable<string> frameworks
+        NuGetFramework nugetFramework
     )
     {
-        var framework = packageSearchMetadata.GetUpmPreferredFramework(frameworks);
-        return new StringStringDictionary(
-            packageSearchMetadata.DependencySets
-                .Where(dependencyGroup => dependencyGroup.TargetFramework.GetShortFolderName() == framework)
-                .SelectMany(dependencyGroup => dependencyGroup.Packages)
-                .ToDictionary(d => d.Id, d => d.VersionRange.ToLegacyShortString())
+        var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
+            packageSearchMetadata.DependencySets,
+            nugetFramework
         );
+
+        if (packageDependencyGroup is null)
+            return new Dictionary<string, string>();
+
+        return packageDependencyGroup.Packages.ToDictionary(d => d.Id, d => d.VersionRange.ToLegacyShortString());
     }
 
     public static string GetUpmPreferredFramework(
