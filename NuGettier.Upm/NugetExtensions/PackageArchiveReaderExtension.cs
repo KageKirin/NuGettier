@@ -1,5 +1,7 @@
 using System.Linq;
 using System.Text;
+using NuGet.Configuration;
+using NuGet.Frameworks;
 using NuGet.Packaging;
 
 namespace NuGettier.Upm;
@@ -44,13 +46,21 @@ public static class PackageArchiveReaderExtension
         return string.Empty;
     }
 
-    public static TarGz.FileDictionary GetFrameworkFiles(this PackageArchiveReader packageReader, string framework)
+    public static TarGz.FileDictionary GetFrameworkFiles(
+        this PackageArchiveReader packageReader,
+        NuGetFramework framework
+    )
     {
+        var frameworkSpecificGroup = NuGetFrameworkUtility.GetNearest<FrameworkSpecificGroup>(
+            packageReader.GetLibItems(),
+            framework
+        );
+
+        if (frameworkSpecificGroup is null)
+            return new TarGz.FileDictionary();
+
         return new TarGz.FileDictionary(
-            packageReader
-                .GetFiles("lib")
-                .Where(f => f.Contains(framework))
-                .ToDictionary(f => f, f => packageReader.GetBytes(f))
+            frameworkSpecificGroup.Items.ToDictionary(f => f, f => packageReader.GetBytes(f))
         );
     }
 

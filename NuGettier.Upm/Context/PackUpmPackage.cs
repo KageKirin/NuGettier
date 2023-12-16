@@ -72,12 +72,7 @@ public partial class Context
         using PackageArchiveReader packageReader = new(packageStream);
         NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
 
-        var selectedFramework = packageReader.SelectPreferredFramework(
-            !string.IsNullOrEmpty(packageRule.Framework) ? new[] { packageRule.Framework } : Frameworks
-        );
-        Console.WriteLine($"selected framework: {selectedFramework}");
-
-        var files = packageReader.GetFrameworkFiles(selectedFramework);
+        var files = packageReader.GetFrameworkFiles(NugetFramework);
         files.AddRange(packageReader.GetAdditionalFiles(nuspecReader, renameOriginalMarkdownFiles: true));
 
         // create & add README
