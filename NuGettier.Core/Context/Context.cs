@@ -26,6 +26,7 @@ public partial class Context : IDisposable
     protected const string kProtocolKey = @"protocol";
     protected const string kPackageSection = @"package";
     protected const string kIgnoreKey = @"ignore";
+    protected const string kNameKey = @"name";
 
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
@@ -120,7 +121,7 @@ public partial class Context : IDisposable
                 return new PackageRule(
                     Id: packageSection.Key,
                     IsIgnored: packageSection.GetValue<bool>(kIgnoreKey),
-                    Name: packageSection.GetValue<string>("name") ?? string.Empty,
+                    Name: packageSection.GetValue<string>(kNameKey) ?? string.Empty,
                     Version: packageSection.GetValue<string>("version") ?? string.Empty,
                     Framework: packageSection.GetValue<string>("framework") ?? string.Empty
                 );
