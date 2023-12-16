@@ -4,18 +4,17 @@ namespace NuGettier.Upm;
 
 #nullable enable
 
-public static class PackageJsonExtension
+public partial record class PackageJson
 {
-    public static string GenerateReadme(this PackageJson packageJson, string originalReadme)
+    public virtual string GenerateReadme(string originalReadme)
     {
         var nugettierDeps =
-            packageJson.DevDependencies?.FirstOrDefault()
-            ?? new KeyValuePair<string, string>(@"unknown assembly", @"47.1.1");
+            this.DevDependencies?.FirstOrDefault() ?? new KeyValuePair<string, string>(@"unknown assembly", @"47.1.1");
 
         var readme = ReadmeStringFactory.GenerateReadme(
-            name: $"{packageJson.DisplayName} ({packageJson.Name})",
-            version: packageJson.Version,
-            description: packageJson.Description,
+            name: $"{this.DisplayName} ({this.Name})",
+            version: this.Version,
+            description: this.Description,
             applicationName: nugettierDeps.Key,
             applicationVersion: nugettierDeps.Value
         );
@@ -28,19 +27,14 @@ public static class PackageJsonExtension
         return readme;
     }
 
-    public static string GenerateLicense(
-        this PackageJson packageJson,
-        string originalLicense,
-        string copyright,
-        string copyrightHolder
-    )
+    public virtual string GenerateLicense(string originalLicense, string copyright, string copyrightHolder)
     {
         var license = LicenseStringFactory.GenerateLicense(
-            name: $"{packageJson.DisplayName} ({packageJson.Name})",
-            version: packageJson.Version,
+            name: $"{this.DisplayName} ({this.Name})",
+            version: this.Version,
             copyright: copyright,
             copyrightHolder: copyrightHolder,
-            license: packageJson.License,
+            license: this.License,
             licenseUrl: string.Empty
         );
 
@@ -52,11 +46,11 @@ public static class PackageJsonExtension
         return license;
     }
 
-    public static string GenerateChangelog(this PackageJson packageJson, string releaseNotes)
+    public virtual string GenerateChangelog(string releaseNotes)
     {
         return ChangelogStringFactory.GenerateChangelog(
-            name: $"{packageJson.DisplayName} ({packageJson.Name})",
-            version: packageJson.Version,
+            name: $"{this.DisplayName} ({this.Name})",
+            version: this.Version,
             releaseNotes: releaseNotes
         );
     }
