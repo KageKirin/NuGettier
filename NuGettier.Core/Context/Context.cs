@@ -24,6 +24,7 @@ public partial class Context : IDisposable
     protected const string kUsernameKey = @"username";
     protected const string kPasswordKey = @"password";
     protected const string kProtocolKey = @"protocol";
+    protected const string kPackageSection = @"package";
 
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
@@ -110,7 +111,7 @@ public partial class Context : IDisposable
         });
 
         this.PackageRules = Configuration
-            .GetSection(@"package")
+            .GetSection(kPackageSection)
             .GetChildren()
             .Select(packageSection =>
             {
