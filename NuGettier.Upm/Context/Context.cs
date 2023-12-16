@@ -80,7 +80,6 @@ public partial class Context : Core.Context
             .Where(kvp => kvp.Key == minUnityVersion)
             .Select(kvp => kvp.Value)
             .FirstOrDefault();
-        Console.WriteLine($"framework (1st choice): {framework}");
         if (!string.IsNullOrEmpty(framework))
             return framework;
 
@@ -89,13 +88,11 @@ public partial class Context : Core.Context
             .Where(kvp => kvp.Key.WildcardToRegex().IsMatch(minUnityVersion))
             .Select(kvp => kvp.Value)
             .FirstOrDefault();
-        Console.WriteLine($"framework (2nd choice): {framework}");
         if (!string.IsNullOrEmpty(framework))
             return framework;
 
         // 3rd or last choice: default setting or hard-coded constant
         framework = Configuration.GetValue<string>(kFrameworkKey);
-        Console.WriteLine($"framework (3rd choice): {framework}");
         if (!string.IsNullOrEmpty(framework))
             return framework;
 
