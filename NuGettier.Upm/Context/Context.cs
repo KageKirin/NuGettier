@@ -10,6 +10,8 @@ namespace NuGettier.Upm;
 
 public partial class Context : Core.Context
 {
+    protected const string kFrameworkSection = @"framework";
+
     public string MinUnityVersion { get; protected set; }
     public Uri Target { get; protected set; }
     public IDictionary<string, string> SupportedFrameworks { get; protected set; }
@@ -39,7 +41,7 @@ public partial class Context : Core.Context
         this.CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
 
         this.SupportedFrameworks = new Dictionary<string, string>(DefaultSupportedFrameworks); //< cctor b/c modifications below
-        foreach (var frameworkSection in Configuration.GetSection(@"framework").GetChildren())
+        foreach (var frameworkSection in Configuration.GetSection(kFrameworkSection).GetChildren())
         {
             var unityVersion = frameworkSection.GetValue<string>("unity");
             if (unityVersion != null)
