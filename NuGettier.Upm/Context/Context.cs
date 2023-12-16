@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.CommandLine;
 using NuGettier;
+using NuGettier.Core;
 using NuGet.Configuration;
 using NuGet.Frameworks;
 using NuGet.Protocol.Core.Types;
@@ -84,13 +85,7 @@ public partial class Context : Core.Context
 
         // 2nd choice: wildcard match from settings
         framework = unityToFramework
-            .Where(
-                kvp =>
-                    Regex.IsMatch(
-                        minUnityVersion,
-                        kvp.Key.Replace(@".", @"\.").Replace(@"%", @".?").Replace(@"*", @".*") //< wildcard to regex; TODO: string extension method
-                    )
-            )
+            .Where(kvp => kvp.Key.WildcardToRegex().IsMatch(minUnityVersion))
             .Select(kvp => kvp.Value)
             .FirstOrDefault();
         Console.WriteLine($"framework (2nd choice): {framework}");
