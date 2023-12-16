@@ -44,12 +44,13 @@ public partial class Context : Core.Context
     )
         : base(configuration, sources, console)
     {
-        this.MinUnityVersion = minUnityVersion;
-        this.Target = target;
-        this.Repository = repository;
-        this.Directory = directory;
-        this.CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
-        this.Framework = GetFrameworkFromUnitySettings(minUnityVersion);
+        MinUnityVersion = minUnityVersion;
+        Target = target;
+        Repository = repository;
+        Directory = directory;
+        CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
+        Framework = GetFrameworkFromUnitySettings(minUnityVersion);
+
     }
 
     public Context(Context other)
