@@ -48,7 +48,7 @@ public partial class Context : Core.Context
                 SupportedFrameworks[frameworkSection.Key] = unityVersion;
             }
 
-            var ignoreFlag = frameworkSection.GetValue<bool>("ignore");
+            var ignoreFlag = frameworkSection.GetValue<bool>(kIgnoreKey);
             if (ignoreFlag)
             {
                 console.WriteLine($"deleting framework: {frameworkSection.Key}");
