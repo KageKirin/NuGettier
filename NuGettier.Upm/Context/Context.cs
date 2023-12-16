@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.CommandLine;
 using NuGettier;
+using NuGettier.Core;
 using NuGet.Configuration;
 using NuGet.Frameworks;
 using NuGet.Protocol.Core.Types;
@@ -43,12 +44,13 @@ public partial class Context : Core.Context
     )
         : base(configuration, sources, console)
     {
-        this.MinUnityVersion = minUnityVersion;
-        this.Target = target;
-        this.Repository = repository;
-        this.Directory = directory;
-        this.CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
-        this.Framework = GetFrameworkFromUnitySettings(minUnityVersion);
+        MinUnityVersion = minUnityVersion;
+        Target = target;
+        Repository = repository;
+        Directory = directory;
+        CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
+        Framework = GetFrameworkFromUnitySettings(minUnityVersion);
+
     }
 
     public Context(Context other)
@@ -78,28 +80,19 @@ public partial class Context : Core.Context
             .Where(kvp => kvp.Key == minUnityVersion)
             .Select(kvp => kvp.Value)
             .FirstOrDefault();
-        Console.WriteLine($"framework (1st choice): {framework}");
         if (!string.IsNullOrEmpty(framework))
             return framework;
 
         // 2nd choice: wildcard match from settings
         framework = unityToFramework
-            .Where(
-                kvp =>
-                    Regex.IsMatch(
-                        minUnityVersion,
-                        kvp.Key.Replace(@".", @"\.").Replace(@"%", @".?").Replace(@"*", @".*") //< wildcard to regex; TODO: string extension method
-                    )
-            )
+            .Where(kvp => kvp.Key.WildcardToRegex().IsMatch(minUnityVersion))
             .Select(kvp => kvp.Value)
             .FirstOrDefault();
-        Console.WriteLine($"framework (2nd choice): {framework}");
         if (!string.IsNullOrEmpty(framework))
             return framework;
 
         // 3rd or last choice: default setting or hard-coded constant
         framework = Configuration.GetValue<string>(kFrameworkKey);
-        Console.WriteLine($"framework (3rd choice): {framework}");
         if (!string.IsNullOrEmpty(framework))
             return framework;
 
