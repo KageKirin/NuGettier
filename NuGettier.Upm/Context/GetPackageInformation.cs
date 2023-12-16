@@ -39,17 +39,16 @@ public partial class Context
         {
             CachedMetadata[packageName.ToLowerInvariant()] = packageSearchMetadata;
 
-            var dependencies = packageSearchMetadata.DependencySets
-                .Where(
-                    dependencyGroup =>
-                        dependencyGroup.TargetFramework.GetShortFolderName()
-                        == packageSearchMetadata.GetUpmPreferredFramework(Frameworks)
-                )
-                .SelectMany(dependencyGroup => dependencyGroup.Packages)
-                .Distinct();
+            var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
+                packageSearchMetadata.DependencySets,
+                NugetFramework
+            );
+
+            if (packageDependencyGroup is null)
+                return null;
 
             var dependencyPackageSearchMetadata = await Task.WhenAll(
-                dependencies.Select(
+                packageDependencyGroup.Packages.Select(
                     async dependency =>
                         await base.GetPackageInformation(
                             packageName: dependency.Id,
