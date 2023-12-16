@@ -21,6 +21,7 @@ namespace NuGettier.Core;
 public partial class Context : IDisposable
 {
     protected const string kSourceSection = @"source";
+    protected const string kUsernameKey = @"username";
 
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
@@ -59,17 +60,17 @@ public partial class Context : IDisposable
         );
 
         Sources = Configuration
-            .GetSection(@"source")
+            .GetSection(kSourceSection)
             .GetChildren()
             .Select(
                 sourceSection =>
                     new Uri(
                         (
-                            string.IsNullOrEmpty(sourceSection.GetValue<string>("username"))
+                            string.IsNullOrEmpty(sourceSection.GetValue<string>(kUsernameKey))
                             && string.IsNullOrEmpty(sourceSection.GetValue<string>("password"))
                         )
                             ? $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection.Key}"
-                            : $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection["username"]}:{sourceSection["password"]}@{sourceSection.Key}"
+                            : $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection[kUsernameKey]}:{sourceSection["password"]}@{sourceSection.Key}"
                     )
             )
             .Concat(sources)
