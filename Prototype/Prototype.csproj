@@ -23,11 +23,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="7.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="7.0.0"/>
-    <PackageReference Include="NuGet.Commands" Version="6.7.0"/>
-    <PackageReference Include="NuGet.LibraryModel" Version="6.7.0"/>
-    <PackageReference Include="NuGet.Packaging" Version="6.7.0"/>
-    <PackageReference Include="NuGet.Protocol" Version="6.7.0"/>
-    <PackageReference Include="NuGet.Resolver" Version="6.7.0"/>
+    <PackageReference Include="NuGet.Commands" Version="6.8.0"/>
+    <PackageReference Include="NuGet.LibraryModel" Version="6.8.0"/>
+    <PackageReference Include="NuGet.Packaging" Version="6.8.0"/>
+    <PackageReference Include="NuGet.Protocol" Version="6.8.0"/>
+    <PackageReference Include="NuGet.Resolver" Version="6.8.0"/>
     <PackageReference Include="Xunit" Version="2.5.3"/>
   </ItemGroup>
 
