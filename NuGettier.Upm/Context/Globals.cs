@@ -10,11 +10,6 @@ namespace NuGettier.Upm;
 
 public partial class Context
 {
-    public static string[] DefaultFrameworks
-    {
-        get => DefaultSupportedFrameworks.Keys.OrderDescending().ToArray();
-    }
-
     public static readonly PackageRule DefaultPackageRule =
         new(
             Id: string.Empty,
