@@ -63,11 +63,7 @@ public partial class Context
             : Context.DefaultPackageRule.Name;
 
         var template = Handlebars.Compile(namingTemplate);
-        var result = Regex.Replace(
-            template(metadata).ToLowerInvariant().Replace(@" ", ""),
-            @"\W",
-            @"."
-        );
+        var result = Regex.Replace(template(metadata).ToLowerInvariant().Replace(@" ", ""), @"\W", @".");
         Console.WriteLine($"after: {result}");
         return result;
     }
