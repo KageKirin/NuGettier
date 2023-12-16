@@ -22,6 +22,7 @@ public partial class Context : IDisposable
 {
     protected const string kSourceSection = @"source";
     protected const string kUsernameKey = @"username";
+    protected const string kPasswordKey = @"password";
 
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
@@ -67,10 +68,10 @@ public partial class Context : IDisposable
                     new Uri(
                         (
                             string.IsNullOrEmpty(sourceSection.GetValue<string>(kUsernameKey))
-                            && string.IsNullOrEmpty(sourceSection.GetValue<string>("password"))
+                            && string.IsNullOrEmpty(sourceSection.GetValue<string>(kPasswordKey))
                         )
                             ? $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection.Key}"
-                            : $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection[kUsernameKey]}:{sourceSection["password"]}@{sourceSection.Key}"
+                            : $"{sourceSection.GetValue<string>("protocol") ?? "https"}://{sourceSection[kUsernameKey]}:{sourceSection[kPasswordKey]}@{sourceSection.Key}"
                     )
             )
             .Concat(sources)
