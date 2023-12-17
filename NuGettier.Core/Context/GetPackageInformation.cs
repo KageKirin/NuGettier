@@ -29,7 +29,7 @@ public partial class Context
     )
     {
         var packages = await GetPackageVersions(
-            packageName: packageName,
+            packageId: packageName,
             preRelease: preRelease,
             cancellationToken: cancellationToken
         );

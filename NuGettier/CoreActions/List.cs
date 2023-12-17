@@ -43,7 +43,7 @@ public static partial class Program
         Assert.NotNull(Configuration);
         using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
         var results = await context.GetPackageVersions(
-            packageName: packageId,
+            packageId: packageId,
             preRelease: preRelease,
             cancellationToken: cancellationToken
         );

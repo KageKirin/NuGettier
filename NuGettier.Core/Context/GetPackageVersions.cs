@@ -20,7 +20,7 @@ namespace NuGettier.Core;
 public partial class Context
 {
     public virtual async Task<IEnumerable<IPackageSearchMetadata>> GetPackageVersions(
-        string packageName,
+        string packageId,
         bool preRelease,
         CancellationToken cancellationToken
     )
@@ -29,7 +29,7 @@ public partial class Context
             cancellationToken
         );
         var packages = await resources.GetMetadataAsync(
-            packageName,
+            packageId,
             includePrerelease: preRelease,
             includeUnlisted: false,
             Cache,
