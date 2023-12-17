@@ -28,7 +28,7 @@ public static partial class Program
     private static Command UpmPackCommand =>
         new Command("pack", "repack the given NuPkg at the given version as Unity package")
         {
-            PackageNameArgument,
+            PackageIdArgument,
             IncludePrereleaseOption,
             RetrieveLatestOption,
             SpecificVersionOption,
@@ -43,7 +43,7 @@ public static partial class Program
         }.WithHandler(CommandHandler.Create(UpmPack));
 
     private static async Task<int> UpmPack(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string version,
@@ -70,7 +70,7 @@ public static partial class Program
             console: console
         );
         var tuple = await context.PackUpmPackage(
-            packageName: packageName,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,

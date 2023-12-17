@@ -20,7 +20,7 @@ public static class IPackageSearchMetadataExtension
     {
         return new PackageJson()
         {
-            Name = packageSearchMetadata.GetUpmPackageName(),
+            Name = packageSearchMetadata.GetUpmPackageId(),
             Version = packageSearchMetadata.GetUpmVersion(),
             License = packageSearchMetadata.GetUpmLicense() ?? string.Empty,
             Description = packageSearchMetadata.GetUpmDescription(),
@@ -37,7 +37,7 @@ public static class IPackageSearchMetadataExtension
         };
     }
 
-    public static string GetUpmPackageName(this IPackageSearchMetadata packageSearchMetadata)
+    public static string GetUpmPackageId(this IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Identity.Id;
     }

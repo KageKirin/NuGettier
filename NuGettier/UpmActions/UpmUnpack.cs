@@ -28,7 +28,7 @@ public static partial class Program
     private static Command UpmUnpackCommand =>
         new Command("unpack", "same as `upm pack`, but writing the unpacked files to the output directory")
         {
-            PackageNameArgument,
+            PackageIdArgument,
             IncludePrereleaseOption,
             RetrieveLatestOption,
             SpecificVersionOption,
@@ -43,7 +43,7 @@ public static partial class Program
         }.WithHandler(CommandHandler.Create(UpmUnpack));
 
     private static async Task<int> UpmUnpack(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string version,
@@ -70,7 +70,7 @@ public static partial class Program
             console: console
         );
         var tuple = await context.PackUpmPackage(
-            packageName: packageName,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,

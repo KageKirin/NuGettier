@@ -25,7 +25,7 @@ public static partial class Program
     private static Command InfoCommand =>
         new Command("info", "retrieve information about a specific version of a given package")
         {
-            PackageNameArgument,
+            PackageIdArgument,
             IncludePrereleaseOption,
             RetrieveLatestOption,
             SpecificVersionOption,
@@ -36,7 +36,7 @@ public static partial class Program
             .WithHandler(CommandHandler.Create(Info));
 
     private static async Task<int> Info(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string? version,
@@ -49,7 +49,7 @@ public static partial class Program
         Assert.NotNull(Configuration);
         using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
         var package = await context.GetPackageInformation(
-            packageName: packageName,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,

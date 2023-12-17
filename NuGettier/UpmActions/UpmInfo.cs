@@ -28,7 +28,7 @@ public static partial class Program
     private static Command UpmInfoCommand =>
         new Command("info", "preview Unity package informations for the given NuPkg at the given version")
         {
-            PackageNameArgument,
+            PackageIdArgument,
             OutputJsonOption,
             IncludePrereleaseOption,
             RetrieveLatestOption,
@@ -43,7 +43,7 @@ public static partial class Program
         }.WithHandler(CommandHandler.Create(UpmInfo));
 
     private static async Task<int> UpmInfo(
-        string packageName,
+        string packageId,
         bool json,
         bool preRelease,
         bool latest,
@@ -71,7 +71,7 @@ public static partial class Program
         );
 
         var packageJson = await context.GetPackageJson(
-            packageName: packageName,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,

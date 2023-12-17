@@ -25,14 +25,14 @@ public partial class Context
         var packageRule = GetPackageRule(packageJson.Name);
 
         // patch packageJson.Name, .Version and .MinUnityVersion
-        packageJson.Name = PatchPackageName(packageJson.Name);
+        packageJson.Name = PatchPackageId(packageJson.Name);
         packageJson.Version = PatchPackageVersion(packageJson.Name, packageJson.Version);
         packageJson.MinUnityVersion = MinUnityVersion;
 
         // filter and patch dependencies' name and version
         packageJson.Dependencies = packageJson.Dependencies
             .Where(d => GetPackageRule(d.Key).IsIgnored == false) //< filter
-            .ToDictionary(d => PatchPackageName(d.Key), d => PatchPackageVersion(d.Key, d.Value));
+            .ToDictionary(d => PatchPackageId(d.Key), d => PatchPackageVersion(d.Key, d.Value));
 
         // basically tag as 'nugettier was here'
         packageJson.DevDependencies ??= new StringStringDictionary();
@@ -51,13 +51,13 @@ public partial class Context
         return packageJson;
     }
 
-    private string PatchPackageName(string packageName)
+    private string PatchPackageId(string packageId)
     {
-        Console.WriteLine($"before: {packageName}");
-        var metadata = CachedMetadata[packageName.ToLowerInvariant()];
+        Console.WriteLine($"before: {packageId}");
+        var metadata = CachedMetadata[packageId.ToLowerInvariant()];
         Assert.NotNull(metadata);
 
-        var packageRule = GetPackageRule(packageName);
+        var packageRule = GetPackageRule(packageId);
         string namingTemplate = !string.IsNullOrEmpty(packageRule.Name)
             ? packageRule.Name
             : Context.DefaultPackageRule.Name;
@@ -68,16 +68,16 @@ public partial class Context
         return result;
     }
 
-    private string PatchPackageVersion(string packageName, string packageVersion)
+    private string PatchPackageVersion(string packageId, string packageVersion)
     {
-        Console.WriteLine($"before: {packageName}: {packageVersion}");
-        var packageRule = GetPackageRule(packageName);
+        Console.WriteLine($"before: {packageId}: {packageVersion}");
+        var packageRule = GetPackageRule(packageId);
         var versionRegex = !string.IsNullOrEmpty(packageRule.Version)
             ? packageRule.Version
             : Context.DefaultPackageRule.Version;
 
         var result = Regex.Match(packageVersion, versionRegex).Value;
-        Console.WriteLine($"after: {packageName}: {result}");
+        Console.WriteLine($"after: {packageId}: {result}");
 
         return result;
     }

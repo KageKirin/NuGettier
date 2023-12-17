@@ -25,14 +25,14 @@ public static partial class Program
     private static Command ListCommand =>
         new Command("list", "list available version for a given package")
         {
-            PackageNameArgument,
+            PackageIdArgument,
             IncludePrereleaseOption,
             OutputJsonOption,
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(List));
 
     private static async Task<int> List(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool json,
         IEnumerable<Uri> sources,
@@ -43,7 +43,7 @@ public static partial class Program
         Assert.NotNull(Configuration);
         using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
         var results = await context.GetPackageVersions(
-            packageName: packageName,
+            packageId: packageId,
             preRelease: preRelease,
             cancellationToken: cancellationToken
         );

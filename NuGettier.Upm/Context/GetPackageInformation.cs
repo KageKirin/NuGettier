@@ -21,7 +21,7 @@ namespace NuGettier.Upm;
 public partial class Context
 {
     public override async Task<IPackageSearchMetadata?> GetPackageInformation(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string? version,
@@ -29,7 +29,7 @@ public partial class Context
     )
     {
         var packageSearchMetadata = await base.GetPackageInformation(
-            packageName,
+            packageId,
             preRelease,
             latest,
             version,
@@ -37,7 +37,7 @@ public partial class Context
         );
         if (packageSearchMetadata != null)
         {
-            CachedMetadata[packageName.ToLowerInvariant()] = packageSearchMetadata;
+            CachedMetadata[packageId.ToLowerInvariant()] = packageSearchMetadata;
 
             var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
                 packageSearchMetadata.DependencySets,
@@ -51,7 +51,7 @@ public partial class Context
                 packageDependencyGroup.Packages.Select(
                     async dependency =>
                         await base.GetPackageInformation(
-                            packageName: dependency.Id,
+                            packageId: dependency.Id,
                             preRelease: true,
                             latest: false,
                             version: dependency.VersionRange.ToLegacyShortString(),

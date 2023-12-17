@@ -16,7 +16,7 @@ public static partial class Program
     private static Command UpmPublishCommand =>
         new Command("publish", "repack the given NuPkg at the given version as Unity package and publish")
         {
-            PackageNameArgument,
+            PackageIdArgument,
             IncludePrereleaseOption,
             RetrieveLatestOption,
             SpecificVersionOption,
@@ -34,7 +34,7 @@ public static partial class Program
         }.WithHandler(CommandHandler.Create(UpmPublish));
 
     private static async Task<int> UpmPublish(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string version,
@@ -64,7 +64,7 @@ public static partial class Program
             console: console
         );
         var result = await context.PublishUpmPackage(
-            packageName: packageName,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,

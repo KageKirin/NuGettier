@@ -23,7 +23,7 @@ namespace NuGettier;
 public static partial class Program
 {
     private static Command SearchCommand =>
-        new Command("search", "search for term or package name")
+        new Command("search", "search for term or package id")
         {
             SearchTermArgument,
             OutputJsonOption,
