@@ -27,20 +27,16 @@ using NuRepository = NuGet.Protocol.Core.Types.Repository;
 public partial class Context
 {
     public override async Task<Tuple<string, FileDictionary>?> PackUpmPackage(
-        string packageId,
+        string packageIdVersion,
         bool preRelease,
-        bool latest,
-        string? version,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
         CancellationToken cancellationToken
     )
     {
         return await base.PackUpmPackage(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             prereleaseSuffix: prereleaseSuffix,
             buildmetaSuffix: buildmetaSuffix,
             cancellationToken: cancellationToken

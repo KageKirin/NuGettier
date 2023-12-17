@@ -42,13 +42,10 @@ public static partial class Program
     )
     {
         Assert.NotNull(Configuration);
-        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
         var packages = await context.GetPackageDependencies(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             cancellationToken: cancellationToken
         );
 

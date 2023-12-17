@@ -22,18 +22,14 @@ namespace NuGettier.Upm;
 public partial class Context
 {
     public virtual async Task<PackageJson?> GetPackageJson(
-        string packageId,
+        string packageIdVersion,
         bool preRelease,
-        bool latest,
-        string? version,
         CancellationToken cancellationToken
     )
     {
         var package = await GetPackageInformation(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             cancellationToken: cancellationToken
         );
 

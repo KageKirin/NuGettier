@@ -21,18 +21,14 @@ namespace NuGettier.Core;
 public partial class Context
 {
     public virtual async Task<IEnumerable<IPackageSearchMetadata>?> GetPackageDependencies(
-        string packageId,
+        string packageIdVersion,
         bool preRelease,
-        bool latest,
-        string? version,
         CancellationToken cancellationToken
     )
     {
         var package = await GetPackageInformation(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             cancellationToken: cancellationToken
         );
 
@@ -53,10 +49,8 @@ public partial class Context
                     .Select(
                         async (d) =>
                             await GetPackageInformation(
-                                packageId: d.Key,
+                                packageIdVersion: $"{d.Key}@{d.Value}",
                                 preRelease: preRelease,
-                                latest: false,
-                                version: d.Value,
                                 cancellationToken: cancellationToken
                             )
                     )
