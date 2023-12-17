@@ -37,7 +37,7 @@ public static partial class Program
             .WithHandler(CommandHandler.Create(Get));
 
     private static async Task<int> Get(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string? version,
@@ -50,7 +50,7 @@ public static partial class Program
         Assert.NotNull(Configuration);
         using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
         using var packageStream = await context.FetchPackage(
-            packageName: packageName,
+            packageName: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,
