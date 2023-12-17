@@ -36,7 +36,7 @@ public static partial class Program
             .WithHandler(CommandHandler.Create(ListDependencies));
 
     private static async Task<int> ListDependencies(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string? version,
@@ -49,7 +49,7 @@ public static partial class Program
         Assert.NotNull(Configuration);
         using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
         var packages = await context.GetPackageDependencies(
-            packageName: packageName,
+            packageName: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,
