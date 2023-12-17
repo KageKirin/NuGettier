@@ -21,14 +21,11 @@ namespace NuGettier.Core;
 public partial class Context
 {
     public virtual async Task<IEnumerable<IPackageSearchMetadata>?> GetPackageDependencies(
-        string packageId,
+        string packageIdVersion,
         bool preRelease,
-        bool latest,
-        string? version,
         CancellationToken cancellationToken
     )
     {
-        var packageIdVersion = $"{packageId}@{(version ?? "latest")}";
         var package = await GetPackageInformation(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
