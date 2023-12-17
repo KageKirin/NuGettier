@@ -68,16 +68,16 @@ public partial class Context
         return result;
     }
 
-    private string PatchPackageVersion(string packageName, string packageVersion)
+    private string PatchPackageVersion(string packageId, string packageVersion)
     {
-        Console.WriteLine($"before: {packageName}: {packageVersion}");
-        var packageRule = GetPackageRule(packageName);
+        Console.WriteLine($"before: {packageId}: {packageVersion}");
+        var packageRule = GetPackageRule(packageId);
         var versionRegex = !string.IsNullOrEmpty(packageRule.Version)
             ? packageRule.Version
             : Context.DefaultPackageRule.Version;
 
         var result = Regex.Match(packageVersion, versionRegex).Value;
-        Console.WriteLine($"after: {packageName}: {result}");
+        Console.WriteLine($"after: {packageId}: {result}");
 
         return result;
     }
