@@ -17,6 +17,7 @@ using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
+using NuGettier.Core;
 using Xunit;
 
 namespace NuGettier;
@@ -26,21 +27,15 @@ public static partial class Program
     private static Command GetCommand =>
         new Command("get", "download the given NuPkg at the given version")
         {
-            PackageIdArgument,
+            PackageIdVersionArgument,
             IncludePrereleaseOption,
-            RetrieveLatestOption,
-            SpecificVersionOption,
             SourceRepositoriesOption,
             OutputDirectoryOption,
-        }
-            .WithValidator(ValidateLatestOrVersion)
-            .WithHandler(CommandHandler.Create(Get));
+        }.WithHandler(CommandHandler.Create(Get));
 
     private static async Task<int> Get(
-        string packageId,
+        string packageIdVersion,
         bool preRelease,
-        bool latest,
-        string? version,
         IEnumerable<Uri> sources,
         DirectoryInfo outputDirectory,
         IConsole console,
@@ -48,6 +43,7 @@ public static partial class Program
     )
     {
         Assert.NotNull(Configuration);
+        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
         using var packageStream = await context.FetchPackage(
             packageId: packageId,

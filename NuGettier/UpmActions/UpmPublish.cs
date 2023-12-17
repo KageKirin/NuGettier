@@ -7,6 +7,7 @@ using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
+using NuGettier.Core;
 using Xunit;
 
 namespace NuGettier;
@@ -16,10 +17,8 @@ public static partial class Program
     private static Command UpmPublishCommand =>
         new Command("publish", "repack the given NuPkg at the given version as Unity package and publish")
         {
-            PackageIdArgument,
+            PackageIdVersionArgument,
             IncludePrereleaseOption,
-            RetrieveLatestOption,
-            SpecificVersionOption,
             SourceRepositoriesOption,
             TargetRegistryOption,
             UpmUnityVersionOption,
@@ -34,10 +33,8 @@ public static partial class Program
         }.WithHandler(CommandHandler.Create(UpmPublish));
 
     private static async Task<int> UpmPublish(
-        string packageId,
+        string packageIdVersion,
         bool preRelease,
-        bool latest,
-        string version,
         IEnumerable<Uri> sources,
         Uri target,
         string unity,
@@ -54,6 +51,7 @@ public static partial class Program
     )
     {
         Assert.NotNull(Configuration);
+        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         using var context = new Upm.Context(
             configuration: Configuration!,
             sources: sources,
