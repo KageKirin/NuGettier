@@ -17,6 +17,7 @@ using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
 using ICSharpCode.SharpZipLib.Tar;
 using ICSharpCode.SharpZipLib.GZip;
+using NuGettier.Core;
 using NuGettier.Upm.TarGz;
 using Xunit;
 
@@ -27,17 +28,14 @@ using NuRepository = NuGet.Protocol.Core.Types.Repository;
 public partial class Context
 {
     public virtual async Task<Tuple<string, FileDictionary>?> PackUpmPackage(
-        string packageId,
+        string packageIdVersion,
         bool preRelease,
-        bool latest,
-        string? version,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
         CancellationToken cancellationToken
     )
     {
         // build package.json from package information
-        var packageIdVersion = $"{packageId}@{(version ?? "latest")}";
         var packageJson = await GetPackageJson(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
@@ -54,6 +52,7 @@ public partial class Context
             packageJson.Version += $"+{buildmetaSuffix}";
 
         // get package rule
+        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         PackageRule packageRule = GetPackageRule(packageId);
         Assert.NotNull(packageRule);
 
@@ -75,8 +74,8 @@ public partial class Context
         // create & add README
         if (!files.ContainsKey(@"README.md"))
         {
-            var license = packageJson.GenerateReadme(originalReadme: packageReader.GetReadme(nuspecReader));
-            files.Add(@"README.md", license);
+            var readme = packageJson.GenerateReadme(originalReadme: packageReader.GetReadme(nuspecReader));
+            files.Add(@"README.md", readme);
             Console.WriteLine($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
         }
 

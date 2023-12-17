@@ -57,7 +57,6 @@ public static partial class Program
     )
     {
         Assert.NotNull(Configuration);
-        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         using var context = new Upm.Context(
             configuration: Configuration!,
             sources: sources,
@@ -68,10 +67,8 @@ public static partial class Program
             console: console
         );
         var tuple = await context.PackUpmPackage(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             prereleaseSuffix: prereleaseSuffix,
             buildmetaSuffix: buildmetaSuffix,
             cancellationToken: cancellationToken

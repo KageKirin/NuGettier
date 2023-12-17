@@ -39,11 +39,10 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
+        var packageIdVersion = $"{packageId}@{(version ?? "latest")}";
         var tuple = await PackUpmPackage(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             prereleaseSuffix: prereleaseSuffix,
             buildmetaSuffix: buildmetaSuffix,
             cancellationToken: cancellationToken
