@@ -60,7 +60,10 @@ public static class PackageArchiveReaderExtension
             return new TarGz.FileDictionary();
 
         return new TarGz.FileDictionary(
-            frameworkSpecificGroup.Items.ToDictionary(f => f, f => packageReader.GetBytes(f))
+            frameworkSpecificGroup.Items.ToDictionary(
+                f => $"{packageReader.NuspecReader.GetId()}/{f}", //< explicitly forward slashes '/' for paths
+                f => packageReader.GetBytes(f)
+            )
         );
     }
 
