@@ -17,6 +17,7 @@ using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
+using NuGettier.Core;
 using NuGettier.Upm;
 using NuGettier.Upm.TarGz;
 using Xunit;
@@ -28,11 +29,9 @@ public static partial class Program
     private static Command AmalgamateInfoCommand =>
         new Command("info", "preview Unity package informations for the given NuPkg at the given version")
         {
-            PackageIdArgument,
+            PackageIdVersionArgument,
             OutputJsonOption,
             IncludePrereleaseOption,
-            RetrieveLatestOption,
-            SpecificVersionOption,
             SourceRepositoriesOption,
             TargetRegistryOption,
             UpmUnityVersionOption,
@@ -43,11 +42,9 @@ public static partial class Program
         }.WithHandler(CommandHandler.Create(AmalgamateInfo));
 
     private static async Task<int> AmalgamateInfo(
-        string packageId,
+        string packageIdVersion,
         bool json,
         bool preRelease,
-        bool latest,
-        string version,
         IEnumerable<Uri> sources,
         Uri target,
         string unity,
@@ -60,6 +57,7 @@ public static partial class Program
     )
     {
         Assert.NotNull(Configuration);
+        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         using var context = new Amalgamate.Context(
             configuration: Configuration!,
             sources: sources,
