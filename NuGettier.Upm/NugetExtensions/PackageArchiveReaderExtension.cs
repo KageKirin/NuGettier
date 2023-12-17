@@ -60,14 +60,16 @@ public static class PackageArchiveReaderExtension
             return new TarGz.FileDictionary();
 
         return new TarGz.FileDictionary(
-            frameworkSpecificGroup.Items.ToDictionary(f => f, f => packageReader.GetBytes(f))
+            frameworkSpecificGroup.Items.ToDictionary(
+                f => $"{packageReader.NuspecReader.GetId()}/{f}", //< explicitly forward slashes '/' for paths
+                f => packageReader.GetBytes(f)
+            )
         );
     }
 
     public static TarGz.FileDictionary GetAdditionalFiles(
         this PackageArchiveReader packageReader,
-        NuspecReader nuspecReader,
-        bool renameOriginalMarkdownFiles
+        NuspecReader nuspecReader
     )
     {
         List<string> additionalFiles =
@@ -85,14 +87,9 @@ public static class PackageArchiveReaderExtension
             packageReader
                 .GetFiles()
                 .Where(f => additionalFiles.Contains(f))
-                .Select(
-                    f =>
-                        new KeyValuePair<string, byte[]>(
-                            renameOriginalMarkdownFiles && Path.GetExtension(f) == ".md"
-                                ? $"{Path.GetFileNameWithoutExtension(f)}.orig{Path.GetExtension(f)}"
-                                : f,
-                            packageReader.GetBytes(f)
-                        )
+                .ToDictionary(
+                    f => $"{packageReader.NuspecReader.GetId()}/{f}", //< explicitly forward slashes '/' for paths
+                    f => packageReader.GetBytes(f)
                 )
         );
     }
