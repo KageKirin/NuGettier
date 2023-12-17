@@ -38,7 +38,7 @@ public partial class Context
     {
         // build package.json from package information
         var packageJson = await GetPackageJson(
-            packageName: packageName,
+            packageId: packageName,
             preRelease: preRelease,
             latest: latest,
             version: version,
@@ -55,12 +55,12 @@ public partial class Context
             packageJson.Version += $"+{buildmetaSuffix}";
 
         // get package rule
-        PackageRule packageRule = GetPackageRule(packageName);
+        PackageRule packageRule = GetPackageRule(packageId);
         Assert.NotNull(packageRule);
 
         // fetch package contents for NuGet
         using var packageStream = await FetchPackage(
-            packageId: packageName,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,

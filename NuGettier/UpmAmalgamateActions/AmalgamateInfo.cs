@@ -71,7 +71,7 @@ public static partial class Program
         );
 
         var packageJson = await context.GetPackageJson(
-            packageName: packageId,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,
