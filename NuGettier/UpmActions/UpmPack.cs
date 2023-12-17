@@ -17,6 +17,7 @@ using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
+using NuGettier.Core;
 using NuGettier.Upm;
 using NuGettier.Upm.TarGz;
 using Xunit;
@@ -28,10 +29,8 @@ public static partial class Program
     private static Command UpmPackCommand =>
         new Command("pack", "repack the given NuPkg at the given version as Unity package")
         {
-            PackageIdArgument,
+            PackageIdVersionArgument,
             IncludePrereleaseOption,
-            RetrieveLatestOption,
-            SpecificVersionOption,
             SourceRepositoriesOption,
             TargetRegistryOption,
             OutputDirectoryOption,
@@ -43,10 +42,8 @@ public static partial class Program
         }.WithHandler(CommandHandler.Create(UpmPack));
 
     private static async Task<int> UpmPack(
-        string packageId,
+        string packageIdVersion,
         bool preRelease,
-        bool latest,
-        string version,
         IEnumerable<Uri> sources,
         Uri target,
         DirectoryInfo outputDirectory,
@@ -60,6 +57,7 @@ public static partial class Program
     )
     {
         Assert.NotNull(Configuration);
+        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         using var context = new Upm.Context(
             configuration: Configuration!,
             sources: sources,
