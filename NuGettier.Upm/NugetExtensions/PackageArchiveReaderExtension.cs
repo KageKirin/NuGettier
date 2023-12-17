@@ -69,8 +69,7 @@ public static class PackageArchiveReaderExtension
 
     public static TarGz.FileDictionary GetAdditionalFiles(
         this PackageArchiveReader packageReader,
-        NuspecReader nuspecReader,
-        bool renameOriginalMarkdownFiles
+        NuspecReader nuspecReader
     )
     {
         List<string> additionalFiles =

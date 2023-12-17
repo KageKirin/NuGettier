@@ -69,7 +69,7 @@ public partial class Context
         NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
 
         var files = packageReader.GetFrameworkFiles(NugetFramework);
-        files.AddRange(packageReader.GetAdditionalFiles(nuspecReader, renameOriginalMarkdownFiles: true));
+        files.AddRange(packageReader.GetAdditionalFiles(nuspecReader));
 
         // create & add README
         if (!files.ContainsKey(@"README.md"))
