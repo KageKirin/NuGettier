@@ -21,7 +21,7 @@ namespace NuGettier.Core;
 public partial class Context
 {
     public virtual async Task<IPackageSearchMetadata?> GetPackageInformation(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string? version,
@@ -29,7 +29,7 @@ public partial class Context
     )
     {
         var packages = await GetPackageVersions(
-            packageId: packageName,
+            packageId: packageId,
             preRelease: preRelease,
             cancellationToken: cancellationToken
         );

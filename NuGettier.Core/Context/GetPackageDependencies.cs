@@ -29,7 +29,7 @@ public partial class Context
     )
     {
         var package = await GetPackageInformation(
-            packageName: packageName,
+            packageId: packageName,
             preRelease: preRelease,
             latest: latest,
             version: version,
@@ -53,7 +53,7 @@ public partial class Context
                     .Select(
                         async (d) =>
                             await GetPackageInformation(
-                                packageName: d.Key,
+                                packageId: d.Key,
                                 preRelease: preRelease,
                                 latest: false,
                                 version: d.Value,
