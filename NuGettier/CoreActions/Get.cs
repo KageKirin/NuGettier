@@ -26,7 +26,7 @@ public static partial class Program
     private static Command GetCommand =>
         new Command("get", "download the given NuPkg at the given version")
         {
-            PackageNameArgument,
+            PackageIdArgument,
             IncludePrereleaseOption,
             RetrieveLatestOption,
             SpecificVersionOption,

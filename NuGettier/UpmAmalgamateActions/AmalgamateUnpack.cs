@@ -28,7 +28,7 @@ public static partial class Program
     private static Command AmalgamateUnpackCommand =>
         new Command("unpack", "same as `upm pack`, but writing the unpacked files to the output directory")
         {
-            PackageNameArgument,
+            PackageIdArgument,
             IncludePrereleaseOption,
             RetrieveLatestOption,
             SpecificVersionOption,

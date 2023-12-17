@@ -16,7 +16,7 @@ public static partial class Program
     private static Command UpmPublishCommand =>
         new Command("publish", "repack the given NuPkg at the given version as Unity package and publish")
         {
-            PackageNameArgument,
+            PackageIdArgument,
             IncludePrereleaseOption,
             RetrieveLatestOption,
             SpecificVersionOption,

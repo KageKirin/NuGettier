@@ -28,7 +28,7 @@ public static partial class Program
     private static Command UpmInfoCommand =>
         new Command("info", "preview Unity package informations for the given NuPkg at the given version")
         {
-            PackageNameArgument,
+            PackageIdArgument,
             OutputJsonOption,
             IncludePrereleaseOption,
             RetrieveLatestOption,

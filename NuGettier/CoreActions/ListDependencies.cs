@@ -25,7 +25,7 @@ public static partial class Program
     private static Command ListDependenciesCommand =>
         new Command("deps", "retrieve information about a specific version of a given package")
         {
-            PackageNameArgument,
+            PackageIdArgument,
             IncludePrereleaseOption,
             RetrieveLatestOption,
             SpecificVersionOption,
