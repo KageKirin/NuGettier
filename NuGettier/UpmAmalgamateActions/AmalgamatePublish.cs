@@ -64,7 +64,7 @@ public static partial class Program
             console: console
         );
         var result = await context.PublishUpmPackage(
-            packageName: packageId,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,
