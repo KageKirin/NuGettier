@@ -23,18 +23,14 @@ namespace NuGettier.Amalgamate;
 public partial class Context
 {
     public override async Task<Upm.PackageJson?> GetPackageJson(
-        string packageId,
+        string packageIdVersion,
         bool preRelease,
-        bool latest,
-        string? version,
         CancellationToken cancellationToken
     )
     {
         var packageJsonOrig = await base.GetPackageJson(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             cancellationToken: cancellationToken
         );
 

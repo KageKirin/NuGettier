@@ -17,7 +17,6 @@ using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
-using NuGettier.Core;
 using NuGettier.Upm;
 using NuGettier.Upm.TarGz;
 using Xunit;
@@ -57,7 +56,6 @@ public static partial class Program
     )
     {
         Assert.NotNull(Configuration);
-        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         using var context = new Upm.Context(
             configuration: Configuration!,
             sources: sources,
@@ -69,10 +67,8 @@ public static partial class Program
         );
 
         var packageJson = await context.GetPackageJson(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             cancellationToken: cancellationToken
         );
 

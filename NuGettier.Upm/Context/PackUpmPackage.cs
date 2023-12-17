@@ -37,11 +37,10 @@ public partial class Context
     )
     {
         // build package.json from package information
+        var packageIdVersion = $"{packageId}@{(version ?? "latest")}";
         var packageJson = await GetPackageJson(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             cancellationToken: cancellationToken
         );
 
@@ -59,7 +58,6 @@ public partial class Context
         Assert.NotNull(packageRule);
 
         // fetch package contents for NuGet
-        var packageIdVersion = $"{packageId}@{(version ?? "latest")}";
         using var packageStream = await FetchPackage(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
