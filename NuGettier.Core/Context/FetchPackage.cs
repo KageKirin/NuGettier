@@ -21,7 +21,7 @@ namespace NuGettier.Core;
 public partial class Context
 {
     public virtual async Task<MemoryStream?> FetchPackage(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string? version,
@@ -32,7 +32,7 @@ public partial class Context
             cancellationToken
         );
         IEnumerable<NuGetVersion> versions = (
-            await resources.GetAllVersionsAsync(packageName, Cache, NullLogger.Instance, cancellationToken)
+            await resources.GetAllVersionsAsync(packageId, Cache, NullLogger.Instance, cancellationToken)
         ).Distinct();
 
         NuGetVersion? packageVersion = default;
@@ -54,7 +54,7 @@ public partial class Context
             {
                 if (
                     await resource.DoesPackageExistAsync(
-                        packageName,
+                        packageId,
                         packageVersion!,
                         Cache,
                         NullLogger.Instance,
@@ -64,7 +64,7 @@ public partial class Context
                 {
                     MemoryStream packageStream = new();
                     await resource.CopyNupkgToStreamAsync(
-                        packageName,
+                        packageId,
                         packageVersion!,
                         packageStream,
                         Cache,

@@ -60,7 +60,7 @@ public partial class Context
 
         // fetch package contents for NuGet
         using var packageStream = await FetchPackage(
-            packageName: packageName,
+            packageId: packageName,
             preRelease: preRelease,
             latest: latest,
             version: version,

@@ -50,7 +50,7 @@ public static partial class Program
         Assert.NotNull(Configuration);
         using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
         using var packageStream = await context.FetchPackage(
-            packageName: packageId,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,
@@ -143,7 +143,7 @@ public static partial class Program
 
             using (
                 FileStream fileStream = new FileStream(
-                    $"{Path.Join(outputDirectory.FullName, $"{packageName}-{nuspecReader.GetVersion()}.nupkg")}",
+                    $"{Path.Join(outputDirectory.FullName, $"{packageId}-{nuspecReader.GetVersion()}.nupkg")}",
                     FileMode.Create,
                     FileAccess.Write
                 )
