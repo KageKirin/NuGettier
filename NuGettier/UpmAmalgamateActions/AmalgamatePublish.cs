@@ -34,7 +34,7 @@ public static partial class Program
         }.WithHandler(CommandHandler.Create(AmalgamatePublish));
 
     private static async Task<int> AmalgamatePublish(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string version,
@@ -64,7 +64,7 @@ public static partial class Program
             console: console
         );
         var result = await context.PublishUpmPackage(
-            packageName: packageName,
+            packageName: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,
