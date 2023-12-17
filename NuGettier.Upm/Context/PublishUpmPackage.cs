@@ -40,7 +40,7 @@ public partial class Context
     )
     {
         var tuple = await PackUpmPackage(
-            packageName: packageName,
+            packageId: packageName,
             preRelease: preRelease,
             latest: latest,
             version: version,

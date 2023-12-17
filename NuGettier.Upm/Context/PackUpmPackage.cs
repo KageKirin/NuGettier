@@ -27,7 +27,7 @@ using NuRepository = NuGet.Protocol.Core.Types.Repository;
 public partial class Context
 {
     public virtual async Task<Tuple<string, FileDictionary>?> PackUpmPackage(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string? version,
@@ -38,7 +38,7 @@ public partial class Context
     {
         // build package.json from package information
         var packageJson = await GetPackageJson(
-            packageId: packageName,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,

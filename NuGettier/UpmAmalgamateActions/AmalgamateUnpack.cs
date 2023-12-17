@@ -70,7 +70,7 @@ public static partial class Program
             console: console
         );
         var tuple = await context.PackUpmPackage(
-            packageName: packageId,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,

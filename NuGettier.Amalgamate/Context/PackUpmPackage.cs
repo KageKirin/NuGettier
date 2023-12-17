@@ -27,7 +27,7 @@ using NuRepository = NuGet.Protocol.Core.Types.Repository;
 public partial class Context
 {
     public override async Task<Tuple<string, FileDictionary>?> PackUpmPackage(
-        string packageName,
+        string packageId,
         bool preRelease,
         bool latest,
         string? version,
@@ -37,7 +37,7 @@ public partial class Context
     )
     {
         return await base.PackUpmPackage(
-            packageName: packageName,
+            packageId: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,
