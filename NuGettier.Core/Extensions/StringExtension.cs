@@ -24,7 +24,7 @@ public static class StringExtension
             packageId = self;
 
         version = null;
-        latest = false;
+        latest = true;
 
         if (parts.Length >= 2)
         {
