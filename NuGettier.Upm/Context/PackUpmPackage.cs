@@ -59,11 +59,10 @@ public partial class Context
         Assert.NotNull(packageRule);
 
         // fetch package contents for NuGet
+        var packageIdVersion = $"{packageId}@{(version ?? "latest")}";
         using var packageStream = await FetchPackage(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             cancellationToken: cancellationToken
         );
         if (packageStream == null)

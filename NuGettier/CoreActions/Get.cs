@@ -43,13 +43,10 @@ public static partial class Program
     )
     {
         Assert.NotNull(Configuration);
-        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
         using var packageStream = await context.FetchPackage(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             cancellationToken: cancellationToken
         );
 
@@ -139,7 +136,7 @@ public static partial class Program
 
             using (
                 FileStream fileStream = new FileStream(
-                    $"{Path.Join(outputDirectory.FullName, $"{packageId}-{nuspecReader.GetVersion()}.nupkg")}",
+                    $"{Path.Join(outputDirectory.FullName, $"{nuspecReader.GetId()}-{nuspecReader.GetVersion()}.nupkg")}",
                     FileMode.Create,
                     FileAccess.Write
                 )
