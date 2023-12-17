@@ -43,7 +43,7 @@ public static partial class Program
         }.WithHandler(CommandHandler.Create(AmalgamateInfo));
 
     private static async Task<int> AmalgamateInfo(
-        string packageName,
+        string packageId,
         bool json,
         bool preRelease,
         bool latest,
@@ -71,7 +71,7 @@ public static partial class Program
         );
 
         var packageJson = await context.GetPackageJson(
-            packageName: packageName,
+            packageName: packageId,
             preRelease: preRelease,
             latest: latest,
             version: version,
