@@ -7,7 +7,6 @@ using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
-using NuGettier.Core;
 using Xunit;
 
 namespace NuGettier;
@@ -51,7 +50,6 @@ public static partial class Program
     )
     {
         Assert.NotNull(Configuration);
-        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         using var context = new Amalgamate.Context(
             configuration: Configuration!,
             sources: sources,
@@ -62,10 +60,8 @@ public static partial class Program
             console: console
         );
         var result = await context.PublishUpmPackage(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             prereleaseSuffix: prereleaseSuffix,
             buildmetaSuffix: buildmetaSuffix,
             token: token,

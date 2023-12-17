@@ -26,10 +26,8 @@ namespace NuGettier.Upm;
 public partial class Context
 {
     public virtual async Task<int> PublishUpmPackage(
-        string packageId,
+        string packageIdVersion,
         bool preRelease,
-        bool latest,
-        string? version,
         string? prereleaseSuffix,
         string? buildmetaSuffix,
         string? token,
@@ -39,7 +37,6 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        var packageIdVersion = $"{packageId}@{(version ?? "latest")}";
         var tuple = await PackUpmPackage(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
