@@ -13,6 +13,7 @@ using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
+using NuGettier.Core;
 
 namespace NuGettier.Upm;
 
@@ -21,18 +22,15 @@ namespace NuGettier.Upm;
 public partial class Context
 {
     public override async Task<IPackageSearchMetadata?> GetPackageInformation(
-        string packageId,
+        string packageIdVersion,
         bool preRelease,
-        bool latest,
-        string? version,
         CancellationToken cancellationToken
     )
     {
+        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         var packageSearchMetadata = await base.GetPackageInformation(
-            packageId,
+            packageIdVersion,
             preRelease,
-            latest,
-            version,
             cancellationToken
         );
         if (packageSearchMetadata != null)
@@ -51,10 +49,8 @@ public partial class Context
                 packageDependencyGroup.Packages.Select(
                     async dependency =>
                         await base.GetPackageInformation(
-                            packageId: dependency.Id,
+                            packageIdVersion: $"{dependency.Id}@{dependency.VersionRange.ToLegacyShortString()}",
                             preRelease: true,
-                            latest: false,
-                            version: dependency.VersionRange.ToLegacyShortString(),
                             cancellationToken: cancellationToken
                         )
                 )

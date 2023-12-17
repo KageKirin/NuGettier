@@ -28,11 +28,10 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
+        var packageIdVersion = $"{packageId}@{(version ?? "latest")}";
         var package = await GetPackageInformation(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             cancellationToken: cancellationToken
         );
 
@@ -53,10 +52,8 @@ public partial class Context
                     .Select(
                         async (d) =>
                             await GetPackageInformation(
-                                packageId: d.Key,
+                                packageIdVersion: $"{d.Key}@{d.Value}",
                                 preRelease: preRelease,
-                                latest: false,
-                                version: d.Value,
                                 cancellationToken: cancellationToken
                             )
                     )

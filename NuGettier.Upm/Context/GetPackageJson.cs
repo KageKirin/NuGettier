@@ -29,11 +29,10 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
+        var packageIdVersion = $"{packageId}@{(version ?? "latest")}";
         var package = await GetPackageInformation(
-            packageId: packageId,
+            packageIdVersion: packageIdVersion,
             preRelease: preRelease,
-            latest: latest,
-            version: version,
             cancellationToken: cancellationToken
         );
 
