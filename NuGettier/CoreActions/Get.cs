@@ -53,7 +53,7 @@ public static partial class Program
         if (packageStream != null)
         {
             using PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
-            NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
+            NuspecReader nuspecReader = packageReader.NuspecReader;
 
             Console.WriteLine($"ID: {nuspecReader.GetId()}");
             Console.WriteLine($"Title: {nuspecReader.GetTitle()}");
