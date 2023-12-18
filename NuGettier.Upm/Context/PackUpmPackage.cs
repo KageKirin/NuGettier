@@ -66,7 +66,7 @@ public partial class Context
             return null;
 
         using PackageArchiveReader packageReader = new(packageStream);
-        NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
+        NuspecReader nuspecReader = packageReader.NuspecReader;
 
         var files = packageReader.GetFrameworkFiles(NugetFramework);
         files.AddRange(packageReader.GetAdditionalFiles(nuspecReader));
