@@ -53,29 +53,28 @@ public static partial class Program
         if (packageStream != null)
         {
             using PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
-            NuspecReader nuspecReader = packageReader.NuspecReader;
 
-            Console.WriteLine($"ID: {nuspecReader.GetId()}");
-            Console.WriteLine($"Title: {nuspecReader.GetTitle()}");
-            Console.WriteLine($"Summary: {nuspecReader.GetSummary()}");
-            Console.WriteLine($"Copyright: {nuspecReader.GetCopyright()}");
-            Console.WriteLine($"Version: {nuspecReader.GetVersion()}");
-            Console.WriteLine($"Tags: {nuspecReader.GetTags()}");
-            Console.WriteLine($"Readme: {nuspecReader.GetReadme()}");
-            Console.WriteLine($"Icon: {nuspecReader.GetIcon()}");
-            Console.WriteLine($"Description: {nuspecReader.GetDescription()}");
-            Console.WriteLine($"Authors: {nuspecReader.GetAuthors()}");
-            Console.WriteLine($"Owners: {nuspecReader.GetOwners()}");
-            Console.WriteLine($"ReleaseNotes: {nuspecReader.GetReleaseNotes()}");
-            Console.WriteLine($"Project Url: {nuspecReader.GetProjectUrl()}");
-            Console.WriteLine($"LicenseUrl: {nuspecReader.GetLicenseUrl()}");
-            Console.WriteLine($"Icon Url: {nuspecReader.GetIconUrl()}");
-            Console.WriteLine($"Language: {nuspecReader.GetLanguage()}");
-            Console.WriteLine($"LicenseMetadata: {nuspecReader.GetLicenseMetadata()}");
-            Console.WriteLine($"RepositoryMetadata: {nuspecReader.GetRepositoryMetadata()}");
+            Console.WriteLine($"ID: {packageReader.NuspecReader.GetId()}");
+            Console.WriteLine($"Title: {packageReader.NuspecReader.GetTitle()}");
+            Console.WriteLine($"Summary: {packageReader.NuspecReader.GetSummary()}");
+            Console.WriteLine($"Copyright: {packageReader.NuspecReader.GetCopyright()}");
+            Console.WriteLine($"Version: {packageReader.NuspecReader.GetVersion()}");
+            Console.WriteLine($"Tags: {packageReader.NuspecReader.GetTags()}");
+            Console.WriteLine($"Readme: {packageReader.NuspecReader.GetReadme()}");
+            Console.WriteLine($"Icon: {packageReader.NuspecReader.GetIcon()}");
+            Console.WriteLine($"Description: {packageReader.NuspecReader.GetDescription()}");
+            Console.WriteLine($"Authors: {packageReader.NuspecReader.GetAuthors()}");
+            Console.WriteLine($"Owners: {packageReader.NuspecReader.GetOwners()}");
+            Console.WriteLine($"ReleaseNotes: {packageReader.NuspecReader.GetReleaseNotes()}");
+            Console.WriteLine($"Project Url: {packageReader.NuspecReader.GetProjectUrl()}");
+            Console.WriteLine($"LicenseUrl: {packageReader.NuspecReader.GetLicenseUrl()}");
+            Console.WriteLine($"Icon Url: {packageReader.NuspecReader.GetIconUrl()}");
+            Console.WriteLine($"Language: {packageReader.NuspecReader.GetLanguage()}");
+            Console.WriteLine($"LicenseMetadata: {packageReader.NuspecReader.GetLicenseMetadata()}");
+            Console.WriteLine($"RepositoryMetadata: {packageReader.NuspecReader.GetRepositoryMetadata()}");
 
             Console.WriteLine("Dependencies:");
-            foreach (var dependencyGroup in nuspecReader.GetDependencyGroups())
+            foreach (var dependencyGroup in packageReader.NuspecReader.GetDependencyGroups())
             {
                 Console.WriteLine($"- {dependencyGroup.TargetFramework.GetShortFolderName()}:");
                 foreach (var dependency in dependencyGroup.Packages)
@@ -85,7 +84,7 @@ public static partial class Program
             }
 
             Console.WriteLine("Framework Assembly Groups:");
-            foreach (var group in nuspecReader.GetFrameworkAssemblyGroups())
+            foreach (var group in packageReader.NuspecReader.GetFrameworkAssemblyGroups())
             {
                 Console.WriteLine($"- TargetFramework: {group.TargetFramework.ToString()}");
                 Console.WriteLine($"  HasEmptyFolder: {group.HasEmptyFolder}");
@@ -97,7 +96,7 @@ public static partial class Program
             }
 
             Console.WriteLine("Reference Groups:");
-            foreach (var group in nuspecReader.GetReferenceGroups())
+            foreach (var group in packageReader.NuspecReader.GetReferenceGroups())
             {
                 Console.WriteLine($"- TargetFramework: {group.TargetFramework.ToString()}");
                 Console.WriteLine($"  HasEmptyFolder: {group.HasEmptyFolder}");
@@ -110,7 +109,7 @@ public static partial class Program
 
             // not very interesting (empty)
             Console.WriteLine("Content Files:");
-            foreach (var file in nuspecReader.GetContentFiles())
+            foreach (var file in packageReader.NuspecReader.GetContentFiles())
             {
                 Console.WriteLine($"- file:");
                 Console.WriteLine($"  Include: {file.Include}");
@@ -127,7 +126,7 @@ public static partial class Program
             }
 
             //Console.WriteLine($"{JsonSerializer.Serialize(packageReader, new JsonSerializerOptions(){ReferenceHandler = ReferenceHandler.Preserve})}");
-            //Console.WriteLine($"{JsonSerializer.Serialize(nuspecReader, new JsonSerializerOptions(){ReferenceHandler = ReferenceHandler.Preserve})}");
+            //Console.WriteLine($"{JsonSerializer.Serialize(packageReader.NuspecReader, new JsonSerializerOptions(){ReferenceHandler = ReferenceHandler.Preserve})}");
 
             if (!outputDirectory.Exists)
             {
@@ -136,7 +135,7 @@ public static partial class Program
 
             using (
                 FileStream fileStream = new FileStream(
-                    $"{Path.Join(outputDirectory.FullName, $"{nuspecReader.GetId()}-{nuspecReader.GetVersion()}.nupkg")}",
+                    $"{Path.Join(outputDirectory.FullName, $"{packageReader.NuspecReader.GetId()}-{packageReader.NuspecReader.GetVersion()}.nupkg")}",
                     FileMode.Create,
                     FileAccess.Write
                 )
