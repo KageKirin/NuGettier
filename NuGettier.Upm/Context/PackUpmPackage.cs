@@ -83,7 +83,7 @@ public partial class Context
         if (!files.ContainsKey(@"LICENSE.md"))
         {
             var license = packageJson.GenerateLicense(
-                originalLicense: packageReader.GetLicense(nuspecReader),
+                originalLicense: packageReader.GetLicense(),
                 copyright: nuspecReader.GetCopyright(),
                 copyrightHolder: nuspecReader.GetOwners()
             );

@@ -120,7 +120,7 @@ public static class PackageArchiveReaderExtension
         return null;
     }
 
-    public static string GetLicense(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
+    public static string GetLicense(this PackageArchiveReader packageReader)
     {
         byte[]? data = packageReader.GetLicenseFile();
         if (data == null || data.Length == 0)
