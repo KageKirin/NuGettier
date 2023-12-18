@@ -74,7 +74,7 @@ public partial class Context
         // create & add README
         if (!files.ContainsKey(@"README.md"))
         {
-            var readme = packageJson.GenerateReadme(originalReadme: packageReader.GetReadme(nuspecReader));
+            var readme = packageJson.GenerateReadme(originalReadme: packageReader.GetReadme());
             files.Add(@"README.md", readme);
             Console.WriteLine($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
         }

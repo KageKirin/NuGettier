@@ -99,7 +99,7 @@ public static class PackageArchiveReaderExtension
         return packageReader.GetBytes(packageReader.NuspecReader.GetReadme());
     }
 
-    public static string GetReadme(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
+    public static string GetReadme(this PackageArchiveReader packageReader)
     {
         byte[]? data = packageReader.GetReadmeFile();
         if (data == null || data.Length == 0)
