@@ -91,17 +91,17 @@ public static class PackageArchiveReaderExtension
         );
     }
 
-    public static byte[]? GetReadmeFile(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
+    public static byte[]? GetReadmeFile(this PackageArchiveReader packageReader)
     {
-        if (string.IsNullOrEmpty(nuspecReader.GetReadme()))
+        if (string.IsNullOrEmpty(packageReader.NuspecReader.GetReadme()))
             return null;
 
-        return packageReader.GetBytes(nuspecReader.GetReadme());
+        return packageReader.GetBytes(packageReader.NuspecReader.GetReadme());
     }
 
     public static string GetReadme(this PackageArchiveReader packageReader, NuspecReader nuspecReader)
     {
-        byte[]? data = packageReader.GetReadmeFile(nuspecReader);
+        byte[]? data = packageReader.GetReadmeFile();
         if (data == null || data.Length == 0)
             return string.Empty;
 
