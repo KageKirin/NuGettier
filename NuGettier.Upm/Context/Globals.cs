@@ -14,6 +14,7 @@ public partial class Context
         new(
             Id: string.Empty,
             IsIgnored: false,
+            IsExcluded: false,
             Name: @"com.{{{package.author}}}.{{{package.id}}}",
             Version: @"^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)(\.(?<patch>0|[1-9]\d*))?(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$",
             Framework: string.Empty
