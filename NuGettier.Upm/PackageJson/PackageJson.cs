@@ -60,7 +60,7 @@ public partial record class PackageJson
         return JsonSerializer.Deserialize<PackageJson>(json);
     }
 
-    public string ToJson()
+    public virtual string ToJson()
     {
         return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
     }
