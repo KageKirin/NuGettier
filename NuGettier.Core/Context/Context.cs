@@ -26,13 +26,23 @@ public partial class Context : IDisposable
     protected const string kProtocolKey = @"protocol";
     protected const string kPackageSection = @"package";
     protected const string kIgnoreKey = @"ignore";
+    protected const string kExcludeKey = @"exclude";
+    protected const string kRecurseKey = @"recurse";
     protected const string kNameKey = @"name";
     protected const string kVersionKey = @"version";
     protected const string kFrameworkKey = @"framework";
 
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
-    public record class PackageRule(string Id, bool IsIgnored, string Name, string Version, string Framework);
+    public record class PackageRule(
+        string Id,
+        string Name,
+        string Version,
+        string Framework,
+        bool IsIgnored,
+        bool IsExcluded,
+        bool IsRecursive
+    );
 
     public IConfigurationRoot Configuration { get; protected set; }
     public IEnumerable<Uri> Sources { get; protected set; }
@@ -122,10 +132,12 @@ public partial class Context : IDisposable
                 console.WriteLine($"package key: {packageSection.Key}");
                 return new PackageRule(
                     Id: packageSection.Key,
-                    IsIgnored: packageSection.GetValue<bool>(kIgnoreKey),
                     Name: packageSection.GetValue<string>(kNameKey) ?? string.Empty,
                     Version: packageSection.GetValue<string>(kVersionKey) ?? string.Empty,
-                    Framework: packageSection.GetValue<string>(kFrameworkKey) ?? string.Empty
+                    Framework: packageSection.GetValue<string>(kFrameworkKey) ?? string.Empty,
+                    IsIgnored: packageSection.GetValue<bool>(kIgnoreKey),
+                    IsExcluded: packageSection.GetValue<bool>(kExcludeKey),
+                    IsRecursive: packageSection.GetValue<bool>(kRecurseKey)
                 );
             })
             .Distinct();
