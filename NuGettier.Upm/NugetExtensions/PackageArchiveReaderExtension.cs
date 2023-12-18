@@ -113,7 +113,7 @@ public static class PackageArchiveReaderExtension
         var packageFiles = packageReader.GetFiles();
         foreach (var f in packageFiles)
         {
-            if (Path.GetFileName(f).ToLowerInvariant() == @"license")
+            if (Path.GetFileNameWithoutExtension(f).ToLowerInvariant() == @"license")
                 packageReader.GetBytes(f);
         }
 
