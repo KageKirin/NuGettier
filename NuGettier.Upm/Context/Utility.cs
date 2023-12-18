@@ -19,7 +19,7 @@ public partial class Context
             .FirstOrDefault(PackageRules.Where(r => string.IsNullOrEmpty(r.Id)).FirstOrDefault(DefaultPackageRule));
     }
 
-    public PackageJson PatchPackageJson(PackageJson packageJson)
+    public virtual PackageJson PatchPackageJson(PackageJson packageJson)
     {
         // get packageRule for this package
         var packageRule = GetPackageRule(packageJson.Name);
