@@ -66,15 +66,14 @@ public partial class Context
             return null;
 
         using PackageArchiveReader packageReader = new(packageStream);
-        NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
 
         var files = packageReader.GetFrameworkFiles(NugetFramework);
-        files.AddRange(packageReader.GetAdditionalFiles(nuspecReader));
+        files.AddRange(packageReader.GetAdditionalFiles());
 
         // create & add README
         if (!files.ContainsKey(@"README.md"))
         {
-            var readme = packageJson.GenerateReadme(originalReadme: packageReader.GetReadme(nuspecReader));
+            var readme = packageJson.GenerateReadme(originalReadme: packageReader.GetReadme());
             files.Add(@"README.md", readme);
             Console.WriteLine($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
         }
@@ -83,9 +82,9 @@ public partial class Context
         if (!files.ContainsKey(@"LICENSE.md"))
         {
             var license = packageJson.GenerateLicense(
-                originalLicense: packageReader.GetLicense(nuspecReader),
-                copyright: nuspecReader.GetCopyright(),
-                copyrightHolder: nuspecReader.GetOwners()
+                originalLicense: packageReader.GetLicense(),
+                copyright: packageReader.NuspecReader.GetCopyright(),
+                copyrightHolder: packageReader.NuspecReader.GetOwners()
             );
             files.Add(@"LICENSE.md", license);
             Console.WriteLine($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
@@ -94,7 +93,7 @@ public partial class Context
         // create & add CHANGELOG
         if (!files.ContainsKey(@"CHANGELOG.md"))
         {
-            var changelog = packageJson.GenerateChangelog(nuspecReader.GetReleaseNotes());
+            var changelog = packageJson.GenerateChangelog(packageReader.NuspecReader.GetReleaseNotes());
             files.Add(@"CHANGELOG.md", changelog);
             Console.WriteLine($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
         }

@@ -136,22 +136,21 @@ await findPackageByIdResource.CopyNupkgToStreamAsync(
 Console.WriteLine($"Downloaded package {PACKAGE} {packageVersion}");
 
 using PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
-NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
 
-Console.WriteLine($"Tags: {nuspecReader.GetTags()}");
-Console.WriteLine($"Description: {nuspecReader.GetDescription()}");
+Console.WriteLine($"Tags: {packageReader.NuspecReader.GetTags()}");
+Console.WriteLine($"Description: {packageReader.NuspecReader.GetDescription()}");
 #endregion
 
 
 #region read package
-Console.WriteLine($"ID: {nuspecReader.GetId()}");
+Console.WriteLine($"ID: {packageReader.NuspecReader.GetId()}");
 
-Console.WriteLine($"Version: {nuspecReader.GetVersion()}");
-Console.WriteLine($"Description: {nuspecReader.GetDescription()}");
-Console.WriteLine($"Authors: {nuspecReader.GetAuthors()}");
+Console.WriteLine($"Version: {packageReader.NuspecReader.GetVersion()}");
+Console.WriteLine($"Description: {packageReader.NuspecReader.GetDescription()}");
+Console.WriteLine($"Authors: {packageReader.NuspecReader.GetAuthors()}");
 
 Console.WriteLine("Dependencies:");
-foreach (var dependencyGroup in nuspecReader.GetDependencyGroups())
+foreach (var dependencyGroup in packageReader.NuspecReader.GetDependencyGroups())
 {
     Console.WriteLine($" - {dependencyGroup.TargetFramework.GetShortFolderName()}");
     foreach (var dependency in dependencyGroup.Packages)
