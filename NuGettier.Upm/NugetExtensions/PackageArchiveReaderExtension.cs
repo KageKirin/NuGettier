@@ -67,17 +67,14 @@ public static class PackageArchiveReaderExtension
         );
     }
 
-    public static TarGz.FileDictionary GetAdditionalFiles(
-        this PackageArchiveReader packageReader,
-        NuspecReader nuspecReader
-    )
+    public static TarGz.FileDictionary GetAdditionalFiles(this PackageArchiveReader packageReader)
     {
         List<string> additionalFiles =
             new()
             {
-                nuspecReader.GetIcon(),
-                nuspecReader.GetReadme(),
-                nuspecReader.GetReleaseNotes(),
+                packageReader.NuspecReader.GetIcon(),
+                packageReader.NuspecReader.GetReadme(),
+                packageReader.NuspecReader.GetReleaseNotes(),
                 "LICENSE.TXT",
                 "LICENSE.md",
                 "LICENSE",
