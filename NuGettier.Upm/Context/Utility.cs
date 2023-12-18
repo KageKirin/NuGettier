@@ -68,7 +68,7 @@ public partial class Context
         return result;
     }
 
-    private string PatchPackageVersion(string packageId, string packageVersion)
+    protected virtual string PatchPackageVersion(string packageId, string packageVersion)
     {
         Console.WriteLine($"before: {packageId}: {packageVersion}");
         var packageRule = GetPackageRule(packageId);
