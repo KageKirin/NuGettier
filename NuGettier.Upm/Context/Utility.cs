@@ -51,7 +51,7 @@ public partial class Context
         return packageJson;
     }
 
-    private string PatchPackageId(string packageId)
+    protected virtual string PatchPackageId(string packageId)
     {
         Console.WriteLine($"before: {packageId}");
         var metadata = CachedMetadata[packageId.ToLowerInvariant()];
