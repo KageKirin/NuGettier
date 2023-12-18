@@ -136,7 +136,7 @@ await findPackageByIdResource.CopyNupkgToStreamAsync(
 Console.WriteLine($"Downloaded package {PACKAGE} {packageVersion}");
 
 using PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
-NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
+NuspecReader nuspecReader = packageReader.NuspecReader;
 
 Console.WriteLine($"Tags: {nuspecReader.GetTags()}");
 Console.WriteLine($"Description: {nuspecReader.GetDescription()}");
