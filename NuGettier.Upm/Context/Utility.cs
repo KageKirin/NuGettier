@@ -87,7 +87,7 @@ public partial class Context
         return new PackageJson()
         {
             Name = GetUpmPackageId(packageSearchMetadata),
-            Version = packageSearchMetadata.GetUpmVersion(),
+            Version = GetUpmVersion(packageSearchMetadata),
             License = packageSearchMetadata.GetUpmLicense() ?? string.Empty,
             Description = packageSearchMetadata.GetUpmDescription(),
             DotNetFramework = NugetFramework.GetShortFolderName(),
