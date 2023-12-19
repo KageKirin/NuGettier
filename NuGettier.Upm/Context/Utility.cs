@@ -86,7 +86,7 @@ public partial class Context
     {
         return new PackageJson()
         {
-            Name = packageSearchMetadata.GetUpmPackageId(),
+            Name = GetUpmPackageId(packageSearchMetadata),
             Version = packageSearchMetadata.GetUpmVersion(),
             License = packageSearchMetadata.GetUpmLicense() ?? string.Empty,
             Description = packageSearchMetadata.GetUpmDescription(),
