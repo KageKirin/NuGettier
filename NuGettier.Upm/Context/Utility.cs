@@ -94,7 +94,7 @@ public partial class Context
             MinUnityVersion = MinUnityVersion,
             Homepage = packageSearchMetadata.GetUpmHomepage(),
             Keywords = packageSearchMetadata.GetUpmKeywords(),
-            DisplayName = packageSearchMetadata.GetUpmDisplayName(),
+            DisplayName = GetUpmDisplayName(packageSearchMetadata),
             Author = packageSearchMetadata.GetUpmAuthor(),
             Contributors = packageSearchMetadata.GetUpmContributors(),
             Repository = packageSearchMetadata.GetUpmRepository(),

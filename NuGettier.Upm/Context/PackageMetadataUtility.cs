@@ -43,4 +43,9 @@ public partial class Context
     {
         return packageSearchMetadata.Description;
     }
+
+    protected virtual string GetUpmDisplayName(IPackageSearchMetadata packageSearchMetadata)
+    {
+        return packageSearchMetadata.Title;
+    }
 }
