@@ -27,4 +27,15 @@ public partial class Context
     {
         return packageSearchMetadata.Identity.Version.ToString();
     }
+
+    protected virtual string? GetUpmLicense(IPackageSearchMetadata packageSearchMetadata)
+    {
+        return packageSearchMetadata.LicenseMetadata == null
+            ? string.Empty
+            : packageSearchMetadata.LicenseMetadata.LicenseExpression != null
+                ? packageSearchMetadata.LicenseMetadata.LicenseExpression.ToString()
+                : !string.IsNullOrEmpty(packageSearchMetadata.LicenseMetadata.License)
+                    ? packageSearchMetadata.LicenseMetadata.License
+                    : packageSearchMetadata.LicenseMetadata.LicenseUrl.ToString();
+    }
 }
