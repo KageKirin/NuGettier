@@ -81,4 +81,25 @@ public partial class Context
 
         return result;
     }
+
+    protected virtual PackageJson ConvertToPackageJson(IPackageSearchMetadata packageSearchMetadata)
+    {
+        return new PackageJson()
+        {
+            Name = packageSearchMetadata.GetUpmPackageId(),
+            Version = packageSearchMetadata.GetUpmVersion(),
+            License = packageSearchMetadata.GetUpmLicense() ?? string.Empty,
+            Description = packageSearchMetadata.GetUpmDescription(),
+            DotNetFramework = NugetFramework.GetShortFolderName(),
+            MinUnityVersion = MinUnityVersion,
+            Homepage = packageSearchMetadata.GetUpmHomepage(),
+            Keywords = packageSearchMetadata.GetUpmKeywords(),
+            DisplayName = packageSearchMetadata.GetUpmDisplayName(),
+            Author = packageSearchMetadata.GetUpmAuthor(),
+            Contributors = packageSearchMetadata.GetUpmContributors(),
+            Repository = packageSearchMetadata.GetUpmRepository(),
+            PublishingConfiguration = packageSearchMetadata.GetUpmPublishingConfiguration(),
+            Dependencies = packageSearchMetadata.GetUpmDependencies(NugetFramework),
+        };
+    }
 }

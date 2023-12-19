@@ -12,31 +12,6 @@ namespace NuGettier.Upm;
 
 public static class IPackageSearchMetadataExtension
 {
-    public static PackageJson ToPackageJson(
-        this IPackageSearchMetadata packageSearchMetadata,
-        NuGetFramework nugetFramework,
-        string minUnityVersion
-    )
-    {
-        return new PackageJson()
-        {
-            Name = packageSearchMetadata.GetUpmPackageId(),
-            Version = packageSearchMetadata.GetUpmVersion(),
-            License = packageSearchMetadata.GetUpmLicense() ?? string.Empty,
-            Description = packageSearchMetadata.GetUpmDescription(),
-            DotNetFramework = nugetFramework.GetShortFolderName(),
-            MinUnityVersion = minUnityVersion,
-            Homepage = packageSearchMetadata.GetUpmHomepage(),
-            Keywords = packageSearchMetadata.GetUpmKeywords(),
-            DisplayName = packageSearchMetadata.GetUpmDisplayName(),
-            Author = packageSearchMetadata.GetUpmAuthor(),
-            Contributors = packageSearchMetadata.GetUpmContributors(),
-            Repository = packageSearchMetadata.GetUpmRepository(),
-            PublishingConfiguration = packageSearchMetadata.GetUpmPublishingConfiguration(),
-            Dependencies = packageSearchMetadata.GetUpmDependencies(nugetFramework),
-        };
-    }
-
     public static string GetUpmPackageId(this IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Identity.Id;

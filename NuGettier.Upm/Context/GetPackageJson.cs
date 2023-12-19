@@ -36,7 +36,7 @@ public partial class Context
         if (package == null)
             return null;
 
-        var packageJson = package.ToPackageJson(NugetFramework, MinUnityVersion);
+        var packageJson = ConvertToPackageJson(package);
         Assert.NotNull(packageJson);
         if (packageJson == null)
             return null;
