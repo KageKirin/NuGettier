@@ -12,11 +12,6 @@ namespace NuGettier.Upm;
 
 public static class IPackageSearchMetadataExtension
 {
-    public static string GetUpmDescription(this IPackageSearchMetadata packageSearchMetadata)
-    {
-        return packageSearchMetadata.Description;
-    }
-
     public static string GetUpmDisplayName(this IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Title;

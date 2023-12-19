@@ -89,7 +89,7 @@ public partial class Context
             Name = GetUpmPackageId(packageSearchMetadata),
             Version = GetUpmVersion(packageSearchMetadata),
             License = GetUpmLicense(packageSearchMetadata) ?? string.Empty,
-            Description = packageSearchMetadata.GetUpmDescription(),
+            Description = GetUpmDescription(packageSearchMetadata),
             DotNetFramework = NugetFramework.GetShortFolderName(),
             MinUnityVersion = MinUnityVersion,
             Homepage = packageSearchMetadata.GetUpmHomepage(),
