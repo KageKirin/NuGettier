@@ -12,11 +12,6 @@ namespace NuGettier.Upm;
 
 public static class IPackageSearchMetadataExtension
 {
-    public static IEnumerable<string> GetUpmKeywords(this IPackageSearchMetadata packageSearchMetadata)
-    {
-        return packageSearchMetadata.Tags.Split(',', ';', ' ').Where(t => !string.IsNullOrEmpty(t));
-    }
-
     public static Person GetUpmAuthor(this IPackageSearchMetadata packageSearchMetadata)
     {
         var firstAuthor = packageSearchMetadata.Authors.Split(',', ';', ' ').First();

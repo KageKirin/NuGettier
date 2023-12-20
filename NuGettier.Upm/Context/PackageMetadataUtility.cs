@@ -53,4 +53,9 @@ public partial class Context
     {
         return packageSearchMetadata.ProjectUrl?.ToString();
     }
+
+    protected virtual IEnumerable<string> GetUpmKeywords(IPackageSearchMetadata packageSearchMetadata)
+    {
+        return packageSearchMetadata.Tags.Split(',', ';', ' ').Where(t => !string.IsNullOrEmpty(t));
+    }
 }
