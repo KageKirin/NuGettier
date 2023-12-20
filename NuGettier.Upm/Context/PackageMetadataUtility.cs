@@ -94,7 +94,7 @@ public partial class Context
         };
     }
 
-    protected virtual PublishingConfiguration GetUpmPublishingConfiguration(
+    protected virtual PublishingConfiguration GetPackagePublishingConfiguration(
         IPackageSearchMetadata packageSearchMetadata
     )
     {
