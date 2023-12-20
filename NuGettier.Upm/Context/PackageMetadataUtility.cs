@@ -59,7 +59,7 @@ public partial class Context
         return packageSearchMetadata.Tags.Split(',', ';', ' ').Where(t => !string.IsNullOrEmpty(t));
     }
 
-    protected virtual Person GetUpmAuthor(IPackageSearchMetadata packageSearchMetadata)
+    protected virtual Person GetPackageAuthor(IPackageSearchMetadata packageSearchMetadata)
     {
         var firstAuthor = packageSearchMetadata.Authors.Split(',', ';', ' ').First();
         if (string.IsNullOrEmpty(firstAuthor))
