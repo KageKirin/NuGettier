@@ -23,7 +23,7 @@ public partial class Context
         return packageSearchMetadata.Identity.Id;
     }
 
-    protected virtual string GetUpmVersion(IPackageSearchMetadata packageSearchMetadata)
+    protected virtual string GetPackageVersion(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Identity.Version.ToString();
     }
