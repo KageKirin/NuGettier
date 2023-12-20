@@ -12,14 +12,4 @@ namespace NuGettier.Upm;
 
 public static class IPackageSearchMetadataExtension
 {
-    public static string GetUpmPreferredFramework(
-        this IPackageSearchMetadata packageSearchMetadata,
-        IEnumerable<string> frameworks
-    )
-    {
-        var ourFrameworks = packageSearchMetadata.DependencySets
-            .Select(dependencyGroup => dependencyGroup.TargetFramework.GetShortFolderName())
-            .ToHashSet();
-        return ourFrameworks.Intersect(frameworks).OrderDescending().FirstOrDefault(frameworks.First());
-    }
 }
