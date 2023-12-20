@@ -12,13 +12,6 @@ namespace NuGettier.Upm;
 
 public static class IPackageSearchMetadataExtension
 {
-    public static PublishingConfiguration GetUpmPublishingConfiguration(
-        this IPackageSearchMetadata packageSearchMetadata
-    )
-    {
-        return new PublishingConfiguration() { Registry = string.Empty, };
-    }
-
     public static IDictionary<string, string> GetUpmDependencies(
         this IPackageSearchMetadata packageSearchMetadata,
         NuGetFramework nugetFramework

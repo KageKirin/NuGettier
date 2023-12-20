@@ -98,7 +98,7 @@ public partial class Context
             Author = GetUpmAuthor(packageSearchMetadata),
             Contributors = GetUpmContributors(packageSearchMetadata),
             Repository = GetUpmRepository(packageSearchMetadata),
-            PublishingConfiguration = packageSearchMetadata.GetUpmPublishingConfiguration(),
+            PublishingConfiguration = GetUpmPublishingConfiguration(packageSearchMetadata),
             Dependencies = packageSearchMetadata.GetUpmDependencies(NugetFramework),
         };
     }

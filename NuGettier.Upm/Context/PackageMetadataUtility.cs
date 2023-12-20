@@ -93,4 +93,11 @@ public partial class Context
             Directory = packageSearchMetadata.Identity.Id.ToLowerInvariant(),
         };
     }
+
+    protected virtual PublishingConfiguration GetUpmPublishingConfiguration(
+        IPackageSearchMetadata packageSearchMetadata
+    )
+    {
+        return new PublishingConfiguration() { Registry = string.Empty, };
+    }
 }
