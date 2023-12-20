@@ -96,7 +96,7 @@ public partial class Context
             Keywords = GetPackageKeywords(packageSearchMetadata),
             DisplayName = GetPackageDisplayName(packageSearchMetadata),
             Author = GetPackageAuthor(packageSearchMetadata),
-            Contributors = GetUpmContributors(packageSearchMetadata),
+            Contributors = GetPackageContributors(packageSearchMetadata),
             Repository = GetUpmRepository(packageSearchMetadata),
             PublishingConfiguration = GetUpmPublishingConfiguration(packageSearchMetadata),
             Dependencies = GetUpmDependencies(packageSearchMetadataNugetFramework),
