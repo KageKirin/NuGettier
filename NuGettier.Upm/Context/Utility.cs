@@ -99,7 +99,7 @@ public partial class Context
             Contributors = GetPackageContributors(packageSearchMetadata),
             Repository = GetPackageRepository(packageSearchMetadata),
             PublishingConfiguration = GetPackagePublishingConfiguration(packageSearchMetadata),
-            Dependencies = GetUpmDependencies(packageSearchMetadataNugetFramework),
+            Dependencies = GetPackageDependencies(packageSearchMetadata, NugetFramework),
         };
     }
 }

@@ -101,7 +101,7 @@ public partial class Context
         return new PublishingConfiguration() { Registry = string.Empty, };
     }
 
-    protected virtual IDictionary<string, string> GetUpmDependencies(
+    protected virtual IDictionary<string, string> GetPackageDependencies(
         IPackageSearchMetadata packageSearchMetadata,
         NuGetFramework nugetFramework
     )
