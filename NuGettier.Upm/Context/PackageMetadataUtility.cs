@@ -74,4 +74,13 @@ public partial class Context
 
         return new Person() { Name = firstAuthor, };
     }
+
+    protected virtual IEnumerable<Person> GetUpmContributors(IPackageSearchMetadata packageSearchMetadata)
+    {
+        var otherAuthors = packageSearchMetadata.Authors.Split(',', ';', ' ');
+        if (otherAuthors.Length <= 1)
+            return new List<Person>();
+
+        return otherAuthors[1..].Select(author => new Person() { Name = author, });
+    }
 }

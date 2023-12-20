@@ -12,15 +12,6 @@ namespace NuGettier.Upm;
 
 public static class IPackageSearchMetadataExtension
 {
-    public static IEnumerable<Person> GetUpmContributors(this IPackageSearchMetadata packageSearchMetadata)
-    {
-        var otherAuthors = packageSearchMetadata.Authors.Split(',', ';', ' ');
-        if (otherAuthors.Length <= 1)
-            return new List<Person>();
-
-        return otherAuthors[1..].Select(author => new Person() { Name = author, });
-    }
-
     public static Repository GetUpmRepository(this IPackageSearchMetadata packageSearchMetadata)
     {
         return new Repository()
