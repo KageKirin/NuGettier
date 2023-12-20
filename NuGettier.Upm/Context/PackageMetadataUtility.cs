@@ -49,7 +49,7 @@ public partial class Context
         return packageSearchMetadata.Title;
     }
 
-    protected virtual string? GetUpmHomepage(IPackageSearchMetadata packageSearchMetadata)
+    protected virtual string? GetPackageHomepage(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.ProjectUrl?.ToString();
     }
