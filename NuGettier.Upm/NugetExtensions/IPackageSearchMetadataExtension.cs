@@ -12,11 +12,6 @@ namespace NuGettier.Upm;
 
 public static class IPackageSearchMetadataExtension
 {
-    public static string? GetUpmHomepage(this IPackageSearchMetadata packageSearchMetadata)
-    {
-        return packageSearchMetadata.ProjectUrl?.ToString();
-    }
-
     public static IEnumerable<string> GetUpmKeywords(this IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Tags.Split(',', ';', ' ').Where(t => !string.IsNullOrEmpty(t));

@@ -48,4 +48,9 @@ public partial class Context
     {
         return packageSearchMetadata.Title;
     }
+
+    protected virtual string? GetUpmHomepage(IPackageSearchMetadata packageSearchMetadata)
+    {
+        return packageSearchMetadata.ProjectUrl?.ToString();
+    }
 }

@@ -92,7 +92,7 @@ public partial class Context
             Description = GetUpmDescription(packageSearchMetadata),
             DotNetFramework = NugetFramework.GetShortFolderName(),
             MinUnityVersion = MinUnityVersion,
-            Homepage = packageSearchMetadata.GetUpmHomepage(),
+            Homepage = GetUpmHomepage(packageSearchMetadata),
             Keywords = packageSearchMetadata.GetUpmKeywords(),
             DisplayName = GetUpmDisplayName(packageSearchMetadata),
             Author = packageSearchMetadata.GetUpmAuthor(),
