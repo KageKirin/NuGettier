@@ -18,7 +18,7 @@ namespace NuGettier.Upm;
 
 public partial class Context
 {
-    protected virtual string GetUpmPackageId(IPackageSearchMetadata packageSearchMetadata)
+    protected virtual string GetPackageId(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Identity.Id;
     }
