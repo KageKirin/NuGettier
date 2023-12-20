@@ -54,7 +54,7 @@ public partial class Context
         return packageSearchMetadata.ProjectUrl?.ToString();
     }
 
-    protected virtual IEnumerable<string> GetUpmKeywords(IPackageSearchMetadata packageSearchMetadata)
+    protected virtual IEnumerable<string> GetPackageKeywords(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Tags.Split(',', ';', ' ').Where(t => !string.IsNullOrEmpty(t));
     }
