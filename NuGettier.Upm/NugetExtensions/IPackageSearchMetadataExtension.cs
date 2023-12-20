@@ -12,16 +12,6 @@ namespace NuGettier.Upm;
 
 public static class IPackageSearchMetadataExtension
 {
-    public static Repository GetUpmRepository(this IPackageSearchMetadata packageSearchMetadata)
-    {
-        return new Repository()
-        {
-            RepoType = @"git",
-            Url = packageSearchMetadata.ProjectUrl.ToString(),
-            Directory = packageSearchMetadata.Identity.Id.ToLowerInvariant(),
-        };
-    }
-
     public static PublishingConfiguration GetUpmPublishingConfiguration(
         this IPackageSearchMetadata packageSearchMetadata
     )

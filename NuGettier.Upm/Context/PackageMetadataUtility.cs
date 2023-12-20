@@ -83,4 +83,14 @@ public partial class Context
 
         return otherAuthors[1..].Select(author => new Person() { Name = author, });
     }
+
+    protected virtual Repository GetUpmRepository(IPackageSearchMetadata packageSearchMetadata)
+    {
+        return new Repository()
+        {
+            RepoType = @"git",
+            Url = packageSearchMetadata.ProjectUrl.ToString(),
+            Directory = packageSearchMetadata.Identity.Id.ToLowerInvariant(),
+        };
+    }
 }

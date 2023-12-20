@@ -97,7 +97,7 @@ public partial class Context
             DisplayName = GetUpmDisplayName(packageSearchMetadata),
             Author = GetUpmAuthor(packageSearchMetadata),
             Contributors = GetUpmContributors(packageSearchMetadata),
-            Repository = packageSearchMetadata.GetUpmRepository(),
+            Repository = GetUpmRepository(packageSearchMetadata),
             PublishingConfiguration = packageSearchMetadata.GetUpmPublishingConfiguration(),
             Dependencies = packageSearchMetadata.GetUpmDependencies(NugetFramework),
         };
