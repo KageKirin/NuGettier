@@ -39,7 +39,7 @@ public partial class Context
                     : packageSearchMetadata.LicenseMetadata.LicenseUrl.ToString();
     }
 
-    protected virtual string GetUpmDescription(IPackageSearchMetadata packageSearchMetadata)
+    protected virtual string GetPackageDescription(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Description;
     }
