@@ -28,7 +28,7 @@ public partial class Context
         return packageSearchMetadata.Identity.Version.ToString();
     }
 
-    protected virtual string? GetUpmLicense(IPackageSearchMetadata packageSearchMetadata)
+    protected virtual string? GetPackageLicense(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.LicenseMetadata == null
             ? string.Empty
