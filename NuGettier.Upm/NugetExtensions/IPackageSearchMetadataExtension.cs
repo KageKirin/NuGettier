@@ -12,22 +12,6 @@ namespace NuGettier.Upm;
 
 public static class IPackageSearchMetadataExtension
 {
-    public static IDictionary<string, string> GetUpmDependencies(
-        this IPackageSearchMetadata packageSearchMetadata,
-        NuGetFramework nugetFramework
-    )
-    {
-        var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
-            packageSearchMetadata.DependencySets,
-            nugetFramework
-        );
-
-        if (packageDependencyGroup is null)
-            return new Dictionary<string, string>();
-
-        return packageDependencyGroup.Packages.ToDictionary(d => d.Id, d => d.VersionRange.ToLegacyShortString());
-    }
-
     public static string GetUpmPreferredFramework(
         this IPackageSearchMetadata packageSearchMetadata,
         IEnumerable<string> frameworks

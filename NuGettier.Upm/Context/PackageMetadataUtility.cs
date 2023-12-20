@@ -100,4 +100,20 @@ public partial class Context
     {
         return new PublishingConfiguration() { Registry = string.Empty, };
     }
+
+    protected virtual IDictionary<string, string> GetUpmDependencies(
+        IPackageSearchMetadata packageSearchMetadata,
+        NuGetFramework nugetFramework
+    )
+    {
+        var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
+            packageSearchMetadata.DependencySets,
+            nugetFramework
+        );
+
+        if (packageDependencyGroup is null)
+            return new Dictionary<string, string>();
+
+        return packageDependencyGroup.Packages.ToDictionary(d => d.Id, d => d.VersionRange.ToLegacyShortString());
+    }
 }
