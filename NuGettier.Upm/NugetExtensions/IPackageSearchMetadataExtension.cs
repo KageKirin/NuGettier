@@ -22,13 +22,4 @@ public static class IPackageSearchMetadataExtension
             .ToHashSet();
         return ourFrameworks.Intersect(frameworks).OrderDescending().FirstOrDefault(frameworks.First());
     }
-
-    public static string GetUpmPreferredUnityVersion(
-        this IPackageSearchMetadata packageSearchMetadata,
-        IDictionary<string, string> unityFrameworks
-    )
-    {
-        var framework = packageSearchMetadata.GetUpmPreferredFramework(unityFrameworks.Keys);
-        return unityFrameworks[framework];
-    }
 }
