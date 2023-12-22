@@ -1,28 +1,34 @@
+using System;
 using System.Linq;
+using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using NuGet.Configuration;
 using NuGet.Frameworks;
 using NuGet.Packaging;
-using NuGet.Protocol.Core.Types;
 using NuGet.Packaging.Licenses;
+using NuGet.Protocol.Core.Types;
 using NuGet.Shared;
-using System.Net;
+using HandlebarsDotNet;
+using Xunit;
+
 
 namespace NuGettier.Upm;
 
-public static class IPackageSearchMetadataExtension
+public partial class Context
 {
-    public static string GetUpmPackageId(this IPackageSearchMetadata packageSearchMetadata)
+    protected virtual string GetPackageId(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Identity.Id;
     }
 
-    public static string GetUpmVersion(this IPackageSearchMetadata packageSearchMetadata)
+    protected virtual string GetPackageVersion(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Identity.Version.ToString();
     }
 
-    public static string? GetUpmLicense(this IPackageSearchMetadata packageSearchMetadata)
+    protected virtual string? GetPackageLicense(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.LicenseMetadata == null
             ? string.Empty
@@ -33,27 +39,27 @@ public static class IPackageSearchMetadataExtension
                     : packageSearchMetadata.LicenseMetadata.LicenseUrl.ToString();
     }
 
-    public static string GetUpmDescription(this IPackageSearchMetadata packageSearchMetadata)
+    protected virtual string GetPackageDescription(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Description;
     }
 
-    public static string GetUpmDisplayName(this IPackageSearchMetadata packageSearchMetadata)
+    protected virtual string GetPackageDisplayName(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Title;
     }
 
-    public static string? GetUpmHomepage(this IPackageSearchMetadata packageSearchMetadata)
+    protected virtual string? GetPackageHomepage(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.ProjectUrl?.ToString();
     }
 
-    public static IEnumerable<string> GetUpmKeywords(this IPackageSearchMetadata packageSearchMetadata)
+    protected virtual IEnumerable<string> GetPackageKeywords(IPackageSearchMetadata packageSearchMetadata)
     {
         return packageSearchMetadata.Tags.Split(',', ';', ' ').Where(t => !string.IsNullOrEmpty(t));
     }
 
-    public static Person GetUpmAuthor(this IPackageSearchMetadata packageSearchMetadata)
+    protected virtual Person GetPackageAuthor(IPackageSearchMetadata packageSearchMetadata)
     {
         var firstAuthor = packageSearchMetadata.Authors.Split(',', ';', ' ').First();
         if (string.IsNullOrEmpty(firstAuthor))
@@ -69,7 +75,7 @@ public static class IPackageSearchMetadataExtension
         return new Person() { Name = firstAuthor, };
     }
 
-    public static IEnumerable<Person> GetUpmContributors(this IPackageSearchMetadata packageSearchMetadata)
+    protected virtual IEnumerable<Person> GetPackageContributors(IPackageSearchMetadata packageSearchMetadata)
     {
         var otherAuthors = packageSearchMetadata.Authors.Split(',', ';', ' ');
         if (otherAuthors.Length <= 1)
@@ -78,7 +84,7 @@ public static class IPackageSearchMetadataExtension
         return otherAuthors[1..].Select(author => new Person() { Name = author, });
     }
 
-    public static Repository GetUpmRepository(this IPackageSearchMetadata packageSearchMetadata)
+    protected virtual Repository GetPackageRepository(IPackageSearchMetadata packageSearchMetadata)
     {
         return new Repository()
         {
@@ -88,15 +94,15 @@ public static class IPackageSearchMetadataExtension
         };
     }
 
-    public static PublishingConfiguration GetUpmPublishingConfiguration(
-        this IPackageSearchMetadata packageSearchMetadata
+    protected virtual PublishingConfiguration GetPackagePublishingConfiguration(
+        IPackageSearchMetadata packageSearchMetadata
     )
     {
         return new PublishingConfiguration() { Registry = string.Empty, };
     }
 
-    public static IDictionary<string, string> GetUpmDependencies(
-        this IPackageSearchMetadata packageSearchMetadata,
+    protected virtual IDictionary<string, string> GetPackageDependencies(
+        IPackageSearchMetadata packageSearchMetadata,
         NuGetFramework nugetFramework
     )
     {
@@ -109,25 +115,5 @@ public static class IPackageSearchMetadataExtension
             return new Dictionary<string, string>();
 
         return packageDependencyGroup.Packages.ToDictionary(d => d.Id, d => d.VersionRange.ToLegacyShortString());
-    }
-
-    public static string GetUpmPreferredFramework(
-        this IPackageSearchMetadata packageSearchMetadata,
-        IEnumerable<string> frameworks
-    )
-    {
-        var ourFrameworks = packageSearchMetadata.DependencySets
-            .Select(dependencyGroup => dependencyGroup.TargetFramework.GetShortFolderName())
-            .ToHashSet();
-        return ourFrameworks.Intersect(frameworks).OrderDescending().FirstOrDefault(frameworks.First());
-    }
-
-    public static string GetUpmPreferredUnityVersion(
-        this IPackageSearchMetadata packageSearchMetadata,
-        IDictionary<string, string> unityFrameworks
-    )
-    {
-        var framework = packageSearchMetadata.GetUpmPreferredFramework(unityFrameworks.Keys);
-        return unityFrameworks[framework];
     }
 }

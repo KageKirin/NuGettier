@@ -86,20 +86,20 @@ public partial class Context
     {
         return new PackageJson()
         {
-            Name = packageSearchMetadata.GetUpmPackageId(),
-            Version = packageSearchMetadata.GetUpmVersion(),
-            License = packageSearchMetadata.GetUpmLicense() ?? string.Empty,
-            Description = packageSearchMetadata.GetUpmDescription(),
+            Name = GetPackageId(packageSearchMetadata),
+            Version = GetPackageVersion(packageSearchMetadata),
+            License = GetPackageLicense(packageSearchMetadata) ?? string.Empty,
+            Description = GetPackageDescription(packageSearchMetadata),
             DotNetFramework = NugetFramework.GetShortFolderName(),
             MinUnityVersion = MinUnityVersion,
-            Homepage = packageSearchMetadata.GetUpmHomepage(),
-            Keywords = packageSearchMetadata.GetUpmKeywords(),
-            DisplayName = packageSearchMetadata.GetUpmDisplayName(),
-            Author = packageSearchMetadata.GetUpmAuthor(),
-            Contributors = packageSearchMetadata.GetUpmContributors(),
-            Repository = packageSearchMetadata.GetUpmRepository(),
-            PublishingConfiguration = packageSearchMetadata.GetUpmPublishingConfiguration(),
-            Dependencies = packageSearchMetadata.GetUpmDependencies(NugetFramework),
+            Homepage = GetPackageHomepage(packageSearchMetadata),
+            Keywords = GetPackageKeywords(packageSearchMetadata),
+            DisplayName = GetPackageDisplayName(packageSearchMetadata),
+            Author = GetPackageAuthor(packageSearchMetadata),
+            Contributors = GetPackageContributors(packageSearchMetadata),
+            Repository = GetPackageRepository(packageSearchMetadata),
+            PublishingConfiguration = GetPackagePublishingConfiguration(packageSearchMetadata),
+            Dependencies = GetPackageDependencies(packageSearchMetadata, NugetFramework),
         };
     }
 }
