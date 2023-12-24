@@ -38,7 +38,6 @@ public partial class Context
             return null;
 
         PackageJson packageJson = new(packageJsonOrig);
-        packageJson.Name += ".amalgamate";
         packageJson.DisplayName += " amalgamated with all dependencies";
         packageJson.Description += "\n\nThis package also contains all dependency assemblies";
         packageJson.Dependencies.Clear();
