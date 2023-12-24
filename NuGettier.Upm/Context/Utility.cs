@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.Text.RegularExpressions;
@@ -9,6 +10,8 @@ using HandlebarsDotNet;
 using Xunit;
 
 namespace NuGettier.Upm;
+
+#nullable enable
 
 public partial class Context
 {
@@ -80,6 +83,13 @@ public partial class Context
         Console.WriteLine($"after: {packageId}: {result}");
 
         return result;
+    }
+
+    protected virtual IDictionary<string, string> PatchPackageDependencies(IDictionary<string, string> dependencies)
+    {
+        return dependencies
+            .Where(d => GetPackageRule(d.Key).IsIgnored == false) //< filter: remove 'ignored' dependencies
+            .ToDictionary(d => PatchPackageId(d.Key), d => PatchPackageVersion(d.Key, d.Value));
     }
 
     protected virtual PackageJson ConvertToPackageJson(IPackageSearchMetadata packageSearchMetadata)
