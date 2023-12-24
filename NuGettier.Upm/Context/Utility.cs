@@ -33,9 +33,7 @@ public partial class Context
         packageJson.MinUnityVersion = MinUnityVersion;
 
         // filter and patch dependencies' name and version
-        packageJson.Dependencies = packageJson.Dependencies
-            .Where(d => GetPackageRule(d.Key).IsIgnored == false) //< filter
-            .ToDictionary(d => PatchPackageId(d.Key), d => PatchPackageVersion(d.Key, d.Value));
+        packageJson.Dependencies = PatchPackageDependencies(packageJson.Dependencies);
 
         // basically tag as 'nugettier was here'
         packageJson.DevDependencies ??= new StringStringDictionary();
