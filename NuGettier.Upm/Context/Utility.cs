@@ -17,9 +17,23 @@ public partial class Context
 {
     public PackageRule GetPackageRule(string packageId)
     {
-        return PackageRules
-            .Where(r => r.Id == packageId)
-            .FirstOrDefault(PackageRules.Where(r => string.IsNullOrEmpty(r.Id)).FirstOrDefault(DefaultPackageRule));
+        var defaultRule = PackageRules.Where(r => string.IsNullOrEmpty(r.Id)).FirstOrDefault(DefaultPackageRule);
+        var packageRule = PackageRules.Where(r => r.Id == packageId).FirstOrDefault(defaultRule);
+
+        if (string.IsNullOrEmpty(packageRule.Name))
+        {
+            return new PackageRule(
+                Id: packageRule.Id,
+                Name: defaultRule.Name,
+                Version: packageRule.Version,
+                Framework: packageRule.Framework,
+                IsIgnored: packageRule.IsIgnored,
+                IsExcluded: packageRule.IsExcluded,
+                IsRecursive: packageRule.IsRecursive
+            );
+        }
+
+        return packageRule;
     }
 
     public virtual PackageJson PatchPackageJson(PackageJson packageJson)
