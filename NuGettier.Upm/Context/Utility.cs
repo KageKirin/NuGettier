@@ -23,13 +23,14 @@ public partial class Context
         if (
             string.IsNullOrEmpty(packageRule.Name)
             || string.IsNullOrEmpty(packageRule.Version)
+            || string.IsNullOrEmpty(packageRule.Framework)
         )
         {
             return new PackageRule(
                 Id: packageRule.Id,
                 Name: string.IsNullOrEmpty(packageRule.Name) ? defaultRule.Name : packageRule.Name,
                 Version: string.IsNullOrEmpty(packageRule.Version) ? defaultRule.Version : packageRule.Version,
-                Framework: packageRule.Framework,
+                Framework: string.IsNullOrEmpty(packageRule.Framework) ? defaultRule.Framework : packageRule.Framework,
                 IsIgnored: packageRule.IsIgnored,
                 IsExcluded: packageRule.IsExcluded,
                 IsRecursive: packageRule.IsRecursive
