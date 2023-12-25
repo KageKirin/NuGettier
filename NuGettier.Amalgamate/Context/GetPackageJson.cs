@@ -28,22 +28,10 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        var packageJsonOrig = await base.GetPackageJson(
+        return await base.GetPackageJson(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
             cancellationToken: cancellationToken
         );
-
-        if (packageJsonOrig is null)
-            return null;
-
-        PackageJson packageJson = new(packageJsonOrig);
-        packageJson.DisplayName += " amalgamated with all dependencies";
-        packageJson.Description += "\n\nThis package also contains all dependency assemblies";
-        packageJson.Dependencies.Clear();
-        packageJson.DevDependencies?.Clear();
-        packageJson.Repository.Directory += ".amalgamate";
-
-        return packageJson;
     }
 }
