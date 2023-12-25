@@ -20,12 +20,15 @@ public partial class Context
         var defaultRule = PackageRules.Where(r => string.IsNullOrEmpty(r.Id)).FirstOrDefault(DefaultPackageRule);
         var packageRule = PackageRules.Where(r => r.Id == packageId).FirstOrDefault(defaultRule);
 
-        if (string.IsNullOrEmpty(packageRule.Name))
+        if (
+            string.IsNullOrEmpty(packageRule.Name)
+            || string.IsNullOrEmpty(packageRule.Version)
+        )
         {
             return new PackageRule(
                 Id: packageRule.Id,
-                Name: defaultRule.Name,
-                Version: packageRule.Version,
+                Name: string.IsNullOrEmpty(packageRule.Name) ? defaultRule.Name : packageRule.Name,
+                Version: string.IsNullOrEmpty(packageRule.Version) ? defaultRule.Version : packageRule.Version,
                 Framework: packageRule.Framework,
                 IsIgnored: packageRule.IsIgnored,
                 IsExcluded: packageRule.IsExcluded,
