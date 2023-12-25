@@ -62,9 +62,7 @@ public partial class Context
             return null;
 
         using PackageArchiveReader packageReader = new(packageStream);
-
-        files.AddRange(packageReader.GetFrameworkFiles(NugetFramework));
-        files.AddRange(packageReader.GetAdditionalFiles());
+        files.AddRange(await GetPackageFiles(packageReader, NugetFramework, cancellationToken));
 
         // create & add README
         if (!files.ContainsKey(@"README.md"))
@@ -92,36 +90,6 @@ public partial class Context
             var changelog = packageJson.GenerateChangelog(packageReader.NuspecReader.GetReleaseNotes());
             files.Add(@"CHANGELOG.md", changelog);
             Console.WriteLine($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
-        }
-
-        var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
-            packageReader.NuspecReader.GetDependencyGroups(),
-            NugetFramework
-        );
-
-        if (packageDependencyGroup is not null)
-        {
-            foreach (var dependency in packageDependencyGroup.Packages)
-            {
-                var packageRule = GetPackageRule(dependency.Id);
-                if (packageRule.IsIgnored)
-                    continue;
-
-                if (packageRule.IsExcluded)
-                    continue;
-
-                using var dependencyPackageStream = await FetchPackage(
-                    packageIdVersion: $"{dependency.Id}@{dependency.VersionRange.ToLegacyShortString()}",
-                    preRelease: true,
-                    cancellationToken: cancellationToken
-                );
-                if (dependencyPackageStream == null)
-                    continue;
-
-                using PackageArchiveReader dependencyPackageReader = new(dependencyPackageStream);
-                files.AddRange(dependencyPackageReader.GetFrameworkFiles(NugetFramework));
-                files.AddRange(dependencyPackageReader.GetAdditionalFiles());
-            }
         }
 
         // add file references to package.json
