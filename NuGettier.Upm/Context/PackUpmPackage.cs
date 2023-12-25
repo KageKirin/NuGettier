@@ -23,8 +23,6 @@ using Xunit;
 
 namespace NuGettier.Upm;
 
-using NuRepository = NuGet.Protocol.Core.Types.Repository;
-
 public partial class Context
 {
     public virtual async Task<Tuple<string, FileDictionary>?> PackUpmPackage(
@@ -51,11 +49,6 @@ public partial class Context
         if (!string.IsNullOrEmpty(buildmetaSuffix))
             packageJson.Version += $"+{buildmetaSuffix}";
 
-        // get package rule
-        packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
-        PackageRule packageRule = GetPackageRule(packageId);
-        Assert.NotNull(packageRule);
-
         // fetch package contents for NuGet
         using var packageStream = await FetchPackage(
             packageIdVersion: packageIdVersion,
@@ -66,9 +59,7 @@ public partial class Context
             return null;
 
         using PackageArchiveReader packageReader = new(packageStream);
-
-        var files = packageReader.GetFrameworkFiles(NugetFramework);
-        files.AddRange(packageReader.GetAdditionalFiles());
+        FileDictionary files = await GetPackageFiles(packageReader, NugetFramework, cancellationToken);
 
         // create & add README
         if (!files.ContainsKey(@"README.md"))

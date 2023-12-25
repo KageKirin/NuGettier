@@ -50,7 +50,6 @@ public partial class Context : Core.Context
         Directory = directory;
         CachedMetadata = new Dictionary<string, IPackageSearchMetadata>();
         Framework = GetFrameworkFromUnitySettings(minUnityVersion);
-
     }
 
     public Context(Context other)
