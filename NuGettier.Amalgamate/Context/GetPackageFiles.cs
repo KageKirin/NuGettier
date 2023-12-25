@@ -25,13 +25,11 @@ public partial class Context
 {
     public async override Task<FileDictionary> GetPackageFiles(
         PackageArchiveReader packageReader,
-        NuGetFramework nuGetFramework,
+        NuGetFramework nugetFramework,
         CancellationToken cancellationToken
     )
     {
-        FileDictionary files = new();
-        files.AddRange(packageReader.GetFrameworkFiles(nuGetFramework));
-        files.AddRange(packageReader.GetAdditionalFiles());
+        FileDictionary files = await base.GetPackageFiles(packageReader, nugetFramework, cancellationToken);
 
         var packageRule = GetPackageRule(packageReader.NuspecReader.GetIdentity().Id);
         Assert.NotNull(packageRule);
@@ -63,7 +61,7 @@ public partial class Context
                         continue;
 
                     using PackageArchiveReader dependencyPackageReader = new(dependencyPackageStream);
-                    files.AddRange(await GetPackageFiles(dependencyPackageReader, nuGetFramework, cancellationToken));
+                    files.AddRange(await GetPackageFiles(dependencyPackageReader, nugetFramework, cancellationToken));
                 }
             }
         }
