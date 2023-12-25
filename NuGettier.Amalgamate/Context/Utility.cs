@@ -16,10 +16,17 @@ public partial class Context
 {
     public override Upm.PackageJson PatchPackageJson(Upm.PackageJson packageJson)
     {
+        var includedDependencies = packageJson.Dependencies
+            .Where(d => GetPackageRule(d.Key).IsIgnored == false) //< filter: remove 'ignored' dependencies
+            .Where(d => GetPackageRule(d.Key).IsExcluded == false) //< filter: not 'excluded' dependencies are included)
+            .ToDictionary(d => d.Key, d => d.Value);
+
         var patchedPackageJson = base.PatchPackageJson(packageJson);
 
         patchedPackageJson.DisplayName += " amalgamated with its dependencies";
-        patchedPackageJson.Description += "\n\nThis package also contains all dependency assemblies";
+        patchedPackageJson.Description += "\n\nThis package also contains the following dependency assemblies:";
+        patchedPackageJson.Description += string.Join("\n", includedDependencies.Select(d => $"* {d.Key}@{d.Value}"));
+
         patchedPackageJson.Repository.Directory += ".amalgamate";
         return patchedPackageJson;
     }
