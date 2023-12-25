@@ -13,7 +13,6 @@ using NuGet.Shared;
 using HandlebarsDotNet;
 using Xunit;
 
-
 namespace NuGettier.Upm;
 
 public partial class Context
