@@ -23,7 +23,7 @@ namespace NuGettier.Amalgamate;
 
 public partial class Context
 {
-    public async Task<FileDictionary> GetPackageFiles(
+    public async override Task<FileDictionary> GetPackageFiles(
         PackageArchiveReader packageReader,
         NuGetFramework nuGetFramework,
         CancellationToken cancellationToken
