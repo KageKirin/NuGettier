@@ -14,6 +14,16 @@ namespace NuGettier.Amalgamate;
 
 public partial class Context
 {
+    public override Upm.PackageJson PatchPackageJson(Upm.PackageJson packageJson)
+    {
+        var patchedPackageJson = base.PatchPackageJson(packageJson);
+
+        patchedPackageJson.DisplayName += " amalgamated with its dependencies";
+        patchedPackageJson.Description += "\n\nThis package also contains all dependency assemblies";
+        patchedPackageJson.Repository.Directory += ".amalgamate";
+        return patchedPackageJson;
+    }
+
     protected override string PatchPackageId(string packageId)
     {
         return $"{base.PatchPackageId(packageId)}.amalgamate";
