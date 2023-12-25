@@ -29,9 +29,9 @@ public partial class Context
     {
         packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         var packageSearchMetadata = await base.GetPackageInformation(
-            packageIdVersion,
-            preRelease,
-            cancellationToken
+            packageIdVersion: packageIdVersion,
+            preRelease: preRelease,
+            cancellationToken: cancellationToken
         );
         if (packageSearchMetadata != null)
         {
