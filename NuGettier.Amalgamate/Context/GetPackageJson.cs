@@ -28,15 +28,10 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
-        var packageJson = await base.GetPackageJson(
+        return await base.GetPackageJson(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
             cancellationToken: cancellationToken
         );
-
-        if (packageJson is null)
-            return null;
-
-        return packageJson;
     }
 }
