@@ -35,6 +35,7 @@
     <PackageReference Include="DotNetConfig" Version="1.0.6"/>
     <PackageReference Include="DotNetConfig.Configuration" Version="1.0.6"/>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0"/>
+    <PackageReference Include="NLog" Version="5.2.7"/>
     <PackageReference Include="NuGet.Commands" Version="6.8.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.8.0"/>
     <PackageReference Include="NuGet.Packaging" Version="6.8.0"/>
