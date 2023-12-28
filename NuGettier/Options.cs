@@ -18,6 +18,12 @@ public static partial class Program
             description: "whether to output result as JSON (for piping into `jq` etc)"
         );
 
+    private static Option<bool> OutputListOption =
+        new(
+            aliases: new string[] { "--list", "-l" },
+            description: "whether to output result as a short list"
+        );
+
     private static Option<bool> IncludePrereleaseOption =
         new(aliases: new string[] { "--preRelease", "-p" }, description: "whether to include prerelease versions");
 
