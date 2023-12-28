@@ -5,11 +5,14 @@ using System.CommandLine;
 using NuGettier;
 using NuGet.Protocol.Core.Types;
 using Microsoft.Extensions.Configuration;
+using NLog;
 
 namespace NuGettier.Amalgamate;
 
 public partial class Context : Upm.Context
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     public Context(
         IConfigurationRoot configuration,
         IEnumerable<Uri> sources,
