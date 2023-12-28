@@ -44,6 +44,9 @@ public static partial class Program
         using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
         var results = await context.SearchPackages(searchTerm: searchTerm, cancellationToken: cancellationToken);
 
+        if (results is null)
+            return 1;
+
         if (@short)
         {
             var res = results.ToDictionary(r => r.Identity.Id, r => r.Identity.Version.ToNormalizedString());
