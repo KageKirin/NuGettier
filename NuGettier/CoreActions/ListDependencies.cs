@@ -29,6 +29,7 @@ public static partial class Program
             PackageIdVersionArgument,
             IncludePrereleaseOption,
             OutputJsonOption,
+            OutputListOption,
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(ListDependencies));
 
@@ -36,6 +37,7 @@ public static partial class Program
         string packageIdVersion,
         bool preRelease,
         bool json,
+        bool list,
         IEnumerable<Uri> sources,
         IConsole console,
         CancellationToken cancellationToken
@@ -51,9 +53,18 @@ public static partial class Program
 
         if (packages is not null)
         {
+            var deps = packages.ToDictionary(p => p.Identity.Id, p => p.Identity.Version.ToNormalizedString());
             if (json)
             {
-                Console.WriteLine($"{JsonSerializer.Serialize(packages, JsonOptions)}");
+                if (list)
+                {
+                    Assert.NotNull(deps);
+                    Console.WriteLine($"{JsonSerializer.Serialize(deps, JsonOptions)}");
+                }
+                else
+                {
+                    Console.WriteLine($"{JsonSerializer.Serialize(packages, JsonOptions)}");
+                }
             }
             else
             {
