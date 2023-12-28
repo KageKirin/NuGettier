@@ -95,14 +95,14 @@ public partial class Context
                 var stderr = await process.StandardError.ReadToEndAsync(cancellationToken);
 
                 if (!string.IsNullOrEmpty(stdout))
-                    Console.WriteLine($"NPM: {stdout}");
+                    Logger.Info($"NPM: {stdout}");
 
                 if (!string.IsNullOrEmpty(stderr))
-                    Console.Error.WriteLine($"NPM: {stderr}");
+                    Logger.Error($"NPM: {stderr}");
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine($"NPM: {e.Message}");
+                Logger.Error($"NPM: {e.Message}");
             }
 
             System.IO.Directory.Delete(tempDir, recursive: true);

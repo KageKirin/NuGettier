@@ -66,7 +66,7 @@ public partial class Context
         {
             var readme = packageJson.GenerateReadme(originalReadme: packageReader.GetReadme());
             files.Add(@"README.md", readme);
-            Console.WriteLine($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
+            Logger.Debug($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
         }
 
         // create & add LICENSE
@@ -78,7 +78,7 @@ public partial class Context
                 copyrightHolder: packageReader.NuspecReader.GetOwners()
             );
             files.Add(@"LICENSE.md", license);
-            Console.WriteLine($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
+            Logger.Debug($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
         }
 
         // create & add CHANGELOG
@@ -86,7 +86,7 @@ public partial class Context
         {
             var changelog = packageJson.GenerateChangelog(packageReader.NuspecReader.GetReleaseNotes());
             files.Add(@"CHANGELOG.md", changelog);
-            Console.WriteLine($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
+            Logger.Debug($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
         }
 
         // add file references to package.json
@@ -96,7 +96,7 @@ public partial class Context
         Assert.False(files.ContainsKey(@"package.json"));
         var packageJsonString = packageJson.ToJson();
         files.Add(@"package.json", packageJsonString);
-        Console.WriteLine($"--- PACKAGE.JSON\n{packageJsonString}\n---");
+        Logger.Debug($"--- PACKAGE.JSON\n{packageJsonString}\n---");
 
         // add meta files
         files.AddMetaFiles(packageJson.Name);

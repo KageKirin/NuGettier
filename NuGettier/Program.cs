@@ -9,6 +9,7 @@ using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using DotNetConfig;
 using Microsoft.Extensions.Configuration;
+using NLog;
 using Xunit;
 
 #nullable enable
@@ -27,9 +28,18 @@ public static partial class Program
         }
     }
 
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     static async Task<int> Main(string[] args)
     {
-        Console.WriteLine($"called with args: {string.Join(" ", args.Select(a => $"'{a}'"))}");
+        LogManager
+            .Setup()
+            .LoadConfiguration(builder =>
+            {
+                builder.ForLogger().FilterMinLevel(LogLevel.Info).WriteToConsole();
+                builder.ForLogger().FilterMinLevel(LogLevel.Debug).WriteToFile(fileName: "nugettier.log");
+            });
+        Logger.Debug($"called with args: {string.Join(" ", args.Select(a => $"'{a}'"))}");
         Assert.NotNull(Configuration);
 
         var cmd = new RootCommand("Extended NuGet helper utility")

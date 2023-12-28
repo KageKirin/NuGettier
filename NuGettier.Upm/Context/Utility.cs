@@ -72,7 +72,7 @@ public partial class Context
 
     protected virtual string PatchPackageId(string packageId)
     {
-        Console.WriteLine($"before: {packageId}");
+        Logger.Debug($"before: {packageId}");
         var metadata = CachedMetadata[packageId.ToLowerInvariant()];
         Assert.NotNull(metadata);
 
@@ -83,20 +83,20 @@ public partial class Context
 
         var template = Handlebars.Compile(namingTemplate);
         var result = Regex.Replace(template(metadata).ToLowerInvariant().Replace(@" ", ""), @"\W", @".");
-        Console.WriteLine($"after: {result}");
+        Logger.Debug($"after: {result}");
         return result;
     }
 
     protected virtual string PatchPackageVersion(string packageId, string packageVersion)
     {
-        Console.WriteLine($"before: {packageId}: {packageVersion}");
+        Logger.Debug($"before: {packageId}: {packageVersion}");
         var packageRule = GetPackageRule(packageId);
         var versionRegex = !string.IsNullOrEmpty(packageRule.Version)
             ? packageRule.Version
             : Context.DefaultPackageRule.Version;
 
         var result = Regex.Match(packageVersion, versionRegex).Value;
-        Console.WriteLine($"after: {packageId}: {result}");
+        Logger.Debug($"after: {packageId}: {result}");
 
         return result;
     }

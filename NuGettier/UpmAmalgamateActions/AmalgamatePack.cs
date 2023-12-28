@@ -79,7 +79,7 @@ public static partial class Program
             using (package)
             {
                 // write output package.tar.gz
-                Console.WriteLine($"writing package {packageIdentifier}.tgz");
+                Logger.Info($"writing package {packageIdentifier}.tgz");
                 await package.WriteToTarGzAsync(Path.Join(outputDirectory.FullName, $"{packageIdentifier}.tgz"));
                 return 0;
             }
