@@ -28,6 +28,8 @@ public static partial class Program
         }
     }
 
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     static async Task<int> Main(string[] args)
     {
         LogManager
