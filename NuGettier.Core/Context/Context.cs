@@ -12,6 +12,7 @@ using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
 using Microsoft.Extensions.Configuration;
+using NLog;
 using Xunit;
 
 namespace NuGettier.Core;
@@ -33,6 +34,8 @@ public partial class Context : IDisposable
     protected const string kFrameworkKey = @"framework";
 
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
+
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     public record class PackageRule(
         string Id,
