@@ -95,7 +95,7 @@ public partial class Context
                 var stderr = await process.StandardError.ReadToEndAsync(cancellationToken);
 
                 if (!string.IsNullOrEmpty(stdout))
-                    Console.WriteLine($"NPM: {stdout}");
+                    Logger.Info($"NPM: {stdout}");
 
                 if (!string.IsNullOrEmpty(stderr))
                     Console.Error.WriteLine($"NPM: {stderr}");
