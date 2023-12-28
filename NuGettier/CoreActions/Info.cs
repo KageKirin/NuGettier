@@ -28,6 +28,7 @@ public static partial class Program
             PackageIdVersionArgument,
             IncludePrereleaseOption,
             OutputJsonOption,
+            ShortOutputOption,
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(Info));
 
@@ -35,6 +36,7 @@ public static partial class Program
         string packageIdVersion,
         bool preRelease,
         bool json,
+        bool @short,
         IEnumerable<Uri> sources,
         IConsole console,
         CancellationToken cancellationToken
@@ -50,6 +52,31 @@ public static partial class Program
 
         if (package != null)
         {
+            if (@short)
+            {
+                Dictionary<string, string> info =
+                    new()
+                    {
+                        ["package"] = package.Identity.Id,
+                        ["version"] = package.Identity.Version.ToNormalizedString(),
+                        ["title"] = package.Title,
+                        ["summary"] = package.Summary,
+                        ["license"] = package.LicenseMetadata?.License ?? string.Empty,
+                    };
+                if (json)
+                {
+                    Console.WriteLine(@$"{JsonSerializer.Serialize(info, JsonOptions)}");
+                }
+                else
+                {
+                    foreach (var kvp in info)
+                    {
+                        Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+                    }
+                }
+                return 0;
+            }
+
             if (json)
             {
                 Console.WriteLine($"{JsonSerializer.Serialize(package, JsonOptions)}");
