@@ -39,7 +39,7 @@ public static partial class Program
                 builder.ForLogger().FilterMinLevel(LogLevel.Info).WriteToConsole();
                 builder.ForLogger().FilterMinLevel(LogLevel.Debug).WriteToFile(fileName: "nugettier.log");
             });
-        Console.WriteLine($"called with args: {string.Join(" ", args.Select(a => $"'{a}'"))}");
+        Logger.Debug($"called with args: {string.Join(" ", args.Select(a => $"'{a}'"))}");
         Assert.NotNull(Configuration);
 
         var cmd = new RootCommand("Extended NuGet helper utility")
