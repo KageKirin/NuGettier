@@ -73,7 +73,7 @@ public static partial class Program
 
         if (result != 0)
         {
-            console.Error.WriteLine($"publishing failed");
+            Logger.Error($"publishing failed");
         }
 
         return result;
