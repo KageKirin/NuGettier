@@ -29,7 +29,7 @@ public static partial class Program
             PackageIdVersionArgument,
             IncludePrereleaseOption,
             OutputJsonOption,
-            OutputListOption,
+            ShortOutputOption,
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(ListDependencies));
 
@@ -37,7 +37,7 @@ public static partial class Program
         string packageIdVersion,
         bool preRelease,
         bool json,
-        bool list,
+        bool @short,
         IEnumerable<Uri> sources,
         IConsole console,
         CancellationToken cancellationToken
@@ -53,18 +53,27 @@ public static partial class Program
 
         if (packages is not null)
         {
-            var deps = packages.ToDictionary(p => p.Identity.Id, p => p.Identity.Version.ToNormalizedString());
-            if (json)
+            if (@short)
             {
-                if (list)
+                var deps = packages.ToDictionary(p => p.Identity.Id, p => p.Identity.Version.ToNormalizedString());
+                Assert.NotNull(deps);
+                if (json)
                 {
-                    Assert.NotNull(deps);
-                    Console.WriteLine($"{JsonSerializer.Serialize(deps, JsonOptions)}");
+                    Console.WriteLine(@$"{JsonSerializer.Serialize(deps, JsonOptions)}");
                 }
                 else
                 {
-                    Console.WriteLine($"{JsonSerializer.Serialize(packages, JsonOptions)}");
+                    foreach (var kvp in deps)
+                    {
+                        Console.WriteLine($"{kvp.Key}@{kvp.Value}");
+                    }
                 }
+                return 0;
+            }
+
+            if (json)
+            {
+                Console.WriteLine($"{JsonSerializer.Serialize(packages, JsonOptions)}");
             }
             else
             {
@@ -101,8 +110,9 @@ public static partial class Program
                     }
                 }
             }
+            return 0;
         }
 
-        return 0;
+        return 1;
     }
 }
