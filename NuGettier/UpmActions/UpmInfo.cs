@@ -77,7 +77,7 @@ public static partial class Program
 
         if (json)
         {
-            console.WriteLine(@$"""packageJson"": {packageJson.ToJson()}");
+            console.WriteLine(@$"{packageJson.ToJson()}");
         }
         else
         {
