@@ -10,6 +10,7 @@ using NuGet.Frameworks;
 using NuGet.Protocol.Core.Types;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics.CodeAnalysis;
+using NLog;
 
 namespace NuGettier.Upm;
 
@@ -17,6 +18,8 @@ public partial class Context : Core.Context
 {
     protected const string kUnitySection = @"unity";
     protected const string kDefaultFramework = @"netstandard2.0";
+
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     public string MinUnityVersion { get; protected set; }
     public Uri Target { get; protected set; }
