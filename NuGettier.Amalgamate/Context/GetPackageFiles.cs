@@ -62,7 +62,7 @@ public partial class Context
 
                     using PackageArchiveReader dependencyPackageReader = new(dependencyPackageStream);
                     var packageFiles = await GetPackageFiles(dependencyPackageReader, nugetFramework, cancellationToken);
-                    files.AddRange(packageFiles);
+                    files.AddRange(packageFiles.Where(f => !files.ContainsKey(f.Key)));
                 }
             }
         }
