@@ -51,68 +51,67 @@ public static partial class Program
             cancellationToken: cancellationToken
         );
 
-        if (packages is not null)
-        {
-            if (@short)
-            {
-                var deps = packages.ToDictionary(p => p.Identity.Id, p => p.Identity.Version.ToNormalizedString());
-                Assert.NotNull(deps);
-                if (json)
-                {
-                    Console.WriteLine(@$"{JsonSerializer.Serialize(deps, JsonOptions)}");
-                }
-                else
-                {
-                    foreach (var kvp in deps)
-                    {
-                        Console.WriteLine($"{kvp.Key}@{kvp.Value}");
-                    }
-                }
-                return 0;
-            }
+        if (packages is null)
+            return 1;
 
+        if (@short)
+        {
+            var deps = packages.ToDictionary(p => p.Identity.Id, p => p.Identity.Version.ToNormalizedString());
+            Assert.NotNull(deps);
             if (json)
             {
-                Console.WriteLine($"{JsonSerializer.Serialize(packages, JsonOptions)}");
+                Console.WriteLine(@$"{JsonSerializer.Serialize(deps, JsonOptions)}");
             }
             else
             {
-                foreach (var package in packages)
+                foreach (var kvp in deps)
                 {
-                    Console.WriteLine($"Identity: {package.Identity}");
-                    Console.WriteLine($"Version: {package.Identity.Version}");
-                    Console.WriteLine($"Listed: {package.IsListed}");
-                    Console.WriteLine($"Title: {package.Title}");
-                    Console.WriteLine($"Summary: {package.Summary}");
-                    Console.WriteLine($"Description: {package.Description}");
-                    Console.WriteLine($"Authors: {package.Authors}");
-                    Console.WriteLine($"Owners: {package.Owners}");
-                    Console.WriteLine($"Tags: {package.Tags}");
-                    Console.WriteLine($"License: {package.LicenseMetadata?.License}");
-                    Console.WriteLine($"Published: {package.Published}");
-                    Console.WriteLine($"Prefix Reserved: {package.PrefixReserved}");
-                    Console.WriteLine($"Project Url: {package.ProjectUrl}");
-                    Console.WriteLine($"License Url: {package.LicenseUrl}");
-                    Console.WriteLine($"Require License Acceptance: {package.RequireLicenseAcceptance}");
-                    Console.WriteLine($"Icon Url: {package.IconUrl}");
-                    Console.WriteLine($"Readme Url: {package.ReadmeUrl}");
-                    Console.WriteLine($"Report Abuse Url: {package.ReportAbuseUrl}");
-                    Console.WriteLine($"Package Details Url: {package.PackageDetailsUrl}");
-                    Console.WriteLine($"Dependencies:");
-                    foreach (PackageDependencyGroup dependencyGroup in package.DependencySets)
-                    {
-                        Console.WriteLine($"- {dependencyGroup.TargetFramework}:");
-                        // TODO: apply filter here
-                        foreach (PackageDependency dependency in dependencyGroup.Packages)
-                        {
-                            Console.WriteLine($"  - {dependency.ToString()}");
-                        }
-                    }
+                    Console.WriteLine($"{kvp.Key}@{kvp.Value}");
                 }
             }
             return 0;
         }
 
-        return 1;
+        if (json)
+        {
+            Console.WriteLine(@$"{JsonSerializer.Serialize(packages, JsonOptions)}");
+        }
+        else
+        {
+            foreach (var package in packages)
+            {
+                Console.WriteLine($"Identity: {package.Identity}");
+                Console.WriteLine($"Version: {package.Identity.Version}");
+                Console.WriteLine($"Listed: {package.IsListed}");
+                Console.WriteLine($"Title: {package.Title}");
+                Console.WriteLine($"Summary: {package.Summary}");
+                Console.WriteLine($"Description: {package.Description}");
+                Console.WriteLine($"Authors: {package.Authors}");
+                Console.WriteLine($"Owners: {package.Owners}");
+                Console.WriteLine($"Tags: {package.Tags}");
+                Console.WriteLine($"License: {package.LicenseMetadata?.License}");
+                Console.WriteLine($"Published: {package.Published}");
+                Console.WriteLine($"Prefix Reserved: {package.PrefixReserved}");
+                Console.WriteLine($"Project Url: {package.ProjectUrl}");
+                Console.WriteLine($"License Url: {package.LicenseUrl}");
+                Console.WriteLine($"Require License Acceptance: {package.RequireLicenseAcceptance}");
+                Console.WriteLine($"Icon Url: {package.IconUrl}");
+                Console.WriteLine($"Readme Url: {package.ReadmeUrl}");
+                Console.WriteLine($"Report Abuse Url: {package.ReportAbuseUrl}");
+                Console.WriteLine($"Package Details Url: {package.PackageDetailsUrl}");
+                Console.WriteLine($"Dependencies:");
+                foreach (PackageDependencyGroup dependencyGroup in package.DependencySets)
+                {
+                    Console.WriteLine($"- {dependencyGroup.TargetFramework}:");
+                    // TODO: apply filter here
+                    foreach (PackageDependency dependency in dependencyGroup.Packages)
+                    {
+                        Console.WriteLine($"  - {dependency}");
+                    }
+                }
+            }
+            return 0;
+        }
+        return 0;
     }
 }

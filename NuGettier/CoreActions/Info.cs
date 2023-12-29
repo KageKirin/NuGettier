@@ -50,73 +50,72 @@ public static partial class Program
             cancellationToken: cancellationToken
         );
 
-        if (package != null)
-        {
-            if (@short)
-            {
-                Dictionary<string, string> info =
-                    new()
-                    {
-                        ["package"] = package.Identity.Id,
-                        ["version"] = package.Identity.Version.ToNormalizedString(),
-                        ["title"] = package.Title,
-                        ["summary"] = package.Summary,
-                        ["license"] = package.LicenseMetadata?.License ?? string.Empty,
-                    };
-                if (json)
-                {
-                    Console.WriteLine(@$"{JsonSerializer.Serialize(info, JsonOptions)}");
-                }
-                else
-                {
-                    foreach (var kvp in info)
-                    {
-                        Console.WriteLine($"{kvp.Key}: {kvp.Value}");
-                    }
-                }
-                return 0;
-            }
+        if (package is null)
+            return 1;
 
+        if (@short)
+        {
+            Dictionary<string, string> info =
+                new()
+                {
+                    ["package"] = package.Identity.Id,
+                    ["version"] = package.Identity.Version.ToNormalizedString(),
+                    ["title"] = package.Title,
+                    ["summary"] = package.Summary,
+                    ["license"] = package.LicenseMetadata?.License ?? string.Empty,
+                };
             if (json)
             {
-                Console.WriteLine($"{JsonSerializer.Serialize(package, JsonOptions)}");
+                Console.WriteLine(@$"{JsonSerializer.Serialize(info, JsonOptions)}");
             }
             else
             {
-                Console.WriteLine($"Identity: {package.Identity}");
-                Console.WriteLine($"Version: {package.Identity.Version}");
-                Console.WriteLine($"Listed: {package.IsListed}");
-                Console.WriteLine($"Title: {package.Title}");
-                Console.WriteLine($"Summary: {package.Summary}");
-                Console.WriteLine($"Description: {package.Description}");
-                Console.WriteLine($"Authors: {package.Authors}");
-                Console.WriteLine($"Owners: {package.Owners}");
-                Console.WriteLine($"Tags: {package.Tags}");
-                Console.WriteLine($"License: {package.LicenseMetadata?.License}");
-                Console.WriteLine($"Published: {package.Published}");
-                Console.WriteLine($"Prefix Reserved: {package.PrefixReserved}");
-                Console.WriteLine($"Project Url: {package.ProjectUrl}");
-                Console.WriteLine($"License Url: {package.LicenseUrl}");
-                Console.WriteLine($"Require License Acceptance: {package.RequireLicenseAcceptance}");
-                Console.WriteLine($"Icon Url: {package.IconUrl}");
-                Console.WriteLine($"Readme Url: {package.ReadmeUrl}");
-                Console.WriteLine($"Report Abuse Url: {package.ReportAbuseUrl}");
-                Console.WriteLine($"Package Details Url: {package.PackageDetailsUrl}");
-                Console.WriteLine($"Dependencies:");
-                foreach (PackageDependencyGroup dependencyGroup in package.DependencySets)
+                foreach (var kvp in info)
                 {
-                    Console.WriteLine($"- {dependencyGroup.TargetFramework}:");
-                    foreach (PackageDependency dependency in dependencyGroup.Packages)
-                    {
-                        Console.WriteLine($"  - {dependency.ToString()}");
-                    }
+                    Console.WriteLine($"{kvp.Key}: {kvp.Value}");
                 }
-
-                //IEnumerable<PackageVulnerabilityMetadata> Vulnerabilities { get; }
-                //Task<IEnumerable<VersionInfo>> GetVersionsAsync();
             }
+            return 0;
         }
 
+        if (json)
+        {
+            Console.WriteLine(@$"{JsonSerializer.Serialize(package, JsonOptions)}");
+        }
+        else
+        {
+            Console.WriteLine($"Identity: {package.Identity}");
+            Console.WriteLine($"Version: {package.Identity.Version}");
+            Console.WriteLine($"Listed: {package.IsListed}");
+            Console.WriteLine($"Title: {package.Title}");
+            Console.WriteLine($"Summary: {package.Summary}");
+            Console.WriteLine($"Description: {package.Description}");
+            Console.WriteLine($"Authors: {package.Authors}");
+            Console.WriteLine($"Owners: {package.Owners}");
+            Console.WriteLine($"Tags: {package.Tags}");
+            Console.WriteLine($"License: {package.LicenseMetadata?.License}");
+            Console.WriteLine($"Published: {package.Published}");
+            Console.WriteLine($"Prefix Reserved: {package.PrefixReserved}");
+            Console.WriteLine($"Project Url: {package.ProjectUrl}");
+            Console.WriteLine($"License Url: {package.LicenseUrl}");
+            Console.WriteLine($"Require License Acceptance: {package.RequireLicenseAcceptance}");
+            Console.WriteLine($"Icon Url: {package.IconUrl}");
+            Console.WriteLine($"Readme Url: {package.ReadmeUrl}");
+            Console.WriteLine($"Report Abuse Url: {package.ReportAbuseUrl}");
+            Console.WriteLine($"Package Details Url: {package.PackageDetailsUrl}");
+            Console.WriteLine($"Dependencies:");
+            foreach (PackageDependencyGroup dependencyGroup in package.DependencySets)
+            {
+                Console.WriteLine($"- {dependencyGroup.TargetFramework}:");
+                foreach (PackageDependency dependency in dependencyGroup.Packages)
+                {
+                    Console.WriteLine($"  - {dependency.ToString()}");
+                }
+            }
+
+            //IEnumerable<PackageVulnerabilityMetadata> Vulnerabilities { get; }
+            //Task<IEnumerable<VersionInfo>> GetVersionsAsync();
+        }
         return 0;
     }
 }

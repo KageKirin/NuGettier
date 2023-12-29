@@ -50,10 +50,11 @@ public static partial class Program
             cancellationToken: cancellationToken
         );
 
-        if (packageStream != null)
-        {
-            using PackageArchiveReader packageReader = new PackageArchiveReader(packageStream);
+        if (packageStream is null)
+            return 1;
 
+        using (PackageArchiveReader packageReader = new PackageArchiveReader(packageStream))
+        {
             Console.WriteLine($"ID: {packageReader.NuspecReader.GetId()}");
             Console.WriteLine($"Title: {packageReader.NuspecReader.GetTitle()}");
             Console.WriteLine($"Summary: {packageReader.NuspecReader.GetSummary()}");
@@ -133,19 +134,14 @@ public static partial class Program
                 outputDirectory.Create();
             }
 
-            using (
-                FileStream fileStream = new FileStream(
-                    $"{Path.Join(outputDirectory.FullName, $"{packageReader.NuspecReader.GetId()}-{packageReader.NuspecReader.GetVersion()}.nupkg")}",
-                    FileMode.Create,
-                    FileAccess.Write
-                )
-            )
-            {
-                packageStream.WriteTo(fileStream);
-            }
-            return 0;
+            using FileStream fileStream = new FileStream(
+                $"{Path.Join(outputDirectory.FullName, $"{packageReader.NuspecReader.GetId()}-{packageReader.NuspecReader.GetVersion()}.nupkg")}",
+                FileMode.Create,
+                FileAccess.Write
+            );
+            packageStream.WriteTo(fileStream);
         }
 
-        return 1;
+        return 0;
     }
 }

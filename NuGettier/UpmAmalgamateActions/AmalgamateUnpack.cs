@@ -73,17 +73,16 @@ public static partial class Program
             cancellationToken: cancellationToken
         );
 
-        if (tuple != null)
+        if (tuple is null)
+            return 1;
+
+        var (packageIdentifier, package) = tuple!;
+        using (package)
         {
-            var (packageIdentifier, package) = tuple!;
-            using (package)
-            {
-                // write output package.tar.gz
-                Logger.Info($"writing unpacked package {packageIdentifier}");
-                await package.WriteToDirectoryAsync(Path.Join(outputDirectory.FullName, $"{packageIdentifier}"));
-                return 0;
-            }
+            // write output package.tar.gz
+            Logger.Info($"writing unpacked package {packageIdentifier}");
+            await package.WriteToDirectoryAsync(Path.Join(outputDirectory.FullName, $"{packageIdentifier}"));
         }
-        return 1;
+        return 0;
     }
 }

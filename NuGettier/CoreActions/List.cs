@@ -50,6 +50,9 @@ public static partial class Program
             cancellationToken: cancellationToken
         );
 
+        if (results is null)
+            return 1;
+
         if (@short)
         {
             var versions = results.Select(r => r.Identity.Version.ToNormalizedString());
