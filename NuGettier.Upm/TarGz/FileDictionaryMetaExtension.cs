@@ -8,8 +8,8 @@ public static class FileDictionaryMetaExtension
 {
     public static void AddMetaFiles(this FileDictionary fileDictionary, string seed)
     {
-        var fsEntries = fileDictionary.Keys
-            .SelectMany(f =>
+        var fsEntries = fileDictionary
+            .Keys.SelectMany(f =>
             // gather folders: Unity requires .meta files for each included folder as well
             {
                 var parents = new HashSet<string>();
