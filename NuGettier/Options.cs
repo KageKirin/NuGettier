@@ -47,10 +47,4 @@ public static partial class Program
         {
             IsRequired = true,
         };
-
-    [Obsolete("'--latest' and '--version' options have been removed", true)]
-    private static void ValidateLatestOrVersion(CommandResult commandResult)
-    {
-        commandResult.ValidateOnlyOneOf(RetrieveLatestOption, SpecificVersionOption);
-    }
 }
