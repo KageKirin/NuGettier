@@ -1,8 +1,10 @@
 using System;
+using System.CommandLine;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.CommandLine;
+using Microsoft.Extensions.Configuration;
+using NLog;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -11,8 +13,6 @@ using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
-using Microsoft.Extensions.Configuration;
-using NLog;
 using Xunit;
 
 namespace NuGettier.Core;
