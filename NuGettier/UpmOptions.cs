@@ -35,7 +35,8 @@ public static partial class Program
         new(
             aliases: new string[] { "--buildmeta-suffix", },
             description: "version buildmeta suffix ('foobar' -> '1.2.3-prerelease+foobar)",
-            getDefaultValue: () => ""
+            getDefaultValue: () =>
+                Configuration.GetSection("default").GetValue<string>("buildmeta-suffix") ?? string.Empty
         );
 
     private static Option<string> UpmTokenOption =
