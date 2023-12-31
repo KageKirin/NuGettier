@@ -54,6 +54,7 @@ public static partial class Program
             Arity = ArgumentArity.OneOrMore,
         };
 
+    [Obsolete("'--username' and '--password' options have been removed", true)]
     private static Option<string> SourceRepositoryUsernameOption =
         new(
             aliases: new string[] { "--username", },
