@@ -8,4 +8,5 @@ public static partial class Program
     const string kOutputDirectoryKey = "output-directory";
     const string kTargetKey = "target";
     const string kUnityKey = "unity";
+    const string kPrereleaseSuffixKey = "prerelease-suffix";
 }

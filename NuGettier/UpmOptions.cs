@@ -28,7 +28,7 @@ public static partial class Program
             aliases: new string[] { "--prerelease-suffix", },
             description: "version prerelease suffix ('foobar' -> '1.2.3-foobar+buildmeta)",
             getDefaultValue: () =>
-                Configuration.GetSection(kDefaultsSection).GetValue<string>("prerelease-suffix") ?? string.Empty
+                Configuration.GetSection(kDefaultsSection).GetValue<string>(kPrereleaseSuffixKey) ?? string.Empty
         );
 
     private static Option<string> UpmBuildmetaSuffixOption =
