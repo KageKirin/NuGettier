@@ -22,7 +22,7 @@ namespace NuGettier.Upm;
 
 public partial class Context
 {
-    public async virtual Task<FileDictionary> GetPackageFiles(
+    public virtual async Task<FileDictionary> GetPackageFiles(
         PackageArchiveReader packageReader,
         NuGetFramework nugetFramework,
         CancellationToken cancellationToken
