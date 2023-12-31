@@ -27,12 +27,15 @@ public static partial class Program
     private static Option<bool> IncludeDependenciesOption =
         new(aliases: new string[] { "--includeDependencies", "-i" }, description: "whether to include dependencies");
 
+    [Obsolete("'--latest' and '--version' options have been removed", true)]
     private static Option<bool> RetrieveLatestOption =
         new(aliases: new string[] { "--latest", "-l" }, description: "fetch the latest version");
 
+    [Obsolete("'--latest' and '--version' options have been removed", true)]
     private static Option<string> SpecificVersionOption =
         new(aliases: new string[] { "--version", "-v" }, description: "version to fetch");
 
+    [Obsolete("'--framework' option has been superseded by '--unity' option", true)]
     private static Option<string> FrameworkOption =
         new(aliases: new string[] { "--framework", "-f" }, description: "framework of DLL to repack");
 
@@ -51,6 +54,7 @@ public static partial class Program
             Arity = ArgumentArity.OneOrMore,
         };
 
+    [Obsolete("'--username' and '--password' options have been removed", true)]
     private static Option<string> SourceRepositoryUsernameOption =
         new(
             aliases: new string[] { "--username", },
@@ -60,6 +64,7 @@ public static partial class Program
             IsRequired = false, // optional, b/c public repos don't need one
         };
 
+    [Obsolete("'--username' and '--password' options have been removed", true)]
     private static Option<string> SourceRepositoryPasswordOption =
         new(
             aliases: new string[] { "--password", },
@@ -70,11 +75,16 @@ public static partial class Program
         };
 
     private static Option<Uri> TargetRegistryOption =
-        new(aliases: new string[] { "--target", "-t" }, description: "target NPM registry to publish to")
+        new(
+            aliases: new string[] { "--target", "-t" },
+            description: "target NPM registry to publish to",
+            getDefaultValue: () => new Uri("https://foo.bar")
+        )
         {
             IsRequired = true,
         };
 
+    [Obsolete("'--latest' and '--version' options have been removed", true)]
     private static void ValidateLatestOrVersion(CommandResult commandResult)
     {
         commandResult.ValidateOnlyOneOf(RetrieveLatestOption, SpecificVersionOption);
