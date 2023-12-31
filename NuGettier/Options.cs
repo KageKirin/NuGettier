@@ -75,11 +75,16 @@ public static partial class Program
         };
 
     private static Option<Uri> TargetRegistryOption =
-        new(aliases: new string[] { "--target", "-t" }, description: "target NPM registry to publish to")
+        new(
+            aliases: new string[] { "--target", "-t" },
+            description: "target NPM registry to publish to",
+            getDefaultValue: () => new Uri("https://foo.bar")
+        )
         {
             IsRequired = true,
         };
 
+    [Obsolete("'--latest' and '--version' options have been removed", true)]
     private static void ValidateLatestOrVersion(CommandResult commandResult)
     {
         commandResult.ValidateOnlyOneOf(RetrieveLatestOption, SpecificVersionOption);
