@@ -23,7 +23,7 @@ public class FileDictionary : Dictionary<string, byte[]>, IDisposable
         Clear();
     }
 
-    public virtual new byte[] this[string key]
+    public new virtual byte[] this[string key]
     {
         get => base[key];
         set => base[key] = value;
