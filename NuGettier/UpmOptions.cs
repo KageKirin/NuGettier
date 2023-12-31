@@ -17,7 +17,7 @@ public static partial class Program
         new(
             aliases: new string[] { "--unity", "-u" },
             description: "minimum Unity version required by package.json",
-            getDefaultValue: () => Configuration.GetSection("default").GetValue<string>("unity") ?? "2022.3" //< latest LTS
+            getDefaultValue: () => Configuration.GetSection(kDefaultsSection).GetValue<string>("unity") ?? "2022.3" //< latest LTS
         )
         {
             IsRequired = true,
@@ -28,7 +28,7 @@ public static partial class Program
             aliases: new string[] { "--prerelease-suffix", },
             description: "version prerelease suffix ('foobar' -> '1.2.3-foobar+buildmeta)",
             getDefaultValue: () =>
-                Configuration.GetSection("default").GetValue<string>("prerelease-suffix") ?? string.Empty
+                Configuration.GetSection(kDefaultsSection).GetValue<string>("prerelease-suffix") ?? string.Empty
         );
 
     private static Option<string> UpmBuildmetaSuffixOption =
@@ -36,7 +36,7 @@ public static partial class Program
             aliases: new string[] { "--buildmeta-suffix", },
             description: "version buildmeta suffix ('foobar' -> '1.2.3-prerelease+foobar)",
             getDefaultValue: () =>
-                Configuration.GetSection("default").GetValue<string>("buildmeta-suffix") ?? string.Empty
+                Configuration.GetSection(kDefaultsSection).GetValue<string>("buildmeta-suffix") ?? string.Empty
         );
 
     private static Option<string> UpmTokenOption =

@@ -34,7 +34,7 @@ public static partial class Program
             description: "directory to output files to",
             getDefaultValue: () =>
                 new DirectoryInfo(
-                    Configuration.GetSection("default").GetValue<string>("output-directory")
+                    Configuration.GetSection(kDefaultsSection).GetValue<string>("output-directory")
                         ?? Environment.CurrentDirectory
                 )
         )
@@ -56,7 +56,7 @@ public static partial class Program
             aliases: new string[] { "--target", "-t" },
             description: "target NPM registry to publish to",
             getDefaultValue: () =>
-                new Uri(Configuration.GetSection("default").GetValue<string>("target") ?? "https://foo.bar")
+                new Uri(Configuration.GetSection(kDefaultsSection).GetValue<string>("target") ?? "https://foo.bar")
         )
         {
             IsRequired = true,
