@@ -9,4 +9,5 @@ public static partial class Program
     const string kTargetKey = "target";
     const string kUnityKey = "unity";
     const string kPrereleaseSuffixKey = "prerelease-suffix";
+    const string kBuildmetaSuffixKey = "buildmeta-suffix";
 }
