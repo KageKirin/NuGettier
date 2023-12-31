@@ -28,7 +28,11 @@ public static partial class Program
         new(aliases: new string[] { "--includeDependencies", "-i" }, description: "whether to include dependencies");
 
     private static Option<DirectoryInfo> OutputDirectoryOption =
-        new(aliases: new string[] { "--outputDirectory", "-o" }, description: "directory to output files to")
+        new(
+            aliases: new string[] { "--outputDirectory", "-o" },
+            description: "directory to output files to",
+            getDefaultValue: () => new DirectoryInfo(Environment.CurrentDirectory)
+        )
         {
             IsRequired = true,
         };
@@ -43,7 +47,11 @@ public static partial class Program
         };
 
     private static Option<Uri> TargetRegistryOption =
-        new(aliases: new string[] { "--target", "-t" }, description: "target NPM registry to publish to")
+        new(
+            aliases: new string[] { "--target", "-t" },
+            description: "target NPM registry to publish to",
+            getDefaultValue: () => new Uri("https://foo.bar")
+        )
         {
             IsRequired = true,
         };

@@ -13,7 +13,11 @@ namespace NuGettier;
 public static partial class Program
 {
     private static Option<string> UpmUnityVersionOption =
-        new(aliases: new string[] { "--unity", "-u" }, description: "minimum Unity version required by package.json")
+        new(
+            aliases: new string[] { "--unity", "-u" },
+            description: "minimum Unity version required by package.json",
+            getDefaultValue: () => "2022.3" //< latest LTS
+        )
         {
             IsRequired = true,
         };
@@ -21,13 +25,15 @@ public static partial class Program
     private static Option<string> UpmPrereleaseSuffixOption =
         new(
             aliases: new string[] { "--prerelease-suffix", },
-            description: "version prerelease suffix ('foobar' -> '1.2.3-foobar+buildmeta)"
+            description: "version prerelease suffix ('foobar' -> '1.2.3-foobar+buildmeta)",
+            getDefaultValue: () => ""
         );
 
     private static Option<string> UpmBuildmetaSuffixOption =
         new(
             aliases: new string[] { "--buildmeta-suffix", },
-            description: "version buildmeta suffix ('foobar' -> '1.2.3-prerelease+foobar)"
+            description: "version buildmeta suffix ('foobar' -> '1.2.3-prerelease+foobar)",
+            getDefaultValue: () => ""
         );
 
     private static Option<string> UpmTokenOption =
