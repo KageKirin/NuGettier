@@ -1,12 +1,12 @@
 using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.CommandLine;
+using System.Linq;
 using System.Text.RegularExpressions;
-using NuGet.Protocol.Core.Types;
-using Microsoft.Extensions.Configuration;
 using HandlebarsDotNet;
+using Microsoft.Extensions.Configuration;
+using NuGet.Protocol.Core.Types;
 using NuGettier.Upm;
 using Xunit;
 
