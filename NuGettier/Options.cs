@@ -28,7 +28,11 @@ public static partial class Program
         new(aliases: new string[] { "--includeDependencies", "-i" }, description: "whether to include dependencies");
 
     private static Option<DirectoryInfo> OutputDirectoryOption =
-        new(aliases: new string[] { "--outputDirectory", "-o" }, description: "directory to output files to")
+        new(
+            aliases: new string[] { "--outputDirectory", "-o" },
+            description: "directory to output files to",
+            getDefaultValue: () => new DirectoryInfo(Environment.CurrentDirectory)
+        )
         {
             IsRequired = true,
         };
