@@ -1,8 +1,8 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
-using ICSharpCode.SharpZipLib.Tar;
+using System.Text;
 using ICSharpCode.SharpZipLib.GZip;
+using ICSharpCode.SharpZipLib.Tar;
 
 namespace NuGettier.Upm.TarGz;
 
