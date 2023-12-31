@@ -16,8 +16,8 @@ public partial class Context
 {
     public override Upm.PackageJson PatchPackageJson(Upm.PackageJson packageJson)
     {
-        var includedDependencies = packageJson.Dependencies
-            .Where(d => GetPackageRule(d.Key).IsIgnored == false) //< filter: remove 'ignored' dependencies
+        var includedDependencies = packageJson
+            .Dependencies.Where(d => GetPackageRule(d.Key).IsIgnored == false) //< filter: remove 'ignored' dependencies
             .Where(d => GetPackageRule(d.Key).IsExcluded == false) //< filter: not 'excluded' dependencies are included)
             .ToDictionary(d => d.Key, d => d.Value);
 
