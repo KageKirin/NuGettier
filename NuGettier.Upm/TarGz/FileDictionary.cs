@@ -29,7 +29,7 @@ public class FileDictionary : Dictionary<string, byte[]>, IDisposable
         set => base[key] = value;
     }
 
-    public virtual new void Add(string key, byte[] value)
+    public new virtual void Add(string key, byte[] value)
     {
         base.Add(key, value);
     }
