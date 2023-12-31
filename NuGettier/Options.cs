@@ -27,10 +27,6 @@ public static partial class Program
     private static Option<bool> IncludeDependenciesOption =
         new(aliases: new string[] { "--includeDependencies", "-i" }, description: "whether to include dependencies");
 
-    [Obsolete("'--latest' and '--version' options have been removed", true)]
-    private static Option<string> SpecificVersionOption =
-        new(aliases: new string[] { "--version", "-v" }, description: "version to fetch");
-
     [Obsolete("'--framework' option has been superseded by '--unity' option", true)]
     private static Option<string> FrameworkOption =
         new(aliases: new string[] { "--framework", "-f" }, description: "framework of DLL to repack");
