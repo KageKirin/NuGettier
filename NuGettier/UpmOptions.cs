@@ -7,6 +7,7 @@ using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using System.CommandLine.NamingConventionBinder;
 using System.CommandLine.Parsing;
+using Microsoft.Extensions.Configuration;
 
 namespace NuGettier;
 
@@ -16,7 +17,7 @@ public static partial class Program
         new(
             aliases: new string[] { "--unity", "-u" },
             description: "minimum Unity version required by package.json",
-            getDefaultValue: () => "2022.3" //< latest LTS
+            getDefaultValue: () => Configuration.GetSection("default").GetValue<string>("unity") ?? "2022.3" //< latest LTS
         )
         {
             IsRequired = true,
