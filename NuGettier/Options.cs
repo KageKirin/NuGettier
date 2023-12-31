@@ -55,7 +55,8 @@ public static partial class Program
         new(
             aliases: new string[] { "--target", "-t" },
             description: "target NPM registry to publish to",
-            getDefaultValue: () => new Uri("https://foo.bar")
+            getDefaultValue: () =>
+                new Uri(Configuration.GetSection("default").GetValue<string>("target") ?? "https://foo.bar")
         )
         {
             IsRequired = true,
