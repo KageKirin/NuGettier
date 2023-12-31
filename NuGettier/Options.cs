@@ -7,6 +7,7 @@ using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using System.CommandLine.NamingConventionBinder;
 using System.CommandLine.Parsing;
+using Microsoft.Extensions.Configuration;
 
 namespace NuGettier;
 
@@ -31,7 +32,11 @@ public static partial class Program
         new(
             aliases: new string[] { "--outputDirectory", "-o" },
             description: "directory to output files to",
-            getDefaultValue: () => new DirectoryInfo(Environment.CurrentDirectory)
+            getDefaultValue: () =>
+                new DirectoryInfo(
+                    Configuration.GetSection("default").GetValue<string>("output-directory")
+                        ?? Environment.CurrentDirectory
+                )
         )
         {
             IsRequired = true,
