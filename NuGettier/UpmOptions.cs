@@ -25,7 +25,8 @@ public static partial class Program
     private static Option<string> UpmPrereleaseSuffixOption =
         new(
             aliases: new string[] { "--prerelease-suffix", },
-            description: "version prerelease suffix ('foobar' -> '1.2.3-foobar+buildmeta)"
+            description: "version prerelease suffix ('foobar' -> '1.2.3-foobar+buildmeta)",
+            getDefaultValue: () => ""
         );
 
     private static Option<string> UpmBuildmetaSuffixOption =
