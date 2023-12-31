@@ -27,6 +27,7 @@ public static partial class Program
     private static Option<bool> IncludeDependenciesOption =
         new(aliases: new string[] { "--includeDependencies", "-i" }, description: "whether to include dependencies");
 
+    [Obsolete("'--latest' and '--version' options have been removed", true)]
     private static Option<bool> RetrieveLatestOption =
         new(aliases: new string[] { "--latest", "-l" }, description: "fetch the latest version");
 
