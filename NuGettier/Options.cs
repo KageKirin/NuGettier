@@ -31,6 +31,7 @@ public static partial class Program
     private static Option<bool> RetrieveLatestOption =
         new(aliases: new string[] { "--latest", "-l" }, description: "fetch the latest version");
 
+    [Obsolete("'--latest' and '--version' options have been removed", true)]
     private static Option<string> SpecificVersionOption =
         new(aliases: new string[] { "--version", "-v" }, description: "version to fetch");
 
