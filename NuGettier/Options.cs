@@ -64,6 +64,7 @@ public static partial class Program
             IsRequired = false, // optional, b/c public repos don't need one
         };
 
+    [Obsolete("'--username' and '--password' options have been removed", true)]
     private static Option<string> SourceRepositoryPasswordOption =
         new(
             aliases: new string[] { "--password", },
