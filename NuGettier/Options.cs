@@ -27,10 +27,6 @@ public static partial class Program
     private static Option<bool> IncludeDependenciesOption =
         new(aliases: new string[] { "--includeDependencies", "-i" }, description: "whether to include dependencies");
 
-    [Obsolete("'--framework' option has been superseded by '--unity' option", true)]
-    private static Option<string> FrameworkOption =
-        new(aliases: new string[] { "--framework", "-f" }, description: "framework of DLL to repack");
-
     private static Option<DirectoryInfo> OutputDirectoryOption =
         new(aliases: new string[] { "--outputDirectory", "-o" }, description: "directory to output files to")
         {
