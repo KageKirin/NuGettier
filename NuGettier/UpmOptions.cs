@@ -13,7 +13,11 @@ namespace NuGettier;
 public static partial class Program
 {
     private static Option<string> UpmUnityVersionOption =
-        new(aliases: new string[] { "--unity", "-u" }, description: "minimum Unity version required by package.json")
+        new(
+            aliases: new string[] { "--unity", "-u" },
+            description: "minimum Unity version required by package.json",
+            getDefaultValue: () => "2022.3" //< latest LTS
+        )
         {
             IsRequired = true,
         };
