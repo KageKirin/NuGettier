@@ -22,6 +22,6 @@ internal static class CommandWithValidatorExtension
     public static Command WithValidator(this Command command, string methodName)
     {
         var method = typeof(Program).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
-        return command.WithValidator((commandResult) => method!.Invoke(null, new object[] { commandResult }));
+        return command.WithValidator((commandResult) => method!.Invoke(null, [commandResult]));
     }
 }

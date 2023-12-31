@@ -14,23 +14,20 @@ namespace NuGettier;
 public static partial class Program
 {
     private static Option<bool> OutputJsonOption =
-        new(
-            aliases: new string[] { "--json", "-j" },
-            description: "whether to output result as JSON (for piping into `jq` etc)"
-        );
+        new(aliases: ["--json", "-j"], description: "whether to output result as JSON (for piping into `jq` etc)");
 
     private static Option<bool> ShortOutputOption =
-        new(aliases: new string[] { "--short", "-ß" }, description: "whether to shorten output to the essential");
+        new(aliases: ["--short", "-ß"], description: "whether to shorten output to the essential");
 
     private static Option<bool> IncludePrereleaseOption =
-        new(aliases: new string[] { "--preRelease", "-p" }, description: "whether to include prerelease versions");
+        new(aliases: ["--preRelease", "-p"], description: "whether to include prerelease versions");
 
     private static Option<bool> IncludeDependenciesOption =
-        new(aliases: new string[] { "--includeDependencies", "-i" }, description: "whether to include dependencies");
+        new(aliases: ["--includeDependencies", "-i"], description: "whether to include dependencies");
 
     private static Option<DirectoryInfo> OutputDirectoryOption =
         new(
-            aliases: new string[] { "--outputDirectory", "-o" },
+            aliases: ["--outputDirectory", "-o"],
             description: "directory to output files to",
             getDefaultValue: () =>
                 new DirectoryInfo(
@@ -43,7 +40,7 @@ public static partial class Program
         };
 
     private static Option<Uri[]> SourceRepositoriesOption =
-        new(aliases: new string[] { "--source", "-s" }, description: "source NuGet repositories to fetch from")
+        new(aliases: ["--source", "-s"], description: "source NuGet repositories to fetch from")
         {
             Name = "sources",
             IsRequired = false,
@@ -53,7 +50,7 @@ public static partial class Program
 
     private static Option<Uri> TargetRegistryOption =
         new(
-            aliases: new string[] { "--target", "-t" },
+            aliases: ["--target", "-t"],
             description: "target NPM registry to publish to",
             getDefaultValue: () =>
                 new Uri(Configuration.GetSection(kDefaultsSection).GetValue<string>(kTargetKey) ?? "https://foo.bar")
