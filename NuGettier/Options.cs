@@ -43,16 +43,6 @@ public static partial class Program
         };
 
     [Obsolete("'--username' and '--password' options have been removed", true)]
-    private static Option<string> SourceRepositoryUsernameOption =
-        new(
-            aliases: new string[] { "--username", },
-            description: "username or API user for source NuGet repository to fetch from"
-        )
-        {
-            IsRequired = false, // optional, b/c public repos don't need one
-        };
-
-    [Obsolete("'--username' and '--password' options have been removed", true)]
     private static Option<string> SourceRepositoryPasswordOption =
         new(
             aliases: new string[] { "--password", },
