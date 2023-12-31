@@ -34,7 +34,7 @@ public static partial class Program
             description: "directory to output files to",
             getDefaultValue: () =>
                 new DirectoryInfo(
-                    Configuration.GetSection(kDefaultsSection).GetValue<string>("output-directory")
+                    Configuration.GetSection(kDefaultsSection).GetValue<string>(kOutputDirectoryKey)
                         ?? Environment.CurrentDirectory
                 )
         )
