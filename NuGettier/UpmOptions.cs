@@ -32,7 +32,8 @@ public static partial class Program
     private static Option<string> UpmBuildmetaSuffixOption =
         new(
             aliases: new string[] { "--buildmeta-suffix", },
-            description: "version buildmeta suffix ('foobar' -> '1.2.3-prerelease+foobar)"
+            description: "version buildmeta suffix ('foobar' -> '1.2.3-prerelease+foobar)",
+            getDefaultValue: () => ""
         );
 
     private static Option<string> UpmTokenOption =
