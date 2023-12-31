@@ -17,7 +17,7 @@ public static partial class Program
         new(
             aliases: new string[] { "--unity", "-u" },
             description: "minimum Unity version required by package.json",
-            getDefaultValue: () => Configuration.GetSection(kDefaultsSection).GetValue<string>("unity") ?? "2022.3" //< latest LTS
+            getDefaultValue: () => Configuration.GetSection(kDefaultsSection).GetValue<string>(kUnityKey) ?? "2022.3" //< latest LTS
         )
         {
             IsRequired = true,
