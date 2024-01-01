@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.CommandLine;
 using System.IO;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text.Json;
-using System.CommandLine;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;

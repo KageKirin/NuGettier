@@ -1,6 +1,6 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
+using System.Text;
 
 namespace NuGettier.Upm.TarGz;
 
@@ -23,13 +23,13 @@ public class FileDictionary : Dictionary<string, byte[]>, IDisposable
         Clear();
     }
 
-    public virtual new byte[] this[string key]
+    public new virtual byte[] this[string key]
     {
         get => base[key];
         set => base[key] = value;
     }
 
-    public virtual new void Add(string key, byte[] value)
+    public new virtual void Add(string key, byte[] value)
     {
         base.Add(key, value);
     }

@@ -1,12 +1,12 @@
 using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.CommandLine;
+using System.Linq;
 using System.Text.RegularExpressions;
-using NuGet.Protocol.Core.Types;
-using Microsoft.Extensions.Configuration;
 using HandlebarsDotNet;
+using Microsoft.Extensions.Configuration;
+using NuGet.Protocol.Core.Types;
 using NuGettier.Upm;
 using Xunit;
 
@@ -16,8 +16,8 @@ public partial class Context
 {
     public override Upm.PackageJson PatchPackageJson(Upm.PackageJson packageJson)
     {
-        var includedDependencies = packageJson.Dependencies
-            .Where(d => GetPackageRule(d.Key).IsIgnored == false) //< filter: remove 'ignored' dependencies
+        var includedDependencies = packageJson
+            .Dependencies.Where(d => GetPackageRule(d.Key).IsIgnored == false) //< filter: remove 'ignored' dependencies
             .Where(d => GetPackageRule(d.Key).IsExcluded == false) //< filter: not 'excluded' dependencies are included)
             .ToDictionary(d => d.Key, d => d.Value);
 

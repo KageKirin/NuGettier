@@ -1,8 +1,8 @@
 using System;
 using System.CommandLine;
-using System.CommandLine.NamingConventionBinder;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
+using System.CommandLine.NamingConventionBinder;
 using System.Reflection;
 
 namespace NuGettier;

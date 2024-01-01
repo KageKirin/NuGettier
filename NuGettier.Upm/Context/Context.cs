@@ -1,16 +1,16 @@
 using System;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.CommandLine;
-using NuGettier;
-using NuGettier.Core;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text.RegularExpressions;
+using Microsoft.Extensions.Configuration;
+using NLog;
 using NuGet.Configuration;
 using NuGet.Frameworks;
 using NuGet.Protocol.Core.Types;
-using Microsoft.Extensions.Configuration;
-using System.Diagnostics.CodeAnalysis;
-using NLog;
+using NuGettier;
+using NuGettier.Core;
 
 namespace NuGettier.Upm;
 

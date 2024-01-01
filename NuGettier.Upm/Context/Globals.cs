@@ -1,10 +1,10 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.CommandLine;
-using NuGettier;
-using NuGet.Protocol.Core.Types;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
+using NuGet.Protocol.Core.Types;
+using NuGettier;
 
 namespace NuGettier.Upm;
 
