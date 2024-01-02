@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="tool metadata">
-    <ToolCommandName>dotnet-nugettier</ToolCommandName>
+    <ToolCommandName>nugettier</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup Label="package dependencies">
