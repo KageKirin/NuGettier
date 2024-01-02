@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGettier.Upm", "NuGettier.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGettier.Amalgamate", "NuGettier.Amalgamate\NuGettier.Amalgamate.csproj", "{D37C2BDC-9BAF-41B1-B711-0438DBEB6AA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetNugettier", "DotnetNugettier\DotnetNugettier.csproj", "{5C5EE053-0D2A-4C23-89FA-2FE5B900DCEC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,9 +42,5 @@ Global
 		{D37C2BDC-9BAF-41B1-B711-0438DBEB6AA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D37C2BDC-9BAF-41B1-B711-0438DBEB6AA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D37C2BDC-9BAF-41B1-B711-0438DBEB6AA4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C5EE053-0D2A-4C23-89FA-2FE5B900DCEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C5EE053-0D2A-4C23-89FA-2FE5B900DCEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C5EE053-0D2A-4C23-89FA-2FE5B900DCEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C5EE053-0D2A-4C23-89FA-2FE5B900DCEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

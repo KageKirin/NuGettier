@@ -16,5 +16,5 @@ runs:
   - name: Verify installation
     shell: bash
     run: |-
-      which nugettier
-      nugettier --version
+      which dotnet-nugettier
+      dotnet nugettier --version
