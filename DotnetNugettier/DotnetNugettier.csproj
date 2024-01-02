@@ -24,7 +24,7 @@
     <Description>A dotnet extension to quey nuget packages with integrated support for Unity package creation.</Description>
     <PackageTags>NuGet;npm;upm;unity</PackageTags>
     <PackageIcon>Icon.png</PackageIcon>
-    <PackageIconUrl>https://raw.github.com/kagekirin/NuGettier/main/NuGettier/Icon.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.github.com/kagekirin/NuGettier/main/DotnetNuGettier/Icon.png</PackageIconUrl>
   </PropertyGroup>
 
   <PropertyGroup Label="tool metadata">
