@@ -28,7 +28,6 @@
     <PackageReference Include="Handlebars.Net" Version="2.1.4"/>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0"/>
-    <PackageReference Include="NLog" Version="5.2.7"/>
     <PackageReference Include="NuGet.Commands" Version="6.8.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.8.0"/>
     <PackageReference Include="NuGet.Packaging" Version="6.8.0"/>
