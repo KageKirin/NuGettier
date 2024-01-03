@@ -9,7 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using DotNetConfig;
 using Microsoft.Extensions.Configuration;
-using NLog;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 using Xunit;
 
 #nullable enable
@@ -28,17 +29,22 @@ public partial class Program
         }
     }
 
-    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    public static readonly ILoggerFactory MainLoggerFactory = LoggerFactory.Create(builder =>
+    {
+        builder
+            .AddConsole() //< add console as logging target
+            .AddDebug() //< add debug output as logging target
+            .AddFile() //< add file output as logging target
+            .SetMinimumLevel(
+                LogLevel.Debug
+            ) //< set minimum level to log
+        ;
+    });
+
+    private static readonly ILogger Logger = MainLoggerFactory.CreateLogger<Program>();
 
     static async Task<int> Main(string[] args)
     {
-        LogManager
-            .Setup()
-            .LoadConfiguration(builder =>
-            {
-                builder.ForLogger().FilterMinLevel(LogLevel.Info).WriteToConsole();
-                builder.ForLogger().FilterMinLevel(LogLevel.Debug).WriteToFile(fileName: "nugettier.log");
-            });
         Logger.Debug($"called with args: {string.Join(" ", args.Select(a => $"'{a}'"))}");
         Assert.NotNull(Configuration);
 
