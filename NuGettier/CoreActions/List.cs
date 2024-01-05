@@ -22,7 +22,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command ListCommand =>
+    private Command ListCommand =>
         new Command("list", "list available version for a given package")
         {
             PackageIdArgument,
