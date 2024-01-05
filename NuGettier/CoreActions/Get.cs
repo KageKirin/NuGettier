@@ -24,7 +24,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command GetCommand =>
+    private Command GetCommand =>
         new Command("get", "download the given NuPkg at the given version")
         {
             PackageIdVersionArgument,
