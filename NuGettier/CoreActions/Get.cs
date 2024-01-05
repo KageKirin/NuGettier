@@ -33,7 +33,7 @@ public partial class Program
             OutputDirectoryOption,
         }.WithHandler(CommandHandler.Create(Get));
 
-    private static async Task<int> Get(
+    private async Task<int> Get(
         string packageIdVersion,
         bool preRelease,
         IEnumerable<Uri> sources,
