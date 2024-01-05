@@ -25,7 +25,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command AmalgamatePackCommand =>
+    private Command AmalgamatePackCommand =>
         new Command("pack", "repack the given NuPkg at the given version as Unity package")
         {
             PackageIdVersionArgument,
