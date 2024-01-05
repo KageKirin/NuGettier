@@ -24,7 +24,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Command GetCommand =>
+    private static Command GetCommand =>
         new Command("get", "download the given NuPkg at the given version")
         {
             PackageIdVersionArgument,
@@ -33,7 +33,7 @@ public partial class Program
             OutputDirectoryOption,
         }.WithHandler(CommandHandler.Create(Get));
 
-    private async Task<int> Get(
+    private static async Task<int> Get(
         string packageIdVersion,
         bool preRelease,
         IEnumerable<Uri> sources,

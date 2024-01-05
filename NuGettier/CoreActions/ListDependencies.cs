@@ -23,7 +23,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Command ListDependenciesCommand =>
+    private static Command ListDependenciesCommand =>
         new Command("deps", "retrieve information about a specific version of a given package")
         {
             PackageIdVersionArgument,
@@ -33,7 +33,7 @@ public partial class Program
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(ListDependencies));
 
-    private async Task<int> ListDependencies(
+    private static async Task<int> ListDependencies(
         string packageIdVersion,
         bool preRelease,
         bool json,

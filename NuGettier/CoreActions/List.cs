@@ -22,7 +22,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Command ListCommand =>
+    private static Command ListCommand =>
         new Command("list", "list available version for a given package")
         {
             PackageIdArgument,
@@ -32,7 +32,7 @@ public partial class Program
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(List));
 
-    private async Task<int> List(
+    private static async Task<int> List(
         string packageId,
         bool preRelease,
         bool json,

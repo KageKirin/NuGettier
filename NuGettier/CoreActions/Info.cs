@@ -22,7 +22,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Command InfoCommand =>
+    private static Command InfoCommand =>
         new Command("info", "retrieve information about a specific version of a given package")
         {
             PackageIdVersionArgument,
@@ -32,7 +32,7 @@ public partial class Program
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(Info));
 
-    private async Task<int> Info(
+    private static async Task<int> Info(
         string packageIdVersion,
         bool preRelease,
         bool json,
