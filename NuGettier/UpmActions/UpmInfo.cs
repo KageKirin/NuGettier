@@ -40,7 +40,7 @@ public partial class Program
             UpmDirectoryUrlOption,
         }.WithHandler(CommandHandler.Create(UpmInfo));
 
-    private static async Task<int> UpmInfo(
+    private async Task<int> UpmInfo(
         string packageIdVersion,
         bool json,
         bool preRelease,
