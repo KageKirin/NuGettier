@@ -22,7 +22,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command InfoCommand =>
+    private Command InfoCommand =>
         new Command("info", "retrieve information about a specific version of a given package")
         {
             PackageIdVersionArgument,
