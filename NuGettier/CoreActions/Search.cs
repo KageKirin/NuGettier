@@ -22,7 +22,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command SearchCommand =>
+    private Command SearchCommand =>
         new Command("search", "search for term or package id")
         {
             SearchTermArgument,
