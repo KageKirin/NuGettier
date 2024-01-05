@@ -54,11 +54,17 @@ public partial class Context : IDisposable
     public IEnumerable<PackageRule> PackageRules { get; protected set; }
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
-    public Context(IConfigurationRoot configuration, IEnumerable<Uri> sources, IConsole console)
+    public Context(
+        IConfigurationRoot configuration,
+        IEnumerable<Uri> sources,
+        IConsole console,
+        Microsoft.Extensions.Logging.ILogger logger
+    )
     {
         Assert.NotNull(configuration);
         Configuration = configuration;
         Console = console;
+        Logger = logger;
         Cache = new();
 
         var entryAssembly = Assembly.GetEntryAssembly();
@@ -154,6 +160,7 @@ public partial class Context : IDisposable
     {
         Configuration = other.Configuration;
         Console = other.Console;
+        Logger = other.Logger;
         Sources = other.Sources;
         Cache = other.Cache;
         Build = other.Build;
