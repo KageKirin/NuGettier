@@ -26,7 +26,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command UpmPackCommand =>
+    private Command UpmPackCommand =>
         new Command("pack", "repack the given NuPkg at the given version as Unity package")
         {
             PackageIdVersionArgument,
