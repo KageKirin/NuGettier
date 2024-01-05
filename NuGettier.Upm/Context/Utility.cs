@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using HandlebarsDotNet;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NuGet.Protocol.Core.Types;
 using Xunit;
 
@@ -72,7 +73,7 @@ public partial class Context
 
     protected virtual string PatchPackageId(string packageId)
     {
-        Logger.Debug($"before: {packageId}");
+        Logger.LogTrace($"before: {packageId}");
         var metadata = CachedMetadata[packageId.ToLowerInvariant()];
         Assert.NotNull(metadata);
 
@@ -83,7 +84,7 @@ public partial class Context
 
         var template = Handlebars.Compile(namingTemplate);
         var result = Regex.Replace(template(metadata).ToLowerInvariant().Replace(@" ", ""), @"\W", @".");
-        Logger.Debug($"after: {result}");
+        Logger.LogTrace($"after: {result}");
         return result;
     }
 
