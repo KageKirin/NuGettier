@@ -21,7 +21,7 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class Program
 {
     private static Command ListDependenciesCommand =>
         new Command("deps", "retrieve information about a specific version of a given package")

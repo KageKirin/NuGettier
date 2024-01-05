@@ -22,7 +22,7 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class Program
 {
     private static Command GetCommand =>
         new Command("get", "download the given NuPkg at the given version")

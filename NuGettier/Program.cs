@@ -16,7 +16,7 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class Program
 {
     private static IConfigurationRoot? configurationRoot = null;
     private static IConfigurationRoot Configuration

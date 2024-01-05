@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class Program
 {
     private static Option<bool> OutputJsonOption =
         new(aliases: ["--json", "-j"], description: "whether to output result as JSON (for piping into `jq` etc)");

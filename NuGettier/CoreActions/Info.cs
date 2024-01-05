@@ -20,7 +20,7 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class Program
 {
     private static Command InfoCommand =>
         new Command("info", "retrieve information about a specific version of a given package")

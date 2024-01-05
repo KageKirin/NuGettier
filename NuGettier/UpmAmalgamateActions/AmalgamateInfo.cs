@@ -23,7 +23,7 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class Program
 {
     private static Command AmalgamateInfoCommand =>
         new Command("info", "preview Unity package informations for the given NuPkg at the given version")
