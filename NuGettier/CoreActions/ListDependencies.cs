@@ -33,7 +33,7 @@ public partial class Program
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(ListDependencies));
 
-    private static async Task<int> ListDependencies(
+    private async Task<int> ListDependencies(
         string packageIdVersion,
         bool preRelease,
         bool json,
