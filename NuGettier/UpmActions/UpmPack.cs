@@ -41,7 +41,7 @@ public partial class Program
             UpmDirectoryUrlOption,
         }.WithHandler(CommandHandler.Create(UpmPack));
 
-    private static async Task<int> UpmPack(
+    private async Task<int> UpmPack(
         string packageIdVersion,
         bool preRelease,
         IEnumerable<Uri> sources,
