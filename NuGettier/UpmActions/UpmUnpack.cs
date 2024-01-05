@@ -26,7 +26,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command UpmUnpackCommand =>
+    private Command UpmUnpackCommand =>
         new Command("unpack", "same as `upm pack`, but writing the unpacked files to the output directory")
         {
             PackageIdVersionArgument,
