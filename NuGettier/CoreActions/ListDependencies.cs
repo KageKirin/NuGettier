@@ -23,7 +23,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command ListDependenciesCommand =>
+    private Command ListDependenciesCommand =>
         new Command("deps", "retrieve information about a specific version of a given package")
         {
             PackageIdVersionArgument,
