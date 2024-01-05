@@ -22,7 +22,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Command SearchCommand =>
+    private static Command SearchCommand =>
         new Command("search", "search for term or package id")
         {
             SearchTermArgument,
@@ -31,7 +31,7 @@ public partial class Program
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(Search));
 
-    private async Task<int> Search(
+    private static async Task<int> Search(
         string searchTerm,
         bool json,
         bool @short,

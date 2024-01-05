@@ -25,7 +25,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Command AmalgamateUnpackCommand =>
+    private static Command AmalgamateUnpackCommand =>
         new Command("unpack", "same as `upm pack`, but writing the unpacked files to the output directory")
         {
             PackageIdVersionArgument,
@@ -40,7 +40,7 @@ public partial class Program
             UpmDirectoryUrlOption,
         }.WithHandler(CommandHandler.Create(AmalgamateUnpack));
 
-    private async Task<int> AmalgamateUnpack(
+    private static async Task<int> AmalgamateUnpack(
         string packageIdVersion,
         bool preRelease,
         IEnumerable<Uri> sources,

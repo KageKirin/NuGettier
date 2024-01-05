@@ -13,7 +13,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Command UpmPublishCommand =>
+    private static Command UpmPublishCommand =>
         new Command("publish", "repack the given NuPkg at the given version as Unity package and publish")
         {
             PackageIdVersionArgument,
@@ -31,7 +31,7 @@ public partial class Program
             UpmPackageAccessLevel,
         }.WithHandler(CommandHandler.Create(UpmPublish));
 
-    private async Task<int> UpmPublish(
+    private static async Task<int> UpmPublish(
         string packageIdVersion,
         bool preRelease,
         IEnumerable<Uri> sources,

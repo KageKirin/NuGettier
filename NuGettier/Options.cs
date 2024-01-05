@@ -13,19 +13,19 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Option<bool> OutputJsonOption =
+    private static Option<bool> OutputJsonOption =
         new(aliases: ["--json", "-j"], description: "whether to output result as JSON (for piping into `jq` etc)");
 
-    private Option<bool> ShortOutputOption =
+    private static Option<bool> ShortOutputOption =
         new(aliases: ["--short", "-ß"], description: "whether to shorten output to the essential");
 
-    private Option<bool> IncludePrereleaseOption =
+    private static Option<bool> IncludePrereleaseOption =
         new(aliases: ["--preRelease", "-p"], description: "whether to include prerelease versions");
 
-    private Option<bool> IncludeDependenciesOption =
+    private static Option<bool> IncludeDependenciesOption =
         new(aliases: ["--includeDependencies", "-i"], description: "whether to include dependencies");
 
-    private Option<DirectoryInfo> OutputDirectoryOption =
+    private static Option<DirectoryInfo> OutputDirectoryOption =
         new(
             aliases: ["--outputDirectory", "-o"],
             description: "directory to output files to",
@@ -39,7 +39,7 @@ public partial class Program
             IsRequired = true,
         };
 
-    private Option<Uri[]> SourceRepositoriesOption =
+    private static Option<Uri[]> SourceRepositoriesOption =
         new(aliases: ["--source", "-s"], description: "source NuGet repositories to fetch from")
         {
             Name = "sources",
@@ -48,7 +48,7 @@ public partial class Program
             Arity = ArgumentArity.OneOrMore,
         };
 
-    private Option<Uri> TargetRegistryOption =
+    private static Option<Uri> TargetRegistryOption =
         new(
             aliases: ["--target", "-t"],
             description: "target NPM registry to publish to",

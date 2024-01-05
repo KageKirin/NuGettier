@@ -26,7 +26,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Command UpmPackCommand =>
+    private static Command UpmPackCommand =>
         new Command("pack", "repack the given NuPkg at the given version as Unity package")
         {
             PackageIdVersionArgument,
@@ -41,7 +41,7 @@ public partial class Program
             UpmDirectoryUrlOption,
         }.WithHandler(CommandHandler.Create(UpmPack));
 
-    private async Task<int> UpmPack(
+    private static async Task<int> UpmPack(
         string packageIdVersion,
         bool preRelease,
         IEnumerable<Uri> sources,

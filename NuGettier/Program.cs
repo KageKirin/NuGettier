@@ -28,9 +28,9 @@ public partial class Program
         }
     }
 
-    private readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-    async Task<int> Main(string[] args)
+    static async Task<int> Main(string[] args)
     {
         LogManager
             .Setup()

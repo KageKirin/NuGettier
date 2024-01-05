@@ -25,7 +25,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Command AmalgamateInfoCommand =>
+    private static Command AmalgamateInfoCommand =>
         new Command("info", "preview Unity package informations for the given NuPkg at the given version")
         {
             PackageIdVersionArgument,
@@ -40,7 +40,7 @@ public partial class Program
             UpmDirectoryUrlOption,
         }.WithHandler(CommandHandler.Create(AmalgamateInfo));
 
-    private async Task<int> AmalgamateInfo(
+    private static async Task<int> AmalgamateInfo(
         string packageIdVersion,
         bool json,
         bool preRelease,

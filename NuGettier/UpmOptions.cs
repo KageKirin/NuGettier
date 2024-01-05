@@ -13,7 +13,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Option<string> UpmUnityVersionOption =
+    private static Option<string> UpmUnityVersionOption =
         new(
             aliases: ["--unity", "-u"],
             description: "minimum Unity version required by package.json",
@@ -23,7 +23,7 @@ public partial class Program
             IsRequired = true,
         };
 
-    private Option<string> UpmPrereleaseSuffixOption =
+    private static Option<string> UpmPrereleaseSuffixOption =
         new(
             aliases: ["--prerelease-suffix",],
             description: "version prerelease suffix ('foobar' -> '1.2.3-foobar+buildmeta)",
@@ -31,7 +31,7 @@ public partial class Program
                 Configuration.GetSection(kDefaultsSection).GetValue<string>(kPrereleaseSuffixKey) ?? string.Empty
         );
 
-    private Option<string> UpmBuildmetaSuffixOption =
+    private static Option<string> UpmBuildmetaSuffixOption =
         new(
             aliases: ["--buildmeta-suffix",],
             description: "version buildmeta suffix ('foobar' -> '1.2.3-prerelease+foobar)",
@@ -39,33 +39,33 @@ public partial class Program
                 Configuration.GetSection(kDefaultsSection).GetValue<string>(kBuildmetaSuffixKey) ?? string.Empty
         );
 
-    private Option<string> UpmTokenOption =
+    private static Option<string> UpmTokenOption =
         new(aliases: ["--token",], description: "authentication token required to connect to NPM server")
         {
             IsRequired = false,
         };
 
-    private Option<string> UpmNpmrcOption =
+    private static Option<string> UpmNpmrcOption =
         new(aliases: ["--npmrc",], description: "path to existing .npmrc required to connect to NPM server")
         {
             IsRequired = false,
         };
 
-    private Option<Uri> UpmRepositoryUrlOption =
+    private static Option<Uri> UpmRepositoryUrlOption =
         new(aliases: ["--repository",], description: "NPM package repository URL, assigned to `{.repository.url`}")
         {
             IsRequired = false,
         };
 
-    private Option<string> UpmDirectoryUrlOption =
+    private static Option<string> UpmDirectoryUrlOption =
         new(aliases: ["--directory",], description: "NPM package directory path, assigned to `{.repository.directory`}")
         {
             IsRequired = false,
         };
 
-    private Option<bool> UpmDryRunOption = new(aliases: ["--dry-run", "-n"], description: "Dry run");
+    private static Option<bool> UpmDryRunOption = new(aliases: ["--dry-run", "-n"], description: "Dry run");
 
-    private Option<Upm.PackageAccessLevel> UpmPackageAccessLevel =
+    private static Option<Upm.PackageAccessLevel> UpmPackageAccessLevel =
         new(
             aliases: ["--access", "-a",],
             //getDefaultValue => Upm.PackageAccessLevel.Public,

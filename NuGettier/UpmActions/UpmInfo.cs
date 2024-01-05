@@ -25,7 +25,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private Command UpmInfoCommand =>
+    private static Command UpmInfoCommand =>
         new Command("info", "preview Unity package informations for the given NuPkg at the given version")
         {
             PackageIdVersionArgument,
@@ -40,7 +40,7 @@ public partial class Program
             UpmDirectoryUrlOption,
         }.WithHandler(CommandHandler.Create(UpmInfo));
 
-    private async Task<int> UpmInfo(
+    private static async Task<int> UpmInfo(
         string packageIdVersion,
         bool json,
         bool preRelease,
