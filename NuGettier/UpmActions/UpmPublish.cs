@@ -75,7 +75,7 @@ public partial class Program
 
         if (result != 0)
         {
-            Logger.Error($"publishing failed");
+            Logger.LogError($"publishing failed");
         }
 
         return result;
