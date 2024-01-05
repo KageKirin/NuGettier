@@ -40,7 +40,7 @@ public partial class Program
             UpmDirectoryUrlOption,
         }.WithHandler(CommandHandler.Create(AmalgamateUnpack));
 
-    private static async Task<int> AmalgamateUnpack(
+    private async Task<int> AmalgamateUnpack(
         string packageIdVersion,
         bool preRelease,
         IEnumerable<Uri> sources,
