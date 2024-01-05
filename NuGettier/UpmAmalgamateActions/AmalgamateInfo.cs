@@ -25,7 +25,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command AmalgamateInfoCommand =>
+    private Command AmalgamateInfoCommand =>
         new Command("info", "preview Unity package informations for the given NuPkg at the given version")
         {
             PackageIdVersionArgument,
