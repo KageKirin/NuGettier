@@ -69,9 +69,9 @@ public partial class Context : IDisposable
 
         var entryAssembly = Assembly.GetEntryAssembly();
         var assemblyName = entryAssembly?.GetName();
-        Logger.Debug($"assembly name: {assemblyName?.Name}");
-        Logger.Debug($"assembly version: {assemblyName?.Version?.ToString(3)}");
-        Logger.Debug(
+        Logger.LogDebug($"assembly name: {assemblyName?.Name}");
+        Logger.LogDebug($"assembly version: {assemblyName?.Version?.ToString(3)}");
+        Logger.LogDebug(
             $"assembly informational version: {entryAssembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion}"
         );
 
@@ -104,7 +104,7 @@ public partial class Context : IDisposable
         Repositories = Sources.Select(source =>
         {
             var requestSource = source.GetComponents(UriComponents.HttpRequestUrl, UriFormat.UriEscaped);
-            Logger.Debug($"adding source {requestSource}");
+            Logger.LogDebug($"adding source {requestSource}");
             string? username = null;
             string? password = null;
             if (!string.IsNullOrEmpty(source.UserInfo))
@@ -112,8 +112,8 @@ public partial class Context : IDisposable
                 var userInfo = source.UserInfo.Split(':');
                 username = userInfo[0];
                 password = userInfo[1];
-                Logger.Debug($"\tusername: {username}");
-                Logger.Debug($"\tpassword: {password}");
+                Logger.LogDebug($"\tusername: {username}");
+                Logger.LogDebug($"\tpassword: {password}");
             }
             PackageSource packageSource =
                 new(requestSource, source.Authority)
@@ -137,7 +137,7 @@ public partial class Context : IDisposable
             .GetChildren()
             .Select(packageSection =>
             {
-                Logger.Debug($"package key: {packageSection.Key}");
+                Logger.LogDebug($"package key: {packageSection.Key}");
                 return new PackageRule(
                     Id: packageSection.Key,
                     Name: packageSection.GetValue<string>(kNameKey) ?? string.Empty,
@@ -152,7 +152,7 @@ public partial class Context : IDisposable
 
         foreach (var p in PackageRules)
         {
-            Logger.Debug($"{p}");
+            Logger.LogDebug($"{p}");
         }
     }
 
