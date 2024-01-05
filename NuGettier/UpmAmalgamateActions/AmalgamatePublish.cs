@@ -31,7 +31,7 @@ public partial class Program
             UpmPackageAccessLevel,
         }.WithHandler(CommandHandler.Create(AmalgamatePublish));
 
-    private static async Task<int> AmalgamatePublish(
+    private async Task<int> AmalgamatePublish(
         string packageIdVersion,
         bool preRelease,
         IEnumerable<Uri> sources,
