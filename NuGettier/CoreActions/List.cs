@@ -32,7 +32,7 @@ public partial class Program
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(List));
 
-    private static async Task<int> List(
+    private async Task<int> List(
         string packageId,
         bool preRelease,
         bool json,
