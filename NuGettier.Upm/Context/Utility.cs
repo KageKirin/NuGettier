@@ -90,14 +90,14 @@ public partial class Context
 
     protected virtual string PatchPackageVersion(string packageId, string packageVersion)
     {
-        Logger.Debug($"before: {packageId}: {packageVersion}");
+        Logger.LogTrace($"before: {packageId}: {packageVersion}");
         var packageRule = GetPackageRule(packageId);
         var versionRegex = !string.IsNullOrEmpty(packageRule.Version)
             ? packageRule.Version
             : Context.DefaultPackageRule.Version;
 
         var result = Regex.Match(packageVersion, versionRegex).Value;
-        Logger.Debug($"after: {packageId}: {result}");
+        Logger.LogTrace($"after: {packageId}: {result}");
 
         return result;
     }
