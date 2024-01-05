@@ -12,7 +12,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command AmalgamateCommand =>
+    private Command AmalgamateCommand =>
         new Command("amalgamate", "root command for a number of commands specific to amalgamated Unity packages")
         {
             AmalgamateInfoCommand,
