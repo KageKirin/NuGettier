@@ -13,7 +13,7 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command AmalgamatePublishCommand =>
+    private Command AmalgamatePublishCommand =>
         new Command("publish", "repack the given NuPkg at the given version as Unity package and publish")
         {
             PackageIdVersionArgument,
