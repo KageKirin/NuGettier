@@ -35,6 +35,7 @@
     <PackageReference Include="DotNetConfig" Version="1.0.6"/>
     <PackageReference Include="DotNetConfig.Configuration" Version="1.0.6"/>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="8.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
