@@ -7,6 +7,7 @@ using System.CommandLine.NamingConventionBinder;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace NuGettier;
@@ -57,7 +58,8 @@ public partial class Program
             target: target,
             repository: repository,
             directory: directory,
-            console: console
+            console: console,
+            logger: MainLoggerFactory.CreateLogger<Upm.Context>()
         );
         var result = await context.PublishUpmPackage(
             packageIdVersion: packageIdVersion,
