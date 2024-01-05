@@ -18,7 +18,8 @@ public partial class Context : Upm.Context
         Uri target,
         string? repository,
         string? directory,
-        IConsole console
+        IConsole console,
+        ILogger logger
     )
         : base(
             configuration: configuration,
@@ -27,7 +28,8 @@ public partial class Context : Upm.Context
             target: target,
             repository: repository,
             directory: directory,
-            console: console
+            console: console,
+            logger: logger
         ) { }
 
     public Context(Context other)
