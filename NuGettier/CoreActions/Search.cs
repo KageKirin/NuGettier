@@ -20,9 +20,9 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class Program
 {
-    private static Command SearchCommand =>
+    private Command SearchCommand =>
         new Command("search", "search for term or package id")
         {
             SearchTermArgument,
@@ -31,7 +31,7 @@ public static partial class Program
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(Search));
 
-    private static async Task<int> Search(
+    private async Task<int> Search(
         string searchTerm,
         bool json,
         bool @short,

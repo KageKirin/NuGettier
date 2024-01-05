@@ -16,7 +16,7 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class Program
 {
     private static IConfigurationRoot? configurationRoot = null;
     private static IConfigurationRoot Configuration
@@ -28,9 +28,9 @@ public static partial class Program
         }
     }
 
-    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    private readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-    static async Task<int> Main(string[] args)
+    async Task<int> Main(string[] args)
     {
         LogManager
             .Setup()

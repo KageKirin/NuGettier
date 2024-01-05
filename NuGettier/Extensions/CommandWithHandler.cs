@@ -17,7 +17,7 @@ internal static class CommandWithHandlerExtension
 
     public static Command WithHandler(this Command command, string methodName)
     {
-        var method = typeof(Program).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
+        var method = typeof(Program).GetMethod(methodName, BindingFlags.NonPublic);
         return command.WithHandler(CommandHandler.Create(method!));
     }
 }
