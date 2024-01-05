@@ -31,7 +31,7 @@ public partial class Program
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(Search));
 
-    private static async Task<int> Search(
+    private async Task<int> Search(
         string searchTerm,
         bool json,
         bool @short,
