@@ -35,9 +35,15 @@ public partial class Program
             .AddConsole() //< add console as logging target
             .AddDebug() //< add debug output as logging target
             .AddFile() //< add file output as logging target
+#if DEBUG
             .SetMinimumLevel(
-                LogLevel.Debug
-            ) //< set minimum level to log
+                LogLevel.Trace
+            ) //< set minimum level to trace in Debug
+#else
+            .SetMinimumLevel(
+                LogLevel.Error
+            ) //< set minimum level to error in Release
+#endif
         ;
     });
 
