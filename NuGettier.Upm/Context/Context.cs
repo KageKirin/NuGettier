@@ -41,9 +41,10 @@ public partial class Context : Core.Context
         Uri target,
         string? repository,
         string? directory,
-        IConsole console
+        IConsole console,
+        ILogger logger
     )
-        : base(configuration, sources, console)
+        : base(configuration, sources, console, logger)
     {
         MinUnityVersion = minUnityVersion;
         Target = target;
