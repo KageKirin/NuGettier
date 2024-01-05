@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
+using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -95,14 +96,14 @@ public partial class Context
                 var stderr = await process.StandardError.ReadToEndAsync(cancellationToken);
 
                 if (!string.IsNullOrEmpty(stdout))
-                    Logger.Info($"NPM: {stdout}");
+                    Logger.LogInformation($"NPM: {stdout}");
 
                 if (!string.IsNullOrEmpty(stderr))
-                    Logger.Error($"NPM: {stderr}");
+                    Logger.LogError($"NPM: {stderr}");
             }
             catch (Exception e)
             {
-                Logger.Error($"NPM: {e.Message}");
+                Logger.LogError($"NPM: {e.Message}");
             }
 
             System.IO.Directory.Delete(tempDir, recursive: true);
