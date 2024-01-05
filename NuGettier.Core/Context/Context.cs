@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
-using NLog;
+using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -35,8 +35,6 @@ public partial class Context : IDisposable
 
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
-    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
     public record class PackageRule(
         string Id,
         string Name,
@@ -54,6 +52,7 @@ public partial class Context : IDisposable
     public IConsole Console { get; protected set; }
     public BuildInfo Build { get; protected set; }
     public IEnumerable<PackageRule> PackageRules { get; protected set; }
+    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
     public Context(IConfigurationRoot configuration, IEnumerable<Uri> sources, IConsole console)
     {
