@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
-using NLog;
+using Microsoft.Extensions.Logging;
 using NuGet.Configuration;
 using NuGet.Frameworks;
 using NuGet.Protocol.Core.Types;
@@ -18,8 +18,6 @@ public partial class Context : Core.Context
 {
     protected const string kUnitySection = @"unity";
     protected const string kDefaultFramework = @"netstandard2.0";
-
-    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     public string MinUnityVersion { get; protected set; }
     public Uri Target { get; protected set; }
@@ -43,9 +41,10 @@ public partial class Context : Core.Context
         Uri target,
         string? repository,
         string? directory,
-        IConsole console
+        IConsole console,
+        ILogger logger
     )
-        : base(configuration, sources, console)
+        : base(configuration, sources, console, logger)
     {
         MinUnityVersion = minUnityVersion;
         Target = target;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.CommandLine;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
-using NLog;
+using Microsoft.Extensions.Logging;
 using NuGet.Protocol.Core.Types;
 using NuGettier;
 
@@ -11,8 +11,6 @@ namespace NuGettier.Amalgamate;
 
 public partial class Context : Upm.Context
 {
-    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
     public Context(
         IConfigurationRoot configuration,
         IEnumerable<Uri> sources,
@@ -20,7 +18,8 @@ public partial class Context : Upm.Context
         Uri target,
         string? repository,
         string? directory,
-        IConsole console
+        IConsole console,
+        ILogger logger
     )
         : base(
             configuration: configuration,
@@ -29,7 +28,8 @@ public partial class Context : Upm.Context
             target: target,
             repository: repository,
             directory: directory,
-            console: console
+            console: console,
+            logger: logger
         ) { }
 
     public Context(Context other)

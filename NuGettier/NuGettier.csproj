@@ -34,8 +34,14 @@
   <ItemGroup Label="package dependencies">
     <PackageReference Include="DotNetConfig" Version="1.0.6"/>
     <PackageReference Include="DotNetConfig.Configuration" Version="1.0.6"/>
+    <PackageReference Include="Karambolo.Extensions.Logging.File" Version="3.5.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
-    <PackageReference Include="NLog" Version="5.2.7"/>
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0"/>
     <PackageReference Include="NuGet.Commands" Version="6.8.0"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.8.0"/>
     <PackageReference Include="NuGet.Packaging" Version="6.8.0"/>
@@ -43,6 +49,7 @@
     <PackageReference Include="NuGet.Resolver" Version="6.8.0"/>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1"/>
     <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta4.22272.1"/>
+    <PackageReference Include="System.Threading.Channels" Version="8.0.0"/>
     <PackageReference Include="Xunit" Version="2.6.4"/>
   </ItemGroup>
 

@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -43,7 +44,12 @@ public partial class Program
     )
     {
         Assert.NotNull(Configuration);
-        using var context = new Core.Context(configuration: Configuration!, sources: sources, console: console);
+        using var context = new Core.Context(
+            configuration: Configuration!,
+            sources: sources,
+            console: console,
+            logger: MainLoggerFactory.CreateLogger<Context>()
+        );
         using var packageStream = await context.FetchPackage(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,

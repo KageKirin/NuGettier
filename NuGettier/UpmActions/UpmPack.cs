@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -64,7 +65,8 @@ public partial class Program
             target: target,
             repository: repository,
             directory: directory,
-            console: console
+            console: console,
+            logger: MainLoggerFactory.CreateLogger<Upm.Context>()
         );
         var tuple = await context.PackUpmPackage(
             packageIdVersion: packageIdVersion,
@@ -81,7 +83,7 @@ public partial class Program
         using (package)
         {
             // write output package.tar.gz
-            Logger.Info($"writing package {packageIdentifier}.tgz");
+            Logger.LogInformation($"writing package {packageIdentifier}.tgz");
             await package.WriteToTarGzAsync(Path.Join(outputDirectory.FullName, $"{packageIdentifier}.tgz"));
         }
 

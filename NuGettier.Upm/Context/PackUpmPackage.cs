@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
+using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -66,7 +67,7 @@ public partial class Context
         {
             var readme = packageJson.GenerateReadme(originalReadme: packageReader.GetReadme());
             files.Add(@"README.md", readme);
-            Logger.Debug($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
+            Logger.LogDebug($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
         }
 
         // create & add LICENSE
@@ -78,7 +79,7 @@ public partial class Context
                 copyrightHolder: packageReader.NuspecReader.GetOwners()
             );
             files.Add(@"LICENSE.md", license);
-            Logger.Debug($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
+            Logger.LogDebug($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
         }
 
         // create & add CHANGELOG
@@ -86,7 +87,7 @@ public partial class Context
         {
             var changelog = packageJson.GenerateChangelog(packageReader.NuspecReader.GetReleaseNotes());
             files.Add(@"CHANGELOG.md", changelog);
-            Logger.Debug($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
+            Logger.LogDebug($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
         }
 
         // add file references to package.json
@@ -96,7 +97,7 @@ public partial class Context
         Assert.False(files.ContainsKey(@"package.json"));
         var packageJsonString = packageJson.ToJson();
         files.Add(@"package.json", packageJsonString);
-        Logger.Debug($"--- PACKAGE.JSON\n{packageJsonString}\n---");
+        Logger.LogDebug($"--- PACKAGE.JSON\n{packageJsonString}\n---");
 
         // add meta files
         files.AddMetaFiles(packageJson.Name);

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
-using NLog;
+using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -35,8 +35,6 @@ public partial class Context : IDisposable
 
     public record class BuildInfo(string AssemblyName, string AssemblyVersion);
 
-    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
     public record class PackageRule(
         string Id,
         string Name,
@@ -54,19 +52,26 @@ public partial class Context : IDisposable
     public IConsole Console { get; protected set; }
     public BuildInfo Build { get; protected set; }
     public IEnumerable<PackageRule> PackageRules { get; protected set; }
+    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
-    public Context(IConfigurationRoot configuration, IEnumerable<Uri> sources, IConsole console)
+    public Context(
+        IConfigurationRoot configuration,
+        IEnumerable<Uri> sources,
+        IConsole console,
+        Microsoft.Extensions.Logging.ILogger logger
+    )
     {
         Assert.NotNull(configuration);
         Configuration = configuration;
         Console = console;
+        Logger = logger;
         Cache = new();
 
         var entryAssembly = Assembly.GetEntryAssembly();
         var assemblyName = entryAssembly?.GetName();
-        Logger.Debug($"assembly name: {assemblyName?.Name}");
-        Logger.Debug($"assembly version: {assemblyName?.Version?.ToString(3)}");
-        Logger.Debug(
+        Logger.LogDebug($"assembly name: {assemblyName?.Name}");
+        Logger.LogDebug($"assembly version: {assemblyName?.Version?.ToString(3)}");
+        Logger.LogDebug(
             $"assembly informational version: {entryAssembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion}"
         );
 
@@ -99,7 +104,7 @@ public partial class Context : IDisposable
         Repositories = Sources.Select(source =>
         {
             var requestSource = source.GetComponents(UriComponents.HttpRequestUrl, UriFormat.UriEscaped);
-            Logger.Debug($"adding source {requestSource}");
+            Logger.LogDebug($"adding source {requestSource}");
             string? username = null;
             string? password = null;
             if (!string.IsNullOrEmpty(source.UserInfo))
@@ -107,8 +112,8 @@ public partial class Context : IDisposable
                 var userInfo = source.UserInfo.Split(':');
                 username = userInfo[0];
                 password = userInfo[1];
-                Logger.Debug($"\tusername: {username}");
-                Logger.Debug($"\tpassword: {password}");
+                Logger.LogDebug($"\tusername: {username}");
+                Logger.LogDebug($"\tpassword: {password}");
             }
             PackageSource packageSource =
                 new(requestSource, source.Authority)
@@ -132,7 +137,7 @@ public partial class Context : IDisposable
             .GetChildren()
             .Select(packageSection =>
             {
-                Logger.Debug($"package key: {packageSection.Key}");
+                Logger.LogDebug($"package key: {packageSection.Key}");
                 return new PackageRule(
                     Id: packageSection.Key,
                     Name: packageSection.GetValue<string>(kNameKey) ?? string.Empty,
@@ -147,7 +152,7 @@ public partial class Context : IDisposable
 
         foreach (var p in PackageRules)
         {
-            Logger.Debug($"{p}");
+            Logger.LogDebug($"{p}");
         }
     }
 
@@ -155,6 +160,7 @@ public partial class Context : IDisposable
     {
         Configuration = other.Configuration;
         Console = other.Console;
+        Logger = other.Logger;
         Sources = other.Sources;
         Cache = other.Cache;
         Build = other.Build;

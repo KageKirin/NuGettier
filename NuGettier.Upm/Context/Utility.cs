@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using HandlebarsDotNet;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NuGet.Protocol.Core.Types;
 using Xunit;
 
@@ -72,7 +73,7 @@ public partial class Context
 
     protected virtual string PatchPackageId(string packageId)
     {
-        Logger.Debug($"before: {packageId}");
+        Logger.LogTrace($"before: {packageId}");
         var metadata = CachedMetadata[packageId.ToLowerInvariant()];
         Assert.NotNull(metadata);
 
@@ -83,20 +84,20 @@ public partial class Context
 
         var template = Handlebars.Compile(namingTemplate);
         var result = Regex.Replace(template(metadata).ToLowerInvariant().Replace(@" ", ""), @"\W", @".");
-        Logger.Debug($"after: {result}");
+        Logger.LogTrace($"after: {result}");
         return result;
     }
 
     protected virtual string PatchPackageVersion(string packageId, string packageVersion)
     {
-        Logger.Debug($"before: {packageId}: {packageVersion}");
+        Logger.LogTrace($"before: {packageId}: {packageVersion}");
         var packageRule = GetPackageRule(packageId);
         var versionRegex = !string.IsNullOrEmpty(packageRule.Version)
             ? packageRule.Version
             : Context.DefaultPackageRule.Version;
 
         var result = Regex.Match(packageVersion, versionRegex).Value;
-        Logger.Debug($"after: {packageId}: {result}");
+        Logger.LogTrace($"after: {packageId}: {result}");
 
         return result;
     }

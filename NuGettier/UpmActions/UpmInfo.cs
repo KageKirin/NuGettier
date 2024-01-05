@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -63,7 +64,8 @@ public partial class Program
             target: target,
             repository: repository,
             directory: directory,
-            console: console
+            console: console,
+            logger: MainLoggerFactory.CreateLogger<Upm.Context>()
         );
 
         var packageJson = await context.GetPackageJson(
