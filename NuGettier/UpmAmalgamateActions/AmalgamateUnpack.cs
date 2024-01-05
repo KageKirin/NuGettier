@@ -82,7 +82,7 @@ public partial class Program
         using (package)
         {
             // write output package.tar.gz
-            Logger.Info($"writing unpacked package {packageIdentifier}");
+            Logger.LogInformation($"writing unpacked package {packageIdentifier}");
             await package.WriteToDirectoryAsync(Path.Join(outputDirectory.FullName, $"{packageIdentifier}"));
         }
         return 0;
