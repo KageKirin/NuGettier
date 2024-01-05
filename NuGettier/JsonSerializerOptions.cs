@@ -6,5 +6,5 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true, };
+    private readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true, };
 }
