@@ -24,6 +24,7 @@
     <EmbeddedResource Include="Templates/CHANGELOG.md"/>
     <EmbeddedResource Include="Templates/LICENSE.md"/>
     <EmbeddedResource Include="Templates/template.meta"/>
+    <EmbeddedResource Include="Templates/assembly.meta"/>
     <EmbeddedResource Include="Templates/folder.meta"/>
   </ItemGroup>
 
