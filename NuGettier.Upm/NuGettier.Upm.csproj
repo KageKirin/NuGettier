@@ -23,6 +23,7 @@
     <EmbeddedResource Include="Templates/README.md"/>
     <EmbeddedResource Include="Templates/CHANGELOG.md"/>
     <EmbeddedResource Include="Templates/LICENSE.md"/>
+    <EmbeddedResource Include="Templates/template.meta"/>
   </ItemGroup>
 
   <ItemGroup Label="package dependencies">
