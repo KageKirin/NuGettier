@@ -20,7 +20,9 @@ public static partial class MetaGen
     {
         var guid = new Guid(seed, filename);
         var metaTemplate = Handlebars.Compile(
-            EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.template.meta")
+            Path.GetExtension(filename).EndsWith(".dll")
+                ? EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.assembly.meta")
+                : EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.template.meta")
         );
         var metaContents = metaTemplate(new { guid = guid });
 
