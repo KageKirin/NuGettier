@@ -9,7 +9,9 @@ public static partial class MetaGen
     {
         var guid = new Guid(seed, filename);
         var metaTemplate = Handlebars.Compile(
-            EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.template.meta")
+            isFolder
+                ? EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.folder.meta")
+                : EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.template.meta")
         );
         var metaContents = metaTemplate(new { guid = guid });
 
