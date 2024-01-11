@@ -5,7 +5,7 @@ namespace NuGettier.Upm;
 
 public static partial class MetaGen
 {
-    public static string GenerateMeta(string seed, string filename)
+    public static string GenerateMeta(string seed, string filename, bool isFolder)
     {
         var guid = new Guid(seed, filename);
         var metaTemplate = Handlebars.Compile(
