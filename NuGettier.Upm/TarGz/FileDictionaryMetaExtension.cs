@@ -9,8 +9,7 @@ public static class FileDictionaryMetaExtension
     public static void AddMetaFiles(this FileDictionary fileDictionary, string seed)
     {
         var folderEntries = fileDictionary
-            .Keys
-            .Where(file => Path.GetExtension(file) != @".meta")
+            .Keys.Where(f => Path.GetExtension(f) != @".meta")
             .SelectMany(f =>
             // gather folders: Unity requires .meta files for each included folder as well
             {
@@ -29,13 +28,13 @@ public static class FileDictionaryMetaExtension
         fileDictionary.AddRange(
             folderEntries
                 .OrderBy(f => f.Length)
-                .Select(file => new KeyValuePair<string, string>($"{file}.meta", Upm.MetaGen.GenerateMeta(seed, file, true)))
+                .Select(f => new KeyValuePair<string, string>($"{f}.meta", Upm.MetaGen.GenerateFolderMeta(seed, f)))
         );
         fileDictionary.AddRange(
-            fileDictionary.Keys
-                .Where(file => Path.GetExtension(file) != @".meta")
+            fileDictionary
+                .Keys.Where(f => Path.GetExtension(f) != @".meta")
                 .OrderBy(f => f.Length)
-                .Select(file => new KeyValuePair<string, string>($"{file}.meta", Upm.MetaGen.GenerateMeta(seed, file, false)))
+                .Select(f => new KeyValuePair<string, string>($"{f}.meta", Upm.MetaGen.GenerateFileMeta(seed, f)))
         );
     }
 }
