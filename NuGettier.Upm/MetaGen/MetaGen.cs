@@ -1,4 +1,5 @@
 using System;
+using HandlebarsDotNet;
 
 namespace NuGettier.Upm;
 
@@ -7,19 +8,11 @@ public static partial class MetaGen
     public static string GenerateMeta(string seed, string filename)
     {
         var guid = new Guid(seed, filename);
-        var metaContents =
-            @$"fileFormatVersion: 2
-guid: {guid}
-MonoImporter:
-  externalObjects: {{}}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {{instanceID: 0}}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
-";
+        var metaTemplate = Handlebars.Compile(
+            EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.template.meta")
+        );
+        var metaContents = metaTemplate(new { guid = guid });
+
         return metaContents;
     }
 }
