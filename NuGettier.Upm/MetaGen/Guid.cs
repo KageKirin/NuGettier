@@ -8,8 +8,8 @@ public static partial class MetaGen
 {
     struct Guid
     {
-        public UInt64 upper;
-        public UInt64 lower;
+        public ulong upper;
+        public ulong lower;
 
         public Guid()
         {
