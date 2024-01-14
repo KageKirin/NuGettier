@@ -20,8 +20,9 @@ public static partial class MetaGen
         public Guid(string seed, string value)
         {
             var seedHash = xxHash64.ComputeHash(Encoding.UTF8.GetBytes(seed));
-            upper = xxHash64.ComputeHash(Encoding.UTF8.GetBytes(value), seedHash);
-            lower = xxHash64.ComputeHash(Encoding.UTF8.GetBytes(value), upper);
+            var data = Encoding.UTF8.GetBytes(value);
+            upper = xxHash3.ComputeHash(data, data.Length, seedHash);
+            lower = xxHash3.ComputeHash(data, data.Length, upper);
         }
 
         public override readonly string ToString()
