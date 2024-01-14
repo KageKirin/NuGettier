@@ -19,7 +19,7 @@ public static partial class MetaGen
 
         public Guid(string seed, string value)
         {
-            var seedHash = xxHash64.ComputeHash(Encoding.UTF8.GetBytes(seed));
+            var seedHash = xxHash3.ComputeHash(seed);
             var data = Encoding.UTF8.GetBytes(value);
             upper = xxHash3.ComputeHash(data, data.Length, seedHash);
             lower = xxHash3.ComputeHash(data, data.Length, upper);
