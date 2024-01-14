@@ -8,26 +8,22 @@ public static partial class MetaGen
 {
     struct Guid
     {
-        public ulong upper;
-        public ulong lower;
+        public uint128 hash;
 
         public Guid()
         {
-            upper = 0;
-            lower = 0;
+            hash = default;
         }
 
         public Guid(string seed, string value)
         {
             var seedHash = xxHash3.ComputeHash(seed);
-            var data = Encoding.UTF8.GetBytes(value);
-            upper = xxHash3.ComputeHash(data, data.Length, seedHash);
-            lower = xxHash3.ComputeHash(data, data.Length, upper);
+            hash = xxHash128.ComputeHash(value, seedHash);
         }
 
         public override readonly string ToString()
         {
-            return $"{upper:x8}{lower:x8}";
+            return $"{hash.high64:x8}{hash.low64:x8}";
         }
     }
 }
