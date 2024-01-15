@@ -3,6 +3,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading;
 using HandlebarsDotNet;
+using Microsoft.Extensions.Logging;
 
 namespace NuGettier.Upm;
 
@@ -20,6 +21,13 @@ public interface ILicenseStringFactory
 
 public class LicenseStringFactory : ILicenseStringFactory
 {
+    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+
+    public LicenseStringFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    {
+        Logger = loggerFactory.CreateLogger<LicenseStringFactory>();
+    }
+
     private static async Task<string> GetLicense(Uri licenseUrl)
     {
         HttpClientHandler httpClientHandler = new() { UseDefaultCredentials = true, };
