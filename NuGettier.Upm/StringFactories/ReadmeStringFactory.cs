@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using HandlebarsDotNet;
+using Microsoft.Extensions.Logging;
 
 namespace NuGettier.Upm;
 
@@ -17,6 +18,13 @@ public interface IReadmeStringFactory
 
 public class ReadmeStringFactory : IReadmeStringFactory
 {
+    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+
+    public ReadmeStringFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    {
+        Logger = loggerFactory.CreateLogger<ReadmeStringFactory>();
+    }
+
     public virtual string GenerateReadme(
         string name,
         string version,
