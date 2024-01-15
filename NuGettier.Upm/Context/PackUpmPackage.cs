@@ -85,7 +85,10 @@ public partial class Context
         // create & add CHANGELOG
         if (!files.ContainsKey(@"CHANGELOG.md"))
         {
-            var changelog = packageJson.GenerateChangelog(packageReader.NuspecReader.GetReleaseNotes());
+            var changelog = packageJson.GenerateChangelog(
+                releaseNotes: packageReader.NuspecReader.GetReleaseNotes(),
+                changelogStringFactory: new ChangelogStringFactory()
+            );
             files.Add(@"CHANGELOG.md", changelog);
             Logger.LogDebug($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
         }
