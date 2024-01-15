@@ -36,7 +36,8 @@ public class ReadmeFactory : IReadmeFactory
         var template = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.README.md")
         );
-        return template(
+
+        var generated = template(
             new
             {
                 Name = name,
@@ -46,5 +47,7 @@ public class ReadmeFactory : IReadmeFactory
                 ApplicationVersion = applicationVersion,
             }
         );
+        Logger.LogDebug("generated readme:\n{0}", generated);
+        return generated;
     }
 }
