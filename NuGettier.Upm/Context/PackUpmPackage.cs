@@ -76,7 +76,8 @@ public partial class Context
             var license = packageJson.GenerateLicense(
                 originalLicense: packageReader.GetLicense(),
                 copyright: packageReader.NuspecReader.GetCopyright(),
-                copyrightHolder: packageReader.NuspecReader.GetOwners()
+                copyrightHolder: packageReader.NuspecReader.GetOwners(),
+                licenseStringFactory: new LicenseStringFactory()
             );
             files.Add(@"LICENSE.md", license);
             Logger.LogDebug($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");

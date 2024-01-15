@@ -27,9 +27,14 @@ public partial record class PackageJson
         return readme;
     }
 
-    public virtual string GenerateLicense(string originalLicense, string copyright, string copyrightHolder)
+    public virtual string GenerateLicense(
+        string originalLicense,
+        string copyright,
+        string copyrightHolder,
+        ILicenseStringFactory licenseStringFactory
+    )
     {
-        var license = LicenseStringFactory.GenerateLicense(
+        var license = licenseStringFactory.GenerateLicense(
             name: $"{this.DisplayName} ({this.Name})",
             version: this.Version,
             copyright: copyright,
