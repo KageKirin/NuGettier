@@ -59,12 +59,28 @@ public partial class Context : IDisposable
         IConfigurationRoot configuration,
         IEnumerable<Uri> sources,
         IConsole console,
+        Microsoft.Extensions.Logging.ILoggerFactory loggerFactory
+    )
+        : this(
+            configuration: configuration,
+            sources: sources,
+            console: console,
+            loggerFactory: loggerFactory,
+            logger: loggerFactory.CreateLogger<Context>()
+        ) { }
+
+    protected Context(
+        IConfigurationRoot configuration,
+        IEnumerable<Uri> sources,
+        IConsole console,
+        Microsoft.Extensions.Logging.ILoggerFactory loggerFactory,
         Microsoft.Extensions.Logging.ILogger logger
     )
     {
         Assert.NotNull(configuration);
         Configuration = configuration;
         Console = console;
+        LoggerFactory = loggerFactory;
         Logger = logger;
         Cache = new();
 
