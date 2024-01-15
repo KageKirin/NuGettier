@@ -15,9 +15,9 @@ public interface IReadmeStringFactory
     );
 }
 
-public static class ReadmeStringFactory
+public class ReadmeStringFactory : IReadmeStringFactory
 {
-    public static string GenerateReadme(
+    public virtual string GenerateReadme(
         string name,
         string version,
         string description,
