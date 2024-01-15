@@ -24,7 +24,8 @@ public class ChangelogFactory : IChangelogFactory
         var template = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.CHANGELOG.md")
         );
-        return template(
+
+        var generated = template(
             new
             {
                 Name = name,
@@ -34,5 +35,7 @@ public class ChangelogFactory : IChangelogFactory
                     : releaseNotes,
             }
         );
+        Logger.LogDebug("generated changelog:\n{0}", generated);
+        return generated;
     }
 }
