@@ -7,8 +7,8 @@ namespace NuGettier.Amalgamate;
 
 public partial record class PackageJson
 {
-    public override string GenerateReadme(string originalReadme)
+    public override string GenerateReadme(string originalReadme, IReadmeStringFactory readmeStringFactory)
     {
-        return base.GenerateReadme(originalReadme);
+        return base.GenerateReadme(originalReadme, readmeStringFactory);
     }
 }

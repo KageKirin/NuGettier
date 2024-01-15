@@ -6,12 +6,12 @@ namespace NuGettier.Upm;
 
 public partial record class PackageJson
 {
-    public virtual string GenerateReadme(string originalReadme)
+    public virtual string GenerateReadme(string originalReadme, IReadmeStringFactory readmeStringFactory)
     {
         var nugettierDeps =
             this.DevDependencies?.FirstOrDefault() ?? new KeyValuePair<string, string>(@"unknown assembly", @"47.1.1");
 
-        var readme = ReadmeStringFactory.GenerateReadme(
+        var readme = readmeStringFactory.GenerateReadme(
             name: $"{this.DisplayName} ({this.Name})",
             version: this.Version,
             description: this.Description,
