@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using HandlebarsDotNet;
+using Microsoft.Extensions.Logging;
 
 namespace NuGettier.Upm;
 
@@ -11,6 +12,13 @@ public interface IChangelogStringFactory
 
 public class ChangelogStringFactory : IChangelogStringFactory
 {
+    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+
+    public ChangelogStringFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    {
+        Logger = loggerFactory.CreateLogger<ChangelogStringFactory>();
+    }
+
     public virtual string GenerateChangelog(string name, string version, string releaseNotes)
     {
         var template = Handlebars.Compile(
