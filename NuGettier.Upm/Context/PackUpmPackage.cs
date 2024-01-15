@@ -67,7 +67,7 @@ public partial class Context
         {
             var readme = packageJson.GenerateReadme(
                 originalReadme: packageReader.GetReadme(),
-                readmeStringFactory: new ReadmeStringFactory()
+                readmeStringFactory: new ReadmeStringFactory(LoggerFactory)
             );
             files.Add(@"README.md", readme);
             Logger.LogDebug($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
@@ -80,7 +80,7 @@ public partial class Context
                 originalLicense: packageReader.GetLicense(),
                 copyright: packageReader.NuspecReader.GetCopyright(),
                 copyrightHolder: packageReader.NuspecReader.GetOwners(),
-                licenseStringFactory: new LicenseStringFactory()
+                licenseStringFactory: new LicenseStringFactory(LoggerFactory)
             );
             files.Add(@"LICENSE.md", license);
             Logger.LogDebug($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
@@ -91,7 +91,7 @@ public partial class Context
         {
             var changelog = packageJson.GenerateChangelog(
                 releaseNotes: packageReader.NuspecReader.GetReleaseNotes(),
-                changelogStringFactory: new ChangelogStringFactory()
+                changelogStringFactory: new ChangelogStringFactory(LoggerFactory)
             );
             files.Add(@"CHANGELOG.md", changelog);
             Logger.LogDebug($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
@@ -107,7 +107,7 @@ public partial class Context
         Logger.LogDebug($"--- PACKAGE.JSON\n{packageJsonString}\n---");
 
         // add meta files
-        files.AddMetaFiles(seed: packageJson.Name, metaFactory: new MetaFactory());
+        files.AddMetaFiles(seed: packageJson.Name, metaFactory: new MetaFactory(LoggerFactory));
 
         var packageIdentifier = $"{packageJson.Name}-{packageJson.Version}";
         return new Tuple<string, FileDictionary>(packageIdentifier, files);
