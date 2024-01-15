@@ -1,5 +1,6 @@
 using System;
 using HandlebarsDotNet;
+using Microsoft.Extensions.Logging;
 
 namespace NuGettier.Upm;
 
@@ -11,6 +12,13 @@ public interface IMetaFactory
 
 public class MetaFactory : IMetaFactory
 {
+    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+
+    public MetaFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    {
+        Logger = loggerFactory.CreateLogger<MetaFactory>();
+    }
+
     public virtual string GenerateFolderMeta(string seed, string dirname)
     {
         var guid = new MetaGen.Guid(seed, dirname);
