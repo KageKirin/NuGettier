@@ -80,7 +80,7 @@ public partial class Context
                 originalLicense: packageReader.GetLicense(),
                 copyright: packageReader.NuspecReader.GetCopyright(),
                 copyrightHolder: packageReader.NuspecReader.GetOwners(),
-                licenseStringFactory: new LicenseStringFactory(LoggerFactory)
+                licenseFactory: new LicenseFactory(LoggerFactory)
             );
             files.Add(@"LICENSE.md", license);
             Logger.LogDebug($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");

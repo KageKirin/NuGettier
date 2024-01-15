@@ -31,10 +31,10 @@ public partial record class PackageJson
         string originalLicense,
         string copyright,
         string copyrightHolder,
-        ILicenseStringFactory licenseStringFactory
+        ILicenseFactory licenseFactory
     )
     {
-        var license = licenseStringFactory.GenerateLicense(
+        var license = licenseFactory.GenerateLicense(
             name: $"{this.DisplayName} ({this.Name})",
             version: this.Version,
             copyright: copyright,

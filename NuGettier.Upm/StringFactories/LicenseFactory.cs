@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace NuGettier.Upm;
 
-public interface ILicenseStringFactory
+public interface ILicenseFactory
 {
     string GenerateLicense(
         string name,
@@ -19,13 +19,13 @@ public interface ILicenseStringFactory
     );
 }
 
-public class LicenseStringFactory : ILicenseStringFactory
+public class LicenseFactory : ILicenseFactory
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
-    public LicenseStringFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public LicenseFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
     {
-        Logger = loggerFactory.CreateLogger<LicenseStringFactory>();
+        Logger = loggerFactory.CreateLogger<LicenseFactory>();
     }
 
     private static async Task<string> GetLicense(Uri licenseUrl)
