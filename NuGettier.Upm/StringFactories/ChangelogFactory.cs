@@ -4,6 +4,11 @@ using HandlebarsDotNet;
 
 namespace NuGettier.Upm;
 
+public interface IChangelogStringFactory
+{
+    string GenerateChangelog(string name, string version, string releaseNotes);
+}
+
 public static class ChangelogStringFactory
 {
     public static string GenerateChangelog(string name, string version, string releaseNotes)
