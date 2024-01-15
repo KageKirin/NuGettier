@@ -6,7 +6,7 @@ namespace NuGettier.Upm.TarGz;
 
 public static class FileDictionaryMetaExtension
 {
-    public static void AddMetaFiles(this FileDictionary fileDictionary, string seed)
+    public static void AddMetaFiles(this FileDictionary fileDictionary, string seed, IMetaFactory metaFactory)
     {
         var folderEntries = fileDictionary
             .Keys.Where(f => Path.GetExtension(f) != @".meta")
@@ -28,13 +28,13 @@ public static class FileDictionaryMetaExtension
         fileDictionary.AddRange(
             folderEntries
                 .OrderBy(f => f.Length)
-                .Select(f => new KeyValuePair<string, string>($"{f}.meta", Upm.MetaFactory.GenerateFolderMeta(seed, f)))
+                .Select(f => new KeyValuePair<string, string>($"{f}.meta", metaFactory.GenerateFolderMeta(seed, f)))
         );
         fileDictionary.AddRange(
             fileDictionary
                 .Keys.Where(f => Path.GetExtension(f) != @".meta")
                 .OrderBy(f => f.Length)
-                .Select(f => new KeyValuePair<string, string>($"{f}.meta", Upm.MetaFactory.GenerateFileMeta(seed, f)))
+                .Select(f => new KeyValuePair<string, string>($"{f}.meta", metaFactory.GenerateFileMeta(seed, f)))
         );
     }
 }

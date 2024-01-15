@@ -65,7 +65,10 @@ public partial class Context
         // create & add README
         if (!files.ContainsKey(@"README.md"))
         {
-            var readme = packageJson.GenerateReadme(originalReadme: packageReader.GetReadme());
+            var readme = packageJson.GenerateReadme(
+                originalReadme: packageReader.GetReadme(),
+                readmeStringFactory: new ReadmeStringFactory()
+            );
             files.Add(@"README.md", readme);
             Logger.LogDebug($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
         }
@@ -76,7 +79,8 @@ public partial class Context
             var license = packageJson.GenerateLicense(
                 originalLicense: packageReader.GetLicense(),
                 copyright: packageReader.NuspecReader.GetCopyright(),
-                copyrightHolder: packageReader.NuspecReader.GetOwners()
+                copyrightHolder: packageReader.NuspecReader.GetOwners(),
+                licenseStringFactory: new LicenseStringFactory()
             );
             files.Add(@"LICENSE.md", license);
             Logger.LogDebug($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
@@ -85,7 +89,10 @@ public partial class Context
         // create & add CHANGELOG
         if (!files.ContainsKey(@"CHANGELOG.md"))
         {
-            var changelog = packageJson.GenerateChangelog(packageReader.NuspecReader.GetReleaseNotes());
+            var changelog = packageJson.GenerateChangelog(
+                releaseNotes: packageReader.NuspecReader.GetReleaseNotes(),
+                changelogStringFactory: new ChangelogStringFactory()
+            );
             files.Add(@"CHANGELOG.md", changelog);
             Logger.LogDebug($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
         }
@@ -100,7 +107,7 @@ public partial class Context
         Logger.LogDebug($"--- PACKAGE.JSON\n{packageJsonString}\n---");
 
         // add meta files
-        files.AddMetaFiles(packageJson.Name);
+        files.AddMetaFiles(seed: packageJson.Name, metaFactory: new MetaFactory());
 
         var packageIdentifier = $"{packageJson.Name}-{packageJson.Version}";
         return new Tuple<string, FileDictionary>(packageIdentifier, files);

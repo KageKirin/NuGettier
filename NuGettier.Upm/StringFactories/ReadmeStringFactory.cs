@@ -4,9 +4,20 @@ using HandlebarsDotNet;
 
 namespace NuGettier.Upm;
 
-public static class ReadmeStringFactory
+public interface IReadmeStringFactory
 {
-    public static string GenerateReadme(
+    string GenerateReadme(
+        string name,
+        string version,
+        string description,
+        string applicationName,
+        string applicationVersion
+    );
+}
+
+public class ReadmeStringFactory : IReadmeStringFactory
+{
+    public virtual string GenerateReadme(
         string name,
         string version,
         string description,

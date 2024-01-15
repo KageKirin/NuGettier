@@ -3,9 +3,15 @@ using HandlebarsDotNet;
 
 namespace NuGettier.Upm;
 
-public static partial class MetaFactory
+public interface IMetaFactory
 {
-    public static string GenerateFolderMeta(string seed, string dirname)
+    string GenerateFolderMeta(string seed, string dirname);
+    string GenerateFileMeta(string seed, string filename);
+}
+
+public class MetaFactory : IMetaFactory
+{
+    public virtual string GenerateFolderMeta(string seed, string dirname)
     {
         var guid = new MetaGen.Guid(seed, dirname);
         var metaTemplate = Handlebars.Compile(
@@ -16,7 +22,7 @@ public static partial class MetaFactory
         return metaContents;
     }
 
-    public static string GenerateFileMeta(string seed, string filename)
+    public virtual string GenerateFileMeta(string seed, string filename)
     {
         var guid = new MetaGen.Guid(seed, filename);
         var metaTemplate = Handlebars.Compile(

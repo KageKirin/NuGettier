@@ -4,9 +4,14 @@ using HandlebarsDotNet;
 
 namespace NuGettier.Upm;
 
-public static class ChangelogStringFactory
+public interface IChangelogStringFactory
 {
-    public static string GenerateChangelog(string name, string version, string releaseNotes)
+    string GenerateChangelog(string name, string version, string releaseNotes);
+}
+
+public class ChangelogStringFactory : IChangelogStringFactory
+{
+    public virtual string GenerateChangelog(string name, string version, string releaseNotes)
     {
         var template = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.CHANGELOG.md")

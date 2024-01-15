@@ -6,12 +6,12 @@ namespace NuGettier.Upm;
 
 public partial record class PackageJson
 {
-    public virtual string GenerateReadme(string originalReadme)
+    public virtual string GenerateReadme(string originalReadme, IReadmeStringFactory readmeStringFactory)
     {
         var nugettierDeps =
             this.DevDependencies?.FirstOrDefault() ?? new KeyValuePair<string, string>(@"unknown assembly", @"47.1.1");
 
-        var readme = ReadmeStringFactory.GenerateReadme(
+        var readme = readmeStringFactory.GenerateReadme(
             name: $"{this.DisplayName} ({this.Name})",
             version: this.Version,
             description: this.Description,
@@ -27,9 +27,14 @@ public partial record class PackageJson
         return readme;
     }
 
-    public virtual string GenerateLicense(string originalLicense, string copyright, string copyrightHolder)
+    public virtual string GenerateLicense(
+        string originalLicense,
+        string copyright,
+        string copyrightHolder,
+        ILicenseStringFactory licenseStringFactory
+    )
     {
-        var license = LicenseStringFactory.GenerateLicense(
+        var license = licenseStringFactory.GenerateLicense(
             name: $"{this.DisplayName} ({this.Name})",
             version: this.Version,
             copyright: copyright,
@@ -46,9 +51,9 @@ public partial record class PackageJson
         return license;
     }
 
-    public virtual string GenerateChangelog(string releaseNotes)
+    public virtual string GenerateChangelog(string releaseNotes, IChangelogStringFactory changelogStringFactory)
     {
-        return ChangelogStringFactory.GenerateChangelog(
+        return changelogStringFactory.GenerateChangelog(
             name: $"{this.DisplayName} ({this.Name})",
             version: this.Version,
             releaseNotes: releaseNotes
