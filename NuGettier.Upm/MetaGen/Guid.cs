@@ -1,29 +1,27 @@
 using System;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using Standart.Hash.xxHash;
 
-namespace NuGettier.Upm;
+namespace NuGettier.Upm.MetaGen;
 
-public static partial class MetaGen
+struct Guid
 {
-    struct Guid
+    public uint128 hash;
+
+    public Guid()
     {
-        public uint128 hash;
+        hash = default;
+    }
 
-        public Guid()
-        {
-            hash = default;
-        }
+    public Guid(string seed, string value)
+    {
+        var seedHash = xxHash3.ComputeHash(seed);
+        hash = xxHash128.ComputeHash(value, seedHash);
+    }
 
-        public Guid(string seed, string value)
-        {
-            var seedHash = xxHash3.ComputeHash(seed);
-            hash = xxHash128.ComputeHash(value, seedHash);
-        }
-
-        public override readonly string ToString()
-        {
-            return $"{hash.high64:x8}{hash.low64:x8}";
-        }
+    public override readonly string ToString()
+    {
+        return $"{hash.high64:x8}{hash.low64:x8}";
     }
 }
