@@ -28,13 +28,13 @@ public static class FileDictionaryMetaExtension
         fileDictionary.AddRange(
             folderEntries
                 .OrderBy(f => f.Length)
-                .Select(f => new KeyValuePair<string, string>($"{f}.meta", Upm.MetaGen.GenerateFolderMeta(seed, f)))
+                .Select(f => new KeyValuePair<string, string>($"{f}.meta", Upm.MetaFactory.GenerateFolderMeta(seed, f)))
         );
         fileDictionary.AddRange(
             fileDictionary
                 .Keys.Where(f => Path.GetExtension(f) != @".meta")
                 .OrderBy(f => f.Length)
-                .Select(f => new KeyValuePair<string, string>($"{f}.meta", Upm.MetaGen.GenerateFileMeta(seed, f)))
+                .Select(f => new KeyValuePair<string, string>($"{f}.meta", Upm.MetaFactory.GenerateFileMeta(seed, f)))
         );
     }
 }

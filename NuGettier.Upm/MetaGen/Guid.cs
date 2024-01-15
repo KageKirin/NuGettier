@@ -4,7 +4,7 @@ using Standart.Hash.xxHash;
 
 namespace NuGettier.Upm;
 
-public static partial class MetaGen
+public static partial class MetaFactory
 {
     struct Guid
     {

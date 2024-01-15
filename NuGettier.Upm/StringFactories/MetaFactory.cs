@@ -3,7 +3,7 @@ using HandlebarsDotNet;
 
 namespace NuGettier.Upm;
 
-public static partial class MetaGen
+public static partial class MetaFactory
 {
     public static string GenerateFolderMeta(string seed, string dirname)
     {
