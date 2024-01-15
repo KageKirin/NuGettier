@@ -52,6 +52,7 @@ public partial class Context : IDisposable
     public IConsole Console { get; protected set; }
     public BuildInfo Build { get; protected set; }
     public IEnumerable<PackageRule> PackageRules { get; protected set; }
+    protected readonly Microsoft.Extensions.Logging.ILoggerFactory LoggerFactory;
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
     public Context(
@@ -166,6 +167,7 @@ public partial class Context : IDisposable
         Build = other.Build;
         Repositories = other.Repositories;
         PackageRules = other.PackageRules;
+        LoggerFactory = other.LoggerFactory;
         Logger = other.Logger;
     }
 
