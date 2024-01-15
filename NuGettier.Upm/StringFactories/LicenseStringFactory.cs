@@ -6,6 +6,18 @@ using HandlebarsDotNet;
 
 namespace NuGettier.Upm;
 
+public interface ILicenseStringFactory
+{
+    string GenerateLicense(
+        string name,
+        string version,
+        string copyright,
+        string copyrightHolder,
+        string license,
+        string licenseUrl
+    );
+}
+
 public static class LicenseStringFactory
 {
     private static async Task<string> GetLicense(Uri licenseUrl)
