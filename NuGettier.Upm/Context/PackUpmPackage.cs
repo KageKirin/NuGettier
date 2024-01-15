@@ -91,7 +91,7 @@ public partial class Context
         {
             var changelog = packageJson.GenerateChangelog(
                 releaseNotes: packageReader.NuspecReader.GetReleaseNotes(),
-                changelogStringFactory: new ChangelogStringFactory(LoggerFactory)
+                changelogFactory: new ChangelogFactory(LoggerFactory)
             );
             files.Add(@"CHANGELOG.md", changelog);
             Logger.LogDebug($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");

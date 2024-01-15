@@ -51,9 +51,9 @@ public partial record class PackageJson
         return license;
     }
 
-    public virtual string GenerateChangelog(string releaseNotes, IChangelogStringFactory changelogStringFactory)
+    public virtual string GenerateChangelog(string releaseNotes, IChangelogFactory changelogFactory)
     {
-        return changelogStringFactory.GenerateChangelog(
+        return changelogFactory.GenerateChangelog(
             name: $"{this.DisplayName} ({this.Name})",
             version: this.Version,
             releaseNotes: releaseNotes
