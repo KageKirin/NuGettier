@@ -49,7 +49,7 @@ public partial class Program
             configuration: Configuration!,
             sources: sources,
             console: console,
-            logger: MainLoggerFactory.CreateLogger<Context>()
+            loggerFactory: MainLoggerFactory
         );
         var packages = await context.GetPackageDependencies(
             packageIdVersion: packageIdVersion,

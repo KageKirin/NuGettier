@@ -48,7 +48,7 @@ public partial class Program
             configuration: Configuration!,
             sources: sources,
             console: console,
-            logger: MainLoggerFactory.CreateLogger<Context>()
+            loggerFactory: MainLoggerFactory
         );
         using var packageStream = await context.FetchPackage(
             packageIdVersion: packageIdVersion,

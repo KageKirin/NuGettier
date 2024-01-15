@@ -59,7 +59,7 @@ public partial class Program
             repository: repository,
             directory: directory,
             console: console,
-            logger: MainLoggerFactory.CreateLogger<Amalgamate.Context>()
+            loggerFactory: MainLoggerFactory
         );
         var result = await context.PublishUpmPackage(
             packageIdVersion: packageIdVersion,

@@ -46,7 +46,7 @@ public partial class Program
             configuration: Configuration!,
             sources: sources,
             console: console,
-            logger: MainLoggerFactory.CreateLogger<Core.Context>()
+            loggerFactory: MainLoggerFactory
         );
         var results = await context.SearchPackages(searchTerm: searchTerm, cancellationToken: cancellationToken);
 

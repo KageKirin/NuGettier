@@ -65,7 +65,7 @@ public partial class Program
             repository: repository,
             directory: directory,
             console: console,
-            logger: MainLoggerFactory.CreateLogger<Upm.Context>()
+            loggerFactory: MainLoggerFactory
         );
 
         var packageJson = await context.GetPackageJson(
