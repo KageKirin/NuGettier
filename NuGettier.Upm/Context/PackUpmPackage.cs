@@ -67,7 +67,7 @@ public partial class Context
         {
             var readme = packageJson.GenerateReadme(
                 originalReadme: packageReader.GetReadme(),
-                readmeStringFactory: new ReadmeStringFactory(LoggerFactory)
+                readmeFactory: new ReadmeFactory(LoggerFactory)
             );
             files.Add(@"README.md", readme);
             Logger.LogDebug($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");

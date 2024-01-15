@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace NuGettier.Upm;
 
-public interface IReadmeStringFactory
+public interface IReadmeFactory
 {
     string GenerateReadme(
         string name,
@@ -16,13 +16,13 @@ public interface IReadmeStringFactory
     );
 }
 
-public class ReadmeStringFactory : IReadmeStringFactory
+public class ReadmeFactory : IReadmeFactory
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
-    public ReadmeStringFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public ReadmeFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
     {
-        Logger = loggerFactory.CreateLogger<ReadmeStringFactory>();
+        Logger = loggerFactory.CreateLogger<ReadmeFactory>();
     }
 
     public virtual string GenerateReadme(
