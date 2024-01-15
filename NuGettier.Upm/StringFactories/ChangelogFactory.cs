@@ -9,9 +9,9 @@ public interface IChangelogStringFactory
     string GenerateChangelog(string name, string version, string releaseNotes);
 }
 
-public static class ChangelogStringFactory
+public class ChangelogStringFactory : IChangelogStringFactory
 {
-    public static string GenerateChangelog(string name, string version, string releaseNotes)
+    public virtual string GenerateChangelog(string name, string version, string releaseNotes)
     {
         var template = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.CHANGELOG.md")
