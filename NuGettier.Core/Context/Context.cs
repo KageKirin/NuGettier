@@ -166,6 +166,7 @@ public partial class Context : IDisposable
         Build = other.Build;
         Repositories = other.Repositories;
         PackageRules = other.PackageRules;
+        Logger = other.Logger;
     }
 
     public void Dispose() { }
