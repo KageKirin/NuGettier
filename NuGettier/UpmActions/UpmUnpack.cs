@@ -66,7 +66,7 @@ public partial class Program
             repository: repository,
             directory: directory,
             console: console,
-            logger: MainLoggerFactory.CreateLogger<Upm.Context>()
+            loggerFactory: MainLoggerFactory
         );
         var tuple = await context.PackUpmPackage(
             packageIdVersion: packageIdVersion,
