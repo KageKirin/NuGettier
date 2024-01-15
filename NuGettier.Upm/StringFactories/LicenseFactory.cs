@@ -59,7 +59,8 @@ public class LicenseFactory : ILicenseFactory
         var template = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.LICENSE.md")
         );
-        return template(
+
+        var generated = template(
             new
             {
                 Name = name,
@@ -68,5 +69,7 @@ public class LicenseFactory : ILicenseFactory
                 License = licenseText,
             }
         );
+        Logger.LogDebug("generated license:\n{0}", generated);
+        return generated;
     }
 }
