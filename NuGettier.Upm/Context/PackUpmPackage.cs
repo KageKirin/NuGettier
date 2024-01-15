@@ -70,7 +70,7 @@ public partial class Context
                 readmeFactory: new ReadmeFactory(LoggerFactory)
             );
             files.Add(@"README.md", readme);
-            Logger.LogDebug($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
+            Logger.LogDebug("added README.md\n{0}", Encoding.Default.GetString(files[@"README.md"]));
         }
 
         // create & add LICENSE
@@ -83,7 +83,7 @@ public partial class Context
                 licenseFactory: new LicenseFactory(LoggerFactory)
             );
             files.Add(@"LICENSE.md", license);
-            Logger.LogDebug($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
+            Logger.LogDebug("added LICENSE.md\n{0}", Encoding.Default.GetString(files[@"LICENSE.md"]));
         }
 
         // create & add CHANGELOG
@@ -94,7 +94,7 @@ public partial class Context
                 changelogFactory: new ChangelogFactory(LoggerFactory)
             );
             files.Add(@"CHANGELOG.md", changelog);
-            Logger.LogDebug($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
+            Logger.LogDebug("added CHANGELOG.md\n{0}", Encoding.Default.GetString(files[@"CHANGELOG.md"]));
         }
 
         // add file references to package.json
@@ -104,7 +104,7 @@ public partial class Context
         Assert.False(files.ContainsKey(@"package.json"));
         var packageJsonString = packageJson.ToJson();
         files.Add(@"package.json", packageJsonString);
-        Logger.LogDebug($"--- PACKAGE.JSON\n{packageJsonString}\n---");
+        Logger.LogDebug("generated package.json:\n{0}", packageJsonString);
 
         // add meta files
         files.AddMetaFiles(seed: packageJson.Name, metaFactory: new MetaFactory(LoggerFactory));
