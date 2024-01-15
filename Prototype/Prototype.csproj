@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <PropertyGroup Label="version metadata">
-    <Version>0.1.32</Version>
-    <AssemblyVersion>0.1.32.135</AssemblyVersion>
-    <FileVersion>0.1.32.934</FileVersion>
+    <Version>0.1.33</Version>
+    <AssemblyVersion>0.1.33.136</AssemblyVersion>
+    <FileVersion>0.1.33.936</FileVersion>
   </PropertyGroup>
 
   <ItemGroup Label="package dependencies">
