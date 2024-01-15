@@ -19,8 +19,19 @@ public partial class Context
     public PackageRule GetPackageRule(string packageId)
     {
         var defaultRule = PackageRules.Where(r => string.IsNullOrEmpty(r.Id)).FirstOrDefault(DefaultPackageRule);
-        var packageRule = PackageRules.Where(r => r.Id == packageId).FirstOrDefault(defaultRule);
 
+        // descending order used for regex match, so that `.*` will match last
+        // rationale: this allows to have generic rules for e.g. "Microsoft.Extensions.Logging.*" and "Microsoft.Extensions.*" that don't overlap
+        var packageRulesByLengthDescending = PackageRules.OrderByDescending(r => r.Id.Length);
+
+        // search for equality first, then regex to have e.g. a specific rule for "System.Text.Json" and a generic rule for "System.Text.*" that don't overlap
+        var packageRule = packageRulesByLengthDescending
+            .Where(r => r.Id == packageId)
+            .FirstOrDefault(
+                packageRulesByLengthDescending.Where(r => Regex.IsMatch(r.Id, packageId)).FirstOrDefault(defaultRule)
+            );
+
+        // create and return new package rule if retrieved one does not contain important information
         if (
             string.IsNullOrEmpty(packageRule.Name)
             || string.IsNullOrEmpty(packageRule.Version)
