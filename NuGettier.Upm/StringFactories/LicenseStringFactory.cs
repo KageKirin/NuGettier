@@ -18,7 +18,7 @@ public interface ILicenseStringFactory
     );
 }
 
-public static class LicenseStringFactory
+public class LicenseStringFactory : ILicenseStringFactory
 {
     private static async Task<string> GetLicense(Uri licenseUrl)
     {
@@ -30,7 +30,7 @@ public static class LicenseStringFactory
         return await responseStream.ReadToEndAsync();
     }
 
-    public static string GenerateLicense(
+    public virtual string GenerateLicense(
         string name,
         string version,
         string copyright,
