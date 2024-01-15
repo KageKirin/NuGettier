@@ -31,6 +31,7 @@ public partial class Context
                 packageRulesByLengthDescending.Where(r => Regex.IsMatch(r.Id, packageId)).FirstOrDefault(defaultRule)
             );
 
+        // create and return new package rule if retrieved one does not contain important information
         if (
             string.IsNullOrEmpty(packageRule.Name)
             || string.IsNullOrEmpty(packageRule.Version)
