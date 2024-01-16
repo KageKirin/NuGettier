@@ -41,6 +41,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
+        Logger.LogTrace("entered {0} command handler", "Search");
         Assert.NotNull(Configuration);
         using var context = new Core.Context(
             configuration: Configuration!,
@@ -67,6 +68,7 @@ public partial class Program
                     Console.WriteLine($"{kvp.Key}@{kvp.Value}");
                 }
             }
+            Logger.LogTrace("exit {0} command handler without error (short mode)", "Search");
             return 0;
         }
 
@@ -82,6 +84,7 @@ public partial class Program
             }
         }
 
+        Logger.LogTrace("exit {0} command handler without error", "Search");
         return 0;
     }
 }
