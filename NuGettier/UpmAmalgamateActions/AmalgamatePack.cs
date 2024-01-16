@@ -56,6 +56,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
+        Logger.LogTrace("entered {0} command handler", "AmalgamatePack");
         Assert.NotNull(Configuration);
         using var context = new Amalgamate.Context(
             configuration: Configuration!,
@@ -86,6 +87,7 @@ public partial class Program
             await package.WriteToTarGzAsync(Path.Join(outputDirectory.FullName, $"{packageIdentifier}.tgz"));
         }
 
+        Logger.LogTrace("exit {0} command handler without error", "AmalgamatePack");
         return 0;
     }
 }
