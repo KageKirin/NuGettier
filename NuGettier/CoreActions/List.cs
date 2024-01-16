@@ -43,7 +43,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
-        Logger.LogTrace("entered {0} command handler", "List");
+        using var scope = Logger.TraceLocation().BeginScope(nameof(List));
         Assert.NotNull(Configuration);
         using var context = new Core.Context(
             configuration: Configuration!,
@@ -77,7 +77,7 @@ public partial class Program
                     Console.WriteLine($"{version}");
                 }
             }
-            Logger.LogTrace("exit {0} command handler without error (short mode)", "List");
+            Logger.LogTrace("exit {0} without error (short mode)", nameof(List));
             return 0;
         }
 
@@ -93,7 +93,7 @@ public partial class Program
             }
         }
 
-        Logger.LogTrace("exit {0} command handler without error", "List");
+        Logger.LogTrace("exit {0} without error", nameof(List));
         return 0;
     }
 }
