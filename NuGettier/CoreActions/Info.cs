@@ -58,7 +58,10 @@ public partial class Program
         );
 
         if (package is null)
+        {
+            Logger.LogError("failed to get package information for {0}", packageIdVersion);
             return 1;
+        }
 
         if (@short)
         {
