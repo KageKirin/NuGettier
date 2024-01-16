@@ -26,6 +26,7 @@ public partial class Context
 
     protected virtual string GetPackageVersion(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return packageSearchMetadata.Identity.Version.ToString();
     }
 
