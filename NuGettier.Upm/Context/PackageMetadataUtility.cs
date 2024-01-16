@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
 using HandlebarsDotNet;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -19,6 +20,7 @@ public partial class Context
 {
     protected virtual string GetPackageId(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return packageSearchMetadata.Identity.Id;
     }
 
