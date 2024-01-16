@@ -48,7 +48,10 @@ public partial class Context
         );
 
         if (tuple == null)
+        {
+            Logger.TraceLocation().LogError("failed to pack UPM package for {0}", packageIdVersion);
             return -1;
+        }
 
         var (packageIdentifier, package) = tuple!;
         using (package)
