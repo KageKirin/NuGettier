@@ -58,7 +58,10 @@ public partial class Program
         );
 
         if (packageStream is null)
+        {
+            Logger.LogError("failed to fetch package for {0}", packageIdVersion);
             return 1;
+        }
 
         using (PackageArchiveReader packageReader = new PackageArchiveReader(packageStream))
         {
