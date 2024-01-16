@@ -8,11 +8,15 @@ using System.CommandLine.IO;
 using System.CommandLine.NamingConventionBinder;
 using System.CommandLine.Parsing;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace NuGettier;
 
 public partial class Program
 {
+    private static Option<LogLevel> OutputLogLevelOption =
+        new(aliases: ["--verbosity", "-v"], description: "log verbosity level");
+
     private static Option<bool> OutputJsonOption =
         new(aliases: ["--json", "-j"], description: "whether to output result as JSON (for piping into `jq` etc)");
 
