@@ -41,6 +41,8 @@ public class MetaFactory : IMetaFactory
 
     public virtual string GenerateFileMeta(string seed, string filename)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         var guid = new MetaGen.Guid(seed, filename);
         var metaTemplate = Handlebars.Compile(
             Path.GetExtension(filename).EndsWith(".dll")
