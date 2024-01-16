@@ -34,6 +34,7 @@ public partial class Context
         string? token,
         string? npmrc,
         bool dryRun,
+        int timeOut,
         PackageAccessLevel packageAccessLevel,
         CancellationToken cancellationToken
     )
@@ -107,8 +108,12 @@ public partial class Context
                 );
                 process.Start();
 
-                Logger.LogDebug("started process for {0} (waiting until termination to proceed)", process.Id);
-                await process.WaitForExitAsync(cancellationToken);
+                Logger.LogDebug(
+                    "started process for {0} (waiting {1} seconds or until termination to proceed)",
+                    process.Id,
+                    timeOut
+                );
+                process.WaitForExit(timeOut * 1000);
                 Logger.LogDebug("process {0} has terminated with exit code {1}", process.Id, process.ExitCode);
                 exitCode = process.ExitCode;
 

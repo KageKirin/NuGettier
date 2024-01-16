@@ -29,6 +29,7 @@ public partial class Program
             UpmTokenOption,
             UpmNpmrcOption,
             UpmDryRunOption,
+            UpmTimeOutOption,
             UpmPackageAccessLevel,
         }.WithHandler(CommandHandler.Create(AmalgamatePublish));
 
@@ -45,6 +46,7 @@ public partial class Program
         string? token,
         string? npmrc,
         bool dryRun,
+        int timeOut,
         Upm.PackageAccessLevel access,
         IConsole console,
         CancellationToken cancellationToken
@@ -70,6 +72,7 @@ public partial class Program
             token: token,
             npmrc: npmrc,
             dryRun: dryRun,
+            timeOut: timeOut,
             packageAccessLevel: access,
             cancellationToken: cancellationToken
         );

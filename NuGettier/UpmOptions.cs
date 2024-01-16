@@ -65,6 +65,16 @@ public partial class Program
 
     private static Option<bool> UpmDryRunOption = new(aliases: ["--dry-run", "-n"], description: "Dry run");
 
+    private static Option<int> UpmTimeOutOption =
+        new(
+            aliases: ["--timeout", "-w"],
+            description: "Time out (in seconds)",
+            getDefaultValue: () => Configuration.GetSection(kDefaultsSection).GetValue<int>(kTimeOutKey, 60)
+        )
+        {
+            IsRequired = false,
+        };
+
     private static Option<Upm.PackageAccessLevel> UpmPackageAccessLevel =
         new(
             aliases: ["--access", "-a",],
