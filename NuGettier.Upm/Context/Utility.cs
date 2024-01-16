@@ -55,6 +55,8 @@ public partial class Context
 
     public virtual PackageJson PatchPackageJson(PackageJson packageJson)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         // get packageRule for this package
         var packageRule = GetPackageRule(packageJson.Name);
 
