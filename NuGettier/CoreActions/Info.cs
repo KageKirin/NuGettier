@@ -43,7 +43,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
-        Logger.LogTrace("entered {0} command handler", "Info");
+        using var scope = Logger.TraceLocation().BeginScope(nameof(Info));
         Assert.NotNull(Configuration);
         using var context = new Core.Context(
             configuration: Configuration!,
@@ -85,7 +85,7 @@ public partial class Program
                     Console.WriteLine($"{kvp.Key}: {kvp.Value}");
                 }
             }
-            Logger.LogTrace("exit {0} command handler without error (short mode)", "Info");
+            Logger.LogTrace("exit {0} without error (short mode)", nameof(Info));
             return 0;
         }
 
@@ -128,7 +128,7 @@ public partial class Program
             //Task<IEnumerable<VersionInfo>> GetVersionsAsync();
         }
 
-        Logger.LogTrace("exit {0} command handler without error", "Info");
+        Logger.LogTrace("exit {0} without error", nameof(Info));
         return 0;
     }
 }
