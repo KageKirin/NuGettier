@@ -43,6 +43,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
+        Logger.LogTrace("entered {0} command handler", "Get");
         Assert.NotNull(Configuration);
         using var context = new Core.Context(
             configuration: Configuration!,
@@ -148,6 +149,7 @@ public partial class Program
             packageStream.WriteTo(fileStream);
         }
 
+        Logger.LogTrace("exit {0} command handler without error", "Get");
         return 0;
     }
 }
