@@ -52,7 +52,10 @@ public partial class Program
         var results = await context.SearchPackages(searchTerm: searchTerm, cancellationToken: cancellationToken);
 
         if (results is null)
+        {
+            Logger.LogError("failed to find any packages for {0}", searchTerm);
             return 1;
+        }
 
         if (@short)
         {
