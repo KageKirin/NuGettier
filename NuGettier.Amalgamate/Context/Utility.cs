@@ -35,6 +35,7 @@ public partial class Context
 
     protected override string PatchPackageId(string packageId)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return $"{base.PatchPackageId(packageId)}.amalgamate";
     }
 
