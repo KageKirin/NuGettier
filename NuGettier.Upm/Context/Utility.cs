@@ -87,6 +87,8 @@ public partial class Context
 
     protected virtual string PatchPackageId(string packageId)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         Logger.LogTrace($"before: {packageId}");
         var metadata = CachedMetadata[packageId.ToLowerInvariant()];
         Assert.NotNull(metadata);
