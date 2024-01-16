@@ -50,7 +50,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
-        Logger.LogTrace("entered {0} command handler", "UpmPublish");
+        using var scope = Logger.TraceLocation().BeginScope(nameof(UpmPublish));
         Assert.NotNull(Configuration);
         using var context = new Upm.Context(
             configuration: Configuration!,
@@ -79,7 +79,7 @@ public partial class Program
             Logger.LogError($"failed to publish UPM package for {0}", packageIdVersion);
         }
 
-        Logger.LogTrace("exit {0} command handler with error {1}", "UpmPublish", result);
+        Logger.LogTrace("exit {0} command handler with error {1}", nameof(UpmPublish), result);
         return result;
     }
 }
