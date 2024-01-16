@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DotNetConfig;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
@@ -28,6 +29,7 @@ public partial class Program
             configurationRoot ??= new ConfigurationBuilder() //
                 .AddJsonFile("appconfig.json", optional: false, reloadOnChange: false)
                 .AddJsonFile(Path.Join(Environment.CurrentDirectory, "appconfig.json"), optional: true, reloadOnChange: false)
+                .AddEnvironmentVariables()
                 .AddDotNetConfig()
                 .Build();
             return configurationRoot;
