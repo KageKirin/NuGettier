@@ -32,6 +32,7 @@ public partial class Context
 
     protected virtual string? GetPackageLicense(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return packageSearchMetadata.LicenseMetadata == null
             ? string.Empty
             : packageSearchMetadata.LicenseMetadata.LicenseExpression != null
