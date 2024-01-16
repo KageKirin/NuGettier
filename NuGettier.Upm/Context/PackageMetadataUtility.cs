@@ -117,6 +117,7 @@ public partial class Context
         NuGetFramework nugetFramework
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
             packageSearchMetadata.DependencySets,
             nugetFramework
