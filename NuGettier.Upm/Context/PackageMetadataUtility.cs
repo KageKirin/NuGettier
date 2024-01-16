@@ -85,6 +85,7 @@ public partial class Context
 
     protected virtual IEnumerable<Person> GetPackageContributors(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         var otherAuthors = packageSearchMetadata.Authors.Split(',', ';', ' ');
         if (otherAuthors.Length <= 1)
             return new List<Person>();
