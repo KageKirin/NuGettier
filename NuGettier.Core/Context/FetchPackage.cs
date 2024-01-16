@@ -62,6 +62,7 @@ public partial class Context
             // return first match
             foreach (var resource in resources)
             {
+                Logger.LogDebug("checking if package {0}@{1} exists on {2}", packageId, packageVersion, resource);
                 if (
                     await resource.DoesPackageExistAsync(
                         packageId,
