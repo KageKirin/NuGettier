@@ -106,6 +106,8 @@ public partial class Context
 
     protected virtual string PatchPackageVersion(string packageId, string packageVersion)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         Logger.LogTrace($"before: {packageId}: {packageVersion}");
         var packageRule = GetPackageRule(packageId);
         var versionRegex = !string.IsNullOrEmpty(packageRule.Version)
