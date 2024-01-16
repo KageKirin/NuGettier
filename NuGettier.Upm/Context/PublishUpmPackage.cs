@@ -113,8 +113,16 @@ public partial class Context
                     process.Id,
                     timeOut
                 );
-                process.WaitForExit(timeOut * 1000);
-                Logger.LogDebug("process {0} has terminated with exit code {1}", process.Id, process.ExitCode);
+                if (process.WaitForExit(timeOut * 1000))
+                {
+                    Logger.LogDebug("process {0} has terminated with exit code {1}", process.Id, process.ExitCode);
+                }
+                else
+                {
+                    Logger.LogError("process {0} has timed out and will now be terminated", process.Id);
+                    process.Kill();
+                    Logger.LogError("process {0} has been terminated with exit code {1}", process.Id, process.ExitCode);
+                }
                 exitCode = process.ExitCode;
 
                 Logger.LogTrace("reading STDOUT");
