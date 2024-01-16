@@ -44,6 +44,7 @@ public partial class Context
 
     protected virtual string GetPackageDescription(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return packageSearchMetadata.Description;
     }
 
