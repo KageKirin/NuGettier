@@ -58,6 +58,8 @@ public partial class Context
         {
             int exitCode = -2;
             var tempDir = Path.Join(Path.GetTempPath(), Path.GetRandomFileName());
+            Logger.LogDebug("temp working directory: {0}", tempDir);
+
             var packageFile = $"{packageIdentifier}.tgz";
             await package.WriteToTarGzAsync(Path.Join(tempDir, packageFile));
 
@@ -93,8 +95,16 @@ public partial class Context
                     $"--access {packageAccessLevel.ToString().ToLowerInvariant()}"
                 );
 
+                Logger.LogDebug(
+                    "starting process for `{0} {1}`",
+                    process.StartInfo.FileName,
+                    process.StartInfo.Arguments
+                );
                 process.Start();
+
+                Logger.LogDebug("started process for {0} (waiting until termination to proceed)", process.Id);
                 await process.WaitForExitAsync(cancellationToken);
+                Logger.LogDebug("process {0} has terminated with exit code {1}", process.Id, process.ExitCode);
                 exitCode = process.ExitCode;
                 var stdout = await process.StandardOutput.ReadToEndAsync(cancellationToken);
                 var stderr = await process.StandardError.ReadToEndAsync(cancellationToken);
