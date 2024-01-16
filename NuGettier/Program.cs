@@ -37,6 +37,7 @@ public partial class Program
             mainLoggerFactory ??= LoggerFactory.Create(builder =>
             {
                 builder
+                    .AddConfiguration(Configuration.GetSection("logging"))
                     .AddConsole() //< add console as logging target
                     .AddDebug() //< add debug output as logging target
                     .AddFile() //< add file output as logging target
