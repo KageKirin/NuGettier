@@ -67,7 +67,7 @@ public partial class Program
 
     static async Task<int> Main(string[] args)
     {
-        Logger.LogDebug($"called with args: {string.Join(" ", args.Select(a => $"'{a}'"))}");
+        Logger.LogDebug("program called with args: {0}", args.Select(a => $"'{a}'"));
         Assert.NotNull(Configuration);
 
         var cmd = new RootCommand("Extended NuGet helper utility")

@@ -26,6 +26,13 @@ public class MetaFactory : IMetaFactory
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.folder.meta")
         );
         var metaContents = metaTemplate(new { guid = guid });
+        Logger.LogDebug(
+            "generated meta file for folder {0} with seed {1} (GUID: {2}):\n{3}",
+            dirname,
+            seed,
+            guid,
+            metaContents
+        );
 
         return metaContents;
     }
@@ -39,6 +46,13 @@ public class MetaFactory : IMetaFactory
                 : EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.template.meta")
         );
         var metaContents = metaTemplate(new { guid = guid });
+        Logger.LogDebug(
+            "generated meta file for file {0} with seed {1} (GUID: {2}):\n{3}",
+            filename,
+            seed,
+            guid,
+            metaContents
+        );
 
         return metaContents;
     }

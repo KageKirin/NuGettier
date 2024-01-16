@@ -43,6 +43,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
+        Logger.LogTrace("entered {0} command handler", "Info");
         Assert.NotNull(Configuration);
         using var context = new Core.Context(
             configuration: Configuration!,
@@ -57,7 +58,10 @@ public partial class Program
         );
 
         if (package is null)
+        {
+            Logger.LogError("failed to get package information for {0}", packageIdVersion);
             return 1;
+        }
 
         if (@short)
         {
@@ -81,6 +85,7 @@ public partial class Program
                     Console.WriteLine($"{kvp.Key}: {kvp.Value}");
                 }
             }
+            Logger.LogTrace("exit {0} command handler without error (short mode)", "Info");
             return 0;
         }
 
@@ -122,6 +127,8 @@ public partial class Program
             //IEnumerable<PackageVulnerabilityMetadata> Vulnerabilities { get; }
             //Task<IEnumerable<VersionInfo>> GetVersionsAsync();
         }
+
+        Logger.LogTrace("exit {0} command handler without error", "Info");
         return 0;
     }
 }

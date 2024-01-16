@@ -56,6 +56,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
+        Logger.LogTrace("entered {0} command handler", "AmalgamateInfo");
         Assert.NotNull(Configuration);
         using var context = new Amalgamate.Context(
             configuration: Configuration!,
@@ -75,7 +76,10 @@ public partial class Program
         );
 
         if (packageJson == null)
+        {
+            Logger.LogError("failed to generate package.json for {0} amalgamated UPM package", packageIdVersion);
             return 1;
+        }
 
         if (json)
         {
@@ -104,6 +108,7 @@ public partial class Program
             }
         }
 
+        Logger.LogTrace("exit {0} command handler without error", "AmalgamateInfo");
         return 0;
     }
 }

@@ -67,10 +67,10 @@ public partial class Context
         {
             var readme = packageJson.GenerateReadme(
                 originalReadme: packageReader.GetReadme(),
-                readmeStringFactory: new ReadmeStringFactory(LoggerFactory)
+                readmeFactory: new ReadmeFactory(LoggerFactory)
             );
             files.Add(@"README.md", readme);
-            Logger.LogDebug($"--- README\n{Encoding.Default.GetString(files[@"README.md"])}\n---");
+            Logger.LogDebug("added README.md\n{0}", Encoding.Default.GetString(files[@"README.md"]));
         }
 
         // create & add LICENSE
@@ -80,10 +80,10 @@ public partial class Context
                 originalLicense: packageReader.GetLicense(),
                 copyright: packageReader.NuspecReader.GetCopyright(),
                 copyrightHolder: packageReader.NuspecReader.GetOwners(),
-                licenseStringFactory: new LicenseStringFactory(LoggerFactory)
+                licenseFactory: new LicenseFactory(LoggerFactory)
             );
             files.Add(@"LICENSE.md", license);
-            Logger.LogDebug($"--- LICENSE\n{Encoding.Default.GetString(files[@"LICENSE.md"])}\n---");
+            Logger.LogDebug("added LICENSE.md\n{0}", Encoding.Default.GetString(files[@"LICENSE.md"]));
         }
 
         // create & add CHANGELOG
@@ -91,10 +91,10 @@ public partial class Context
         {
             var changelog = packageJson.GenerateChangelog(
                 releaseNotes: packageReader.NuspecReader.GetReleaseNotes(),
-                changelogStringFactory: new ChangelogStringFactory(LoggerFactory)
+                changelogFactory: new ChangelogFactory(LoggerFactory)
             );
             files.Add(@"CHANGELOG.md", changelog);
-            Logger.LogDebug($"--- CHANGELOG\n{Encoding.Default.GetString(files[@"CHANGELOG.md"])}\n---");
+            Logger.LogDebug("added CHANGELOG.md\n{0}", Encoding.Default.GetString(files[@"CHANGELOG.md"]));
         }
 
         // add file references to package.json
@@ -104,7 +104,7 @@ public partial class Context
         Assert.False(files.ContainsKey(@"package.json"));
         var packageJsonString = packageJson.ToJson();
         files.Add(@"package.json", packageJsonString);
-        Logger.LogDebug($"--- PACKAGE.JSON\n{packageJsonString}\n---");
+        Logger.LogDebug("generated package.json:\n{0}", packageJsonString);
 
         // add meta files
         files.AddMetaFiles(seed: packageJson.Name, metaFactory: new MetaFactory(LoggerFactory));

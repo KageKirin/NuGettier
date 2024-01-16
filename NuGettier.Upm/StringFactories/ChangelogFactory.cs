@@ -5,18 +5,18 @@ using Microsoft.Extensions.Logging;
 
 namespace NuGettier.Upm;
 
-public interface IChangelogStringFactory
+public interface IChangelogFactory
 {
     string GenerateChangelog(string name, string version, string releaseNotes);
 }
 
-public class ChangelogStringFactory : IChangelogStringFactory
+public class ChangelogFactory : IChangelogFactory
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
-    public ChangelogStringFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public ChangelogFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
     {
-        Logger = loggerFactory.CreateLogger<ChangelogStringFactory>();
+        Logger = loggerFactory.CreateLogger<ChangelogFactory>();
     }
 
     public virtual string GenerateChangelog(string name, string version, string releaseNotes)
@@ -24,7 +24,8 @@ public class ChangelogStringFactory : IChangelogStringFactory
         var template = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.CHANGELOG.md")
         );
-        return template(
+
+        var generated = template(
             new
             {
                 Name = name,
@@ -34,5 +35,7 @@ public class ChangelogStringFactory : IChangelogStringFactory
                     : releaseNotes,
             }
         );
+        Logger.LogDebug("generated changelog:\n{0}", generated);
+        return generated;
     }
 }
