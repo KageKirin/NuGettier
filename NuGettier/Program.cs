@@ -29,23 +29,32 @@ public partial class Program
         }
     }
 
-    public static readonly ILoggerFactory MainLoggerFactory = LoggerFactory.Create(builder =>
+    private static ILoggerFactory? mainLoggerFactory = null;
+    public static ILoggerFactory MainLoggerFactory
     {
-        builder
-            .AddConsole() //< add console as logging target
-            .AddDebug() //< add debug output as logging target
-            .AddFile() //< add file output as logging target
+        get
+        {
+            mainLoggerFactory ??= LoggerFactory.Create(builder =>
+            {
+                builder
+                    .AddConfiguration(Configuration.GetSection("logging"))
+                    .AddConsole() //< add console as logging target
+                    .AddDebug() //< add debug output as logging target
+                    .AddFile() //< add file output as logging target
 #if DEBUG
-            .SetMinimumLevel(
-                LogLevel.Trace
-            ) //< set minimum level to trace in Debug
+                    .SetMinimumLevel(
+                        LogLevel.Trace
+                    ) //< set minimum level to trace in Debug
 #else
-            .SetMinimumLevel(
-                LogLevel.Error
-            ) //< set minimum level to error in Release
+                    .SetMinimumLevel(
+                        LogLevel.Error
+                    ) //< set minimum level to error in Release
 #endif
-        ;
-    });
+                ;
+            });
+            return mainLoggerFactory;
+        }
+    }
 
     private static readonly ILogger Logger = MainLoggerFactory.CreateLogger<Program>();
 
