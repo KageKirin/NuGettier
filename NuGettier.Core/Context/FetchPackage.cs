@@ -26,12 +26,14 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
+        using var nugetLogger = NuGetLogger.Create(LoggerFactory);
+
         packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         IEnumerable<FindPackageByIdResource> resources = await Repositories.GetResourceAsync<FindPackageByIdResource>(
             cancellationToken
         );
         IEnumerable<NuGetVersion> versions = (
-            await resources.GetAllVersionsAsync(packageId, Cache, NullLogger.Instance, cancellationToken)
+            await resources.GetAllVersionsAsync(packageId, Cache, nugetLogger, cancellationToken)
         ).Distinct();
 
         NuGetVersion? packageVersion = default;
@@ -56,7 +58,7 @@ public partial class Context
                         packageId,
                         packageVersion!,
                         Cache,
-                        NullLogger.Instance,
+                        nugetLogger,
                         cancellationToken
                     )
                 )
@@ -67,7 +69,7 @@ public partial class Context
                         packageVersion!,
                         packageStream,
                         Cache,
-                        NullLogger.Instance,
+                        nugetLogger,
                         cancellationToken
                     );
 
