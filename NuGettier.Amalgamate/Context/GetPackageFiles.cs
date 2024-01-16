@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -29,18 +30,29 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         FileDictionary files = await base.GetPackageFiles(packageReader, nugetFramework, cancellationToken);
 
         var packageRule = GetPackageRule(packageReader.NuspecReader.GetIdentity().Id);
         Assert.NotNull(packageRule);
         if (packageRule.IsRecursive)
         {
+            Logger.LogDebug(
+                "recursing dependencies for {0}@{1}",
+                packageReader.NuspecReader.GetIdentity().Id,
+                packageReader.NuspecReader.GetIdentity().Version
+            );
             var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
                 packageReader.NuspecReader.GetDependencyGroups(),
                 NugetFramework
             );
 
-            if (packageDependencyGroup is not null)
+            if (packageDependencyGroup is null)
+            {
+                Logger.TraceLocation().LogError("returned PackageDependencyGroup is null");
+            }
+            else
             {
                 foreach (var dependency in packageDependencyGroup.Packages)
                 {
@@ -58,7 +70,10 @@ public partial class Context
                         cancellationToken: cancellationToken
                     );
                     if (dependencyPackageStream == null)
+                    {
+                        Logger.TraceLocation().LogError("fetched PackageStream is null");
                         continue;
+                    }
 
                     using PackageArchiveReader dependencyPackageReader = new(dependencyPackageStream);
                     var packageFiles = await GetPackageFiles(

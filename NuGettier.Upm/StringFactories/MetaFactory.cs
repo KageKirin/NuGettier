@@ -21,6 +21,8 @@ public class MetaFactory : IMetaFactory
 
     public virtual string GenerateFolderMeta(string seed, string dirname)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         var guid = new MetaGen.Guid(seed, dirname);
         var metaTemplate = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.folder.meta")
@@ -39,6 +41,8 @@ public class MetaFactory : IMetaFactory
 
     public virtual string GenerateFileMeta(string seed, string filename)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         var guid = new MetaGen.Guid(seed, filename);
         var metaTemplate = Handlebars.Compile(
             Path.GetExtension(filename).EndsWith(".dll")

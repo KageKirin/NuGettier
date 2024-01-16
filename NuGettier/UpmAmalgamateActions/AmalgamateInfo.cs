@@ -56,7 +56,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
-        Logger.LogTrace("entered {0} command handler", "AmalgamateInfo");
+        using var scope = Logger.TraceLocation().BeginScope(nameof(AmalgamateInfo));
         Assert.NotNull(Configuration);
         using var context = new Amalgamate.Context(
             configuration: Configuration!,
@@ -108,7 +108,7 @@ public partial class Program
             }
         }
 
-        Logger.LogTrace("exit {0} command handler without error", "AmalgamateInfo");
+        Logger.LogTrace("exit {0} without error", nameof(AmalgamateInfo));
         return 0;
     }
 }

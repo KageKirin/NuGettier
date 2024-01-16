@@ -18,6 +18,7 @@ public partial class Context
 {
     public PackageRule GetPackageRule(string packageId)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         var defaultRule = PackageRules.Where(r => string.IsNullOrEmpty(r.Id)).FirstOrDefault(DefaultPackageRule);
 
         // descending order used for regex match, so that `.*` will match last
@@ -54,6 +55,8 @@ public partial class Context
 
     public virtual PackageJson PatchPackageJson(PackageJson packageJson)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         // get packageRule for this package
         var packageRule = GetPackageRule(packageJson.Name);
 
@@ -84,6 +87,8 @@ public partial class Context
 
     protected virtual string PatchPackageId(string packageId)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         Logger.LogTrace($"before: {packageId}");
         var metadata = CachedMetadata[packageId.ToLowerInvariant()];
         Assert.NotNull(metadata);
@@ -101,6 +106,8 @@ public partial class Context
 
     protected virtual string PatchPackageVersion(string packageId, string packageVersion)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         Logger.LogTrace($"before: {packageId}: {packageVersion}");
         var packageRule = GetPackageRule(packageId);
         var versionRegex = !string.IsNullOrEmpty(packageRule.Version)
@@ -115,6 +122,8 @@ public partial class Context
 
     protected virtual IDictionary<string, string> PatchPackageDependencies(IDictionary<string, string> dependencies)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         return dependencies
             .Where(d => GetPackageRule(d.Key).IsIgnored == false) //< filter: remove 'ignored' dependencies
             .ToDictionary(d => PatchPackageId(d.Key), d => PatchPackageVersion(d.Key, d.Value));
@@ -122,6 +131,8 @@ public partial class Context
 
     protected virtual PackageJson ConvertToPackageJson(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         return new PackageJson()
         {
             Name = GetPackageId(packageSearchMetadata),

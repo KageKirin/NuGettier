@@ -47,6 +47,8 @@ public class LicenseFactory : ILicenseFactory
         string licenseUrl
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         if (string.IsNullOrEmpty(copyright))
         {
             copyright = $"(C) copyrightHolder, published under {license}.";

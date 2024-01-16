@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
 using HandlebarsDotNet;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -23,6 +24,8 @@ public partial class Context
         NuGetFramework nugetFramework
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
             packageSearchMetadata.DependencySets,
             nugetFramework

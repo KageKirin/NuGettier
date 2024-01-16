@@ -38,6 +38,7 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         var tuple = await PackUpmPackage(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,

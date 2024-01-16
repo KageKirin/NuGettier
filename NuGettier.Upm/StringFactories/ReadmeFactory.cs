@@ -33,6 +33,8 @@ public class ReadmeFactory : IReadmeFactory
         string applicationVersion
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         var template = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.README.md")
         );

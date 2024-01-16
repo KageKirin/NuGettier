@@ -41,7 +41,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
-        Logger.LogTrace("entered {0} command handler", "Search");
+        using var scope = Logger.TraceLocation().BeginScope(nameof(Search));
         Assert.NotNull(Configuration);
         using var context = new Core.Context(
             configuration: Configuration!,
@@ -71,7 +71,7 @@ public partial class Program
                     Console.WriteLine($"{kvp.Key}@{kvp.Value}");
                 }
             }
-            Logger.LogTrace("exit {0} command handler without error (short mode)", "Search");
+            Logger.LogTrace("exit {0} without error (short mode)", nameof(Search));
             return 0;
         }
 
@@ -87,7 +87,7 @@ public partial class Program
             }
         }
 
-        Logger.LogTrace("exit {0} command handler without error", "Search");
+        Logger.LogTrace("exit {0} without error", nameof(Search));
         return 0;
     }
 }

@@ -34,6 +34,8 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         // build package.json from package information
         var packageJson = await GetPackageJson(
             packageIdVersion: packageIdVersion,

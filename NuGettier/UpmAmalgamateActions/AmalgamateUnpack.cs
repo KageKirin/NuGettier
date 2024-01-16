@@ -56,7 +56,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
-        Logger.LogTrace("entered {0} command handler", "AmalgamateUnpack");
+        using var scope = Logger.TraceLocation().BeginScope(nameof(AmalgamateUnpack));
         Assert.NotNull(Configuration);
         using var context = new Amalgamate.Context(
             configuration: Configuration!,
@@ -90,7 +90,7 @@ public partial class Program
             await package.WriteToDirectoryAsync(Path.Join(outputDirectory.FullName, $"{packageIdentifier}"));
         }
 
-        Logger.LogTrace("exit {0} command handler without error", "AmalgamateUnpack");
+        Logger.LogTrace("exit {0} without error", nameof(AmalgamateUnpack));
         return 0;
     }
 }

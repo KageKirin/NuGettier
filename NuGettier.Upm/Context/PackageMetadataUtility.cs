@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
 using HandlebarsDotNet;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -19,16 +20,19 @@ public partial class Context
 {
     protected virtual string GetPackageId(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return packageSearchMetadata.Identity.Id;
     }
 
     protected virtual string GetPackageVersion(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return packageSearchMetadata.Identity.Version.ToString();
     }
 
     protected virtual string? GetPackageLicense(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return packageSearchMetadata.LicenseMetadata == null
             ? string.Empty
             : packageSearchMetadata.LicenseMetadata.LicenseExpression != null
@@ -40,26 +44,31 @@ public partial class Context
 
     protected virtual string GetPackageDescription(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return packageSearchMetadata.Description;
     }
 
     protected virtual string GetPackageDisplayName(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return packageSearchMetadata.Title;
     }
 
     protected virtual string? GetPackageHomepage(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return packageSearchMetadata.ProjectUrl?.ToString();
     }
 
     protected virtual IEnumerable<string> GetPackageKeywords(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return packageSearchMetadata.Tags.Split(',', ';', ' ').Where(t => !string.IsNullOrEmpty(t));
     }
 
     protected virtual Person GetPackageAuthor(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         var firstAuthor = packageSearchMetadata.Authors.Split(',', ';', ' ').First();
         if (string.IsNullOrEmpty(firstAuthor))
         {
@@ -76,6 +85,7 @@ public partial class Context
 
     protected virtual IEnumerable<Person> GetPackageContributors(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         var otherAuthors = packageSearchMetadata.Authors.Split(',', ';', ' ');
         if (otherAuthors.Length <= 1)
             return new List<Person>();
@@ -85,6 +95,7 @@ public partial class Context
 
     protected virtual Repository GetPackageRepository(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return new Repository()
         {
             RepoType = @"git",
@@ -97,6 +108,7 @@ public partial class Context
         IPackageSearchMetadata packageSearchMetadata
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return new PublishingConfiguration() { Registry = string.Empty, };
     }
 
@@ -105,6 +117,7 @@ public partial class Context
         NuGetFramework nugetFramework
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
             packageSearchMetadata.DependencySets,
             nugetFramework

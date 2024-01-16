@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -28,6 +29,7 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return await Task.Run(() =>
         {
             FileDictionary files = new();

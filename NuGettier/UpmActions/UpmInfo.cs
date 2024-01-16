@@ -56,7 +56,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
-        Logger.LogTrace("entered {0} command handler", "UpmInfo");
+        using var scope = Logger.TraceLocation().BeginScope(nameof(UpmInfo));
         Assert.NotNull(Configuration);
         using var context = new Upm.Context(
             configuration: Configuration!,
@@ -108,7 +108,7 @@ public partial class Program
             }
         }
 
-        Logger.LogTrace("exit {0} command handler without error", "UpmInfo");
+        Logger.LogTrace("exit {0} without error", nameof(UpmInfo));
         return 0;
     }
 }

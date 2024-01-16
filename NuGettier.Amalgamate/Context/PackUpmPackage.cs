@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
 using NuGet.Common;
@@ -34,6 +35,8 @@ public partial class Context
         CancellationToken cancellationToken
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         return await base.PackUpmPackage(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
