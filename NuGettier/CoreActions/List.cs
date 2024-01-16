@@ -43,6 +43,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
+        Logger.LogTrace("entered {0} command handler", "List");
         Assert.NotNull(Configuration);
         using var context = new Core.Context(
             configuration: Configuration!,
@@ -73,6 +74,7 @@ public partial class Program
                     Console.WriteLine($"{version}");
                 }
             }
+            Logger.LogTrace("exit {0} command handler without error (short mode)", "List");
             return 0;
         }
 
@@ -87,6 +89,8 @@ public partial class Program
                 Console.WriteLine($"* {result.Identity.Id} {result.Identity.Version}");
             }
         }
+
+        Logger.LogTrace("exit {0} command handler without error", "List");
         return 0;
     }
 }
