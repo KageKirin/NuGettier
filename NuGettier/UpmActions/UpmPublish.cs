@@ -50,6 +50,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
+        Logger.LogTrace("entered {0} command handler", "UpmPublish");
         Assert.NotNull(Configuration);
         using var context = new Upm.Context(
             configuration: Configuration!,
@@ -78,6 +79,7 @@ public partial class Program
             Logger.LogError($"publishing failed");
         }
 
+        Logger.LogTrace("exit {0} command handler with error {1}", "UpmPublish", result);
         return result;
     }
 }
