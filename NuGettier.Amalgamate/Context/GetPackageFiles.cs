@@ -43,7 +43,11 @@ public partial class Context
                 NugetFramework
             );
 
-            if (packageDependencyGroup is not null)
+            if (packageDependencyGroup is null)
+            {
+                Logger.TraceLocation().LogError("returned PackageDependencyGroup is null");
+            }
+            else
             {
                 foreach (var dependency in packageDependencyGroup.Packages)
                 {
@@ -61,7 +65,10 @@ public partial class Context
                         cancellationToken: cancellationToken
                     );
                     if (dependencyPackageStream == null)
+                    {
+                        Logger.TraceLocation().LogError("fetched PackageStream is null");
                         continue;
+                    }
 
                     using PackageArchiveReader dependencyPackageReader = new(dependencyPackageStream);
                     var packageFiles = await GetPackageFiles(
