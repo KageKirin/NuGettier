@@ -76,7 +76,10 @@ public partial class Program
         );
 
         if (packageJson == null)
+        {
+            Logger.LogError("failed to generate package.json for {0} UPM package", packageIdVersion);
             return 1;
+        }
 
         if (json)
         {
