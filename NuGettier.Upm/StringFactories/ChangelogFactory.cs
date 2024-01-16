@@ -21,6 +21,8 @@ public class ChangelogFactory : IChangelogFactory
 
     public virtual string GenerateChangelog(string name, string version, string releaseNotes)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         var template = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.CHANGELOG.md")
         );
