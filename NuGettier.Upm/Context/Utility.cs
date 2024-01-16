@@ -18,6 +18,7 @@ public partial class Context
 {
     public PackageRule GetPackageRule(string packageId)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         var defaultRule = PackageRules.Where(r => string.IsNullOrEmpty(r.Id)).FirstOrDefault(DefaultPackageRule);
 
         // descending order used for regex match, so that `.*` will match last
