@@ -14,4 +14,14 @@ public static class ILoggerExtension
         logger.LogTrace("{0}:{1}", sourceFilePath, sourceLineNumber);
         return logger;
     }
+
+    public static ILogger DebugLocation(
+        this ILogger logger,
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0
+    )
+    {
+        logger.LogDebug("{0}:{1}", sourceFilePath, sourceLineNumber);
+        return logger;
+    }
 }
