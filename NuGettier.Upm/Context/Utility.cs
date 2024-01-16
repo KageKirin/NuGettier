@@ -122,6 +122,8 @@ public partial class Context
 
     protected virtual IDictionary<string, string> PatchPackageDependencies(IDictionary<string, string> dependencies)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         return dependencies
             .Where(d => GetPackageRule(d.Key).IsIgnored == false) //< filter: remove 'ignored' dependencies
             .ToDictionary(d => PatchPackageId(d.Key), d => PatchPackageVersion(d.Key, d.Value));
