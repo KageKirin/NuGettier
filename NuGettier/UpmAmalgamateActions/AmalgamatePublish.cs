@@ -76,7 +76,7 @@ public partial class Program
 
         if (result != 0)
         {
-            Logger.LogError($"publishing failed");
+            Logger.LogError($"failed to publish amalgamated UPM package for {0}", packageIdVersion);
         }
 
         Logger.LogTrace("exit {0} command handler with error {1}", "AmalgamatePublish", result);
