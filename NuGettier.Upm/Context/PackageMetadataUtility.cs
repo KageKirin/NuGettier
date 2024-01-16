@@ -108,6 +108,7 @@ public partial class Context
         IPackageSearchMetadata packageSearchMetadata
     )
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return new PublishingConfiguration() { Registry = string.Empty, };
     }
 
