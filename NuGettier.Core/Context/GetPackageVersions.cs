@@ -28,12 +28,13 @@ public partial class Context
         IEnumerable<PackageMetadataResource> resources = await Repositories.GetResourceAsync<PackageMetadataResource>(
             cancellationToken
         );
+        using var nugetLogger = NuGetLogger.Create(LoggerFactory);
         var packages = await resources.GetMetadataAsync(
             packageId,
             includePrerelease: preRelease,
             includeUnlisted: false,
             Cache,
-            NullLogger.Instance,
+            nugetLogger,
             cancellationToken
         );
         return packages.OrderByDescending(p => p.Identity.Version);
