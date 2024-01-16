@@ -68,6 +68,7 @@ public partial class Context
 
     protected virtual Person GetPackageAuthor(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         var firstAuthor = packageSearchMetadata.Authors.Split(',', ';', ' ').First();
         if (string.IsNullOrEmpty(firstAuthor))
         {
