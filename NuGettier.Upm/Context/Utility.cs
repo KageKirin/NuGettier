@@ -131,6 +131,8 @@ public partial class Context
 
     protected virtual PackageJson ConvertToPackageJson(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
         return new PackageJson()
         {
             Name = GetPackageId(packageSearchMetadata),
