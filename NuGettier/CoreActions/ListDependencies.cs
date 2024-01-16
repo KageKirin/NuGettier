@@ -44,6 +44,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
+        Logger.LogTrace("entered {0} command handler", "ListDependencies");
         Assert.NotNull(Configuration);
         using var context = new Core.Context(
             configuration: Configuration!,
@@ -75,6 +76,7 @@ public partial class Program
                     Console.WriteLine($"{kvp.Key}@{kvp.Value}");
                 }
             }
+            Logger.LogTrace("exit {0} command handler without error (short mode)", "ListDependencies");
             return 0;
         }
 
@@ -116,8 +118,9 @@ public partial class Program
                     }
                 }
             }
-            return 0;
         }
+
+        Logger.LogTrace("exit {0} command handler without error", "ListDependencies");
         return 0;
     }
 }
