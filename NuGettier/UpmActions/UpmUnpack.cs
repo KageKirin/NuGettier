@@ -57,6 +57,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
+        Logger.LogTrace("entered {0} command handler", "UpmUnpack");
         Assert.NotNull(Configuration);
         using var context = new Upm.Context(
             configuration: Configuration!,
@@ -86,6 +87,8 @@ public partial class Program
             Logger.LogInformation($"writing unpacked package {packageIdentifier}");
             await package.WriteToDirectoryAsync(Path.Join(outputDirectory.FullName, $"{packageIdentifier}"));
         }
+
+        Logger.LogTrace("exit {0} command handler without error", "UpmUnpack");
         return 0;
     }
 }
