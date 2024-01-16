@@ -58,4 +58,16 @@ public static class ILoggerExtension
         logger.LogDebug("{0}() {1}:{2}", memberName, sourceFilePath, sourceLineNumber);
         return logger;
     }
+
+    public static ILogger DebugSource(
+        this ILogger logger,
+        object obj,
+        [CallerMemberName] string memberName = "",
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0
+    )
+    {
+        logger.LogDebug("{0}.{1}() {2}:{3}", obj.GetType().FullName, memberName, sourceFilePath, sourceLineNumber);
+        return logger;
+    }
 }
