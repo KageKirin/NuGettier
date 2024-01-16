@@ -38,6 +38,11 @@ public partial class Context
         Assert.NotNull(packageRule);
         if (packageRule.IsRecursive)
         {
+            Logger.LogDebug(
+                "recursing dependencies for {0}@{1}",
+                packageReader.NuspecReader.GetIdentity().Id,
+                packageReader.NuspecReader.GetIdentity().Version
+            );
             var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
                 packageReader.NuspecReader.GetDependencyGroups(),
                 NugetFramework
