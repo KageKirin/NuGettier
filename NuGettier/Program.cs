@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DotNetConfig;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
 using Xunit;
@@ -24,7 +25,10 @@ public partial class Program
     {
         get
         {
-            configurationRoot ??= new ConfigurationBuilder().AddDotNetConfig().Build();
+            configurationRoot ??= new ConfigurationBuilder() //
+                .AddJsonFile("appconfig.json", optional: false, reloadOnChange: false)
+                .AddDotNetConfig()
+                .Build();
             return configurationRoot;
         }
     }
