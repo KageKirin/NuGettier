@@ -78,7 +78,10 @@ public partial class Program
         );
 
         if (tuple is null)
+        {
+            Logger.LogError("failed to pack UPM package for {0}", packageIdVersion);
             return 1;
+        }
 
         var (packageIdentifier, package) = tuple!;
         using (package)
