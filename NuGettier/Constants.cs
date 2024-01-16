@@ -10,4 +10,5 @@ public partial class Program
     const string kUnityKey = "unity";
     const string kPrereleaseSuffixKey = "prerelease-suffix";
     const string kBuildmetaSuffixKey = "buildmeta-suffix";
+    const string kTimeOutKey = "timeout";
 }

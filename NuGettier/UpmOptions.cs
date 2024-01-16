@@ -69,7 +69,7 @@ public partial class Program
         new(
             aliases: ["--timeout", "-w"],
             description: "Time out (in seconds)",
-            getDefaultValue: () => 60
+            getDefaultValue: () => Configuration.GetSection(kDefaultsSection).GetValue<int>(kTimeOutKey, 60)
         )
         {
             IsRequired = false,
