@@ -28,12 +28,13 @@ public partial class Context
         );
         SearchFilter searchFilter = new(includePrerelease: true);
 
+        using var nugetLogger = NuGetLogger.Create(LoggerFactory);
         return await resources.SearchAsync(
             searchTerm,
             searchFilter,
             skip: 0,
             take: 100,
-            NullLogger.Instance,
+            nugetLogger,
             cancellationToken
         );
     }
