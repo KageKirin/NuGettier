@@ -59,7 +59,10 @@ public partial class Program
         );
 
         if (packages is null)
+        {
+            Logger.LogError("failed to get package dependencies for {0}", packageIdVersion);
             return 1;
+        }
 
         if (@short)
         {
