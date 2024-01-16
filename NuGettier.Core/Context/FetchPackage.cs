@@ -41,12 +41,15 @@ public partial class Context
         NuGetVersion? packageVersion = default;
         if (latest)
         {
+            Logger.LogTrace("fetching latest version for {0}", packageId);
             packageVersion = versions.Last();
         }
         else if (version != null)
         {
+            Logger.LogTrace("fetching version {1} for {0}", packageId, version);
             packageVersion = new NuGetVersion(version);
         }
+        Logger.LogDebug("fetching {0}@{1}", packageId, packageVersion);
 
         // no assert here
         // `null` is a valid case when latest==true and no version could not be retrieved (b/c package doesn't exist, e.g.)
@@ -84,6 +87,7 @@ public partial class Context
             }
         }
 
+        Logger.TraceLocation().LogTrace("exit {0} returning null", this.__METHOD__());
         return null;
     }
 }
