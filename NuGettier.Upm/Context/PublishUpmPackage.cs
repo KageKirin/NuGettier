@@ -34,6 +34,7 @@ public partial class Context
         string? token,
         string? npmrc,
         bool dryRun,
+        int timeOut,
         PackageAccessLevel packageAccessLevel,
         CancellationToken cancellationToken
     )
