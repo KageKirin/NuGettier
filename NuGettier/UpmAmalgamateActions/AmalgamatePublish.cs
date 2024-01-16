@@ -50,7 +50,7 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
-        Logger.LogTrace("entered {0} command handler", "AmalgamatePublish");
+        using var scope = Logger.TraceLocation().BeginScope(nameof(AmalgamatePublish));
         Assert.NotNull(Configuration);
         using var context = new Amalgamate.Context(
             configuration: Configuration!,
@@ -79,7 +79,7 @@ public partial class Program
             Logger.LogError($"failed to publish amalgamated UPM package for {0}", packageIdVersion);
         }
 
-        Logger.LogTrace("exit {0} command handler with error {1}", "AmalgamatePublish", result);
+        Logger.LogTrace("exit {0} command handler with error {1}", nameof(AmalgamatePublish), result);
         return result;
     }
 }
