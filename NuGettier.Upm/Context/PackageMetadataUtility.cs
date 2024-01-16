@@ -95,6 +95,7 @@ public partial class Context
 
     protected virtual Repository GetPackageRepository(IPackageSearchMetadata packageSearchMetadata)
     {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         return new Repository()
         {
             RepoType = @"git",
