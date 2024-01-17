@@ -11,6 +11,6 @@ public static class UriExtension
     /// <returns>Uri.AbsoluteUri without the scheme</returns>
     public static string SchemelessUri(this Uri uri)
     {
-        return uri.AbsoluteUri.Replace($"{uri.Scheme}//", "");
+        return uri.AbsoluteUri.Replace($"{uri.Scheme}//", "").Replace("https://", "").Replace("http://", "");
     }
 }
