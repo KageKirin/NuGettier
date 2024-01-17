@@ -62,9 +62,14 @@ public partial class Context
             DirectoryInfo tempDir = new(Path.Join(Path.GetTempPath(), Path.GetRandomFileName()));
             Logger.LogDebug("temp working directory: {0}", tempDir.FullName);
 
-            var packageFile = $"{packageIdentifier}.tgz";
-            Logger.LogTrace("writing package file: {0}", Path.Join(tempDir.FullName, packageFile));
-            await package.WriteToTarGzAsync(Path.Join(tempDir.FullName, packageFile));
+            FileInfo packageFile = new(Path.Join(tempDir.FullName, $"{packageIdentifier}.tgz"));
+            Logger.LogTrace("writing package file: {0}", packageFile.FullName);
+            await package.WriteToTarGzAsync(packageFile.FullName);
+            if (!packageFile.Exists)
+            {
+                Logger.TraceLocation().LogError("failed to write {0}", packageFile.FullName);
+                return -1;
+            }
 
             if (token != null)
             {
@@ -94,7 +99,7 @@ public partial class Context
                 process.StartInfo.Arguments = string.Join(
                     " ",
                     "publish",
-                    packageFile,
+                    packageFile.Name,
                     $"--registry={Target.SchemelessUri()}",
                     dryRun ? "--dry-run" : string.Empty,
                     "--verbose",
