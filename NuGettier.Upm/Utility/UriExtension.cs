@@ -13,4 +13,18 @@ public static class UriExtension
     {
         return uri.AbsoluteUri.Replace($"{uri.Scheme}//", "").Replace("https://", "").Replace("http://", "");
     }
+
+    /// <summary>
+    /// allows to get the schemeless Uri as required by `npm`
+    /// https://my-awesome-server/npmapi/@scope -> @scope
+    /// </summary>
+    /// <returns>the scope</returns>
+    public static string? Scope(this Uri uri)
+    {
+        var scopeIndex = uri.AbsolutePath.LastIndexOf(@"@");
+        if (scopeIndex < 0)
+            return null;
+
+        return uri.AbsolutePath.Substring(scopeIndex);
+    }
 }
