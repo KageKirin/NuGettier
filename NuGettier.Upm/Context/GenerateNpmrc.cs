@@ -44,13 +44,30 @@ public partial class Context
             outputDirectory.Create();
         }
 
+        if (targetNpmrc.Exists)
+        {
+            Logger.LogTrace("deleting existing .npmrc {0}", targetNpmrc.FullName);
+            targetNpmrc.Delete();
+        }
+
         if (token != null)
         {
             Logger.LogTrace("writing .npmrc to {0}", targetNpmrc.FullName);
 
-            // format is "//${schemeless_registry}/:_authToken=${token}"
-            using (var npmrcWriter = new StreamWriter(targetNpmrc.OpenWrite()))
-                await npmrcWriter.WriteLineAsync($"//{Target.SchemelessUri()}:_authToken={token}");
+            using var npmrcWriter = new StreamWriter(targetNpmrc.OpenWrite());
+            var uriScope = Target.Scope();
+            if (string.IsNullOrEmpty(uriScope))
+            {
+                // `registry=${registry}/`
+                await npmrcWriter.WriteLineAsync($"registry={Target.ScopelessAbsoluteUri()}");
+            }
+            else
+            {
+                // `${uriScope}:registry=${registry}/`
+                await npmrcWriter.WriteLineAsync($"{uriScope}:registry={Target.ScopelessAbsoluteUri()}");
+            }
+            // `//${schemeless_registry}/:_authToken=${token}`
+            await npmrcWriter.WriteLineAsync($"//{Target.SchemelessUri()}:_authToken={token}");
         }
         else if (npmrc != null)
         {
