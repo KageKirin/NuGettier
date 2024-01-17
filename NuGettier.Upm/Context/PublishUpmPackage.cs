@@ -59,25 +59,25 @@ public partial class Context
         using (package)
         {
             int exitCode = -2;
-            var tempDir = Path.Join(Path.GetTempPath(), Path.GetRandomFileName());
-            Logger.LogDebug("temp working directory: {0}", tempDir);
+            DirectoryInfo tempDir = new(Path.Join(Path.GetTempPath(), Path.GetRandomFileName()));
+            Logger.LogDebug("temp working directory: {0}", tempDir.FullName);
 
             var packageFile = $"{packageIdentifier}.tgz";
-            Logger.LogTrace("writing package file: {0}", Path.Join(tempDir, packageFile));
-            await package.WriteToTarGzAsync(Path.Join(tempDir, packageFile));
+            Logger.LogTrace("writing package file: {0}", Path.Join(tempDir.FullName, packageFile));
+            await package.WriteToTarGzAsync(Path.Join(tempDir.FullName, packageFile));
 
             if (token != null)
             {
-                Logger.LogTrace("writing .npmrc to {0}", tempDir);
-                using var npmrcWriter = new StreamWriter(File.OpenWrite(Path.Join(tempDir, ".npmrc")));
+                Logger.LogTrace("writing .npmrc to {0}", tempDir.FullName);
+                using var npmrcWriter = new StreamWriter(File.OpenWrite(Path.Join(tempDir.FullName, ".npmrc")));
 
                 // format is "//${schemeless_registry}/:_authToken=${token}"
                 npmrcWriter.WriteLine($"//{Target.SchemelessUri()}:_authToken={token}");
             }
             else if (npmrc != null)
             {
-                Logger.LogTrace("copying .npmrc to {0}", tempDir);
-                File.Copy(npmrc, Path.Join(tempDir, ".npmrc"));
+                Logger.LogTrace("copying .npmrc to {0}", tempDir.FullName);
+                File.Copy(npmrc, Path.Join(tempDir.FullName, ".npmrc"));
             }
 
             try
@@ -89,7 +89,7 @@ public partial class Context
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
                 process.StartInfo.FileName = @"npm";
-                process.StartInfo.WorkingDirectory = tempDir;
+                process.StartInfo.WorkingDirectory = tempDir.FullName;
 
                 process.StartInfo.Arguments = string.Join(
                     " ",
@@ -144,8 +144,8 @@ public partial class Context
                 Logger.LogError($"NPM: {e.Message}");
             }
 
-            Logger.LogTrace("deleting temp working directory: {0}", tempDir);
-            System.IO.Directory.Delete(tempDir, recursive: true);
+            Logger.LogTrace("deleting temp working directory: {0}", tempDir.FullName);
+            tempDir.Delete(recursive: true);
             return exitCode;
         }
     }
