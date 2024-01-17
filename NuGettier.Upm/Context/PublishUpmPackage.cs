@@ -71,18 +71,17 @@ public partial class Context
                 return -1;
             }
 
-            if (token != null)
-            {
-                Logger.LogTrace("writing .npmrc to {0}", tempDir.FullName);
-                using var npmrcWriter = new StreamWriter(File.OpenWrite(Path.Join(tempDir.FullName, ".npmrc")));
+            var npmrcFile = await GenerateNpmrc(
+                outputDirectory: tempDir,
+                token: token,
+                npmrc: npmrc,
+                cancellationToken: cancellationToken
+            );
 
-                // format is "//${schemeless_registry}/:_authToken=${token}"
-                npmrcWriter.WriteLine($"//{Target.SchemelessUri()}:_authToken={token}");
-            }
-            else if (npmrc != null)
+            if (!npmrcFile.Exists)
             {
-                Logger.LogTrace("copying .npmrc to {0}", tempDir.FullName);
-                File.Copy(npmrc, Path.Join(tempDir.FullName, ".npmrc"));
+                Logger.TraceLocation().LogError("failed to write {0}", npmrcFile.FullName);
+                return -1;
             }
 
             try
