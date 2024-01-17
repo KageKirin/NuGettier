@@ -74,7 +74,8 @@ class NuGetLogger : NuGet.Common.ILogger, IDisposable
         ;
     }
 
-    public virtual async Task LogAsync(NuGet.Common.LogLevel level, string data) => await Task.Run(() => Log(level, data));
+    public virtual async Task LogAsync(NuGet.Common.LogLevel level, string data) =>
+        await Task.Run(() => Log(level, data));
 
     public virtual void Log(ILogMessage message)
     {

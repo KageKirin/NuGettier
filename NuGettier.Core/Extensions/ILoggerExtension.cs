@@ -38,7 +38,7 @@ public static class ILoggerExtension
         return logger;
     }
 
-        public static ILogger DebugLocation(
+    public static ILogger DebugLocation(
         this ILogger logger,
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
