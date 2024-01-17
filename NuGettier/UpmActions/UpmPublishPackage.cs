@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.CommandLine;
+using System.CommandLine.Binding;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using System.CommandLine.NamingConventionBinder;
@@ -14,34 +15,23 @@ namespace NuGettier;
 
 public partial class Program
 {
-    private static Command UpmPublishCommand =>
-        new Command("publish", "repack the given NuPkg at the given version as Unity package and publish")
+    private static Command UpmPublishPackageCommand =>
+        new Command("publish-package", "publish a pre-packed UPM package")
         {
-            PackageIdVersionArgument,
-            IncludePrereleaseOption,
-            SourceRepositoriesOption,
+            PackageFileArgument,
             TargetRegistryOption,
-            UpmUnityVersionOption,
-            UpmPrereleaseSuffixOption,
-            UpmBuildmetaSuffixOption,
-            UpmRepositoryUrlOption,
             UpmDirectoryUrlOption,
             UpmTokenOption,
             UpmNpmrcOption,
             UpmDryRunOption,
             UpmTimeOutOption,
             UpmPackageAccessLevel,
-        }.WithHandler(CommandHandler.Create(UpmPublish));
+        }.WithHandler(CommandHandler.Create(UpmPublishPackage));
 
-    private static async Task<int> UpmPublish(
-        string packageIdVersion,
-        bool preRelease,
-        IEnumerable<Uri> sources,
+    private static async Task<int> UpmPublishPackage(
+        FileInfo packageFile,
         Uri target,
         string unity,
-        string? prereleaseSuffix,
-        string? buildmetaSuffix,
-        string? repository,
         string? directory,
         string? token,
         string? npmrc,
@@ -52,23 +42,21 @@ public partial class Program
         CancellationToken cancellationToken
     )
     {
-        using var scope = Logger.TraceLocation().BeginScope(nameof(UpmPublish));
+        using var scope = Logger.TraceLocation().BeginScope(nameof(UpmPublishPackage));
         Assert.NotNull(Configuration);
         using var context = new Upm.Context(
             configuration: Configuration!,
-            sources: sources,
-            minUnityVersion: unity,
+            sources: Array.Empty<Uri>(),
+            minUnityVersion: (UpmUnityVersionOption as IValueDescriptor<string>).GetDefaultValue() as string
+                ?? string.Empty,
             target: target,
-            repository: repository,
-            directory: directory,
+            repository: null,
+            directory: null,
             console: console,
             loggerFactory: MainLoggerFactory
         );
-        var result = await context.PublishUpmPackage(
-            packageIdVersion: packageIdVersion,
-            preRelease: preRelease,
-            prereleaseSuffix: prereleaseSuffix,
-            buildmetaSuffix: buildmetaSuffix,
+        var result = await context.PublishPackedUpmPackage(
+            packageFile: packageFile,
             token: token,
             npmrc: npmrc,
             dryRun: dryRun,
@@ -79,10 +67,10 @@ public partial class Program
 
         if (result != 0)
         {
-            Logger.LogError("failed to publish UPM package for {0}", packageIdVersion);
+            Logger.LogError("failed to publish UPM package {0}", packageFile.FullName);
         }
 
-        Logger.LogTrace("exit {0} command handler with error {1}", nameof(UpmPublish), result);
+        Logger.LogTrace("exit {0} command handler with error {1}", nameof(UpmPublishPackage), result);
         return result;
     }
 }
