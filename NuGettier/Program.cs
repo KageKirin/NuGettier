@@ -28,7 +28,11 @@ public partial class Program
         {
             configurationRoot ??= new ConfigurationBuilder() //
                 .AddJsonFile("appconfig.json", optional: false, reloadOnChange: false)
-                .AddJsonFile(Path.Join(Environment.CurrentDirectory, "appconfig.json"), optional: true, reloadOnChange: false)
+                .AddJsonFile(
+                    Path.Join(Environment.CurrentDirectory, "appconfig.json"),
+                    optional: true,
+                    reloadOnChange: false
+                )
                 .AddEnvironmentVariables()
                 .AddDotNetConfig()
                 .Build();
