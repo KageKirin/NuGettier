@@ -58,7 +58,6 @@ public partial class Context
         var (packageIdentifier, package) = tuple!;
         using (package)
         {
-            int exitCode = -2;
             DirectoryInfo tempDir = new(Path.Join(Path.GetTempPath(), Path.GetRandomFileName()));
             Logger.LogDebug("temp working directory: {0}", tempDir.FullName);
 
@@ -71,81 +70,21 @@ public partial class Context
                 return -1;
             }
 
-            var npmrcFile = await GenerateNpmrc(
-                outputDirectory: tempDir,
+            int exitCode = await PublishPackedUpmPackage(
+                packageFile: packageFile,
                 token: token,
                 npmrc: npmrc,
+                dryRun: dryRun,
+                timeOut: timeOut,
+                packageAccessLevel: packageAccessLevel,
                 cancellationToken: cancellationToken
             );
 
-            if (!npmrcFile.Exists)
+            if (exitCode != 0)
             {
-                Logger.TraceLocation().LogError("failed to write {0}", npmrcFile.FullName);
-                return -1;
-            }
-
-            try
-            {
-                Logger.LogTrace("creating process for `npm publish`");
-                using var process = new System.Diagnostics.Process();
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.FileName = @"npm";
-                process.StartInfo.WorkingDirectory = tempDir.FullName;
-
-                process.StartInfo.Arguments = string.Join(
-                    " ",
-                    "publish",
-                    packageFile.Name,
-                    $"--registry={Target.SchemelessUri()}",
-                    dryRun ? "--dry-run" : string.Empty,
-                    "--verbose",
-                    $"--access {packageAccessLevel.ToString().ToLowerInvariant()}"
-                );
-
-                Logger.LogDebug(
-                    "starting process for `{0} {1}`",
-                    process.StartInfo.FileName,
-                    process.StartInfo.Arguments
-                );
-                process.Start();
-
-                Logger.LogDebug(
-                    "started process for {0} (waiting {1} seconds or until termination to proceed)",
-                    process.Id,
-                    timeOut
-                );
-                if (process.WaitForExit(timeOut * 1000))
-                {
-                    Logger.LogDebug("process {0} has terminated with exit code {1}", process.Id, process.ExitCode);
-                }
-                else
-                {
-                    Logger.LogError("process {0} has timed out and will now be terminated", process.Id);
-                    process.Kill();
-                    Logger.LogError("process {0} has been terminated with exit code {1}", process.Id, process.ExitCode);
-                }
-                exitCode = process.ExitCode;
-
-                Logger.LogTrace("reading STDOUT");
-                var stdout = await process.StandardOutput.ReadToEndAsync(cancellationToken);
-                Logger.LogTrace("read STDOUT: '{0}'", stdout);
-
-                Logger.LogTrace("reading STDERR");
-                var stderr = await process.StandardError.ReadToEndAsync(cancellationToken);
-                Logger.LogTrace("read STDERR: '{0}'", stderr);
-
-                if (!string.IsNullOrEmpty(stdout))
-                    Logger.LogInformation($"NPM: {stdout}");
-
-                if (!string.IsNullOrEmpty(stderr))
-                    Logger.LogError($"NPM: {stderr}");
-            }
-            catch (Exception e)
-            {
-                Logger.LogError($"NPM: {e.Message}");
+                Logger
+                    .TraceLocation()
+                    .LogError("failed to publish UPM package for {0} (error code: {1})", packageIdVersion, exitCode);
             }
 
             Logger.LogTrace("deleting temp working directory: {0}", tempDir.FullName);
