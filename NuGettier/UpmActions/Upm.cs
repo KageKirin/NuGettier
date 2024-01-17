@@ -19,6 +19,7 @@ public partial class Program
             UpmPackCommand,
             UpmUnpackCommand,
             UpmPublishCommand,
+            UpmNpmrcCommand,
             AmalgamateCommand,
         };
 }
