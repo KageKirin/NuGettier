@@ -44,6 +44,12 @@ public partial class Context
             outputDirectory.Create();
         }
 
+        if (targetNpmrc.Exists)
+        {
+            Logger.LogTrace("deleting existing .npmrc {0}", targetNpmrc.FullName);
+            targetNpmrc.Delete();
+        }
+
         if (token != null)
         {
             Logger.LogTrace("writing .npmrc to {0}", targetNpmrc.FullName);
