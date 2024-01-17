@@ -15,6 +15,20 @@ public static class UriExtension
     }
 
     /// <summary>
+    /// allows to get the scopeless Uri as required by `npm`
+    /// https://my-awesome-server/npmapi/@scope -> my-awesome-server/npmapi/
+    /// </summary>
+    /// <returns>Uri.AbsoluteUri without the scope</returns>
+    public static string ScopelessAbsoluteUri(this Uri uri)
+    {
+        var scope = uri.Scope();
+        if (string.IsNullOrEmpty(scope))
+            return uri.AbsoluteUri;
+
+        return uri.AbsoluteUri.Replace(scope, "");
+    }
+
+    /// <summary>
     /// allows to get the schemeless Uri as required by `npm`
     /// https://my-awesome-server/npmapi/@scope -> @scope
     /// </summary>
