@@ -79,7 +79,7 @@ public partial class Program
 
         if (result != 0)
         {
-            Logger.LogError($"failed to publish UPM package for {0}", packageIdVersion);
+            Logger.LogError("failed to publish UPM package for {0}", packageIdVersion);
         }
 
         Logger.LogTrace("exit {0} command handler with error {1}", nameof(UpmPublish), result);
