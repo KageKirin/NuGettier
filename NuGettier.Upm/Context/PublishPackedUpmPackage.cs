@@ -64,6 +64,8 @@ public partial class Context
         int exitCode = -2;
         try
         {
+            var targetScope = Target.Scope();
+
             Logger.LogTrace("creating process for `npm publish`");
             using var process = new System.Diagnostics.Process();
             process.StartInfo.UseShellExecute = false;
@@ -77,7 +79,9 @@ public partial class Context
                 " ",
                 "publish",
                 packageFile.Name,
-                $"--registry={Target.ScopelessAbsoluteUri()}",
+                string.IsNullOrEmpty(targetScope)
+                    ? $"--registry={Target.ScopelessAbsoluteUri()}"
+                    : $"--scope={targetScope}",
                 dryRun ? "--dry-run" : string.Empty,
                 "--verbose",
                 $"--access={packageAccessLevel.ToString().ToLowerInvariant()}"
