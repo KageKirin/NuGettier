@@ -90,6 +90,8 @@ public partial class Context
             }
         }
 
+        if (!Path.Exists(targetNpmrc.FullName))
+            Logger.TraceLocation().LogWarning("failed to write {0}", targetNpmrc.FullName);
         Assert.True(Path.Exists(targetNpmrc.FullName));
         return targetNpmrc;
     }
