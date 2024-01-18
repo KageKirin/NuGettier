@@ -64,6 +64,8 @@ public partial class Context
         int exitCode = -2;
         try
         {
+            var targetScope = Target.Scope();
+
             Logger.LogTrace("creating process for `npm publish`");
             using var process = new System.Diagnostics.Process();
             process.StartInfo.UseShellExecute = false;
@@ -77,10 +79,12 @@ public partial class Context
                 " ",
                 "publish",
                 packageFile.Name,
-                $"--registry={Target.SchemelessUri()}",
+                string.IsNullOrEmpty(targetScope)
+                    ? $"--registry={Target.ScopelessAbsoluteUri()}"
+                    : $"--scope={targetScope}",
                 dryRun ? "--dry-run" : string.Empty,
                 "--verbose",
-                $"--access {packageAccessLevel.ToString().ToLowerInvariant()}"
+                $"--access={packageAccessLevel.ToString().ToLowerInvariant()}"
             );
 
             StringBuilder stdoutBuilder = new();
@@ -90,7 +94,7 @@ public partial class Context
                 {
                     lock (stdoutLocker)
                     {
-                        var dataTrimmed = args.Data.Trim();
+                        var dataTrimmed = args.Data?.Trim() ?? string.Empty;
                         stdoutBuilder.AppendLine(dataTrimmed);
                         Logger.LogInformation("NPM stdout: {0}", dataTrimmed);
                     }
@@ -104,7 +108,7 @@ public partial class Context
                 {
                     lock (stderrLocker)
                     {
-                        var dataTrimmed = args.Data.Trim();
+                        var dataTrimmed = args.Data?.Trim() ?? string.Empty;
                         stderrBuilder.AppendLine(dataTrimmed);
                         Logger.LogInformation("NPM stderr: {0}", dataTrimmed);
                     }
@@ -144,7 +148,8 @@ public partial class Context
         }
         catch (Exception e)
         {
-            Logger.LogError($"NPM: {e.Message}");
+            Logger.TraceLocation().LogError($"NPM: {e.Message}");
+            return -3;
         }
 
         return exitCode;
