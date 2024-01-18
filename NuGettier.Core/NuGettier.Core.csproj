@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <PropertyGroup Label="version metadata">
-    <Version>0.1.56</Version>
-    <AssemblyVersion>0.1.56.159</AssemblyVersion>
-    <FileVersion>0.1.56.531</FileVersion>
+    <Version>0.1.57</Version>
+    <AssemblyVersion>0.1.57.160</AssemblyVersion>
+    <FileVersion>0.1.57.532</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Label="project metadata">
