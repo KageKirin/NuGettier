@@ -77,7 +77,7 @@ public partial class Context
                 " ",
                 "publish",
                 packageFile.Name,
-                $"--registry={Target.SchemelessUri()}",
+                $"--registry={Target.ScopelessAbsoluteUri()}",
                 dryRun ? "--dry-run" : string.Empty,
                 "--verbose",
                 $"--access={packageAccessLevel.ToString().ToLowerInvariant()}"
