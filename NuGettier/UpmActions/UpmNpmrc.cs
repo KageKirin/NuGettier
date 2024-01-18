@@ -53,7 +53,7 @@ public partial class Program
             cancellationToken: cancellationToken
         );
 
-        if (!fileInfo.Exists)
+        if (!Path.Exists(fileInfo.FullName))
         {
             Logger.LogError("failed to generate .npmrc {0}", fileInfo.FullName);
             return 1;
