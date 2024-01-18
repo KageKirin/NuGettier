@@ -55,20 +55,23 @@ public partial class Context
         {
             Logger.LogTrace("writing .npmrc to {0}", targetNpmrc.FullName);
 
-            using var npmrcWriter = new StreamWriter(targetNpmrc.OpenWrite());
-            var uriScope = Target.Scope();
-            if (string.IsNullOrEmpty(uriScope))
+            using (var targetStream = targetNpmrc.OpenWrite())
+            using (var npmrcWriter = new StreamWriter(targetStream))
             {
-                // `registry=${registry}/`
-                npmrcWriter.WriteLine($"registry={Target.ScopelessAbsoluteUri()}");
+                var uriScope = Target.Scope();
+                if (string.IsNullOrEmpty(uriScope))
+                {
+                    // `registry=${registry}/`
+                    npmrcWriter.WriteLine($"registry={Target.ScopelessAbsoluteUri()}");
+                }
+                else
+                {
+                    // `${uriScope}:registry=${registry}/`
+                    npmrcWriter.WriteLine($"{uriScope}:registry={Target.ScopelessAbsoluteUri()}");
+                }
+                // `//${schemeless_registry}/:_authToken=${token}`
+                npmrcWriter.WriteLine($"//{Target.SchemelessUri()}:_authToken={token}");
             }
-            else
-            {
-                // `${uriScope}:registry=${registry}/`
-                npmrcWriter.WriteLine($"{uriScope}:registry={Target.ScopelessAbsoluteUri()}");
-            }
-            // `//${schemeless_registry}/:_authToken=${token}`
-            npmrcWriter.WriteLine($"//{Target.SchemelessUri()}:_authToken={token}");
             targetNpmrc.Refresh();
         }
         else if (!string.IsNullOrEmpty(npmrc))
