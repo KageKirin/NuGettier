@@ -44,10 +44,11 @@ public partial class Context
             outputDirectory.Create();
         }
 
-        if (Path.Exists(targetNpmrc.FullName))
+        if (targetNpmrc.Exists)
         {
             Logger.LogTrace("deleting existing .npmrc {0}", targetNpmrc.FullName);
             targetNpmrc.Delete();
+            targetNpmrc.Refresh();
         }
 
         if (!string.IsNullOrEmpty(token))
@@ -68,14 +69,16 @@ public partial class Context
             }
             // `//${schemeless_registry}/:_authToken=${token}`
             npmrcWriter.WriteLine($"//{Target.SchemelessUri()}:_authToken={token}");
+            targetNpmrc.Refresh();
         }
         else if (!string.IsNullOrEmpty(npmrc))
         {
             FileInfo sourceNpmrc = new(npmrc);
-            if (Path.Exists(sourceNpmrc.FullName))
+            if (sourceNpmrc.Exists)
             {
                 Logger.LogTrace("copying {0} to {1}", sourceNpmrc.FullName, targetNpmrc.FullName);
                 sourceNpmrc.CopyTo(targetNpmrc.FullName, overwrite: true);
+                targetNpmrc.Refresh();
             }
             else
             {
@@ -89,9 +92,10 @@ public partial class Context
             }
         }
 
-        if (!Path.Exists(targetNpmrc.FullName))
+        targetNpmrc.Refresh();
+        if (!targetNpmrc.Exists)
             Logger.TraceLocation().LogWarning("failed to write {0}", targetNpmrc.FullName);
-        Assert.True(Path.Exists(targetNpmrc.FullName));
+        Assert.True(targetNpmrc.Exists);
         return targetNpmrc;
     }
 }
