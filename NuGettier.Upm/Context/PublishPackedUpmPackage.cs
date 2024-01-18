@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.IO;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -81,8 +82,38 @@ public partial class Context
                 $"--access {packageAccessLevel.ToString().ToLowerInvariant()}"
             );
 
+            StringBuilder stdoutBuilder = new();
+            object stdoutLocker = new object();
+            process.OutputDataReceived += new DataReceivedEventHandler(
+                (object sender, DataReceivedEventArgs args) =>
+                {
+                    lock (stdoutLocker)
+                    {
+                        var dataTrimmed = args.Data.Trim();
+                        stdoutBuilder.AppendLine(dataTrimmed);
+                        Logger.LogInformation("NPM stdout: {0}", dataTrimmed);
+                    }
+                }
+            );
+
+            StringBuilder stderrBuilder = new();
+            object stderrLocker = new object();
+            process.ErrorDataReceived += new DataReceivedEventHandler(
+                (object sender, DataReceivedEventArgs args) =>
+                {
+                    lock (stderrLocker)
+                    {
+                        var dataTrimmed = args.Data.Trim();
+                        stderrBuilder.AppendLine(dataTrimmed);
+                        Logger.LogInformation("NPM stderr: {0}", dataTrimmed);
+                    }
+                }
+            );
+
             Logger.LogDebug("starting process for `{0} {1}`", process.StartInfo.FileName, process.StartInfo.Arguments);
             process.Start();
+            process.BeginErrorReadLine();
+            process.BeginOutputReadLine();
 
             Logger.LogDebug(
                 "started process for {0} (waiting {1} seconds or until termination to proceed)",
@@ -101,13 +132,8 @@ public partial class Context
             }
             exitCode = process.ExitCode;
 
-            Logger.LogTrace("reading STDOUT");
-            var stdout = process.StandardOutput.ReadToEnd();
-            Logger.LogTrace("read STDOUT: '{0}'", stdout);
-
-            Logger.LogTrace("reading STDERR");
-            var stderr = process.StandardError.ReadToEnd();
-            Logger.LogTrace("read STDERR: '{0}'", stderr);
+            var stdout = stdoutBuilder.ToString();
+            var stderr = stderrBuilder.ToString();
 
             if (!string.IsNullOrEmpty(stdout))
                 Logger.LogInformation($"NPM: {stdout}");
