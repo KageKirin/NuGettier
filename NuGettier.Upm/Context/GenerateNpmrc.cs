@@ -44,7 +44,7 @@ public partial class Context
             outputDirectory.Create();
         }
 
-        if (Path.Exists(targetNpmrc.FullName))
+        if (targetNpmrc.Exists)
         {
             Logger.LogTrace("deleting existing .npmrc {0}", targetNpmrc.FullName);
             targetNpmrc.Delete();
@@ -74,7 +74,7 @@ public partial class Context
         else if (!string.IsNullOrEmpty(npmrc))
         {
             FileInfo sourceNpmrc = new(npmrc);
-            if (Path.Exists(sourceNpmrc.FullName))
+            if (sourceNpmrc.Exists)
             {
                 Logger.LogTrace("copying {0} to {1}", sourceNpmrc.FullName, targetNpmrc.FullName);
                 sourceNpmrc.CopyTo(targetNpmrc.FullName, overwrite: true);
@@ -93,9 +93,9 @@ public partial class Context
         }
 
         targetNpmrc.Refresh();
-        if (!Path.Exists(targetNpmrc.FullName))
+        if (!targetNpmrc.Exists)
             Logger.TraceLocation().LogWarning("failed to write {0}", targetNpmrc.FullName);
-        Assert.True(Path.Exists(targetNpmrc.FullName));
+        Assert.True(targetNpmrc.Exists);
         return targetNpmrc;
     }
 }
