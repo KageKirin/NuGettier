@@ -80,7 +80,7 @@ public partial class Context
                 $"--registry={Target.SchemelessUri()}",
                 dryRun ? "--dry-run" : string.Empty,
                 "--verbose",
-                $"--access {packageAccessLevel.ToString().ToLowerInvariant()}"
+                $"--access={packageAccessLevel.ToString().ToLowerInvariant()}"
             );
 
             StringBuilder stdoutBuilder = new();
