@@ -55,7 +55,7 @@ public partial class Context
         );
 
         npmrcFile.Refresh();
-        if (!Path.Exists(npmrcFile.FullName))
+        if (!npmrcFile.Exists)
         {
             Logger.TraceLocation().LogError("failed to write {0}", npmrcFile.FullName);
             return -1;
