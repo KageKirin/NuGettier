@@ -50,7 +50,7 @@ public partial class Context
             targetNpmrc.Delete();
         }
 
-        if (token != null)
+        if (!string.IsNullOrEmpty(token))
         {
             Logger.LogTrace("writing .npmrc to {0}", targetNpmrc.FullName);
 
@@ -69,7 +69,7 @@ public partial class Context
             // `//${schemeless_registry}/:_authToken=${token}`
             await npmrcWriter.WriteLineAsync($"//{Target.SchemelessUri()}:_authToken={token}");
         }
-        else if (npmrc != null)
+        else if (!string.IsNullOrEmpty(npmrc))
         {
             FileInfo sourceNpmrc = new(npmrc);
 
