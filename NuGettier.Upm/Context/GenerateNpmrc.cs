@@ -55,20 +55,23 @@ public partial class Context
         {
             Logger.LogTrace("writing .npmrc to {0}", targetNpmrc.FullName);
 
-            using var npmrcWriter = new StreamWriter(targetNpmrc.OpenWrite());
-            var uriScope = Target.Scope();
-            if (string.IsNullOrEmpty(uriScope))
+            using (var targetStream = targetNpmrc.OpenWrite())
+            using (var npmrcWriter = new StreamWriter(targetStream))
             {
-                // `registry=${registry}/`
-                npmrcWriter.WriteLine($"registry={Target.ScopelessAbsoluteUri()}");
+                var uriScope = Target.Scope();
+                if (string.IsNullOrEmpty(uriScope))
+                {
+                    // `registry=${registry}/`
+                    await npmrcWriter.WriteLineAsync($"registry={Target.ScopelessAbsoluteUri()}");
+                }
+                else
+                {
+                    // `${uriScope}:registry=${registry}/`
+                    await npmrcWriter.WriteLineAsync($"{uriScope}:registry={Target.ScopelessAbsoluteUri()}");
+                }
+                // `//${schemeless_registry}/:_authToken=${token}`
+                await npmrcWriter.WriteLineAsync($"//{Target.SchemelessUri()}:_authToken={token}");
             }
-            else
-            {
-                // `${uriScope}:registry=${registry}/`
-                npmrcWriter.WriteLine($"{uriScope}:registry={Target.ScopelessAbsoluteUri()}");
-            }
-            // `//${schemeless_registry}/:_authToken=${token}`
-            npmrcWriter.WriteLine($"//{Target.SchemelessUri()}:_authToken={token}");
             targetNpmrc.Refresh();
         }
         else if (!string.IsNullOrEmpty(npmrc))
@@ -77,7 +80,7 @@ public partial class Context
             if (sourceNpmrc.Exists)
             {
                 Logger.LogTrace("copying {0} to {1}", sourceNpmrc.FullName, targetNpmrc.FullName);
-                sourceNpmrc.CopyTo(targetNpmrc.FullName, overwrite: true);
+                sourceNpmrc.CopyTo(targetNpmrc.FullName, overwrite: true); //< keeping sync copy here results in less code
                 targetNpmrc.Refresh();
             }
             else
