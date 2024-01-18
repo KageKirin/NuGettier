@@ -148,7 +148,8 @@ public partial class Context
         }
         catch (Exception e)
         {
-            Logger.LogError($"NPM: {e.Message}");
+            Logger.TraceLocation().LogError($"NPM: {e.Message}");
+            return -3;
         }
 
         return exitCode;
