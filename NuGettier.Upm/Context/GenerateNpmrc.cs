@@ -90,7 +90,7 @@ public partial class Context
             }
         }
 
-        Assert.True(targetNpmrc.Exists);
+        Assert.True(Path.Exists(targetNpmrc.FullName));
         return targetNpmrc;
     }
 }
