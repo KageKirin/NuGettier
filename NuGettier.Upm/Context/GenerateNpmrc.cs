@@ -76,7 +76,7 @@ public partial class Context
             if (sourceNpmrc.Exists)
             {
                 Logger.LogTrace("copying {0} to {1}", sourceNpmrc.FullName, targetNpmrc.FullName);
-                await sourceNpmrc.OpenRead().CopyToAsync(targetNpmrc.OpenWrite());
+                sourceNpmrc.CopyTo(targetNpmrc.FullName, overwrite: true);
             }
             else
             {
