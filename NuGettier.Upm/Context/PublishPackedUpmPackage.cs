@@ -90,7 +90,7 @@ public partial class Context
                 {
                     lock (stdoutLocker)
                     {
-                        var dataTrimmed = args.Data.Trim();
+                        var dataTrimmed = args.Data?.Trim() ?? string.Empty;
                         stdoutBuilder.AppendLine(dataTrimmed);
                         Logger.LogInformation("NPM stdout: {0}", dataTrimmed);
                     }
@@ -104,7 +104,7 @@ public partial class Context
                 {
                     lock (stderrLocker)
                     {
-                        var dataTrimmed = args.Data.Trim();
+                        var dataTrimmed = args.Data?.Trim() ?? string.Empty;
                         stderrBuilder.AppendLine(dataTrimmed);
                         Logger.LogInformation("NPM stderr: {0}", dataTrimmed);
                     }
