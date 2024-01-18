@@ -96,8 +96,22 @@ public partial class Context
         }
 
         targetNpmrc.Refresh();
-        if (!targetNpmrc.Exists)
+        if (targetNpmrc.Exists)
+        {
+            using (var targetStream = targetNpmrc.OpenRead())
+            using (var npmrcReader = new StreamReader(targetStream))
+            {
+                Logger.LogInformation(
+                    "generated {0} with following contents:\n{1}",
+                    targetNpmrc.FullName,
+                    await npmrcReader.ReadToEndAsync()
+                );
+            }
+        }
+        else
+        {
             Logger.TraceLocation().LogWarning("failed to write {0}", targetNpmrc.FullName);
+        }
         Assert.True(targetNpmrc.Exists);
         return targetNpmrc;
     }
