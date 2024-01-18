@@ -44,7 +44,7 @@ public partial class Context
             outputDirectory.Create();
         }
 
-        if (targetNpmrc.Exists)
+        if (Path.Exists(targetNpmrc.FullName))
         {
             Logger.LogTrace("deleting existing .npmrc {0}", targetNpmrc.FullName);
             targetNpmrc.Delete();
@@ -72,8 +72,7 @@ public partial class Context
         else if (!string.IsNullOrEmpty(npmrc))
         {
             FileInfo sourceNpmrc = new(npmrc);
-
-            if (sourceNpmrc.Exists)
+            if (Path.Exists(sourceNpmrc.FullName))
             {
                 Logger.LogTrace("copying {0} to {1}", sourceNpmrc.FullName, targetNpmrc.FullName);
                 sourceNpmrc.CopyTo(targetNpmrc.FullName, overwrite: true);
