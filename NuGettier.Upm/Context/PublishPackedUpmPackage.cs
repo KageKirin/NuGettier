@@ -53,7 +53,7 @@ public partial class Context
             cancellationToken: cancellationToken
         );
 
-        if (!npmrcFile.Exists)
+        if (!Path.Exists(npmrcFile.FullName))
         {
             Logger.TraceLocation().LogError("failed to write {0}", npmrcFile.FullName);
             return -1;
