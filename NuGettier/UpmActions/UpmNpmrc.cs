@@ -54,7 +54,7 @@ public partial class Program
         );
 
         fileInfo.Refresh();
-        if (!Path.Exists(fileInfo.FullName))
+        if (!fileInfo.Exists)
         {
             Logger.LogError("failed to generate .npmrc {0}", fileInfo.FullName);
             return 1;
