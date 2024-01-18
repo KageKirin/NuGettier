@@ -80,7 +80,7 @@ public partial class Context
             if (sourceNpmrc.Exists)
             {
                 Logger.LogTrace("copying {0} to {1}", sourceNpmrc.FullName, targetNpmrc.FullName);
-                sourceNpmrc.CopyTo(targetNpmrc.FullName, overwrite: true);
+                sourceNpmrc.CopyTo(targetNpmrc.FullName, overwrite: true); //< keeping sync copy here results in less code
                 targetNpmrc.Refresh();
             }
             else
