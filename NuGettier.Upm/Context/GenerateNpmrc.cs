@@ -59,15 +59,15 @@ public partial class Context
             if (string.IsNullOrEmpty(uriScope))
             {
                 // `registry=${registry}/`
-                await npmrcWriter.WriteLineAsync($"registry={Target.ScopelessAbsoluteUri()}");
+                npmrcWriter.WriteLine($"registry={Target.ScopelessAbsoluteUri()}");
             }
             else
             {
                 // `${uriScope}:registry=${registry}/`
-                await npmrcWriter.WriteLineAsync($"{uriScope}:registry={Target.ScopelessAbsoluteUri()}");
+                npmrcWriter.WriteLine($"{uriScope}:registry={Target.ScopelessAbsoluteUri()}");
             }
             // `//${schemeless_registry}/:_authToken=${token}`
-            await npmrcWriter.WriteLineAsync($"//{Target.SchemelessUri()}:_authToken={token}");
+            npmrcWriter.WriteLine($"//{Target.SchemelessUri()}:_authToken={token}");
         }
         else if (!string.IsNullOrEmpty(npmrc))
         {
