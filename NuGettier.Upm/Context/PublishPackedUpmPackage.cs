@@ -87,12 +87,14 @@ public partial class Context
                 $"--access={packageAccessLevel.ToString().ToLowerInvariant()}"
             );
 
+            object locker = new object();
             StringBuilder stdoutBuilder = new();
-            object stdoutLocker = new object();
+            StringBuilder stderrBuilder = new();
+
             process.OutputDataReceived += new DataReceivedEventHandler(
                 (object sender, DataReceivedEventArgs args) =>
                 {
-                    lock (stdoutLocker)
+                    lock (locker)
                     {
                         var dataTrimmed = args.Data?.Trim() ?? string.Empty;
                         stdoutBuilder.AppendLine(dataTrimmed);
@@ -101,16 +103,22 @@ public partial class Context
                 }
             );
 
-            StringBuilder stderrBuilder = new();
-            object stderrLocker = new object();
             process.ErrorDataReceived += new DataReceivedEventHandler(
                 (object sender, DataReceivedEventArgs args) =>
                 {
-                    lock (stderrLocker)
+                    lock (locker)
                     {
                         var dataTrimmed = args.Data?.Trim() ?? string.Empty;
-                        stderrBuilder.AppendLine(dataTrimmed);
-                        Logger.LogInformation("NPM stderr: {0}", dataTrimmed);
+                        if (dataTrimmed.StartsWith(@"npm ERR!"))
+                        {
+                            stderrBuilder.AppendLine(dataTrimmed);
+                            Logger.LogInformation("NPM stderr: {0}", dataTrimmed);
+                        }
+                        else
+                        {
+                            stdoutBuilder.AppendLine(dataTrimmed);
+                            Logger.LogInformation("NPM stdout: {0}", dataTrimmed);
+                        }
                     }
                 }
             );
