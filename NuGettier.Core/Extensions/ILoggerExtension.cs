@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 public static class ILoggerExtension
@@ -69,5 +71,17 @@ public static class ILoggerExtension
     {
         logger.LogDebug("{0}.{1}() {2}:{3}", obj.GetType().FullName, memberName, sourceFilePath, sourceLineNumber);
         return logger;
+    }
+
+    public static async Task LogAsync(
+        this ILogger logger,
+        LogLevel logLevel,
+        CancellationToken cancellationToken,
+        string? message,
+        params object?[] args
+    )
+    {
+        await Task.Run(() => logger.Log(logLevel, message, args));
+        await Task.Delay(1_000, cancellationToken);
     }
 }
