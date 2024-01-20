@@ -119,4 +119,11 @@ public static class ILoggerExtension
         string? message,
         params object?[] args
     ) => await logger.LogAsync(LogLevel.Error, cancellationToken, message, args);
+
+    public static async Task LogCriticalAsync(
+        this ILogger logger,
+        CancellationToken cancellationToken,
+        string? message,
+        params object?[] args
+    ) => await logger.LogAsync(LogLevel.Critical, cancellationToken, message, args);
 }
