@@ -156,7 +156,7 @@ public partial class Context
         }
         catch (Exception e)
         {
-            Logger.TraceLocation().LogError($"NPM: {e.Message}");
+            Logger.TraceLocation().LogCritical("NPM [exception]: {0}", e.Message);
             return -3;
         }
 
