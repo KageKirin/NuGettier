@@ -84,4 +84,11 @@ public static class ILoggerExtension
         await Task.Run(() => logger.Log(logLevel, message, args));
         await Task.Delay(1_000, cancellationToken);
     }
+
+    public static async Task LogTraceAsync(
+        this ILogger logger,
+        CancellationToken cancellationToken,
+        string? message,
+        params object?[] args
+    ) => await logger.LogAsync(LogLevel.Trace, cancellationToken, message, args);
 }
