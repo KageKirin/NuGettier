@@ -98,4 +98,11 @@ public static class ILoggerExtension
         string? message,
         params object?[] args
     ) => await logger.LogAsync(LogLevel.Debug, cancellationToken, message, args);
+
+    public static async Task LogInformationAsync(
+        this ILogger logger,
+        CancellationToken cancellationToken,
+        string? message,
+        params object?[] args
+    ) => await logger.LogAsync(LogLevel.Information, cancellationToken, message, args);
 }
