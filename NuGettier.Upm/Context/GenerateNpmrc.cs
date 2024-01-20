@@ -98,15 +98,11 @@ public partial class Context
         targetNpmrc.Refresh();
         if (targetNpmrc.Exists)
         {
-            using (var targetStream = targetNpmrc.OpenRead())
-            using (var npmrcReader = new StreamReader(targetStream))
-            {
-                Logger.LogInformation(
-                    "generated {0} with following contents:\n{1}",
-                    targetNpmrc.FullName,
-                    await npmrcReader.ReadToEndAsync()
-                );
-            }
+            Logger.LogInformation(
+                "generated {0} with following contents:\n{1}",
+                targetNpmrc.FullName,
+                await File.ReadAllTextAsync(targetNpmrc.FullName, cancellationToken)
+            );
         }
         else
         {
