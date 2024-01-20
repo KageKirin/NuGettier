@@ -27,6 +27,9 @@ namespace NuGettier.Upm;
 
 public partial class Context
 {
+    internal const string kNpmErrorMarker = @"npm ERR!";
+    internal const string kNpmErrorLog = @"npm ERR! A complete log of this run can be found in:";
+
     public virtual async Task<int> PublishPackedUpmPackage(
         FileInfo packageFile,
         string? token,
@@ -87,14 +90,16 @@ public partial class Context
                 $"--access={packageAccessLevel.ToString().ToLowerInvariant()}"
             );
 
-            object locker = new object();
+            object stdoutBuilderLocker = new object();
+            object stderrBuilderLocker = new object();
             StringBuilder stdoutBuilder = new();
             StringBuilder stderrBuilder = new();
+            string errorLog = string.Empty;
 
             process.OutputDataReceived += new DataReceivedEventHandler(
                 (object sender, DataReceivedEventArgs args) =>
                 {
-                    lock (locker)
+                    lock (stdoutBuilderLocker)
                     {
                         var dataTrimmed = args.Data?.Trim() ?? string.Empty;
                         stdoutBuilder.AppendLine(dataTrimmed);
@@ -106,18 +111,26 @@ public partial class Context
             process.ErrorDataReceived += new DataReceivedEventHandler(
                 (object sender, DataReceivedEventArgs args) =>
                 {
-                    lock (locker)
+                    var dataTrimmed = args.Data?.Trim() ?? string.Empty;
+                    if (dataTrimmed.StartsWith(kNpmErrorMarker))
                     {
-                        var dataTrimmed = args.Data?.Trim() ?? string.Empty;
-                        if (dataTrimmed.StartsWith(@"npm ERR!"))
+                        lock (stderrBuilderLocker)
                         {
                             stderrBuilder.AppendLine(dataTrimmed);
-                            Logger.LogInformation("NPM stderr: {0}", dataTrimmed);
+                            Logger.LogError("NPM stderr: {0}", dataTrimmed);
+
+                            if (dataTrimmed.Contains(kNpmErrorLog))
+                            {
+                                errorLog = dataTrimmed.Replace(kNpmErrorLog, "").Trim();
+                            }
                         }
-                        else
+                    }
+                    else
+                    {
+                        lock (stdoutBuilderLocker)
                         {
                             stdoutBuilder.AppendLine(dataTrimmed);
-                            Logger.LogInformation("NPM stdout: {0}", dataTrimmed);
+                            Logger.LogInformation("NPM stderr: {0}", dataTrimmed);
                         }
                     }
                 }
@@ -141,18 +154,22 @@ public partial class Context
             {
                 Logger.LogError("process {0} has timed out and will now be terminated", process.Id);
                 process.Kill(entireProcessTree: true);
-                Logger.LogError("process {0} has been terminated with exit code {1}", process.Id, process.ExitCode);
+                Logger.LogCritical("process {0} has been terminated with exit code {1}", process.Id, process.ExitCode);
             }
             exitCode = process.ExitCode;
 
-            var stdout = stdoutBuilder.ToString();
-            var stderr = stderrBuilder.ToString();
+            if (stdoutBuilder.Length > 0)
+                await Logger.LogInformationAsync(cancellationToken, "NPM [stdout]: {0}", stdoutBuilder.ToString());
 
-            if (!string.IsNullOrEmpty(stdout))
-                Logger.LogInformation($"NPM: {stdout}");
+            if (stderrBuilder.Length > 0)
+                await Logger.LogErrorAsync(cancellationToken, "NPM [stderr]: {0}", stderrBuilder.ToString());
 
-            if (!string.IsNullOrEmpty(stderr))
-                Logger.LogError($"NPM: {stderr}");
+            if (!string.IsNullOrEmpty(errorLog) && Path.Exists(errorLog))
+                await Logger.LogErrorAsync(
+                    cancellationToken,
+                    "NPM error log: {0}",
+                    await File.ReadAllTextAsync(errorLog, cancellationToken)
+                );
         }
         catch (Exception e)
         {
