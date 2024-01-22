@@ -65,7 +65,7 @@ public partial class Context
         var packageRule = GetPackageRule(packageJson.Name);
 
         // patch packageJson.Name, .Version and .MinUnityVersion
-        packageJson.Name = PatchPackageId(packageJson.Name);
+        packageJson.Name = PatchPackageId(packageId: packageJson.Name);
         packageJson.Version = PatchPackageVersion(
             packageId: packageJson.Name,
             packageVersion: packageJson.Version,
