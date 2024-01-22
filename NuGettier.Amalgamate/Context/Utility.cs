@@ -15,7 +15,11 @@ namespace NuGettier.Amalgamate;
 
 public partial class Context
 {
-    public override Upm.PackageJson PatchPackageJson(Upm.PackageJson packageJson)
+    public override Upm.PackageJson PatchPackageJson(
+        Upm.PackageJson packageJson,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
+    )
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
         var includedDependencies = packageJson

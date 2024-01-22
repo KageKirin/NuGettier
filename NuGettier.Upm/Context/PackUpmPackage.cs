@@ -40,17 +40,13 @@ public partial class Context
         var packageJson = await GetPackageJson(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
+            prereleaseSuffix: prereleaseSuffix,
+            buildmetaSuffix: buildmetaSuffix,
             cancellationToken: cancellationToken
         );
 
         if (packageJson == null)
             return null;
-
-        // add version suffixes
-        if (!string.IsNullOrEmpty(prereleaseSuffix))
-            packageJson.Version += $"-{prereleaseSuffix}";
-        if (!string.IsNullOrEmpty(buildmetaSuffix))
-            packageJson.Version += $"+{buildmetaSuffix}";
 
         // fetch package contents for NuGet
         using var packageStream = await FetchPackage(

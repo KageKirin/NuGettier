@@ -25,6 +25,8 @@ public partial class Context
     public virtual async Task<PackageJson?> GetPackageJson(
         string packageIdVersion,
         bool preRelease,
+        string? prereleaseSuffix,
+        string? buildmetaSuffix,
         CancellationToken cancellationToken
     )
     {
@@ -43,6 +45,10 @@ public partial class Context
         if (packageJson == null)
             return null;
 
-        return PatchPackageJson(packageJson);
+        return PatchPackageJson(
+            packageJson: packageJson,
+            prereleaseSuffix: prereleaseSuffix,
+            buildmetaSuffix: buildmetaSuffix
+        );
     }
 }

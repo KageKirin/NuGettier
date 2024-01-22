@@ -53,7 +53,11 @@ public partial class Context
         return packageRule;
     }
 
-    public virtual PackageJson PatchPackageJson(PackageJson packageJson)
+    public virtual PackageJson PatchPackageJson(
+        PackageJson packageJson,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
+    )
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
@@ -61,8 +65,13 @@ public partial class Context
         var packageRule = GetPackageRule(packageJson.Name);
 
         // patch packageJson.Name, .Version and .MinUnityVersion
-        packageJson.Name = PatchPackageId(packageJson.Name);
-        packageJson.Version = PatchPackageVersion(packageJson.Name, packageJson.Version);
+        packageJson.Name = PatchPackageId(packageId: packageJson.Name);
+        packageJson.Version = PatchPackageVersion(
+            packageId: packageJson.Name,
+            packageVersion: packageJson.Version,
+            prereleaseSuffix: prereleaseSuffix,
+            buildmetaSuffix: buildmetaSuffix
+        );
         packageJson.MinUnityVersion = MinUnityVersion;
 
         // filter and patch dependencies' name and version
@@ -104,7 +113,12 @@ public partial class Context
         return result;
     }
 
-    protected virtual string PatchPackageVersion(string packageId, string packageVersion)
+    protected virtual string PatchPackageVersion(
+        string packageId,
+        string packageVersion,
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
+    )
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
@@ -114,10 +128,23 @@ public partial class Context
             ? packageRule.Version
             : Context.DefaultPackageRule.Version;
 
-        var result = Regex.Match(packageVersion, versionRegex).Value;
-        Logger.LogTrace($"after: {packageId}: {result}");
+        var resultVersion = Regex.Match(packageVersion, versionRegex).Value;
+        Logger.LogTrace($"after: {packageId}: {resultVersion}");
 
-        return result;
+        // add version suffixes
+        if (!string.IsNullOrEmpty(prereleaseSuffix))
+        {
+            resultVersion += $"-{prereleaseSuffix}";
+            Logger.LogDebug("adding: -{0} -> {1}", prereleaseSuffix, resultVersion);
+        }
+
+        if (!string.IsNullOrEmpty(buildmetaSuffix))
+        {
+            resultVersion += $"+{buildmetaSuffix}";
+            Logger.LogDebug("adding: +{0} -> {1}", buildmetaSuffix, resultVersion);
+        }
+
+        return resultVersion;
     }
 
     protected virtual IDictionary<string, string> PatchPackageDependencies(IDictionary<string, string> dependencies)
