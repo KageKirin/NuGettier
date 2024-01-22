@@ -66,7 +66,9 @@ public partial class Context
 
         // patch packageJson.Name, .Version and .MinUnityVersion
         packageJson.Name = PatchPackageId(packageJson.Name);
-        packageJson.Version = PatchPackageVersion(packageJson.Name, packageJson.Version);
+        packageJson.Version = PatchPackageVersion(packageJson.Name, packageJson.Version,
+            prereleaseSuffix: prereleaseSuffix
+        );
         packageJson.MinUnityVersion = MinUnityVersion;
 
         // filter and patch dependencies' name and version
@@ -108,7 +110,11 @@ public partial class Context
         return result;
     }
 
-    protected virtual string PatchPackageVersion(string packageId, string packageVersion)
+    protected virtual string PatchPackageVersion(
+        string packageId,
+        string packageVersion,
+        string? prereleaseSuffix = null
+    )
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
