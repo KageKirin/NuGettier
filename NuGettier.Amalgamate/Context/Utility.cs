@@ -27,7 +27,10 @@ public partial class Context
             .Where(d => GetPackageRule(d.Key).IsExcluded == false) //< filter: not 'excluded' dependencies are included)
             .ToDictionary(d => d.Key, d => d.Value);
 
-        var patchedPackageJson = base.PatchPackageJson(packageJson);
+        var patchedPackageJson = base.PatchPackageJson(
+            packageJson: packageJson,
+            prereleaseSuffix: prereleaseSuffix
+        );
 
         patchedPackageJson.DisplayName += " amalgamated with its dependencies";
         patchedPackageJson.Description += "\n\nThis package also contains the following dependency assemblies:";
