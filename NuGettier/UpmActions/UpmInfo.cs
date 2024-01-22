@@ -73,6 +73,7 @@ public partial class Program
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
             prereleaseSuffix: prereleaseSuffix,
+            buildmetaSuffix: buildmetaSuffix,
             cancellationToken: cancellationToken
         );
 

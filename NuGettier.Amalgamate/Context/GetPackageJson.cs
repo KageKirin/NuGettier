@@ -27,6 +27,7 @@ public partial class Context
         string packageIdVersion,
         bool preRelease,
         string? prereleaseSuffix,
+        string? buildmetaSuffix,
         CancellationToken cancellationToken
     )
     {
@@ -36,6 +37,7 @@ public partial class Context
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
             prereleaseSuffix: prereleaseSuffix,
+            buildmetaSuffix: buildmetaSuffix,
             cancellationToken: cancellationToken
         );
     }
