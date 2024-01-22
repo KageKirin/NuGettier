@@ -29,7 +29,8 @@ public partial class Context
 
         var patchedPackageJson = base.PatchPackageJson(
             packageJson: packageJson,
-            prereleaseSuffix: prereleaseSuffix
+            prereleaseSuffix: prereleaseSuffix,
+            buildmetaSuffix: buildmetaSuffix
         );
 
         patchedPackageJson.DisplayName += " amalgamated with its dependencies";
