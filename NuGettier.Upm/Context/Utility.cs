@@ -128,10 +128,23 @@ public partial class Context
             ? packageRule.Version
             : Context.DefaultPackageRule.Version;
 
-        var result = Regex.Match(packageVersion, versionRegex).Value;
-        Logger.LogTrace($"after: {packageId}: {result}");
+        var resultVersion = Regex.Match(packageVersion, versionRegex).Value;
+        Logger.LogTrace($"after: {packageId}: {resultVersion}");
 
-        return result;
+        // add version suffixes
+        if (!string.IsNullOrEmpty(prereleaseSuffix))
+        {
+            resultVersion += $"-{prereleaseSuffix}";
+            Logger.LogDebug("adding: -{0} -> {1}", prereleaseSuffix, resultVersion);
+        }
+
+        if (!string.IsNullOrEmpty(buildmetaSuffix))
+        {
+            resultVersion += $"+{buildmetaSuffix}";
+            Logger.LogDebug("adding: +{0} -> {1}", buildmetaSuffix, resultVersion);
+        }
+
+        return resultVersion;
     }
 
     protected virtual IDictionary<string, string> PatchPackageDependencies(IDictionary<string, string> dependencies)
