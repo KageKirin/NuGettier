@@ -55,7 +55,8 @@ public partial class Context
 
     public virtual PackageJson PatchPackageJson(
         PackageJson packageJson,
-        string? prereleaseSuffix = null
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
     )
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
