@@ -48,12 +48,6 @@ public partial class Context
         if (packageJson == null)
             return null;
 
-        // add version suffixes
-        if (!string.IsNullOrEmpty(prereleaseSuffix))
-            packageJson.Version += $"-{prereleaseSuffix}";
-        if (!string.IsNullOrEmpty(buildmetaSuffix))
-            packageJson.Version += $"+{buildmetaSuffix}";
-
         // fetch package contents for NuGet
         using var packageStream = await FetchPackage(
             packageIdVersion: packageIdVersion,
