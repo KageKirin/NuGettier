@@ -53,7 +53,10 @@ public partial class Context
         return packageRule;
     }
 
-    public virtual PackageJson PatchPackageJson(PackageJson packageJson)
+    public virtual PackageJson PatchPackageJson(
+        PackageJson packageJson,
+        string? prereleaseSuffix = null
+    )
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 

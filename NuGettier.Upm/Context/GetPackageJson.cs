@@ -45,6 +45,6 @@ public partial class Context
         if (packageJson == null)
             return null;
 
-        return PatchPackageJson(packageJson);
+        return PatchPackageJson(packageJson: packageJson, prereleaseSuffix: prereleaseSuffix);
     }
 }
