@@ -72,6 +72,7 @@ public partial class Program
         var packageJson = await context.GetPackageJson(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
+            prereleaseSuffix: prereleaseSuffix,
             cancellationToken: cancellationToken
         );
 

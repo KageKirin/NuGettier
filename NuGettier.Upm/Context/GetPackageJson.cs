@@ -25,6 +25,7 @@ public partial class Context
     public virtual async Task<PackageJson?> GetPackageJson(
         string packageIdVersion,
         bool preRelease,
+        string? prereleaseSuffix,
         CancellationToken cancellationToken
     )
     {

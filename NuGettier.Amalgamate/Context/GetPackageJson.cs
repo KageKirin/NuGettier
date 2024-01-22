@@ -26,6 +26,7 @@ public partial class Context
     public override async Task<Upm.PackageJson?> GetPackageJson(
         string packageIdVersion,
         bool preRelease,
+        string? prereleaseSuffix,
         CancellationToken cancellationToken
     )
     {
@@ -34,6 +35,7 @@ public partial class Context
         return await base.GetPackageJson(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
+            prereleaseSuffix: prereleaseSuffix,
             cancellationToken: cancellationToken
         );
     }

@@ -40,6 +40,7 @@ public partial class Context
         var packageJson = await GetPackageJson(
             packageIdVersion: packageIdVersion,
             preRelease: preRelease,
+            prereleaseSuffix: prereleaseSuffix,
             cancellationToken: cancellationToken
         );
 
