@@ -67,7 +67,8 @@ public partial class Context
         // patch packageJson.Name, .Version and .MinUnityVersion
         packageJson.Name = PatchPackageId(packageJson.Name);
         packageJson.Version = PatchPackageVersion(packageJson.Name, packageJson.Version,
-            prereleaseSuffix: prereleaseSuffix
+            prereleaseSuffix: prereleaseSuffix,
+            buildmetaSuffix: buildmetaSuffix
         );
         packageJson.MinUnityVersion = MinUnityVersion;
 
@@ -113,7 +114,8 @@ public partial class Context
     protected virtual string PatchPackageVersion(
         string packageId,
         string packageVersion,
-        string? prereleaseSuffix = null
+        string? prereleaseSuffix = null,
+        string? buildmetaSuffix = null
     )
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
