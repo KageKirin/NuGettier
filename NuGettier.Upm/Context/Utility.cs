@@ -66,7 +66,9 @@ public partial class Context
 
         // patch packageJson.Name, .Version and .MinUnityVersion
         packageJson.Name = PatchPackageId(packageJson.Name);
-        packageJson.Version = PatchPackageVersion(packageJson.Name, packageJson.Version,
+        packageJson.Version = PatchPackageVersion(
+            packageId: packageJson.Name,
+            packageVersion: packageJson.Version,
             prereleaseSuffix: prereleaseSuffix,
             buildmetaSuffix: buildmetaSuffix
         );
