@@ -74,7 +74,7 @@ public partial class Context
 
         // add target
         packageJson.PublishingConfiguration ??= new PublishingConfiguration();
-        packageJson.PublishingConfiguration.Registry = Target.ToString();
+        packageJson.PublishingConfiguration.Registry = Target.ScopelessAbsoluteUri().ToString();
 
         // add repository/directory
         if (!string.IsNullOrEmpty(Repository))
