@@ -9,14 +9,18 @@ struct Guid
 {
     public uint128 hash;
 
+    public static ulong SeedHash(string seed) => xxHash3.ComputeHash(seed);
+
     public Guid()
     {
         hash = default;
     }
 
     public Guid(string seed, string value)
+        : this(seedHash: SeedHash(seed), value) { }
+
+    public Guid(ulong seedHash, string value)
     {
-        var seedHash = xxHash3.ComputeHash(seed);
         hash = xxHash128.ComputeHash(value, seedHash);
     }
 
