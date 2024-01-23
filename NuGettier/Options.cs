@@ -62,4 +62,7 @@ public partial class Program
         {
             IsRequired = true,
         };
+
+    private static Option<bool> ForceOverwriteOption =
+        new(aliases: ["--force", "-f"], description: "force overwrite existing files") { IsRequired = false, };
 }

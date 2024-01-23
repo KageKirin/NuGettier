@@ -100,4 +100,7 @@ public partial class Program
             },
             description: $"package access level: [{string.Join("|", Enum.GetValues(typeof(Upm.PackageAccessLevel)).Cast<Upm.PackageAccessLevel>()).ToLowerInvariant()}]"
         );
+
+    private static Option<string> UpmMetagenSeedOption =
+        new(aliases: ["--seed", "-s"], description: "seed string, e.g. package name") { IsRequired = false, };
 }
