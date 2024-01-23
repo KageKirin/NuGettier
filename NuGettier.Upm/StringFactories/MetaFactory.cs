@@ -9,6 +9,7 @@ public interface IMetaFactory
     string GenerateFolderMeta(string seed, string dirname);
     string GenerateFolderMeta(ulong seedHash, string dirname);
     string GenerateFileMeta(string seed, string filename);
+    string GenerateFileMeta(ulong seedHash, string filename);
 }
 
 public class MetaFactory : IMetaFactory
