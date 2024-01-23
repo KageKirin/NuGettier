@@ -20,6 +20,7 @@ public partial class Program
             UpmUnpackCommand,
             UpmPublishCommand,
             UpmNpmrcCommand,
+            UpmMetagenCommand,
             UpmPublishPackageCommand,
             AmalgamateCommand,
         };
