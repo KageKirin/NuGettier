@@ -17,10 +17,7 @@ struct Guid
     }
 
     public Guid(string seed, string value)
-    {
-        var seedHash = SeedHash(seed);
-        hash = xxHash128.ComputeHash(value, seedHash);
-    }
+        : this(seedHash: SeedHash(seed), value) { }
 
     public Guid(ulong seedHash, string value)
     {
