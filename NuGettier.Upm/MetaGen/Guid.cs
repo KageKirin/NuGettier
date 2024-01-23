@@ -22,6 +22,11 @@ struct Guid
         hash = xxHash128.ComputeHash(value, seedHash);
     }
 
+    public Guid(ulong seedHash, string value)
+    {
+        hash = xxHash128.ComputeHash(value, seedHash);
+    }
+
     public override readonly string ToString()
     {
         return $"{hash.high64:x8}{hash.low64:x8}";
