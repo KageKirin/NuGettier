@@ -105,7 +105,7 @@ public partial class Context
         Logger.LogDebug("generated package.json:\n{0}", packageJsonString);
 
         // add meta files
-        files.AddMetaFiles(seed: packageJson.Name, metaFactory: new MetaFactory(LoggerFactory));
+        files.AddMetaFiles(metaFactory: new MetaFactory(seed: packageJson.Name, LoggerFactory));
 
         var packageIdentifier = $"{packageJson.Name}-{packageJson.Version}";
         return new Tuple<string, FileDictionary>(packageIdentifier, files);
