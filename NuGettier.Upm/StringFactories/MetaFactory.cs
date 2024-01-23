@@ -23,7 +23,7 @@ public class MetaFactory : IMetaFactory
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
-        var guid = new MetaGen.Guid(seed, dirname);
+        var guid = new MetaGen.Guid(Guid.SeedHash(seed), dirname);
         var metaTemplate = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.folder.meta")
         );
