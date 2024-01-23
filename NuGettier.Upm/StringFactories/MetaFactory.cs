@@ -23,25 +23,20 @@ public class MetaFactory : IMetaFactory
         Logger = loggerFactory.CreateLogger<MetaFactory>();
     }
 
-    public virtual string GenerateFolderMeta(string seed, string dirname)
-    {
-        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
-        return GenerateFolderMeta(MetaGen.Guid.SeedHash(seed), dirname);
-    }
-
-    public virtual string GenerateFolderMeta(ulong seedHash, string dirname)
+    public virtual string GenerateFolderMeta(string dirname)
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
-        var guid = new MetaGen.Guid(seedHash, dirname);
+        var guid = new MetaGen.Guid(SeedHash, dirname);
         var metaTemplate = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.folder.meta")
         );
         var metaContents = metaTemplate(new { guid = guid });
         Logger.LogDebug(
-            "generated meta file for folder {0} with seed hash {1} (GUID: {2}):\n{3}",
+            "generated meta file for folder {0} with seed {1} (hash {2:x}) (GUID: {3}):\n{4}",
             dirname,
-            seedHash,
+            Seed,
+            SeedHash,
             guid,
             metaContents
         );
@@ -49,17 +44,11 @@ public class MetaFactory : IMetaFactory
         return metaContents;
     }
 
-    public virtual string GenerateFileMeta(string seed, string filename)
-    {
-        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
-        return GenerateFileMeta(MetaGen.Guid.SeedHash(seed), filename);
-    }
-
-    public virtual string GenerateFileMeta(ulong seedHash, string filename)
+    public virtual string GenerateFileMeta(string filename)
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
-        var guid = new MetaGen.Guid(seedHash, filename);
+        var guid = new MetaGen.Guid(SeedHash, filename);
         var metaTemplate = Handlebars.Compile(
             Path.GetExtension(filename).EndsWith(".dll")
                 ? EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.assembly.meta")
@@ -67,9 +56,10 @@ public class MetaFactory : IMetaFactory
         );
         var metaContents = metaTemplate(new { guid = guid });
         Logger.LogDebug(
-            "generated meta file for file {0} with seed hash {1} (GUID: {2}):\n{3}",
+            "generated meta file for file {0} with seed {1} (hash {2:x}) (GUID: {3}):\n{4}",
             filename,
-            seedHash,
+            Seed,
+            SeedHash,
             guid,
             metaContents
         );
