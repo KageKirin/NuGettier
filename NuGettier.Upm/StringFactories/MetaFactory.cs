@@ -7,8 +7,7 @@ namespace NuGettier.Upm;
 public interface IMetaFactory
 {
     string GenerateFolderMeta(string dirname);
-    string GenerateFileMeta(string seed, string filename);
-    string GenerateFileMeta(ulong seedHash, string filename);
+    string GenerateFileMeta(string filename);
 }
 
 public class MetaFactory : IMetaFactory
