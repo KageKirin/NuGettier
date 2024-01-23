@@ -11,7 +11,7 @@ public static class UriExtension
     /// <returns>Uri.AbsoluteUri without the scheme nor the scope</returns>
     public static string SchemelessUri(this Uri uri)
     {
-        return uri.ScopelessAbsoluteUri().Replace($"{uri.Scheme}//", "").Replace("https://", "").Replace("http://", "");
+        return uri.ScopelessAbsoluteUri().Replace($"{uri.Scheme}://", "").TrimEnd('/');
     }
 
     /// <summary>
@@ -23,9 +23,9 @@ public static class UriExtension
     {
         var scope = uri.Scope();
         if (string.IsNullOrEmpty(scope))
-            return uri.AbsoluteUri;
+            return uri.AbsoluteUri.TrimEnd('/');
 
-        return uri.AbsoluteUri.Replace(scope, "");
+        return uri.AbsoluteUri.Replace(scope, "").TrimEnd('/');
     }
 
     /// <summary>
@@ -33,11 +33,11 @@ public static class UriExtension
     /// https://my-awesome-server/npmapi/@scope -> @scope
     /// </summary>
     /// <returns>the scope</returns>
-    public static string? Scope(this Uri uri)
+    public static string Scope(this Uri uri)
     {
         var scopeIndex = uri.AbsolutePath.LastIndexOf(@"@");
         if (scopeIndex < 0)
-            return null;
+            return string.Empty;
 
         return uri.AbsolutePath.Substring(scopeIndex);
     }
