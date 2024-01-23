@@ -24,21 +24,7 @@ public class MetaFactory : IMetaFactory
     public virtual string GenerateFolderMeta(string seed, string dirname)
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
-
-        var guid = new MetaGen.Guid(Guid.SeedHash(seed), dirname);
-        var metaTemplate = Handlebars.Compile(
-            EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.folder.meta")
-        );
-        var metaContents = metaTemplate(new { guid = guid });
-        Logger.LogDebug(
-            "generated meta file for folder {0} with seed {1} (GUID: {2}):\n{3}",
-            dirname,
-            seed,
-            guid,
-            metaContents
-        );
-
-        return metaContents;
+        return GenerateFolderMeta(MetaGen.Guid.SeedHash(seed), dirname);
     }
 
     public virtual string GenerateFolderMeta(ulong seedHash, string dirname)
