@@ -1,15 +1,15 @@
 using System;
 using System.Text;
 using Microsoft.Extensions.Logging;
-using Standart.Hash.xxHash;
+using System.IO.Hashing;
 
 namespace NuGettier.Upm.MetaGen;
 
 struct Guid
 {
-    public uint128 hash;
+    public UInt128 hash;
 
-    public static ulong SeedHash(string seed) => xxHash3.ComputeHash(seed);
+    public static UInt64 SeedHash(string seed) => XxHash3.HashToUInt64(Encoding.Default.GetBytes(seed));
 
     public Guid()
     {
@@ -21,11 +21,11 @@ struct Guid
 
     public Guid(ulong seedHash, string value)
     {
-        hash = xxHash128.ComputeHash(value, seedHash);
+        hash = XxHash128.HashToUInt128(Encoding.Default.GetBytes(value), (Int64)seedHash);
     }
 
     public override readonly string ToString()
     {
-        return $"{hash.high64:x8}{hash.low64:x8}";
+        return $"{hash:x}";
     }
 }
