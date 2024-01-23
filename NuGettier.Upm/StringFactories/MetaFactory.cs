@@ -82,4 +82,26 @@ public class MetaFactory : IMetaFactory
 
         return metaContents;
     }
+
+    public virtual string GenerateFileMeta(ulong seedHash, string filename)
+    {
+        using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+
+        var guid = new MetaGen.Guid(seedHash, filename);
+        var metaTemplate = Handlebars.Compile(
+            Path.GetExtension(filename).EndsWith(".dll")
+                ? EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.assembly.meta")
+                : EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.template.meta")
+        );
+        var metaContents = metaTemplate(new { guid = guid });
+        Logger.LogDebug(
+            "generated meta file for file {0} with seed hash {1} (GUID: {2}):\n{3}",
+            filename,
+            seedHash,
+            guid,
+            metaContents
+        );
+
+        return metaContents;
+    }
 }
