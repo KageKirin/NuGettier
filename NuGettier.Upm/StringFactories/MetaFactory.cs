@@ -43,7 +43,7 @@ public class MetaFactory : IMetaFactory
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
-        var guid = new MetaGen.Guid(seed, filename);
+        var guid = new MetaGen.Guid(Guid.SeedHash(seed), filename);
         var metaTemplate = Handlebars.Compile(
             Path.GetExtension(filename).EndsWith(".dll")
                 ? EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.assembly.meta")
