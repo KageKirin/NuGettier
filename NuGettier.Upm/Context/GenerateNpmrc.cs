@@ -61,16 +61,23 @@ public partial class Context
                 var uriScope = Target.Scope();
                 if (string.IsNullOrEmpty(uriScope))
                 {
-                    // `registry=${registry}/`
-                    await npmrcWriter.WriteLineAsync($"registry={Target.ScopelessAbsoluteUri()}");
+                    // `//registry=${registry}/`
+                    await npmrcWriter.WriteLineAsync($"//registry={Target.ScopelessAbsoluteUri()}/");
                 }
                 else
                 {
-                    // `${uriScope}:registry=${registry}/`
-                    await npmrcWriter.WriteLineAsync($"{uriScope}:registry={Target.ScopelessAbsoluteUri()}");
+                    // `//${uriScope}:registry=${registry}/`
+                    await npmrcWriter.WriteLineAsync($"//{uriScope}:registry={Target.ScopelessAbsoluteUri()}/");
                 }
-                // `//${schemeless_registry}/:_authToken=${token}`
-                await npmrcWriter.WriteLineAsync($"//{Target.SchemelessUri()}:_authToken={token}");
+
+                // `//${host}/:_authToken=${token}`
+                await npmrcWriter.WriteLineAsync($"//{Target.Host}/:_authToken={token}");
+
+                if (Target.Host != Target.Authority)
+                {
+                    // `//${host}:${port}/:_authToken=${token}`
+                    await npmrcWriter.WriteLineAsync($"//{Target.Authority}/:_authToken={token}");
+                }
             }
             targetNpmrc.Refresh();
         }
