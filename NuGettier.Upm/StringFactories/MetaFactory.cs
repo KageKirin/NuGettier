@@ -13,9 +13,13 @@ public interface IMetaFactory
 public class MetaFactory : IMetaFactory
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+    protected string Seed;
+    protected ulong SeedHash;
 
-    public MetaFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public MetaFactory(string seed, Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
     {
+        Seed = seed;
+        SeedHash = MetaGen.Guid.SeedHash(seed);
         Logger = loggerFactory.CreateLogger<MetaFactory>();
     }
 
