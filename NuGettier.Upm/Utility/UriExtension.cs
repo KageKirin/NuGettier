@@ -33,11 +33,11 @@ public static class UriExtension
     /// https://my-awesome-server/npmapi/@scope -> @scope
     /// </summary>
     /// <returns>the scope</returns>
-    public static string? Scope(this Uri uri)
+    public static string Scope(this Uri uri)
     {
         var scopeIndex = uri.AbsolutePath.LastIndexOf(@"@");
         if (scopeIndex < 0)
-            return null;
+            return string.Empty;
 
         return uri.AbsolutePath.Substring(scopeIndex);
     }
