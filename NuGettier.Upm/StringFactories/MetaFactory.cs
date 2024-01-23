@@ -50,23 +50,7 @@ public class MetaFactory : IMetaFactory
     public virtual string GenerateFileMeta(string seed, string filename)
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
-
-        var guid = new MetaGen.Guid(Guid.SeedHash(seed), filename);
-        var metaTemplate = Handlebars.Compile(
-            Path.GetExtension(filename).EndsWith(".dll")
-                ? EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.assembly.meta")
-                : EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.template.meta")
-        );
-        var metaContents = metaTemplate(new { guid = guid });
-        Logger.LogDebug(
-            "generated meta file for file {0} with seed {1} (GUID: {2}):\n{3}",
-            filename,
-            seed,
-            guid,
-            metaContents
-        );
-
-        return metaContents;
+        return GenerateFileMeta(MetaGen.Guid.SeedHash(seed), filename);
     }
 
     public virtual string GenerateFileMeta(ulong seedHash, string filename)
