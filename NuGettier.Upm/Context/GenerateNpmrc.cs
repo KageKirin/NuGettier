@@ -55,30 +55,9 @@ public partial class Context
         {
             Logger.LogTrace("writing .npmrc to {0}", targetNpmrc.FullName);
 
-            using (var targetStream = targetNpmrc.OpenWrite())
-            using (var npmrcWriter = new StreamWriter(targetStream))
-            {
-                var uriScope = Target.Scope();
-                if (string.IsNullOrEmpty(uriScope))
-                {
-                    // `//registry=${registry}/`
-                    await npmrcWriter.WriteLineAsync($"//registry={Target.ScopelessAbsoluteUri()}/");
-                }
-                else
-                {
-                    // `//${uriScope}:registry=${registry}/`
-                    await npmrcWriter.WriteLineAsync($"//{uriScope}:registry={Target.ScopelessAbsoluteUri()}/");
-                }
-
-                // `//${host}/:_authToken=${token}`
-                await npmrcWriter.WriteLineAsync($"//{Target.Host}/:_authToken={token}");
-
-                if (Target.Host != Target.Authority)
-                {
-                    // `//${host}:${port}/:_authToken=${token}`
-                    await npmrcWriter.WriteLineAsync($"//{Target.Authority}/:_authToken={token}");
-                }
-            }
+            var npmrcFactory  = new NpmrcFactory();
+            var npmrcContents = npmrcFactory.GenerateNpmrc(Target, token);
+            await File.WriteAllTextAsync(targetNpmrc.FullName, npmrcContents);
             targetNpmrc.Refresh();
         }
         else if (!string.IsNullOrEmpty(npmrc))
