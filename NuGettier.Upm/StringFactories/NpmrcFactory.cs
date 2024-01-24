@@ -3,9 +3,11 @@ using System.Text;
 
 namespace NuGettier.Upm;
 
+#nullable enable
+
 public interface INpmrcFactory
 {
-    string GenerateNpmrc(Uri registry, string authToken);
+    string GenerateNpmrc(Uri registry, string? authToken);
 }
 
 public class NpmrcFactory : INpmrcFactory, IDisposable
