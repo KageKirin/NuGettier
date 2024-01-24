@@ -83,7 +83,7 @@ public partial class Context
                 "publish",
                 packageFile.Name,
                 string.IsNullOrEmpty(targetScope)
-                    ? $"--registry={Target.ScopelessAbsoluteUri()}"
+                    ? $"--registry={Target.ScopelessAbsoluteUri()}/"
                     : $"--scope={targetScope}",
                 dryRun ? "--dry-run" : string.Empty,
                 "--verbose",
