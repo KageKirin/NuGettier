@@ -16,7 +16,7 @@ public interface IReadmeFactory
     );
 }
 
-public class ReadmeFactory : IReadmeFactory
+public class ReadmeFactory : IReadmeFactory, IDisposable
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
@@ -52,4 +52,6 @@ public class ReadmeFactory : IReadmeFactory
         Logger.LogDebug("generated readme:\n{0}", generated);
         return generated;
     }
+
+    public virtual void Dispose() { }
 }
