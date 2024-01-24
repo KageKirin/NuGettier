@@ -41,7 +41,7 @@ public partial class Program
         Logger.LogTrace("seed: {0}", seed);
         Logger.LogTrace("force: {0}", force);
 
-        MetaFactory metaFactory = new(seed, MainLoggerFactory);
+        using MetaFactory metaFactory = new(seed, MainLoggerFactory);
         Matcher matcher = new();
         matcher.AddExclude(@"*.meta");
         matcher.AddIncludePatterns(inputItems);

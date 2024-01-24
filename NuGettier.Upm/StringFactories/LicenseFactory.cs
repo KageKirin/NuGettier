@@ -19,7 +19,7 @@ public interface ILicenseFactory
     );
 }
 
-public class LicenseFactory : ILicenseFactory
+public class LicenseFactory : ILicenseFactory, IDisposable
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
@@ -74,4 +74,6 @@ public class LicenseFactory : ILicenseFactory
         Logger.LogDebug("generated license:\n{0}", generated);
         return generated;
     }
+
+    public virtual void Dispose() { }
 }

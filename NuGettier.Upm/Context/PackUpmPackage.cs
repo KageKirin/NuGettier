@@ -63,35 +63,44 @@ public partial class Context
         // create & add README
         if (!files.ContainsKey(@"README.md"))
         {
-            var readme = packageJson.GenerateReadme(
-                originalReadme: packageReader.GetReadme(),
-                readmeFactory: new ReadmeFactory(LoggerFactory)
-            );
-            files.Add(@"README.md", readme);
+            using (ReadmeFactory readmeFactory = new(LoggerFactory))
+            {
+                var readme = packageJson.GenerateReadme(
+                    originalReadme: packageReader.GetReadme(),
+                    readmeFactory: readmeFactory
+                );
+                files.Add(@"README.md", readme);
+            }
             Logger.LogDebug("added README.md\n{0}", Encoding.Default.GetString(files[@"README.md"]));
         }
 
         // create & add LICENSE
         if (!files.ContainsKey(@"LICENSE.md"))
         {
-            var license = packageJson.GenerateLicense(
-                originalLicense: packageReader.GetLicense(),
-                copyright: packageReader.NuspecReader.GetCopyright(),
-                copyrightHolder: packageReader.NuspecReader.GetOwners(),
-                licenseFactory: new LicenseFactory(LoggerFactory)
-            );
-            files.Add(@"LICENSE.md", license);
+            using (LicenseFactory licenseFactory = new(LoggerFactory))
+            {
+                var license = packageJson.GenerateLicense(
+                    originalLicense: packageReader.GetLicense(),
+                    copyright: packageReader.NuspecReader.GetCopyright(),
+                    copyrightHolder: packageReader.NuspecReader.GetOwners(),
+                    licenseFactory: licenseFactory
+                );
+                files.Add(@"LICENSE.md", license);
+            }
             Logger.LogDebug("added LICENSE.md\n{0}", Encoding.Default.GetString(files[@"LICENSE.md"]));
         }
 
         // create & add CHANGELOG
         if (!files.ContainsKey(@"CHANGELOG.md"))
         {
-            var changelog = packageJson.GenerateChangelog(
-                releaseNotes: packageReader.NuspecReader.GetReleaseNotes(),
-                changelogFactory: new ChangelogFactory(LoggerFactory)
-            );
-            files.Add(@"CHANGELOG.md", changelog);
+            using (ChangelogFactory changelogFactory = new(LoggerFactory))
+            {
+                var changelog = packageJson.GenerateChangelog(
+                    releaseNotes: packageReader.NuspecReader.GetReleaseNotes(),
+                    changelogFactory: new ChangelogFactory(LoggerFactory)
+                );
+                files.Add(@"CHANGELOG.md", changelog);
+            }
             Logger.LogDebug("added CHANGELOG.md\n{0}", Encoding.Default.GetString(files[@"CHANGELOG.md"]));
         }
 
@@ -105,7 +114,8 @@ public partial class Context
         Logger.LogDebug("generated package.json:\n{0}", packageJsonString);
 
         // add meta files
-        files.AddMetaFiles(metaFactory: new MetaFactory(seed: packageJson.Name, LoggerFactory));
+        using (MetaFactory metaFactory = new(seed: packageJson.Name, LoggerFactory))
+            files.AddMetaFiles(metaFactory: metaFactory);
 
         var packageIdentifier = $"{packageJson.Name}-{packageJson.Version}";
         return new Tuple<string, FileDictionary>(packageIdentifier, files);

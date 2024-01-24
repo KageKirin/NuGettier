@@ -8,7 +8,7 @@ public interface INpmrcFactory
     string GenerateNpmrc(Uri registry, string authToken);
 }
 
-public class NpmrcFactory : INpmrcFactory
+public class NpmrcFactory : INpmrcFactory, IDisposable
 {
     public virtual string GenerateNpmrc(Uri registry, string authToken)
     {
@@ -37,4 +37,6 @@ public class NpmrcFactory : INpmrcFactory
 
         return builder.ToString();
     }
+
+    public virtual void Dispose() { }
 }
