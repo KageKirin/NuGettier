@@ -3,14 +3,16 @@ using System.Text;
 
 namespace NuGettier.Upm;
 
+#nullable enable
+
 public interface INpmrcFactory
 {
-    string GenerateNpmrc(Uri registry, string authToken);
+    string GenerateNpmrc(Uri registry, string? authToken);
 }
 
 public class NpmrcFactory : INpmrcFactory, IDisposable
 {
-    public virtual string GenerateNpmrc(Uri registry, string authToken)
+    public virtual string GenerateNpmrc(Uri registry, string? authToken)
     {
         StringBuilder builder = new();
 
@@ -24,13 +26,16 @@ public class NpmrcFactory : INpmrcFactory, IDisposable
             builder.AppendLine($"//{uriScope}:registry={registry.ScopelessAbsoluteUri()}/");
         }
 
-        // `//${host}/:_authToken=${authToken}`
-        builder.AppendLine($"//{registry.Host}/:_authToken={authToken}");
-
-        if (registry.Host != registry.Authority)
+        if (!string.IsNullOrEmpty(authToken))
         {
-            // `//${host}:${port}/:_authToken=${authToken}`
-            builder.AppendLine($"//{registry.Authority}/:_authToken={authToken}");
+            // `//${host}/:_authToken=${authToken}`
+            builder.AppendLine($"//{registry.Host}/:_authToken={authToken}");
+
+            if (registry.Host != registry.Authority)
+            {
+                // `//${host}:${port}/:_authToken=${authToken}`
+                builder.AppendLine($"//{registry.Authority}/:_authToken={authToken}");
+            }
         }
 
         return builder.ToString();
