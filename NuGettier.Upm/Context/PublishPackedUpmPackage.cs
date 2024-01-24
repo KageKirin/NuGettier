@@ -84,7 +84,7 @@ public partial class Context
                 packageFile.Name,
                 string.IsNullOrEmpty(targetScope)
                     ? $"--registry={Target.ScopelessAbsoluteUri()}/"
-                    : $"--scope={targetScope}",
+                    : $"--registry={Target.AbsoluteUri}/",
                 dryRun ? "--dry-run" : string.Empty,
                 "--verbose",
                 $"--access={packageAccessLevel.ToString().ToLowerInvariant()}"
