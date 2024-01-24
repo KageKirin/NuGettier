@@ -25,6 +25,8 @@ using Xunit;
 
 namespace NuGettier.Upm;
 
+#nullable enable
+
 public partial class Context
 {
     public virtual async Task<FileInfo> GenerateNpmrc(
@@ -78,6 +80,14 @@ public partial class Context
                         targetNpmrc.FullName
                     );
             }
+        }
+        else
+        {
+            Logger.LogTrace("writing .npmrc to {0}", targetNpmrc.FullName);
+
+            using (NpmrcFactory npmrcFactory = new())
+                await File.WriteAllTextAsync(targetNpmrc.FullName, npmrcFactory.GenerateNpmrc(Target, string.Empty));
+            targetNpmrc.Refresh();
         }
 
         targetNpmrc.Refresh();
