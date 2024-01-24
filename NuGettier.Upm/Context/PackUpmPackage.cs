@@ -77,13 +77,16 @@ public partial class Context
         // create & add LICENSE
         if (!files.ContainsKey(@"LICENSE.md"))
         {
-            var license = packageJson.GenerateLicense(
-                originalLicense: packageReader.GetLicense(),
-                copyright: packageReader.NuspecReader.GetCopyright(),
-                copyrightHolder: packageReader.NuspecReader.GetOwners(),
-                licenseFactory: new LicenseFactory(LoggerFactory)
-            );
-            files.Add(@"LICENSE.md", license);
+            using (LicenseFactory licenseFactory = new(LoggerFactory))
+            {
+                var license = packageJson.GenerateLicense(
+                    originalLicense: packageReader.GetLicense(),
+                    copyright: packageReader.NuspecReader.GetCopyright(),
+                    copyrightHolder: packageReader.NuspecReader.GetOwners(),
+                    licenseFactory: licenseFactory
+                );
+                files.Add(@"LICENSE.md", license);
+            }
             Logger.LogDebug("added LICENSE.md\n{0}", Encoding.Default.GetString(files[@"LICENSE.md"]));
         }
 
