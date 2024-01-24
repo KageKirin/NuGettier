@@ -63,11 +63,14 @@ public partial class Context
         // create & add README
         if (!files.ContainsKey(@"README.md"))
         {
-            var readme = packageJson.GenerateReadme(
-                originalReadme: packageReader.GetReadme(),
-                readmeFactory: new ReadmeFactory(LoggerFactory)
-            );
-            files.Add(@"README.md", readme);
+            using (ReadmeFactory readmeFactory = new(LoggerFactory))
+            {
+                var readme = packageJson.GenerateReadme(
+                    originalReadme: packageReader.GetReadme(),
+                    readmeFactory: readmeFactory
+                );
+                files.Add(@"README.md", readme);
+            }
             Logger.LogDebug("added README.md\n{0}", Encoding.Default.GetString(files[@"README.md"]));
         }
 
