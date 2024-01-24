@@ -15,12 +15,10 @@ public class NpmrcFactory : INpmrcFactory, IDisposable
         StringBuilder builder = new();
 
         var uriScope = registry.Scope();
-        if (string.IsNullOrEmpty(uriScope))
-        {
-            // `//registry=${registry}/`
-            builder.AppendLine($"//registry={registry.ScopelessAbsoluteUri()}/");
-        }
-        else
+        // `//registry=${registry}/`
+        builder.AppendLine($"//registry={registry.ScopelessAbsoluteUri()}/");
+
+        if (!string.IsNullOrEmpty(uriScope))
         {
             // `//${uriScope}:registry=${registry}/`
             builder.AppendLine($"//{uriScope}:registry={registry.ScopelessAbsoluteUri()}/");
