@@ -10,7 +10,7 @@ public interface IChangelogFactory
     string GenerateChangelog(string name, string version, string releaseNotes);
 }
 
-public class ChangelogFactory : IChangelogFactory
+public class ChangelogFactory : IChangelogFactory, IDisposable
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
@@ -40,4 +40,6 @@ public class ChangelogFactory : IChangelogFactory
         Logger.LogDebug("generated changelog:\n{0}", generated);
         return generated;
     }
+
+    public virtual void Dispose() { }
 }
