@@ -10,7 +10,7 @@ public interface IMetaFactory
     string GenerateFileMeta(string filename);
 }
 
-public class MetaFactory : IMetaFactory
+public class MetaFactory : IMetaFactory, IDisposable
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
     protected string Seed;
@@ -66,4 +66,6 @@ public class MetaFactory : IMetaFactory
 
         return metaContents;
     }
+
+    public virtual void Dispose() { }
 }
