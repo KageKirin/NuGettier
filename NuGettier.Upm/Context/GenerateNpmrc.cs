@@ -55,9 +55,8 @@ public partial class Context
         {
             Logger.LogTrace("writing .npmrc to {0}", targetNpmrc.FullName);
 
-            var npmrcFactory  = new NpmrcFactory();
-            var npmrcContents = npmrcFactory.GenerateNpmrc(Target, token);
-            await File.WriteAllTextAsync(targetNpmrc.FullName, npmrcContents);
+            using (NpmrcFactory npmrcFactory = new())
+                await File.WriteAllTextAsync(targetNpmrc.FullName, npmrcFactory.GenerateNpmrc(Target, token));
             targetNpmrc.Refresh();
         }
         else if (!string.IsNullOrEmpty(npmrc))
