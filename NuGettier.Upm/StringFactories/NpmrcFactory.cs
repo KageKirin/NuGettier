@@ -12,7 +12,7 @@ public interface INpmrcFactory
 
 public class NpmrcFactory : INpmrcFactory, IDisposable
 {
-    public virtual string GenerateNpmrc(Uri registry, string authToken)
+    public virtual string GenerateNpmrc(Uri registry, string? authToken)
     {
         StringBuilder builder = new();
 
