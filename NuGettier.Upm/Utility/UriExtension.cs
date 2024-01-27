@@ -29,7 +29,7 @@ public static class UriExtension
     /// <returns>Uri.AbsoluteUri without the scheme nor the scope</returns>
     public static string SchemelessUri(this Uri uri)
     {
-        return uri.ScopelessAbsoluteUri().Replace($"{uri.Scheme}://", "").TrimEnd('/');
+        return uri.ScopelessAbsoluteUri().Replace($"{uri.Scheme}://", "").ToNpmFormat();
     }
 
     /// <summary>
