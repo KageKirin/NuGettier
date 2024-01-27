@@ -5,6 +5,24 @@ namespace NuGettier.Upm;
 public static class UriExtension
 {
     /// <summary>
+    /// returns the Uri in the format required by `npm` with a single trailing '/'
+    /// https://my-awesome-server/npmapi/@scope -> https://my-awesome-server/npmapi/@scope/
+    /// https://my-awesome-server/npmapi/@scope/ -> https://my-awesome-server/npmapi/@scope/
+    /// https://my-awesome-server/npmapi -> https://my-awesome-server/npmapi/
+    /// https://my-awesome-server/npmapi/ -> https://my-awesome-server/npmapi/
+    /// </summary>
+    /// <returns>Uri as string with a single trailing slash</returns>
+    public static Uri ToNpmFormat(this Uri uri)
+    {
+        return new Uri(uri.AbsoluteUri.ToNpmFormat());
+    }
+
+    public static string ToNpmFormat(this string uri)
+    {
+        return $"{uri.TrimEnd('/')}/";
+    }
+
+    /// <summary>
     /// returns the schemeless Uri as required by `npm`
     /// https://my-awesome-server/npmapi/@scope -> my-awesome-server/npmapi
     /// </summary>
