@@ -83,7 +83,7 @@ public partial class Context
 
         // add target
         packageJson.PublishingConfiguration ??= new PublishingConfiguration();
-        packageJson.PublishingConfiguration.Registry = $"{Target.ScopelessAbsoluteUri()}/";
+        packageJson.PublishingConfiguration.Registry = $"{Target.ToNpmFormat()}";
 
         // add repository/directory
         if (!string.IsNullOrEmpty(Repository))
