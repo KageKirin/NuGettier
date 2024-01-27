@@ -18,12 +18,12 @@ public class NpmrcFactory : INpmrcFactory, IDisposable
 
         var uriScope = registry.Scope();
         // `//registry=${registry}/`
-        builder.AppendLine($"//registry={registry.ScopelessAbsoluteUri()}/");
+        builder.AppendLine($"//registry={registry.ScopelessAbsoluteUri()}");
 
         if (!string.IsNullOrEmpty(uriScope))
         {
             // `//${uriScope}:registry=${registry}/`
-            builder.AppendLine($"//{uriScope}:registry={registry.ScopelessAbsoluteUri()}/");
+            builder.AppendLine($"//{uriScope}:registry={registry.ScopelessAbsoluteUri()}");
         }
 
         if (!string.IsNullOrEmpty(authToken))

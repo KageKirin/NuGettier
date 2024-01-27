@@ -82,9 +82,7 @@ public partial class Context
                 " ",
                 "publish",
                 packageFile.Name,
-                string.IsNullOrEmpty(targetScope)
-                    ? $"--registry={Target.ScopelessAbsoluteUri()}/"
-                    : $"--registry={Target.AbsoluteUri}/",
+                $"--registry={Target.ToNpmFormat()}",
                 dryRun ? "--dry-run" : string.Empty,
                 "--verbose",
                 $"--access={packageAccessLevel.ToString().ToLowerInvariant()}"

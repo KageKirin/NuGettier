@@ -5,13 +5,31 @@ namespace NuGettier.Upm;
 public static class UriExtension
 {
     /// <summary>
+    /// returns the Uri in the format required by `npm` with a single trailing '/'
+    /// https://my-awesome-server/npmapi/@scope -> https://my-awesome-server/npmapi/@scope/
+    /// https://my-awesome-server/npmapi/@scope/ -> https://my-awesome-server/npmapi/@scope/
+    /// https://my-awesome-server/npmapi -> https://my-awesome-server/npmapi/
+    /// https://my-awesome-server/npmapi/ -> https://my-awesome-server/npmapi/
+    /// </summary>
+    /// <returns>Uri as string with a single trailing slash</returns>
+    public static Uri ToNpmFormat(this Uri uri)
+    {
+        return new Uri(uri.AbsoluteUri.ToNpmFormat());
+    }
+
+    public static string ToNpmFormat(this string uri)
+    {
+        return $"{uri.TrimEnd('/')}/";
+    }
+
+    /// <summary>
     /// returns the schemeless Uri as required by `npm`
     /// https://my-awesome-server/npmapi/@scope -> my-awesome-server/npmapi
     /// </summary>
     /// <returns>Uri.AbsoluteUri without the scheme nor the scope</returns>
     public static string SchemelessUri(this Uri uri)
     {
-        return uri.ScopelessAbsoluteUri().Replace($"{uri.Scheme}://", "").TrimEnd('/');
+        return uri.ScopelessAbsoluteUri().Replace($"{uri.Scheme}://", "").ToNpmFormat();
     }
 
     /// <summary>
@@ -23,9 +41,9 @@ public static class UriExtension
     {
         var scope = uri.Scope();
         if (string.IsNullOrEmpty(scope))
-            return uri.AbsoluteUri.TrimEnd('/');
+            return uri.AbsoluteUri.ToNpmFormat();
 
-        return uri.AbsoluteUri.Replace(scope, "").TrimEnd('/');
+        return uri.AbsoluteUri.Replace(scope, "").ToNpmFormat();
     }
 
     /// <summary>
