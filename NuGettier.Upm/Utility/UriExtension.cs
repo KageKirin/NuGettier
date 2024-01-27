@@ -41,9 +41,9 @@ public static class UriExtension
     {
         var scope = uri.Scope();
         if (string.IsNullOrEmpty(scope))
-            return uri.AbsoluteUri.TrimEnd('/');
+            return uri.AbsoluteUri.ToNpmFormat();
 
-        return uri.AbsoluteUri.Replace(scope, "").TrimEnd('/');
+        return uri.AbsoluteUri.Replace(scope, "").ToNpmFormat();
     }
 
     /// <summary>
