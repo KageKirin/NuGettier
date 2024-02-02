@@ -15,7 +15,7 @@ runs:
     run: |-
       $exclude = "${{ inputs.exclude }}"
       $excludeArg = [string]::IsNullOrEmpty($exclude) ? "" : "--exclude"
-      foreach ($project in @(fdfind $excludeArg $exclude "csproj$"))
+      foreach ($project in @(fdfind --search-path "." $excludeArg $exclude "csproj$"))
       {
         echo "building $project"
         dotnet build -f ${{ inputs.framework }} -c ${{ inputs.configuration }} $project
