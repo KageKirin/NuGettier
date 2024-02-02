@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
 using Xunit;
+using ZLogger;
 
 #nullable enable
 
@@ -51,7 +52,7 @@ public partial class Program
                     .AddConfiguration(Configuration.GetSection("logging"))
                     .AddConsole() //< add console as logging target
                     .AddDebug() //< add debug output as logging target
-                    .AddFile() //< add file output as logging target
+                    .AddZLoggerFile(Path.Join(Environment.CurrentDirectory, "nugettier.log")) //< add file output as logging target
 #if DEBUG
                     .SetMinimumLevel(
                         LogLevel.Trace
