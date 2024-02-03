@@ -5,18 +5,11 @@ inputs:
     default: Debug
   framework:
     required: true
-  exclude:
-    required: false
 runs:
   using: composite
   steps:
   - name: Build (${{ inputs.configuration }}) ${{ inputs.framework }}
     shell: pwsh
     run: |-
-      $exclude = "${{ inputs.exclude }}"
-      $excludeArg = [string]::IsNullOrEmpty($exclude) ? "" : "--exclude"
-      foreach ($project in @(fdfind $excludeArg $exclude "csproj$"))
-      {
-        echo "building $project"
-        dotnet build -f ${{ inputs.framework }} -c ${{ inputs.configuration }} $project
-      }
+      echo "building Solution"
+      dotnet build -f ${{ inputs.framework }} -c ${{ inputs.configuration }} -maxcpucount:1

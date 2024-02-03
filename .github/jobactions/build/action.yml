@@ -5,8 +5,6 @@ inputs:
     default: Debug
   framework:
     required: true
-  exclude:
-    required: false
 runs:
   using: composite
   steps:
@@ -17,4 +15,3 @@ runs:
     with:
       framework: ${{ inputs.framework }}
       configuration: ${{ inputs.configuration }}
-      exclude: ${{ inputs.exclude }}
