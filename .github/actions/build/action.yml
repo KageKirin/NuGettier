@@ -12,4 +12,4 @@ runs:
     shell: pwsh
     run: |-
       echo "building Solution"
-      dotnet build -f ${{ inputs.framework }} -c ${{ inputs.configuration }}
+      dotnet build -f ${{ inputs.framework }} -c ${{ inputs.configuration }} -maxcpucount:1
