@@ -13,10 +13,5 @@ runs:
   - name: Build (${{ inputs.configuration }}) ${{ inputs.framework }}
     shell: pwsh
     run: |-
-      $exclude = "${{ inputs.exclude }}"
-      $excludeArg = [string]::IsNullOrEmpty($exclude) ? "" : "--exclude"
-      foreach ($project in @(fdfind --search-path "." $excludeArg $exclude "csproj$"))
-      {
-        echo "building $project"
-        dotnet build -f ${{ inputs.framework }} -c ${{ inputs.configuration }} $project
-      }
+      echo "building Solution"
+      dotnet build -f ${{ inputs.framework }} -c ${{ inputs.configuration }}
