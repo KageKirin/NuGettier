@@ -20,7 +20,7 @@ using ZLogger;
 
 namespace NuGettier;
 
-public partial class Program
+public static partial class Program
 {
     private static IConfigurationRoot? configurationRoot = null;
     private static IConfigurationRoot Configuration
@@ -68,7 +68,7 @@ public partial class Program
         }
     }
 
-    private static readonly ILogger Logger = MainLoggerFactory.CreateLogger<Program>();
+    private static readonly ILogger Logger = MainLoggerFactory.CreateLogger("Program");
 
     static async Task<int> Main(string[] args)
     {

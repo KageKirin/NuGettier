@@ -24,7 +24,7 @@ using Xunit;
 
 namespace NuGettier;
 
-public partial class Program
+public static partial class Program
 {
     private static Command AmalgamatePackCommand =>
         new Command("pack", "repack the given NuPkg at the given version as Unity package")

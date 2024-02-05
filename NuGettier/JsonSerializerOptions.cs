@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace NuGettier;
 
-public partial class Program
+public static partial class Program
 {
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true, };
 }

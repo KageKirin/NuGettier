@@ -16,7 +16,7 @@ using Xunit;
 
 namespace NuGettier;
 
-public partial class Program
+public static partial class Program
 {
     private static Command UpmMetagenCommand =>
         new Command("metagen", "generate .meta files for given files")
