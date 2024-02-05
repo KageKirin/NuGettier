@@ -21,7 +21,7 @@ using Xunit;
 
 namespace NuGettier;
 
-public partial class Program
+public static partial class Program
 {
     private static Command ListCommand =>
         new Command("list", "list available version for a given package")

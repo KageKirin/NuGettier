@@ -3,7 +3,7 @@ using System.CommandLine;
 
 namespace NuGettier;
 
-public partial class Program
+public static partial class Program
 {
     private static Argument<string> PackageIdArgument = new("packageId", "complete and exact package id");
     private static Argument<string> PackageIdVersionArgument =

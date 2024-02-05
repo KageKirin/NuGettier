@@ -13,7 +13,7 @@ using Xunit;
 
 namespace NuGettier;
 
-public partial class Program
+public static partial class Program
 {
     private static Command UpmPublishPackageCommand =>
         new Command("publish-package", "publish a pre-packed UPM package")

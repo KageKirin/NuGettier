@@ -24,7 +24,7 @@ using Xunit;
 
 namespace NuGettier;
 
-public partial class Program
+public static partial class Program
 {
     private static Command UpmInfoCommand =>
         new Command("info", "preview Unity package informations for the given NuPkg at the given version")

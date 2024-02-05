@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace NuGettier;
 
-public partial class Program
+public static partial class Program
 {
     private static Option<LogLevel> OutputLogLevelOption =
         new(aliases: ["--verbosity", "-v"], description: "log verbosity level");

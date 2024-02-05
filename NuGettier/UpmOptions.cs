@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace NuGettier;
 
-public partial class Program
+public static partial class Program
 {
     private static Option<string> UpmUnityVersionOption =
         new(
