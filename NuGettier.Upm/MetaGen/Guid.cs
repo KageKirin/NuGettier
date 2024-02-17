@@ -21,7 +21,9 @@ struct Guid
 
     public Guid(ulong seedHash, string value)
     {
-        hash = XxHash128.HashToUInt128(Encoding.Default.GetBytes(value), (Int64)seedHash);
+        XxHash128 xxHash = new((long)seedHash);
+        xxHash.Append(Encoding.Default.GetBytes(value));
+        hash = xxHash.GetCurrentHashAsUInt128();
     }
 
     public override readonly string ToString()
