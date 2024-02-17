@@ -9,7 +9,7 @@ struct Guid
 {
     public UInt128 hash;
 
-    public static UInt64 SeedHash(string seed) => XxHash3.HashToUInt64(Encoding.Default.GetBytes(seed));
+    public static UInt64 SeedHash(string seed) => XxHash64.HashToUInt64(Encoding.Default.GetBytes(seed));
 
     public Guid()
     {
