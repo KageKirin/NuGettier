@@ -1,7 +1,7 @@
 using System;
+using System.IO.Hashing;
 using System.Text;
 using Microsoft.Extensions.Logging;
-using System.IO.Hashing;
 
 namespace NuGettier.Upm.MetaGen;
 
@@ -9,7 +9,12 @@ struct Guid
 {
     public UInt128 hash;
 
-    public static UInt64 SeedHash(string seed) => XxHash64.HashToUInt64(Encoding.Default.GetBytes(seed));
+    public static UInt64 SeedHash(string seed)
+    {
+        XxHash64 xxHash = new();
+        xxHash.Append(Encoding.Default.GetBytes(seed));
+        return xxHash.GetCurrentHashAsUInt64();
+    }
 
     public Guid()
     {
