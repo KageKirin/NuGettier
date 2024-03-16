@@ -30,7 +30,7 @@ public class MetaFactory : IMetaFactory, IDisposable
         var metaTemplate = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.folder.meta")
         );
-        var metaContents = metaTemplate(new { guid = guid });
+        var metaContents = metaTemplate(new { guid = guid.ToString("N").ToLowerInvariant() });
         Logger.LogDebug("generated meta file for folder {0} with (GUID: {1}):\n{2}", dirname, guid, metaContents);
 
         return metaContents;
@@ -46,7 +46,7 @@ public class MetaFactory : IMetaFactory, IDisposable
                 ? EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.assembly.meta")
                 : EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.template.meta")
         );
-        var metaContents = metaTemplate(new { guid = guid });
+        var metaContents = metaTemplate(new { guid = guid.ToString("N").ToLowerInvariant() });
         Logger.LogDebug("generated meta file for file {0} with (GUID: {1}):\n{2}", filename, guid, metaContents);
 
         return metaContents;
