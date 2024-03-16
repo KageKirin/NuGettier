@@ -19,7 +19,7 @@ public class MetaFactory : IMetaFactory, IDisposable
     public MetaFactory(string seed, Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
     {
         Logger = loggerFactory.CreateLogger<MetaFactory>();
-        GuidFactory = new GuidFactory(loggerFactory, seed);
+        GuidFactory = new Sha1GuidFactory(loggerFactory, seed);
     }
 
     public virtual string GenerateFolderMeta(string dirname)
