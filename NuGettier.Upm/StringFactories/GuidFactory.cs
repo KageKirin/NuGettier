@@ -7,7 +7,7 @@ namespace NuGettier.Upm;
 
 public interface IGuidFactory
 {
-    NuGettier.Upm.MetaGen.Guid GenerateGuid(string value);
+    Guid GenerateGuid(string value);
 }
 
 public class GuidFactory : IGuidFactory, IDisposable
