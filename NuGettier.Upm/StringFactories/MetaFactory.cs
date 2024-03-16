@@ -40,14 +40,14 @@ public class MetaFactory : IMetaFactory, IDisposable
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
-        var guid = GuidFactory.GenerateGuid(filename);
+        var uuid = GuidFactory.GenerateGuid(filename).ToRfc4122Uuid();
         var metaTemplate = Handlebars.Compile(
             Path.GetExtension(filename).EndsWith(".dll")
                 ? EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.assembly.meta")
                 : EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.template.meta")
         );
-        var metaContents = metaTemplate(new { guid = guid.ToString("N").ToLowerInvariant() });
-        Logger.LogDebug("generated meta file for file {0} with (GUID: {1}):\n{2}", filename, guid, metaContents);
+        var metaContents = metaTemplate(new { guid = uuid });
+        Logger.LogDebug("generated meta file for file {0} with (UUID: {1}):\n{2}", filename, uuid, metaContents);
 
         return metaContents;
     }
