@@ -13,14 +13,13 @@ public interface IMetaFactory
 public class MetaFactory : IMetaFactory, IDisposable
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
-    protected string Seed;
-    protected ulong SeedHash;
+
+    protected readonly IGuidFactory GuidFactory;
 
     public MetaFactory(string seed, Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
     {
-        Seed = seed;
-        SeedHash = MetaGen.Guid.SeedHash(seed);
         Logger = loggerFactory.CreateLogger<MetaFactory>();
+        GuidFactory = new GuidFactory(loggerFactory, seed);
     }
 
     public virtual string GenerateFolderMeta(string dirname)
