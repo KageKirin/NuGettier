@@ -18,7 +18,7 @@ public class GuidFactory : IGuidFactory, IDisposable
 
     public GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory, string seed)
     {
-        Logger = loggerFactory.CreateLogger<ChangelogFactory>();
+        Logger = loggerFactory.CreateLogger<GuidFactory>();
 
         XxHash64 xxHash = new();
         xxHash.Append(Encoding.Default.GetBytes(seed));
