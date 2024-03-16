@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace NuGettier.Upm.MetaGen;
 
-struct Guid
+public struct Guid
 {
     public UInt128 hash;
 
