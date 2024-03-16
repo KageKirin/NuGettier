@@ -26,12 +26,12 @@ public class MetaFactory : IMetaFactory, IDisposable
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
-        var guid = GuidFactory.GenerateGuid(dirname);
+        var uuid = GuidFactory.GenerateGuid(dirname).ToRfc4122Uuid();
         var metaTemplate = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.folder.meta")
         );
-        var metaContents = metaTemplate(new { guid = guid.ToString("N").ToLowerInvariant() });
-        Logger.LogDebug("generated meta file for folder {0} with (GUID: {1}):\n{2}", dirname, guid, metaContents);
+        var metaContents = metaTemplate(new { guid = uuid });
+        Logger.LogDebug("generated meta file for folder {0} with (UUID: {1}):\n{2}", dirname, uuid, metaContents);
 
         return metaContents;
     }
