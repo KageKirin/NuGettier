@@ -7,7 +7,7 @@ namespace NuGettier.Upm;
 
 public interface IGuidFactory
 {
-    NuGettier.Upm.MetaGen.Guid GenerateGuid(string value);
+    Guid GenerateGuid(string value);
 }
 
 public class GuidFactory : IGuidFactory, IDisposable
@@ -25,15 +25,12 @@ public class GuidFactory : IGuidFactory, IDisposable
         SeedHash = xxHash.GetCurrentHashAsUInt64();
     }
 
-    public virtual NuGettier.Upm.MetaGen.Guid GenerateGuid(string value)
+    public virtual Guid GenerateGuid(string value)
     {
-        XxHash128 xxHash = new((long)SeedHash);
-        xxHash.Append(Encoding.Default.GetBytes(value));
+        Guid guid = new(XxHash128.Hash(Encoding.Default.GetBytes(value), (long)SeedHash));
+        Logger.LogDebug("generated GUID {0:x} for {1} with seed hash {2:x}", guid.ToString("N"), value, SeedHash);
 
-        var hash = xxHash.GetCurrentHashAsUInt128();
-        Logger.LogDebug("generated GUID {0:x} for {1} with seed hash {2:x}", hash, value, SeedHash);
-
-        return new NuGettier.Upm.MetaGen.Guid() { hash = hash };
+        return guid;
     }
 
     public virtual void Dispose() { }
