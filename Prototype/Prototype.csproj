@@ -30,7 +30,7 @@
     <PackageReference Include="NuGet.Commands" Version="6.9.1"/>
     <PackageReference Include="NuGet.LibraryModel" Version="6.9.1"/>
     <PackageReference Include="NuGet.Packaging" Version="6.9.1"/>
-    <PackageReference Include="NuGet.Protocol" Version="6.8.1"/>
+    <PackageReference Include="NuGet.Protocol" Version="6.9.1"/>
     <PackageReference Include="NuGet.Resolver" Version="6.8.1"/>
     <PackageReference Include="Xunit" Version="2.6.4"/>
     <PackageReference Include="ZLogger" Version="2.3.1"/>
