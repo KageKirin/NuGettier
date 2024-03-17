@@ -15,33 +15,33 @@
   </PropertyGroup>
 
   <ItemGroup Label="package dependencies">
-    <PackageReference Include="Alexinea.Extensions.Configuration.Toml" Version="7.0.0"/>
-    <PackageReference Include="Alexinea.Extensions.Configuration.Yaml" Version="7.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
-    <PackageReference Include="NuGet.Commands" Version="6.8.0"/>
-    <PackageReference Include="NuGet.LibraryModel" Version="6.8.0"/>
-    <PackageReference Include="NuGet.Packaging" Version="6.8.0"/>
-    <PackageReference Include="NuGet.Protocol" Version="6.8.0"/>
-    <PackageReference Include="NuGet.Resolver" Version="6.8.0"/>
-    <PackageReference Include="Xunit" Version="2.6.4"/>
-    <PackageReference Include="ZLogger" Version="2.3.1"/>
+    <PackageReference Include="Alexinea.Extensions.Configuration.Toml" Version="7.0.0" />
+    <PackageReference Include="Alexinea.Extensions.Configuration.Yaml" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-preview.2.24128.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+    <PackageReference Include="NuGet.Commands" Version="6.8.0" />
+    <PackageReference Include="NuGet.LibraryModel" Version="6.8.0" />
+    <PackageReference Include="NuGet.Packaging" Version="6.8.0" />
+    <PackageReference Include="NuGet.Protocol" Version="6.8.0" />
+    <PackageReference Include="NuGet.Resolver" Version="6.8.0" />
+    <PackageReference Include="Xunit" Version="2.6.4" />
+    <PackageReference Include="ZLogger" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup Label="embedded resources">
-    <Content Include="appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest"/>
-    <Content Include="appsettings.toml" Link="appsettings.toml" CopyToOutputDirectory="PreserveNewest"/>
-    <Content Include="appsettings.ini" Link="appsettings.ini" CopyToOutputDirectory="PreserveNewest"/>
-    <Content Include="appsettings.xml" Link="appsettings.xml" CopyToOutputDirectory="PreserveNewest"/>
-    <Content Include="appsettings.yml" Link="appsettings.yml" CopyToOutputDirectory="PreserveNewest"/>
+    <Content Include="appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.toml" Link="appsettings.toml" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.ini" Link="appsettings.ini" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.xml" Link="appsettings.xml" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="appsettings.yml" Link="appsettings.yml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
