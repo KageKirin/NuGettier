@@ -33,7 +33,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0-preview.2.24128.5" />
     <PackageReference Include="NuGet.Commands" Version="6.9.1" />
     <PackageReference Include="NuGet.LibraryModel" Version="6.9.1" />
-    <PackageReference Include="NuGet.Packaging" Version="6.8.0" />
+    <PackageReference Include="NuGet.Packaging" Version="6.9.1" />
     <PackageReference Include="NuGet.Protocol" Version="6.8.0" />
     <PackageReference Include="NuGet.Resolver" Version="6.8.0" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
