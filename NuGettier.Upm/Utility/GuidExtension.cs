@@ -24,6 +24,21 @@ public static class GuidExtension
     }
 
     /// <summary>
+    /// marks the input Guid as a standard Unity Guid
+    /// </summary>
+    /// <param name="guid">a Guid</param>
+    /// <returns>the same guid, now containing the mark of the beast</returns>
+    /// <remarks>
+    /// discovered this flag in the Unity source code
+    /// </remarks>
+    public static Guid ToUnityGUID(this Guid guid)
+    {
+        byte[] bytes = guid.ToByteArray();
+        bytes[2] = (byte)((bytes[2] & ~0xC0) | 0x80);
+        return new Guid(bytes);
+    }
+
+    /// <summary>
     /// returns a Unity-compatible Guid string
     /// </summary>
     /// <param name="guid">a Guid</param>
