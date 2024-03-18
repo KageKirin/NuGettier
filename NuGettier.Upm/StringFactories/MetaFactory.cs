@@ -26,7 +26,7 @@ public class MetaFactory : IMetaFactory, IDisposable
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
-        var uuid = GuidFactory.GenerateGuid(dirname).ToRfc4122Uuid();
+        var uuid = GuidFactory.GenerateGuid(dirname).ToRfc4122().ToUnityString();
         var metaTemplate = Handlebars.Compile(
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.folder.meta")
         );
@@ -40,7 +40,7 @@ public class MetaFactory : IMetaFactory, IDisposable
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
-        var uuid = GuidFactory.GenerateGuid(filename).ToRfc4122Uuid();
+        var uuid = GuidFactory.GenerateGuid(filename).ToRfc4122().ToUnityString();
         var metaTemplate = Handlebars.Compile(
             Path.GetExtension(filename).EndsWith(".dll")
                 ? EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.assembly.meta")
