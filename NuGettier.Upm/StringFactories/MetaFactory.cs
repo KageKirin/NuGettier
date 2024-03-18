@@ -31,7 +31,7 @@ public class MetaFactory : IMetaFactory, IDisposable
             EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.folder.meta")
         );
         var metaContents = metaTemplate(new { guid = uuid });
-        Logger.LogDebug("generated meta file for folder {0} with (UUID: {1}):\n{2}", dirname, uuid, metaContents);
+        Logger.LogDebug("generated meta file for folder {0} with GUID: {1}:\n{2}", dirname, uuid, metaContents);
 
         return metaContents;
     }
@@ -47,7 +47,7 @@ public class MetaFactory : IMetaFactory, IDisposable
                 : EmbeddedAssetHelper.GetEmbeddedResourceString("NuGettier.Upm.Templates.template.meta")
         );
         var metaContents = metaTemplate(new { guid = uuid });
-        Logger.LogDebug("generated meta file for file {0} with (UUID: {1}):\n{2}", filename, uuid, metaContents);
+        Logger.LogDebug("generated meta file for file {0} with GUID: {1}:\n{2}", filename, uuid, metaContents);
 
         return metaContents;
     }
