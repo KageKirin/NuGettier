@@ -21,9 +21,9 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Command ListCommand =>
+    private Command ListCommand =>
         new Command("list", "list available version for a given package")
         {
             PackageIdArgument,
@@ -33,7 +33,7 @@ public static partial class Program
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(List));
 
-    private static async Task<int> List(
+    private async Task<int> List(
         string packageId,
         bool preRelease,
         bool json,
