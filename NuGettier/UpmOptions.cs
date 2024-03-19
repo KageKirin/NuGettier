@@ -11,71 +11,73 @@ using Microsoft.Extensions.Configuration;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Option<string> UpmUnityVersionOption =
+    private Option<string> UpmUnityVersionOption =
         new(
             aliases: ["--unity", "-u"],
             description: "minimum Unity version required by package.json",
-            getDefaultValue: () => Configuration.GetSection(kDefaultsSection).GetValue<string>(kUnityKey) ?? "2022.3" //< latest LTS
+            getDefaultValue: () => "2022.3"
+        //Configuration.GetSection(kDefaultsSection).GetValue<string>(kUnityKey) ?? "2022.3" //< latest LTS
         )
         {
             IsRequired = true,
         };
 
-    private static Option<string> UpmPrereleaseSuffixOption =
+    private Option<string> UpmPrereleaseSuffixOption =
         new(
             aliases: ["--prerelease-suffix",],
             description: "version prerelease suffix ('foobar' -> '1.2.3-foobar+buildmeta)",
-            getDefaultValue: () =>
-                Configuration.GetSection(kDefaultsSection).GetValue<string>(kPrereleaseSuffixKey) ?? string.Empty
+            getDefaultValue: () => string.Empty
+        //Configuration.GetSection(kDefaultsSection).GetValue<string>(kPrereleaseSuffixKey) ?? string.Empty
         );
 
-    private static Option<string> UpmBuildmetaSuffixOption =
+    private Option<string> UpmBuildmetaSuffixOption =
         new(
             aliases: ["--buildmeta-suffix",],
             description: "version buildmeta suffix ('foobar' -> '1.2.3-prerelease+foobar)",
-            getDefaultValue: () =>
-                Configuration.GetSection(kDefaultsSection).GetValue<string>(kBuildmetaSuffixKey) ?? string.Empty
+            getDefaultValue: () => string.Empty
+        //Configuration.GetSection(kDefaultsSection).GetValue<string>(kBuildmetaSuffixKey) ?? string.Empty
         );
 
-    private static Option<string> UpmTokenOption =
+    private Option<string> UpmTokenOption =
         new(aliases: ["--token",], description: "authentication token required to connect to NPM server")
         {
             IsRequired = false,
         };
 
-    private static Option<string> UpmNpmrcOption =
+    private Option<string> UpmNpmrcOption =
         new(aliases: ["--npmrc",], description: "path to existing .npmrc required to connect to NPM server")
         {
             IsRequired = false,
         };
 
-    private static Option<Uri> UpmRepositoryUrlOption =
+    private Option<Uri> UpmRepositoryUrlOption =
         new(aliases: ["--repository",], description: "NPM package repository URL, assigned to `{.repository.url`}")
         {
             IsRequired = false,
         };
 
-    private static Option<string> UpmDirectoryUrlOption =
+    private Option<string> UpmDirectoryUrlOption =
         new(aliases: ["--directory",], description: "NPM package directory path, assigned to `{.repository.directory`}")
         {
             IsRequired = false,
         };
 
-    private static Option<bool> UpmDryRunOption = new(aliases: ["--dry-run", "-n"], description: "Dry run");
+    private Option<bool> UpmDryRunOption = new(aliases: ["--dry-run", "-n"], description: "Dry run");
 
-    private static Option<int> UpmTimeOutOption =
+    private Option<int> UpmTimeOutOption =
         new(
             aliases: ["--timeout", "-w"],
             description: "Time out (in seconds)",
-            getDefaultValue: () => Configuration.GetSection(kDefaultsSection).GetValue<int>(kTimeOutKey, 60)
+            getDefaultValue: () => 60
+        //Configuration.GetSection(kDefaultsSection).GetValue<int>(kTimeOutKey, 60)
         )
         {
             IsRequired = false,
         };
 
-    private static Option<Upm.PackageAccessLevel> UpmPackageAccessLevel =
+    private Option<Upm.PackageAccessLevel> UpmPackageAccessLevel =
         new(
             aliases: ["--access", "-a",],
             //getDefaultValue => Upm.PackageAccessLevel.Public,
@@ -85,22 +87,17 @@ public static partial class Program
                 {
                     result.ErrorMessage = "--access requires 1 argument";
                 }
-                else
-                {
-                    switch (result.Tokens.First().Value.ToLowerInvariant())
-                    {
-                        case "public":
-                            return Upm.PackageAccessLevel.Public;
 
-                        case "private":
-                            return Upm.PackageAccessLevel.Private;
-                    }
-                }
-                return Upm.PackageAccessLevel.Public;
+                return result.Tokens.First().Value.ToLowerInvariant() switch
+                {
+                    "public" => Upm.PackageAccessLevel.Public,
+                    "private" => Upm.PackageAccessLevel.Private,
+                    _ => Upm.PackageAccessLevel.Public
+                };
             },
             description: $"package access level: [{string.Join("|", Enum.GetValues(typeof(Upm.PackageAccessLevel)).Cast<Upm.PackageAccessLevel>()).ToLowerInvariant()}]"
         );
 
-    private static Option<string> UpmMetagenSeedOption =
+    private Option<string> UpmMetagenSeedOption =
         new(aliases: ["--seed", "-s"], description: "seed string, e.g. package name") { IsRequired = false, };
 }

@@ -13,9 +13,9 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Command UpmPublishPackageCommand =>
+    private Command UpmPublishPackageCommand =>
         new Command("publish-package", "publish a pre-packed UPM package")
         {
             PackageFileArgument,
@@ -28,7 +28,7 @@ public static partial class Program
             UpmPackageAccessLevel,
         }.WithHandler(CommandHandler.Create(UpmPublishPackage));
 
-    private static async Task<int> UpmPublishPackage(
+    private async Task<int> UpmPublishPackage(
         FileInfo packageFile,
         Uri target,
         string unity,

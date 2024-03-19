@@ -23,9 +23,9 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Command GetCommand =>
+    private Command GetCommand =>
         new Command("get", "download the given NuPkg at the given version")
         {
             PackageIdVersionArgument,
@@ -34,7 +34,7 @@ public static partial class Program
             OutputDirectoryOption,
         }.WithHandler(CommandHandler.Create(Get));
 
-    private static async Task<int> Get(
+    private async Task<int> Get(
         string packageIdVersion,
         bool preRelease,
         IEnumerable<Uri> sources,

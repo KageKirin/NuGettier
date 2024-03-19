@@ -16,9 +16,9 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Command UpmMetagenCommand =>
+    private Command UpmMetagenCommand =>
         new Command("metagen", "generate .meta files for given files")
         {
             InputItemsArgument,
@@ -26,7 +26,7 @@ public static partial class Program
             ForceOverwriteOption,
         }.WithHandler(CommandHandler.Create(UpmMetagen));
 
-    private static async Task<int> UpmMetagen(
+    private async Task<int> UpmMetagen(
         IEnumerable<string> inputItems,
         string seed,
         bool force,

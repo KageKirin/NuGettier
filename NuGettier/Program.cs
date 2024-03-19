@@ -11,6 +11,8 @@ using DotNetConfig;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
 using Xunit;
@@ -20,72 +22,59 @@ using ZLogger;
 
 namespace NuGettier;
 
-public static partial class Program
+public static class Program
 {
-    private static IConfigurationRoot? configurationRoot = null;
-    private static IConfigurationRoot Configuration
-    {
-        get
-        {
-            configurationRoot ??= new ConfigurationBuilder() //
-                .AddJsonFile("appconfig.json", optional: false, reloadOnChange: false)
-                .AddJsonFile(
-                    Path.Join(Environment.CurrentDirectory, "appconfig.json"),
-                    optional: true,
-                    reloadOnChange: false
-                )
-                .AddEnvironmentVariables()
-                .AddDotNetConfig()
-                .Build();
-            return configurationRoot;
-        }
-    }
+    public static string[]? CommandLineArgs = null;
 
-    private static ILoggerFactory? mainLoggerFactory = null;
-    public static ILoggerFactory MainLoggerFactory
-    {
-        get
-        {
-            mainLoggerFactory ??= LoggerFactory.Create(builder =>
-            {
-                builder
-                    .AddConfiguration(Configuration.GetSection("logging"))
-                    .AddConsole() //< add console as logging target
-                    .AddDebug() //< add debug output as logging target
-                    .AddZLoggerFile(Path.Join(Environment.CurrentDirectory, "nugettier.log")) //< add file output as logging target
-#if DEBUG
-                    .SetMinimumLevel(
-                        LogLevel.Trace
-                    ) //< set minimum level to trace in Debug
-#else
-                    .SetMinimumLevel(
-                        LogLevel.Error
-                    ) //< set minimum level to error in Release
-#endif
-                ;
-            });
-            return mainLoggerFactory;
-        }
-    }
-
-    private static readonly ILogger Logger = MainLoggerFactory.CreateLogger("Program");
+    private static IHost? Host = null;
 
     static async Task<int> Main(string[] args)
     {
-        Logger.LogDebug("program called with args: {0}", args.Select(a => $"'{a}'"));
-        Assert.NotNull(Configuration);
+        CommandLineArgs = args;
 
-        var cmd = new RootCommand("Extended NuGet helper utility")
-        { //
-            SearchCommand,
-            ListCommand,
-            InfoCommand,
-            GetCommand,
-            ListDependenciesCommand,
-            UpmCommand,
-        };
-        cmd.Name = "dotnet-nugettier";
+        Host = Microsoft
+            .Extensions.Hosting.Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration(
+                (context, builder) =>
+                {
+                    builder
+                        .AddJsonFile("appconfig.json", optional: false, reloadOnChange: false)
+                        .AddJsonFile(
+                            Path.Join(Environment.CurrentDirectory, "appconfig.json"),
+                            optional: true,
+                            reloadOnChange: false
+                        )
+                        .AddEnvironmentVariables("NUGETTIER_")
+                        .AddDotNetConfig();
+                }
+            )
+            .ConfigureLogging(
+                (context, builder) =>
+                {
+                    builder
+                        .AddConfiguration(context.Configuration.GetSection("logging"))
+                        .AddConsole() //< add console as logging target
+                        .AddDebug() //< add debug output as logging target
+                        .AddZLoggerFile(Path.Join(Environment.CurrentDirectory, "nugettier.log")) //< add file output as logging target
+                        .SetMinimumLevel(
+#if DEBUG
+                            LogLevel.Trace //< set minimum level to trace in Debug
+#else
+                            LogLevel.Error //< set minimum level to error in Release
+#endif
+                        );
+                }
+            )
+            .ConfigureServices(
+                (context, services) =>
+                {
+                    services.AddOptions();
+                    services.AddHostedService<NuGettierService>();
+                }
+            )
+            .Build();
+        await Host.RunAsync();
 
-        return await cmd.InvokeAsync(args);
+        return Environment.ExitCode;
     }
 }

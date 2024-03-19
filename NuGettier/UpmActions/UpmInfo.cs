@@ -24,9 +24,9 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Command UpmInfoCommand =>
+    private Command UpmInfoCommand =>
         new Command("info", "preview Unity package informations for the given NuPkg at the given version")
         {
             PackageIdVersionArgument,
@@ -41,7 +41,7 @@ public static partial class Program
             UpmDirectoryUrlOption,
         }.WithHandler(CommandHandler.Create(UpmInfo));
 
-    private static async Task<int> UpmInfo(
+    private async Task<int> UpmInfo(
         string packageIdVersion,
         bool json,
         bool preRelease,

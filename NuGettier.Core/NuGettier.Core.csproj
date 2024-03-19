@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="version metadata">
-    <Version>0.2.60</Version>
+    <Version>0.3.0</Version>
     <AssemblyVersion>0.2.60.197</AssemblyVersion>
     <FileVersion>0.2.60.985</FileVersion>
   </PropertyGroup>
@@ -22,6 +22,8 @@
   <ItemGroup Label="package dependencies">
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
