@@ -12,9 +12,9 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Command AmalgamatePublishCommand =>
+    private Command AmalgamatePublishCommand =>
         new Command("publish", "repack the given NuPkg at the given version as Unity package and publish")
         {
             PackageIdVersionArgument,
@@ -33,7 +33,7 @@ public static partial class Program
             UpmPackageAccessLevel,
         }.WithHandler(CommandHandler.Create(AmalgamatePublish));
 
-    private static async Task<int> AmalgamatePublish(
+    private async Task<int> AmalgamatePublish(
         string packageIdVersion,
         bool preRelease,
         IEnumerable<Uri> sources,
