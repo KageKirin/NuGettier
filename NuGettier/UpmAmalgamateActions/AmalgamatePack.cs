@@ -24,9 +24,9 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Command AmalgamatePackCommand =>
+    private Command AmalgamatePackCommand =>
         new Command("pack", "repack the given NuPkg at the given version as Unity package")
         {
             PackageIdVersionArgument,
@@ -41,7 +41,7 @@ public static partial class Program
             UpmDirectoryUrlOption,
         }.WithHandler(CommandHandler.Create(AmalgamatePack));
 
-    private static async Task<int> AmalgamatePack(
+    private async Task<int> AmalgamatePack(
         string packageIdVersion,
         bool preRelease,
         IEnumerable<Uri> sources,
