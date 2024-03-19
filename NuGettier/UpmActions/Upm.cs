@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Command UpmCommand =>
+    private Command UpmCommand =>
         new Command("upm", "root command for a number of commands specific to Unity packages")
         {
             UpmInfoCommand,
