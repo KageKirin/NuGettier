@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Command AmalgamateCommand =>
+    private Command AmalgamateCommand =>
         new Command("amalgamate", "root command for a number of commands specific to amalgamated Unity packages")
         {
             AmalgamateInfoCommand,
