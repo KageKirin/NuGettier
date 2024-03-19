@@ -22,9 +22,9 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Command ListDependenciesCommand =>
+    private Command ListDependenciesCommand =>
         new Command("deps", "retrieve information about a specific version of a given package")
         {
             PackageIdVersionArgument,
@@ -34,7 +34,7 @@ public static partial class Program
             SourceRepositoriesOption,
         }.WithHandler(CommandHandler.Create(ListDependencies));
 
-    private static async Task<int> ListDependencies(
+    private async Task<int> ListDependencies(
         string packageIdVersion,
         bool preRelease,
         bool json,
