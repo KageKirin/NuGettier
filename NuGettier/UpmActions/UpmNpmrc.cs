@@ -13,9 +13,9 @@ using Xunit;
 
 namespace NuGettier;
 
-public static partial class Program
+public partial class NuGettierService
 {
-    private static Command UpmNpmrcCommand =>
+    private Command UpmNpmrcCommand =>
         new Command("npmrc", "generate .npmrc in given folder")
         {
             TargetRegistryOption,
@@ -24,7 +24,7 @@ public static partial class Program
             UpmNpmrcOption,
         }.WithHandler(CommandHandler.Create(UpmNpmrc));
 
-    private static async Task<int> UpmNpmrc(
+    private async Task<int> UpmNpmrc(
         Uri target,
         DirectoryInfo outputDirectory,
         string? token,
