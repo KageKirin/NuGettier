@@ -36,15 +36,16 @@ public partial class NuGettierService
         using var scope = Logger.TraceLocation().BeginScope(nameof(UpmNpmrc));
         Assert.NotNull(Configuration);
         using var context = new Upm.Context(
-            configuration: Configuration!,
+            configuration: Configuration,
+            loggerFactory: MainLoggerFactory,
+            logger: MainLoggerFactory.CreateLogger<Upm.Context>(),
+            console: console,
             sources: Array.Empty<Uri>(),
             minUnityVersion: (UpmUnityVersionOption as IValueDescriptor<string>).GetDefaultValue() as string
                 ?? string.Empty,
             target: target,
             repository: null,
-            directory: null,
-            console: console,
-            loggerFactory: MainLoggerFactory
+            directory: null
         );
         var fileInfo = await context.GenerateNpmrc(
             outputDirectory: outputDirectory,
