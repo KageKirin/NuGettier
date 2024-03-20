@@ -13,47 +13,25 @@ public partial class Context : Upm.Context
 {
     public Context(
         IConfigurationRoot configuration,
-        IEnumerable<Uri> sources,
-        string minUnityVersion,
-        Uri target,
-        string? repository,
-        string? directory,
-        IConsole console,
-        ILoggerFactory loggerFactory
-    )
-        : this(
-            configuration: configuration,
-            sources: sources,
-            minUnityVersion: minUnityVersion,
-            target: target,
-            repository: repository,
-            directory: directory,
-            console: console,
-            loggerFactory: loggerFactory,
-            logger: loggerFactory.CreateLogger<Amalgamate.Context>()
-        ) { }
-
-    protected Context(
-        IConfigurationRoot configuration,
-        IEnumerable<Uri> sources,
-        string minUnityVersion,
-        Uri target,
-        string? repository,
-        string? directory,
-        IConsole console,
         ILoggerFactory loggerFactory,
-        ILogger logger
+        ILogger logger,
+        IConsole console,
+        IEnumerable<Uri> sources,
+        string minUnityVersion,
+        Uri target,
+        string? repository,
+        string? directory
     )
         : base(
             configuration: configuration,
+            loggerFactory: loggerFactory,
+            logger: logger,
+            console: console,
             sources: sources,
             minUnityVersion: minUnityVersion,
             target: target,
             repository: repository,
-            directory: directory,
-            console: console,
-            loggerFactory: loggerFactory,
-            logger: logger
+            directory: directory
         ) { }
 
     public Context(Context other)
