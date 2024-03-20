@@ -14,6 +14,7 @@ using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
 using Xunit;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace NuGettier.Core;
 
@@ -52,8 +53,8 @@ public partial class Context : IDisposable
     public IConsole Console { get; protected set; }
     public BuildInfo Build { get; protected set; }
     public IEnumerable<PackageRule> PackageRules { get; protected set; }
-    protected readonly Microsoft.Extensions.Logging.ILoggerFactory LoggerFactory;
-    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+    protected readonly ILoggerFactory LoggerFactory;
+    protected readonly ILogger Logger;
 
     public Context(
         IConfigurationRoot configuration,
