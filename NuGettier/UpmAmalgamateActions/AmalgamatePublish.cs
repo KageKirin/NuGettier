@@ -55,14 +55,15 @@ public partial class NuGettierService
         using var scope = Logger.TraceLocation().BeginScope(nameof(AmalgamatePublish));
         Assert.NotNull(Configuration);
         using var context = new Amalgamate.Context(
-            configuration: Configuration!,
+            configuration: Configuration,
+            loggerFactory: MainLoggerFactory,
+            logger: MainLoggerFactory.CreateLogger<Amalgamate.Context>(),
+            console: console,
             sources: sources,
             minUnityVersion: unity,
             target: target,
             repository: repository,
-            directory: directory,
-            console: console,
-            loggerFactory: MainLoggerFactory
+            directory: directory
         );
         var result = await context.PublishUpmPackage(
             packageIdVersion: packageIdVersion,

@@ -36,38 +36,22 @@ public partial class Context : Core.Context
 
     public Context(
         IConfigurationRoot configuration,
-        IEnumerable<Uri> sources,
-        string minUnityVersion,
-        Uri target,
-        string? repository,
-        string? directory,
-        IConsole console,
-        ILoggerFactory loggerFactory
-    )
-        : this(
-            configuration: configuration,
-            sources: sources,
-            minUnityVersion: minUnityVersion,
-            target: target,
-            repository: repository,
-            directory: directory,
-            console: console,
-            loggerFactory: loggerFactory,
-            logger: loggerFactory.CreateLogger<Upm.Context>()
-        ) { }
-
-    protected Context(
-        IConfigurationRoot configuration,
-        IEnumerable<Uri> sources,
-        string minUnityVersion,
-        Uri target,
-        string? repository,
-        string? directory,
-        IConsole console,
         ILoggerFactory loggerFactory,
-        ILogger logger
+        ILogger logger,
+        IEnumerable<Uri> sources,
+        IConsole console,
+        string minUnityVersion,
+        Uri target,
+        string? repository,
+        string? directory
     )
-        : base(configuration, sources, console, loggerFactory, logger)
+        : base(
+            configuration: configuration,
+            loggerFactory: loggerFactory,
+            logger: logger,
+            console: console,
+            sources: sources
+        )
     {
         MinUnityVersion = minUnityVersion;
         Target = target;

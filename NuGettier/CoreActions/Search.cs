@@ -44,10 +44,11 @@ public partial class NuGettierService
         using var scope = Logger.TraceLocation().BeginScope(nameof(Search));
         Assert.NotNull(Configuration);
         using var context = new Core.Context(
-            configuration: Configuration!,
-            sources: sources,
+            configuration: Configuration,
+            loggerFactory: MainLoggerFactory,
+            logger: MainLoggerFactory.CreateLogger<Core.Context>(),
             console: console,
-            loggerFactory: MainLoggerFactory
+            sources: sources
         );
         var results = await context.SearchPackages(searchTerm: searchTerm, cancellationToken: cancellationToken);
 

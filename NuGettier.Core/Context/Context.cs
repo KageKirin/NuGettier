@@ -14,6 +14,7 @@ using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
 using Xunit;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace NuGettier.Core;
 
@@ -52,36 +53,27 @@ public partial class Context : IDisposable
     public IConsole Console { get; protected set; }
     public BuildInfo Build { get; protected set; }
     public IEnumerable<PackageRule> PackageRules { get; protected set; }
-    protected readonly Microsoft.Extensions.Logging.ILoggerFactory LoggerFactory;
-    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+    protected readonly ILoggerFactory LoggerFactory;
+    protected readonly ILogger Logger;
 
     public Context(
         IConfigurationRoot configuration,
-        IEnumerable<Uri> sources,
+        ILoggerFactory loggerFactory,
+        ILogger logger,
         IConsole console,
-        Microsoft.Extensions.Logging.ILoggerFactory loggerFactory
-    )
-        : this(
-            configuration: configuration,
-            sources: sources,
-            console: console,
-            loggerFactory: loggerFactory,
-            logger: loggerFactory.CreateLogger<Context>()
-        ) { }
-
-    protected Context(
-        IConfigurationRoot configuration,
-        IEnumerable<Uri> sources,
-        IConsole console,
-        Microsoft.Extensions.Logging.ILoggerFactory loggerFactory,
-        Microsoft.Extensions.Logging.ILogger logger
+        IEnumerable<Uri> sources
     )
     {
         Assert.NotNull(configuration);
         Configuration = configuration;
-        Console = console;
+
+        Assert.NotNull(loggerFactory);
         LoggerFactory = loggerFactory;
+
+        Assert.NotNull(logger);
         Logger = logger;
+
+        Console = console;
         Cache = new();
 
         var entryAssembly = Assembly.GetEntryAssembly();
@@ -177,15 +169,14 @@ public partial class Context : IDisposable
     public Context(Context other)
     {
         Configuration = other.Configuration;
-        Console = other.Console;
+        LoggerFactory = other.LoggerFactory;
         Logger = other.Logger;
+        Console = other.Console;
         Sources = other.Sources;
         Cache = other.Cache;
         Build = other.Build;
         Repositories = other.Repositories;
         PackageRules = other.PackageRules;
-        LoggerFactory = other.LoggerFactory;
-        Logger = other.Logger;
     }
 
     public void Dispose() { }
