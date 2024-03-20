@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
@@ -46,6 +47,7 @@ public partial class Context : IDisposable
         bool IsRecursive
     );
 
+    public IHost Host { get; protected set; }
     public IConfigurationRoot Configuration { get; protected set; }
     public IEnumerable<Uri> Sources { get; protected set; }
     public SourceCacheContext Cache { get; protected set; }
@@ -57,6 +59,7 @@ public partial class Context : IDisposable
     protected readonly ILogger Logger;
 
     public Context(
+        IHost host,
         IConfigurationRoot configuration,
         ILoggerFactory loggerFactory,
         ILogger logger,
@@ -64,6 +67,9 @@ public partial class Context : IDisposable
         IEnumerable<Uri> sources
     )
     {
+        Assert.NotNull(host);
+        Host = host;
+
         Assert.NotNull(configuration);
         Configuration = configuration;
 
@@ -168,6 +174,7 @@ public partial class Context : IDisposable
 
     public Context(Context other)
     {
+        Host = other.Host;
         Configuration = other.Configuration;
         LoggerFactory = other.LoggerFactory;
         Logger = other.Logger;
