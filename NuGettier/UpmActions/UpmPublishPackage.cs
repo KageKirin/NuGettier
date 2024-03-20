@@ -45,15 +45,15 @@ public partial class NuGettierService
         using var scope = Logger.TraceLocation().BeginScope(nameof(UpmPublishPackage));
         Assert.NotNull(Configuration);
         using var context = new Upm.Context(
-            configuration: Configuration!,
+            configuration: Configuration,
+            loggerFactory: MainLoggerFactory,
+            logger: MainLoggerFactory.CreateLogger<Upm.Context>(),
+            console: console,
             sources: Array.Empty<Uri>(),
-            minUnityVersion: (UpmUnityVersionOption as IValueDescriptor<string>).GetDefaultValue() as string
-                ?? string.Empty,
+            minUnityVersion: unity,
             target: target,
             repository: null,
-            directory: null,
-            console: console,
-            loggerFactory: MainLoggerFactory
+            directory: directory
         );
         var result = await context.PublishPackedUpmPackage(
             packageFile: packageFile,
