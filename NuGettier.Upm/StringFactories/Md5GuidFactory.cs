@@ -9,11 +9,15 @@ public class Md5GuidFactory : IGuidFactory, IDisposable
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
-    readonly string Seed = string.Empty;
+    string Seed = string.Empty;
 
-    public Md5GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory, string seed)
+    public Md5GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
     {
         Logger = loggerFactory.CreateLogger<Md5GuidFactory>();
+    }
+
+    public virtual void InitializeWithSeed(string seed)
+    {
         Seed = seed;
     }
 

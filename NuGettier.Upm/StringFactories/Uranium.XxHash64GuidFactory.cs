@@ -10,12 +10,15 @@ public class XxHash64GuidFactory : IGuidFactory, IDisposable
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
-    readonly ulong SeedHash = 0;
+    ulong SeedHash = 0;
 
-    public XxHash64GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory, string seed)
+    public XxHash64GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
     {
         Logger = loggerFactory.CreateLogger<XxHash64GuidFactory>();
+    }
 
+    public virtual void InitializeWithSeed(string seed)
+    {
         byte[] seedBytes = Encoding.Default.GetBytes(seed);
         SeedHash = xxHash64.ComputeHash(seedBytes, seedBytes.Length);
     }

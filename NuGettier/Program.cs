@@ -76,6 +76,14 @@ public static class Program
                     services.AddScoped<ILicenseFactory, LicenseFactory>();
                     services.AddScoped<IChangelogFactory, ChangelogFactory>();
                     services.AddScoped<IMetaFactory, MetaFactory>();
+                    services.AddScoped<IGuidFactory, Sha1GuidFactory>();
+                    services.AddScoped<IGuidFactory, Md5GuidFactory>();
+                    services.AddScoped<IGuidFactory, XxHash128GuidFactory>();
+                    services.AddScoped<IGuidFactory, XxHash3GuidFactory>();
+                    services.AddScoped<IGuidFactory, XxHash64GuidFactory>();
+                    services.AddScoped<IGuidFactory, Upm.Uranium.XxHash128GuidFactory>();
+                    services.AddScoped<IGuidFactory, Upm.Uranium.XxHash3GuidFactory>();
+                    services.AddScoped<IGuidFactory, Upm.Uranium.XxHash64GuidFactory>();
                 }
             )
             .Build();
