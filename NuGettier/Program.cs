@@ -83,7 +83,7 @@ public static class Program
                     services.AddKeyedScoped<IGuidFactory, XxHash64GuidFactory>("xxhash64");
                     services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash128GuidFactory>("uranium.xxhash128");
                     services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash3GuidFactory>("uranium.xxhash3");
-                    services.AddScoped<IGuidFactory, Upm.Uranium.XxHash64GuidFactory>();
+                    services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash64GuidFactory>("uranium.xxhash64");
                 }
             )
             .Build();
