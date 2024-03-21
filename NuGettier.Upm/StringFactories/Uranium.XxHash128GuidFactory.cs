@@ -7,13 +7,13 @@ namespace NuGettier.Upm.Uranium;
 
 public class XxHash128GuidFactory : IGuidFactory, IDisposable
 {
-    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+    protected readonly ILogger Logger;
 
     ulong SeedHash = 0;
 
-    public XxHash128GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public XxHash128GuidFactory(ILogger<XxHash128GuidFactory> logger)
     {
-        Logger = loggerFactory.CreateLogger<XxHash128GuidFactory>();
+        Logger = logger;
     }
 
     public virtual void InitializeWithSeed(string seed)
