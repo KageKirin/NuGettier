@@ -6,6 +6,7 @@ namespace NuGettier.Upm;
 
 public interface IMetaFactory
 {
+    void InitializeWithSeed(string seed);
     string GenerateFolderMeta(string dirname);
     string GenerateFileMeta(string filename);
 }
