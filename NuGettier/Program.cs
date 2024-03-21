@@ -45,8 +45,8 @@ public static class Program
                             optional: true,
                             reloadOnChange: false
                         )
-                        .AddEnvironmentVariables("NUGETTIER_")
-                        .AddDotNetConfig();
+                        .AddDotNetConfig()
+                        .AddEnvironmentVariables("NUGETTIER_");
                 }
             )
             .ConfigureLogging(
