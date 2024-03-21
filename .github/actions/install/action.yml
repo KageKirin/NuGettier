@@ -13,6 +13,7 @@ runs:
     shell: bash
     run: |-
       dotnet tool install NuGettier -g --prerelease
+      curl -LO https://github.com/KageKirin/NuGettier/blob/main/appconfig.json
   - name: Verify installation
     shell: bash
     run: |-
