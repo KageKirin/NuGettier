@@ -82,6 +82,7 @@ public static class Program
                     services.AddScoped<IGuidFactory, XxHash3GuidFactory>();
                     services.AddScoped<IGuidFactory, XxHash64GuidFactory>();
                     services.AddScoped<IGuidFactory, Upm.Uranium.XxHash128GuidFactory>();
+                    services.AddScoped<IGuidFactory, Upm.Uranium.XxHash3GuidFactory>();
                 }
             )
             .Build();
