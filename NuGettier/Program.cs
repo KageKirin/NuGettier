@@ -34,8 +34,7 @@ public static class Program
     {
         CommandLineArgs = args;
 
-        Host = Microsoft
-            .Extensions.Hosting.Host.CreateDefaultBuilder(args)
+        Host = new HostBuilder()
             .ConfigureAppConfiguration(
                 (context, builder) =>
                 {
