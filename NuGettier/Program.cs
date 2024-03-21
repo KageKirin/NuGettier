@@ -75,6 +75,7 @@ public static class Program
                     services.AddScoped<IReadmeFactory, ReadmeFactory>();
                     services.AddScoped<ILicenseFactory, LicenseFactory>();
                     services.AddScoped<IChangelogFactory, ChangelogFactory>();
+                    services.AddScoped<IMetaFactory, MetaFactory>();
                 }
             )
             .Build();
