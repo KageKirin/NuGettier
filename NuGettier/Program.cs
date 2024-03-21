@@ -73,6 +73,7 @@ public static class Program
                     services.AddHostedService<NuGettierService>();
                     services.AddScoped<INpmrcFactory, NpmrcFactory>();
                     services.AddScoped<IReadmeFactory, ReadmeFactory>();
+                    services.AddScoped<ILicenseFactory, LicenseFactory>();
                 }
             )
             .Build();
