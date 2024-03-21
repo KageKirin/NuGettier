@@ -9,11 +9,15 @@ public class Sha1GuidFactory : IGuidFactory, IDisposable
 {
     protected readonly Microsoft.Extensions.Logging.ILogger Logger;
 
-    readonly string Seed = string.Empty;
+    string Seed = string.Empty;
 
-    public Sha1GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory, string seed)
+    public Sha1GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
     {
         Logger = loggerFactory.CreateLogger<Sha1GuidFactory>();
+    }
+
+    public virtual void InitializeWithSeed(string seed)
+    {
         Seed = seed;
     }
 
