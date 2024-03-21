@@ -67,7 +67,7 @@ public partial class Context
         {
             using (var serviceScope = Host.Services.CreateScope())
             {
-                ReadmeFactory readmeFactory = serviceScope.ServiceProvider.GetRequiredService<ReadmeFactory>();
+                IReadmeFactory readmeFactory = serviceScope.ServiceProvider.GetRequiredService<IReadmeFactory>();
                 var readme = packageJson.GenerateReadme(
                     originalReadme: packageReader.GetReadme(),
                     readmeFactory: readmeFactory
