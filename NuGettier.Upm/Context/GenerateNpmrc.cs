@@ -61,7 +61,7 @@ public partial class Context
 
             using (var serviceScope = Host.Services.CreateScope())
             {
-                NpmrcFactory npmrcFactory = serviceScope.ServiceProvider.GetRequiredService<NpmrcFactory>();
+                INpmrcFactory npmrcFactory = serviceScope.ServiceProvider.GetRequiredService<INpmrcFactory>();
                 await File.WriteAllTextAsync(targetNpmrc.FullName, npmrcFactory.GenerateNpmrc(Target, token));
             }
             targetNpmrc.Refresh();
