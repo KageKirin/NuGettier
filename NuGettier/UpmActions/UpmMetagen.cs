@@ -44,7 +44,7 @@ public partial class NuGettierService
         Logger.LogTrace("force: {0}", force);
 
         var serviceScope = Host.Services.CreateScope();
-        MetaFactory metaFactory = serviceScope.ServiceProvider.GetRequiredService<MetaFactory>();
+        IMetaFactory metaFactory = serviceScope.ServiceProvider.GetRequiredService<IMetaFactory>();
         metaFactory.InitializeWithSeed(seed);
         Matcher matcher = new();
         matcher.AddExclude(@"*.meta");

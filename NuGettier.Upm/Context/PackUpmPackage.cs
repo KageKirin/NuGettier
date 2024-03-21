@@ -67,7 +67,7 @@ public partial class Context
         {
             using (var serviceScope = Host.Services.CreateScope())
             {
-                ReadmeFactory readmeFactory = serviceScope.ServiceProvider.GetRequiredService<ReadmeFactory>();
+                IReadmeFactory readmeFactory = serviceScope.ServiceProvider.GetRequiredService<IReadmeFactory>();
                 var readme = packageJson.GenerateReadme(
                     originalReadme: packageReader.GetReadme(),
                     readmeFactory: readmeFactory
@@ -82,7 +82,7 @@ public partial class Context
         {
             using (var serviceScope = Host.Services.CreateScope())
             {
-                LicenseFactory licenseFactory = serviceScope.ServiceProvider.GetRequiredService<LicenseFactory>();
+                ILicenseFactory licenseFactory = serviceScope.ServiceProvider.GetRequiredService<ILicenseFactory>();
                 var license = packageJson.GenerateLicense(
                     originalLicense: packageReader.GetLicense(),
                     copyright: packageReader.NuspecReader.GetCopyright(),
@@ -99,7 +99,8 @@ public partial class Context
         {
             using (var serviceScope = Host.Services.CreateScope())
             {
-                ChangelogFactory changelogFactory = serviceScope.ServiceProvider.GetRequiredService<ChangelogFactory>();
+                IChangelogFactory changelogFactory =
+                    serviceScope.ServiceProvider.GetRequiredService<IChangelogFactory>();
                 var changelog = packageJson.GenerateChangelog(
                     releaseNotes: packageReader.NuspecReader.GetReleaseNotes(),
                     changelogFactory: changelogFactory
@@ -121,7 +122,7 @@ public partial class Context
         // add meta files
         using (var serviceScope = Host.Services.CreateScope())
         {
-            MetaFactory metaFactory = serviceScope.ServiceProvider.GetRequiredService<MetaFactory>();
+            IMetaFactory metaFactory = serviceScope.ServiceProvider.GetRequiredService<IMetaFactory>();
             metaFactory.InitializeWithSeed(seed: packageJson.Name);
             files.AddMetaFiles(metaFactory: metaFactory);
         }
