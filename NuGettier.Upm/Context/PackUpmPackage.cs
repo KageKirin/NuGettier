@@ -9,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
@@ -63,8 +65,9 @@ public partial class Context
         // create & add README
         if (!files.ContainsKey(@"README.md"))
         {
-            using (ReadmeFactory readmeFactory = new(LoggerFactory))
+            using (var serviceScope = Host.Services.CreateScope())
             {
+                ReadmeFactory readmeFactory = serviceScope.ServiceProvider.GetRequiredService<ReadmeFactory>();
                 var readme = packageJson.GenerateReadme(
                     originalReadme: packageReader.GetReadme(),
                     readmeFactory: readmeFactory
