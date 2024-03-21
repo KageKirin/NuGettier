@@ -76,6 +76,7 @@ public static class Program
                     services.AddScoped<ILicenseFactory, LicenseFactory>();
                     services.AddScoped<IChangelogFactory, ChangelogFactory>();
                     services.AddScoped<IMetaFactory, MetaFactory>();
+                    services.AddScoped<IGuidFactory, Sha1GuidFactory>();
                 }
             )
             .Build();
