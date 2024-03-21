@@ -99,7 +99,8 @@ public partial class Context
         {
             using (var serviceScope = Host.Services.CreateScope())
             {
-                ChangelogFactory changelogFactory = serviceScope.ServiceProvider.GetRequiredService<ChangelogFactory>();
+                IChangelogFactory changelogFactory =
+                    serviceScope.ServiceProvider.GetRequiredService<IChangelogFactory>();
                 var changelog = packageJson.GenerateChangelog(
                     releaseNotes: packageReader.NuspecReader.GetReleaseNotes(),
                     changelogFactory: changelogFactory
