@@ -8,8 +8,10 @@ using System.CommandLine.NamingConventionBinder;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NuGettier.Upm;
 using Xunit;
@@ -41,7 +43,9 @@ public partial class NuGettierService
         Logger.LogTrace("seed: {0}", seed);
         Logger.LogTrace("force: {0}", force);
 
-        using MetaFactory metaFactory = new(seed, MainLoggerFactory);
+        var serviceScope = Host.Services.CreateScope();
+        MetaFactory metaFactory = serviceScope.ServiceProvider.GetRequiredService<MetaFactory>();
+        metaFactory.InitializeWithSeed(seed);
         Matcher matcher = new();
         matcher.AddExclude(@"*.meta");
         matcher.AddIncludePatterns(inputItems);
