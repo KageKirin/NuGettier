@@ -119,8 +119,12 @@ public partial class Context
         Logger.LogDebug("generated package.json:\n{0}", packageJsonString);
 
         // add meta files
-        using (MetaFactory metaFactory = new(seed: packageJson.Name, LoggerFactory))
+        using (var serviceScope = Host.Services.CreateScope())
+        {
+            MetaFactory metaFactory = serviceScope.ServiceProvider.GetRequiredService<MetaFactory>();
+            metaFactory.InitializeWithSeed(seed: packageJson.Name);
             files.AddMetaFiles(metaFactory: metaFactory);
+        }
 
         var packageIdentifier = $"{packageJson.Name}-{packageJson.Version}";
         return new Tuple<string, FileDictionary>(packageIdentifier, files);
