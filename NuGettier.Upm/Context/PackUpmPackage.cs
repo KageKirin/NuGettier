@@ -122,7 +122,7 @@ public partial class Context
         // add meta files
         using (var serviceScope = Host.Services.CreateScope())
         {
-            MetaFactory metaFactory = serviceScope.ServiceProvider.GetRequiredService<MetaFactory>();
+            IMetaFactory metaFactory = serviceScope.ServiceProvider.GetRequiredService<IMetaFactory>();
             metaFactory.InitializeWithSeed(seed: packageJson.Name);
             files.AddMetaFiles(metaFactory: metaFactory);
         }
