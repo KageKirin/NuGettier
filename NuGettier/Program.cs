@@ -35,6 +35,12 @@ public static class Program
         CommandLineArgs = args;
 
         Host = new HostBuilder()
+            .ConfigureHostConfiguration(
+                (builder) =>
+                {
+                    builder.SetBasePath(Directory.GetCurrentDirectory());
+                }
+            )
             .ConfigureAppConfiguration(
                 (context, builder) =>
                 {
