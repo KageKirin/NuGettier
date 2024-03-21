@@ -99,6 +99,7 @@ public static class Program
                     services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash64GuidFactory>("uranium.xxhash64");
                 }
             )
+            .UseConsoleLifetime()
             .Build();
         await Host.RunAsync();
 
