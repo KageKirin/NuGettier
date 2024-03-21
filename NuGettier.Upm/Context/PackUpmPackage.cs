@@ -97,11 +97,12 @@ public partial class Context
         // create & add CHANGELOG
         if (!files.ContainsKey(@"CHANGELOG.md"))
         {
-            using (ChangelogFactory changelogFactory = new(LoggerFactory))
+            using (var serviceScope = Host.Services.CreateScope())
             {
+                ChangelogFactory changelogFactory = serviceScope.ServiceProvider.GetRequiredService<ChangelogFactory>();
                 var changelog = packageJson.GenerateChangelog(
                     releaseNotes: packageReader.NuspecReader.GetReleaseNotes(),
-                    changelogFactory: new ChangelogFactory(LoggerFactory)
+                    changelogFactory: changelogFactory
                 );
                 files.Add(@"CHANGELOG.md", changelog);
             }
