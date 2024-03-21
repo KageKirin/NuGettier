@@ -76,14 +76,14 @@ public static class Program
                     services.AddScoped<ILicenseFactory, LicenseFactory>();
                     services.AddScoped<IChangelogFactory, ChangelogFactory>();
                     services.AddScoped<IMetaFactory, MetaFactory>();
-                    services.AddScoped<IGuidFactory, Sha1GuidFactory>();
-                    services.AddScoped<IGuidFactory, Md5GuidFactory>();
-                    services.AddScoped<IGuidFactory, XxHash128GuidFactory>();
-                    services.AddScoped<IGuidFactory, XxHash3GuidFactory>();
-                    services.AddScoped<IGuidFactory, XxHash64GuidFactory>();
-                    services.AddScoped<IGuidFactory, Upm.Uranium.XxHash128GuidFactory>();
-                    services.AddScoped<IGuidFactory, Upm.Uranium.XxHash3GuidFactory>();
-                    services.AddScoped<IGuidFactory, Upm.Uranium.XxHash64GuidFactory>();
+                    services.AddKeyedScoped<IGuidFactory, Sha1GuidFactory>("sha1");
+                    services.AddKeyedScoped<IGuidFactory, Md5GuidFactory>("md5");
+                    services.AddKeyedScoped<IGuidFactory, XxHash128GuidFactory>("xxhash128");
+                    services.AddKeyedScoped<IGuidFactory, XxHash3GuidFactory>("xxhash3");
+                    services.AddKeyedScoped<IGuidFactory, XxHash64GuidFactory>("xxhash64");
+                    services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash128GuidFactory>("uranium.xxhash128");
+                    services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash3GuidFactory>("uranium.xxhash3");
+                    services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash64GuidFactory>("uranium.xxhash64");
                 }
             )
             .Build();
