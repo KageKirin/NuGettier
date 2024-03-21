@@ -77,7 +77,7 @@ public static class Program
                     services.AddScoped<IChangelogFactory, ChangelogFactory>();
                     services.AddScoped<IMetaFactory, MetaFactory>();
                     services.AddKeyedScoped<IGuidFactory, Sha1GuidFactory>("sha1");
-                    services.AddScoped<IGuidFactory, Md5GuidFactory>();
+                    services.AddKeyedScoped<IGuidFactory, Md5GuidFactory>("md5");
                     services.AddScoped<IGuidFactory, XxHash128GuidFactory>();
                     services.AddScoped<IGuidFactory, XxHash3GuidFactory>();
                     services.AddScoped<IGuidFactory, XxHash64GuidFactory>();
