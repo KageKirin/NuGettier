@@ -1,5 +1,7 @@
 using System;
 using HandlebarsDotNet;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace NuGettier.Upm;
@@ -16,7 +18,7 @@ public class MetaFactory : IMetaFactory, IDisposable
     protected readonly ILogger Logger;
     protected readonly IGuidFactory GuidFactory;
 
-    public MetaFactory(ILoggerFactory loggerFactory, IGuidFactory guidFactory)
+    public MetaFactory(ILoggerFactory loggerFactory, [FromKeyedServices("sha1")] IGuidFactory guidFactory)
     {
         Logger = loggerFactory.CreateLogger<MetaFactory>();
         GuidFactory = guidFactory;
