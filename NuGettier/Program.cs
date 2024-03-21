@@ -34,8 +34,13 @@ public static class Program
     {
         CommandLineArgs = args;
 
-        Host = Microsoft
-            .Extensions.Hosting.Host.CreateDefaultBuilder(args)
+        Host = new HostBuilder()
+            .ConfigureHostConfiguration(
+                (builder) =>
+                {
+                    builder.SetBasePath(Directory.GetCurrentDirectory());
+                }
+            )
             .ConfigureAppConfiguration(
                 (context, builder) =>
                 {
