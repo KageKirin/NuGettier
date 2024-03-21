@@ -12,11 +12,11 @@ public interface IChangelogFactory
 
 public class ChangelogFactory : IChangelogFactory, IDisposable
 {
-    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+    protected readonly ILogger Logger;
 
-    public ChangelogFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public ChangelogFactory(ILogger<ChangelogFactory> logger)
     {
-        Logger = loggerFactory.CreateLogger<ChangelogFactory>();
+        Logger = logger;
     }
 
     public virtual string GenerateChangelog(string name, string version, string releaseNotes)
