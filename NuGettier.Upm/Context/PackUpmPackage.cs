@@ -80,8 +80,9 @@ public partial class Context
         // create & add LICENSE
         if (!files.ContainsKey(@"LICENSE.md"))
         {
-            using (LicenseFactory licenseFactory = new(LoggerFactory))
+            using (var serviceScope = Host.Services.CreateScope())
             {
+                LicenseFactory licenseFactory = serviceScope.ServiceProvider.GetRequiredService<LicenseFactory>();
                 var license = packageJson.GenerateLicense(
                     originalLicense: packageReader.GetLicense(),
                     copyright: packageReader.NuspecReader.GetCopyright(),
