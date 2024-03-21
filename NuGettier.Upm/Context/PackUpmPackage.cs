@@ -82,7 +82,7 @@ public partial class Context
         {
             using (var serviceScope = Host.Services.CreateScope())
             {
-                LicenseFactory licenseFactory = serviceScope.ServiceProvider.GetRequiredService<LicenseFactory>();
+                ILicenseFactory licenseFactory = serviceScope.ServiceProvider.GetRequiredService<ILicenseFactory>();
                 var license = packageJson.GenerateLicense(
                     originalLicense: packageReader.GetLicense(),
                     copyright: packageReader.NuspecReader.GetCopyright(),
