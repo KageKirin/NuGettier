@@ -9,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
@@ -63,8 +65,9 @@ public partial class Context
         // create & add README
         if (!files.ContainsKey(@"README.md"))
         {
-            using (ReadmeFactory readmeFactory = new(LoggerFactory))
+            using (var serviceScope = Host.Services.CreateScope())
             {
+                ReadmeFactory readmeFactory = serviceScope.ServiceProvider.GetRequiredService<ReadmeFactory>();
                 var readme = packageJson.GenerateReadme(
                     originalReadme: packageReader.GetReadme(),
                     readmeFactory: readmeFactory
@@ -77,8 +80,9 @@ public partial class Context
         // create & add LICENSE
         if (!files.ContainsKey(@"LICENSE.md"))
         {
-            using (LicenseFactory licenseFactory = new(LoggerFactory))
+            using (var serviceScope = Host.Services.CreateScope())
             {
+                LicenseFactory licenseFactory = serviceScope.ServiceProvider.GetRequiredService<LicenseFactory>();
                 var license = packageJson.GenerateLicense(
                     originalLicense: packageReader.GetLicense(),
                     copyright: packageReader.NuspecReader.GetCopyright(),
@@ -93,11 +97,12 @@ public partial class Context
         // create & add CHANGELOG
         if (!files.ContainsKey(@"CHANGELOG.md"))
         {
-            using (ChangelogFactory changelogFactory = new(LoggerFactory))
+            using (var serviceScope = Host.Services.CreateScope())
             {
+                ChangelogFactory changelogFactory = serviceScope.ServiceProvider.GetRequiredService<ChangelogFactory>();
                 var changelog = packageJson.GenerateChangelog(
                     releaseNotes: packageReader.NuspecReader.GetReleaseNotes(),
-                    changelogFactory: new ChangelogFactory(LoggerFactory)
+                    changelogFactory: changelogFactory
                 );
                 files.Add(@"CHANGELOG.md", changelog);
             }

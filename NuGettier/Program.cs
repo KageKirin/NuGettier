@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
+using NuGettier.Upm;
 using Xunit;
 using ZLogger;
 
@@ -70,6 +71,10 @@ public static class Program
                 {
                     services.AddOptions();
                     services.AddHostedService<NuGettierService>();
+                    services.AddScoped<INpmrcFactory, NpmrcFactory>();
+                    services.AddScoped<IReadmeFactory, ReadmeFactory>();
+                    services.AddScoped<ILicenseFactory, LicenseFactory>();
+                    services.AddScoped<IChangelogFactory, ChangelogFactory>();
                 }
             )
             .Build();
