@@ -8,13 +8,13 @@ namespace NuGettier.Upm;
 
 public class XxHash3GuidFactory : IGuidFactory, IDisposable
 {
-    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+    protected readonly ILogger Logger;
 
     ulong SeedHash = 0;
 
-    public XxHash3GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public XxHash3GuidFactory(ILogger<XxHash3GuidFactory> logger)
     {
-        Logger = loggerFactory.CreateLogger<XxHash3GuidFactory>();
+        Logger = logger;
     }
 
     public virtual void InitializeWithSeed(string seed)

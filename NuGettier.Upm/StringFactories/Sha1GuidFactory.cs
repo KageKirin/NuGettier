@@ -7,13 +7,13 @@ namespace NuGettier.Upm;
 
 public class Sha1GuidFactory : IGuidFactory, IDisposable
 {
-    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+    protected readonly ILogger Logger;
 
     string Seed = string.Empty;
 
-    public Sha1GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public Sha1GuidFactory(ILogger<Sha1GuidFactory> logger)
     {
-        Logger = loggerFactory.CreateLogger<Sha1GuidFactory>();
+        Logger = logger;
     }
 
     public virtual void InitializeWithSeed(string seed)

@@ -8,13 +8,13 @@ namespace NuGettier.Upm.Uranium;
 
 public class XxHash64GuidFactory : IGuidFactory, IDisposable
 {
-    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+    protected readonly ILogger Logger;
 
     ulong SeedHash = 0;
 
-    public XxHash64GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public XxHash64GuidFactory(ILogger<XxHash64GuidFactory> logger)
     {
-        Logger = loggerFactory.CreateLogger<XxHash64GuidFactory>();
+        Logger = logger;
     }
 
     public virtual void InitializeWithSeed(string seed)

@@ -21,11 +21,11 @@ public interface ILicenseFactory
 
 public class LicenseFactory : ILicenseFactory, IDisposable
 {
-    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+    protected readonly ILogger Logger;
 
-    public LicenseFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public LicenseFactory(ILogger<LicenseFactory> logger)
     {
-        Logger = loggerFactory.CreateLogger<LicenseFactory>();
+        Logger = logger;
     }
 
     private static async Task<string> GetLicense(Uri licenseUrl)

@@ -7,13 +7,13 @@ namespace NuGettier.Upm;
 
 public class Md5GuidFactory : IGuidFactory, IDisposable
 {
-    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+    protected readonly ILogger Logger;
 
     string Seed = string.Empty;
 
-    public Md5GuidFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public Md5GuidFactory(ILogger<Md5GuidFactory> logger)
     {
-        Logger = loggerFactory.CreateLogger<Md5GuidFactory>();
+        Logger = logger;
     }
 
     public virtual void InitializeWithSeed(string seed)

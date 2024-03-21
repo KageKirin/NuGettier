@@ -18,9 +18,9 @@ public class MetaFactory : IMetaFactory, IDisposable
     protected readonly ILogger Logger;
     protected readonly IGuidFactory GuidFactory;
 
-    public MetaFactory(ILoggerFactory loggerFactory, [FromKeyedServices("sha1")] IGuidFactory guidFactory)
+    public MetaFactory(ILogger<MetaFactory> logger, [FromKeyedServices("sha1")] IGuidFactory guidFactory)
     {
-        Logger = loggerFactory.CreateLogger<MetaFactory>();
+        Logger = logger;
         GuidFactory = guidFactory;
     }
 

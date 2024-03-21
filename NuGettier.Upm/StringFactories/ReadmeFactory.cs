@@ -18,11 +18,11 @@ public interface IReadmeFactory
 
 public class ReadmeFactory : IReadmeFactory, IDisposable
 {
-    protected readonly Microsoft.Extensions.Logging.ILogger Logger;
+    protected readonly ILogger Logger;
 
-    public ReadmeFactory(Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)
+    public ReadmeFactory(ILogger<ReadmeFactory> logger)
     {
-        Logger = loggerFactory.CreateLogger<ReadmeFactory>();
+        Logger = logger;
     }
 
     public virtual string GenerateReadme(
