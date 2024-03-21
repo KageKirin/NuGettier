@@ -80,6 +80,7 @@ public static class Program
                     services.AddScoped<IGuidFactory, Md5GuidFactory>();
                     services.AddScoped<IGuidFactory, XxHash128GuidFactory>();
                     services.AddScoped<IGuidFactory, XxHash3GuidFactory>();
+                    services.AddScoped<IGuidFactory, XxHash64GuidFactory>();
                 }
             )
             .Build();
