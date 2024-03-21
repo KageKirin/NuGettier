@@ -5,6 +5,7 @@ using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using System.CommandLine.NamingConventionBinder;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using DotNetConfig;
@@ -39,7 +40,14 @@ public static class Program
                 (context, builder) =>
                 {
                     builder
-                        .AddJsonFile("appconfig.json", optional: false, reloadOnChange: false)
+                        .AddJsonFile(
+                            Path.Join(
+                                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                                "appconfig.json"
+                            ),
+                            optional: false,
+                            reloadOnChange: false
+                        )
                         .AddJsonFile(
                             Path.Join(Environment.CurrentDirectory, "appconfig.json"),
                             optional: true,
