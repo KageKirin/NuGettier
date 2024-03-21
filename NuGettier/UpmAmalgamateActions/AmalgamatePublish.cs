@@ -55,6 +55,7 @@ public partial class NuGettierService
         using var scope = Logger.TraceLocation().BeginScope(nameof(AmalgamatePublish));
         Assert.NotNull(Configuration);
         using var context = new Amalgamate.Context(
+            host: Host,
             configuration: Configuration,
             loggerFactory: MainLoggerFactory,
             logger: MainLoggerFactory.CreateLogger<Amalgamate.Context>(),

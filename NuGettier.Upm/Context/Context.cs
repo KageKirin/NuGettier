@@ -5,6 +5,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NuGet.Configuration;
 using NuGet.Frameworks;
@@ -35,6 +37,7 @@ public partial class Context : Core.Context
     public string? Directory { get; protected set; }
 
     public Context(
+        IHost host,
         IConfigurationRoot configuration,
         ILoggerFactory loggerFactory,
         ILogger logger,
@@ -46,6 +49,7 @@ public partial class Context : Core.Context
         string? directory
     )
         : base(
+            host: host,
             configuration: configuration,
             loggerFactory: loggerFactory,
             logger: logger,

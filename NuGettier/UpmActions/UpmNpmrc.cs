@@ -36,6 +36,7 @@ public partial class NuGettierService
         using var scope = Logger.TraceLocation().BeginScope(nameof(UpmNpmrc));
         Assert.NotNull(Configuration);
         using var context = new Upm.Context(
+            host: Host,
             configuration: Configuration,
             loggerFactory: MainLoggerFactory,
             logger: MainLoggerFactory.CreateLogger<Upm.Context>(),

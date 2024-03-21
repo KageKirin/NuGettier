@@ -46,6 +46,7 @@ public partial class NuGettierService
         using var scope = Logger.TraceLocation().BeginScope(nameof(Get));
         Assert.NotNull(Configuration);
         using var context = new Core.Context(
+            host: Host,
             configuration: Configuration,
             loggerFactory: MainLoggerFactory,
             logger: MainLoggerFactory.CreateLogger<Core.Context>(),
