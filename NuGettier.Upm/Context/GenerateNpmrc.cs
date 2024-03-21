@@ -11,6 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using NuGet.Configuration;
@@ -57,8 +59,11 @@ public partial class Context
         {
             Logger.LogTrace("writing .npmrc to {0}", targetNpmrc.FullName);
 
-            using (NpmrcFactory npmrcFactory = new())
+            using (var serviceScope = Host.Services.CreateScope())
+            {
+                NpmrcFactory npmrcFactory = serviceScope.ServiceProvider.GetRequiredService<NpmrcFactory>();
                 await File.WriteAllTextAsync(targetNpmrc.FullName, npmrcFactory.GenerateNpmrc(Target, token));
+            }
             targetNpmrc.Refresh();
         }
         else if (!string.IsNullOrEmpty(npmrc))
