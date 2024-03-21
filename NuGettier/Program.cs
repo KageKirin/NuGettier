@@ -81,7 +81,7 @@ public static class Program
                     services.AddKeyedScoped<IGuidFactory, XxHash128GuidFactory>("xxhash128");
                     services.AddKeyedScoped<IGuidFactory, XxHash3GuidFactory>("xxhash3");
                     services.AddKeyedScoped<IGuidFactory, XxHash64GuidFactory>("xxhash64");
-                    services.AddScoped<IGuidFactory, Upm.Uranium.XxHash128GuidFactory>();
+                    services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash128GuidFactory>("uranium.xxhash128");
                     services.AddScoped<IGuidFactory, Upm.Uranium.XxHash3GuidFactory>();
                     services.AddScoped<IGuidFactory, Upm.Uranium.XxHash64GuidFactory>();
                 }
