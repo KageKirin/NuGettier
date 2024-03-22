@@ -89,6 +89,7 @@ public static class Program
                     services.AddScoped<ILicenseFactory, LicenseFactory>();
                     services.AddScoped<IChangelogFactory, ChangelogFactory>();
                     services.AddScoped<IMetaFactory, MetaFactory>();
+                    services.AddScoped<IGuidFactory, GuidFactoryProxy>();
                     services.AddKeyedScoped<IGuidFactory, Sha1GuidFactory>("sha1");
                     services.AddKeyedScoped<IGuidFactory, Md5GuidFactory>("md5");
                     services.AddKeyedScoped<IGuidFactory, XxHash128GuidFactory>("xxhash128");
