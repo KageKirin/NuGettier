@@ -97,6 +97,7 @@ public static class Program
                     services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash128GuidFactory>("uranium.xxhash128");
                     services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash3GuidFactory>("uranium.xxhash3");
                     services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash64GuidFactory>("uranium.xxhash64");
+                    services.AddOptions<GuidFactorySettings>().Bind(context.Configuration.GetSection("guid"));
                 }
             )
             .UseConsoleLifetime()
