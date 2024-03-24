@@ -6,6 +6,7 @@ using Xunit;
 
 namespace NuGettier.Upm;
 
+[GuidIdentifier("xxhash3")]
 public class XxHash3GuidFactory : IGuidFactory, IDisposable
 {
     protected readonly ILogger Logger;
