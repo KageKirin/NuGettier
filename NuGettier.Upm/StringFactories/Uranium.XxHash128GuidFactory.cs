@@ -5,6 +5,7 @@ using Standart.Hash.xxHash;
 
 namespace NuGettier.Upm.Uranium;
 
+[GuidIdentifier("uranium.xxhash128")]
 public class XxHash128GuidFactory : IGuidFactory, IDisposable
 {
     protected readonly ILogger Logger;
