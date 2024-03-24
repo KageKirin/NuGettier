@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace NuGettier.Upm;
 
+[GuidIdentifier("sha1")]
 public class Sha1GuidFactory : IGuidFactory, IDisposable
 {
     protected readonly ILogger Logger;
