@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,8 +23,16 @@ public class GuidFactoryProxy : IGuidFactory, IDisposable
     {
         Logger = logger;
 
-        var identifier = !string.IsNullOrEmpty(options?.Value.Algorithm) ? options!.Value.Algorithm : kDefaultIdentifier;
-        logger.LogTrace("identifier: {0}", identifier);
+        var identifier = !string.IsNullOrEmpty(options?.Value.Algorithm)
+            ? options!.Value.Algorithm
+            : Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
+                .Select(t => t.GetCustomAttribute<GuidIdentifierAttribute>())
+                .First()
+                ?.Identifier ?? kDefaultIdentifier;
+        ;
+        logger.LogTrace("using Guid algorithm: {0}", identifier);
         GuidFactory =
             serviceProvider.GetKeyedService<IGuidFactory>(identifier)
             ?? serviceProvider.GetRequiredKeyedService<IGuidFactory>(kDefaultIdentifier);
