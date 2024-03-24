@@ -6,6 +6,7 @@ using Xunit;
 
 namespace NuGettier.Upm.Uranium;
 
+[GuidIdentifier("uranium.xxhash64")]
 public class XxHash64GuidFactory : IGuidFactory, IDisposable
 {
     protected readonly ILogger Logger;
