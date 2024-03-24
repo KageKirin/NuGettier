@@ -1,9 +1,0 @@
-{
-  "LogFilePath": "nugettier.log",
-  "Logging": {
-    "LogLevel": {
-      "Default": "Error",
-      "Microsoft": "Warning"
-    }
-  }
-}
