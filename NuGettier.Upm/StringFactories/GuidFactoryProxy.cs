@@ -9,6 +9,8 @@ namespace NuGettier.Upm;
 
 public class GuidFactoryProxy : IGuidFactory, IDisposable
 {
+    const string kDefaultIdentifier = "sha1";
+
     protected readonly ILogger Logger;
     protected readonly IGuidFactory GuidFactory;
 
@@ -20,11 +22,11 @@ public class GuidFactoryProxy : IGuidFactory, IDisposable
     {
         Logger = logger;
 
-        var algorithm = !string.IsNullOrEmpty(options?.Value.Algorithm) ? options!.Value.Algorithm : "sha1";
-        logger.LogTrace("algorithm: {0}", algorithm);
+        var identifier = !string.IsNullOrEmpty(options?.Value.Algorithm) ? options!.Value.Algorithm : kDefaultIdentifier;
+        logger.LogTrace("identifier: {0}", identifier);
         GuidFactory =
-            serviceProvider.GetKeyedService<IGuidFactory>(algorithm)
-            ?? serviceProvider.GetRequiredKeyedService<IGuidFactory>("sha1");
+            serviceProvider.GetKeyedService<IGuidFactory>(identifier)
+            ?? serviceProvider.GetRequiredKeyedService<IGuidFactory>(kDefaultIdentifier);
     }
 
     public virtual void Dispose() { }
