@@ -71,7 +71,6 @@
 
   <ItemGroup Label="configuration files">
     <Content Include="$(MSBuildThisFileDirectory).netconfig" Link=".netconfig" Pack="true" CopyToOutputDirectory="PreserveNewest" PackagePath="\"/>
-    <Content Include="$(MSBuildThisFileDirectory)..\appconfig.json" Link="appconfig.json" Pack="true" CopyToOutputDirectory="PreserveNewest" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
