@@ -14,6 +14,7 @@ public class GuidFactoryProxy : IGuidFactory, IDisposable
 
     protected readonly ILogger Logger;
     protected readonly IGuidFactory GuidFactory;
+    protected readonly IGuidFormatter GuidFormatter;
 
     public GuidFactoryProxy(
         ILogger<GuidFactoryProxy> logger,
@@ -36,11 +37,16 @@ public class GuidFactoryProxy : IGuidFactory, IDisposable
         GuidFactory =
             serviceProvider.GetKeyedService<IGuidFactory>(identifier)
             ?? serviceProvider.GetRequiredKeyedService<IGuidFactory>(kDefaultIdentifier);
+
+        logger.LogTrace("using Guid formatter: {0}", options?.Value.Format ?? GuidFormat.None);
+        GuidFormatter =
+            serviceProvider.GetKeyedService<IGuidFormatter>(options?.Value.Format ?? GuidFormat.None)
+            ?? serviceProvider.GetRequiredKeyedService<IGuidFormatter>(GuidFormat.None);
     }
 
     public virtual void Dispose() { }
 
     public virtual void InitializeWithSeed(string seed) => GuidFactory.InitializeWithSeed(seed);
 
-    public virtual Guid GenerateGuid(string value) => GuidFactory.GenerateGuid(value);
+    public virtual Guid GenerateGuid(string value) => GuidFormatter.Apply(GuidFactory.GenerateGuid(value));
 }

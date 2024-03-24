@@ -20,18 +20,33 @@ public static class ConfigureStringFactoriesExtensions
                 services.AddScoped<IMetaFactory, MetaFactory>();
                 services.AddScoped<IGuidFactory, GuidFactoryProxy>();
 
-                Type interfaceType = typeof(IGuidFactory);
+                Type iGuidFactoryType = typeof(IGuidFactory);
                 foreach (
                     Type type in Assembly
                         .GetExecutingAssembly()
                         .GetTypes()
-                        .Where(t => t.GetInterfaces().Contains(interfaceType))
+                        .Where(t => t.GetInterfaces().Contains(iGuidFactoryType))
                 )
                 {
                     var attribute = type.GetCustomAttribute<GuidIdentifierAttribute>();
                     if (attribute is not null)
                     {
-                        services.AddKeyedScoped(interfaceType, attribute.Identifier, type);
+                        services.AddKeyedScoped(iGuidFactoryType, attribute.Identifier, type);
+                    }
+                }
+
+                Type iGuidFormatterType = typeof(IGuidFormatter);
+                foreach (
+                    Type type in Assembly
+                        .GetExecutingAssembly()
+                        .GetTypes()
+                        .Where(t => t.GetInterfaces().Contains(iGuidFormatterType))
+                )
+                {
+                    var attribute = type.GetCustomAttribute<GuidFormatterTypeAttribute>();
+                    if (attribute is not null)
+                    {
+                        services.AddKeyedScoped(iGuidFormatterType, attribute.Format, type);
                     }
                 }
 
