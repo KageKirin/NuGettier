@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace NuGettier.Upm;
 
+[GuidIdentifier("md5")]
 public class Md5GuidFactory : IGuidFactory, IDisposable
 {
     protected readonly ILogger Logger;

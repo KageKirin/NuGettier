@@ -19,14 +19,22 @@ public static class ConfigureStringFactoriesExtensions
                 services.AddScoped<IChangelogFactory, ChangelogFactory>();
                 services.AddScoped<IMetaFactory, MetaFactory>();
                 services.AddScoped<IGuidFactory, GuidFactoryProxy>();
-                services.AddKeyedScoped<IGuidFactory, Sha1GuidFactory>("sha1");
-                services.AddKeyedScoped<IGuidFactory, Md5GuidFactory>("md5");
-                services.AddKeyedScoped<IGuidFactory, XxHash128GuidFactory>("xxhash128");
-                services.AddKeyedScoped<IGuidFactory, XxHash3GuidFactory>("xxhash3");
-                services.AddKeyedScoped<IGuidFactory, XxHash64GuidFactory>("xxhash64");
-                services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash128GuidFactory>("uranium.xxhash128");
-                services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash3GuidFactory>("uranium.xxhash3");
-                services.AddKeyedScoped<IGuidFactory, Upm.Uranium.XxHash64GuidFactory>("uranium.xxhash64");
+
+                Type interfaceType = typeof(IGuidFactory);
+                foreach (
+                    Type type in Assembly
+                        .GetExecutingAssembly()
+                        .GetTypes()
+                        .Where(t => t.GetInterfaces().Contains(interfaceType))
+                )
+                {
+                    var attribute = type.GetCustomAttribute<GuidIdentifierAttribute>();
+                    if (attribute is not null)
+                    {
+                        services.AddKeyedScoped(interfaceType, attribute.Identifier, type);
+                    }
+                }
+
                 services.AddOptions<GuidFactorySettings>().Bind(context.Configuration.GetSection("guid"));
             }
         );

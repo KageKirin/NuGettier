@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,6 +10,8 @@ namespace NuGettier.Upm;
 
 public class GuidFactoryProxy : IGuidFactory, IDisposable
 {
+    const string kDefaultIdentifier = "sha1";
+
     protected readonly ILogger Logger;
     protected readonly IGuidFactory GuidFactory;
 
@@ -20,11 +23,19 @@ public class GuidFactoryProxy : IGuidFactory, IDisposable
     {
         Logger = logger;
 
-        var algorithm = !string.IsNullOrEmpty(options?.Value.Algorithm) ? options!.Value.Algorithm : "sha1";
-        logger.LogTrace("algorithm: {0}", algorithm);
+        var identifier = !string.IsNullOrEmpty(options?.Value.Algorithm)
+            ? options!.Value.Algorithm
+            : Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
+                .Select(t => t.GetCustomAttribute<GuidIdentifierAttribute>())
+                .First()
+                ?.Identifier ?? kDefaultIdentifier;
+        ;
+        logger.LogTrace("using Guid algorithm: {0}", identifier);
         GuidFactory =
-            serviceProvider.GetKeyedService<IGuidFactory>(algorithm)
-            ?? serviceProvider.GetRequiredKeyedService<IGuidFactory>("sha1");
+            serviceProvider.GetKeyedService<IGuidFactory>(identifier)
+            ?? serviceProvider.GetRequiredKeyedService<IGuidFactory>(kDefaultIdentifier);
     }
 
     public virtual void Dispose() { }
