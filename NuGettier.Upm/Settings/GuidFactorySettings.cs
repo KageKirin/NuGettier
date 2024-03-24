@@ -15,4 +15,5 @@ public enum GuidFormat
 public sealed class GuidFactorySettings
 {
     public string Algorithm { get; set; } = string.Empty;
+    public GuidFormat Format { get; set; } = GuidFormat.None;
 }
