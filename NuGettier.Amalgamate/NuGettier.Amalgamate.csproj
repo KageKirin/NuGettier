@@ -27,7 +27,7 @@
   <ItemGroup Label="package dependencies">
     <PackageReference Include="Handlebars.Net" Version="2.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-preview.2.24128.5" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.0-preview.2.24128.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
