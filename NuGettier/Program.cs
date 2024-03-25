@@ -44,20 +44,7 @@ public static class Program
             .ConfigureAppConfiguration(
                 (context, builder) =>
                 {
-                    builder
-                        .AddJsonFile(
-                            Path.Join(
-                                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                                "appconfig.json"
-                            ),
-                            optional: false,
-                            reloadOnChange: false
-                        )
-                        .AddJsonFile(
-                            Path.Join(Environment.CurrentDirectory, "appconfig.json"),
-                            optional: true,
-                            reloadOnChange: false
-                        )
+                    builder //
                         .AddDotNetConfig()
                         .AddEnvironmentVariables("NUGETTIER_");
                 }
