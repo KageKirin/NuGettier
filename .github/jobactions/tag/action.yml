@@ -43,9 +43,10 @@ runs:
 
       foreach ($project in @(fdfind "csproj$"))
       {
-        $revision = "$(git rev-list --all --count -- $project)"
-        $assemblyVersion = "$version.${{ github.run_number }}"
-        $fileVersion = "$version.$revision"
+        $assemblyRevision = "$(git rev-list --all --count -- $(Split-Path -Parent $project))"
+        $fileRevision = "$(git rev-list --all --count -- $project)"
+        $assemblyVersion = "$version.$assemblyRevision"
+        $fileVersion = "$version.$fileRevision"
         echo "patching $project"
         echo "assembly version: $assemblyVersion"
         echo "file version: $fileVersion"
