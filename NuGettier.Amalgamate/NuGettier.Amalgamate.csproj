@@ -25,34 +25,34 @@
   </ItemGroup>
 
   <ItemGroup Label="package dependencies">
-    <PackageReference Include="Handlebars.Net" Version="2.1.4"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
-    <PackageReference Include="NuGet.Commands" Version="6.9.1"/>
-    <PackageReference Include="NuGet.LibraryModel" Version="6.9.1"/>
-    <PackageReference Include="NuGet.Packaging" Version="6.9.1"/>
-    <PackageReference Include="NuGet.Protocol" Version="6.9.1"/>
-    <PackageReference Include="NuGet.Resolver" Version="6.9.1"/>
-    <PackageReference Include="SharpZipLib" Version="1.4.2"/>
-    <PackageReference Include="Standart.Hash.xxHash" Version="4.0.5"/>
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1"/>
-    <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta4.22272.1"/>
-    <PackageReference Include="System.Text.Json" Version="8.0.0"/>
-    <PackageReference Include="Xunit" Version="2.6.4"/>
+    <PackageReference Include="Handlebars.Net" Version="2.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+    <PackageReference Include="NuGet.Commands" Version="6.9.1" />
+    <PackageReference Include="NuGet.LibraryModel" Version="6.9.1" />
+    <PackageReference Include="NuGet.Packaging" Version="6.9.1" />
+    <PackageReference Include="NuGet.Protocol" Version="6.9.1" />
+    <PackageReference Include="NuGet.Resolver" Version="6.9.1" />
+    <PackageReference Include="SharpZipLib" Version="1.4.2" />
+    <PackageReference Include="Standart.Hash.xxHash" Version="4.0.5" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+    <PackageReference Include="Xunit" Version="2.6.4" />
   </ItemGroup>
 
   <ItemGroup Label="project references">
-    <ProjectReference Include="..\NuGettier.Core\NuGettier.Core.csproj"/>
-    <ProjectReference Include="..\NuGettier.Upm\NuGettier.Upm.csproj"/>
+    <ProjectReference Include="..\NuGettier.Core\NuGettier.Core.csproj" />
+    <ProjectReference Include="..\NuGettier.Upm\NuGettier.Upm.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="packaged files">
-    <None Include="$(MSBuildThisFileDirectory)Icon.png" Pack="true" PackagePath="\"/>
+    <None Include="$(MSBuildThisFileDirectory)Icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
