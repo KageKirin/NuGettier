@@ -14,9 +14,9 @@
   </PropertyGroup>
 
   <PropertyGroup Label="version metadata">
-    <Version>0.4.2</Version>
-    <AssemblyVersion>0.4.2.1514</AssemblyVersion>
-    <FileVersion>0.4.2.1407</FileVersion>
+    <Version>0.4.3</Version>
+    <AssemblyVersion>0.4.3.1725</AssemblyVersion>
+    <FileVersion>0.4.3.1618</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Label="project metadata">
