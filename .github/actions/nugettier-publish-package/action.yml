@@ -1,0 +1,85 @@
+name: '[NuGettier] Publish Package'
+description: >
+  Runs nugettier to publish a specified package to a specified (scoped) registry.
+
+inputs:
+  working-directory:
+    description: path from where to run the actions
+    type: string
+    required: false
+    default: ${{ github.workspace }}
+  package:
+    description: package path (.tgz file) relative to `working-directory`
+    type: string
+    required: true
+  access:
+    description: package access level
+    type: string
+    required: false
+    default: public
+  registry-url:
+    description: package registry URL
+    type: string
+    required: true
+  scope:
+    description: package registry URL
+    type: string
+    required: true
+  token:
+    description: NPM registry token required for publishing
+    type: string
+    required: false
+  npmrc:
+    description: path to pre-created `.npmrc` (can be set to `$Env:NPM_CONFIG_USERCONFIG`)
+    type: string
+    required: false
+  dry-run:
+    description: whether to perform a dry-run
+    type: boolean
+    required: false
+    default: false
+
+runs:
+  using: composite
+  steps:
+  - use: kagekirin/nugettier/.github/actions/install@main
+  - name: NuGettier Publish Package
+    shell: pwsh
+    run: |-
+      $target = [Uri]::new([Uri]::new("${{ inputs.registry-url }}"), "@${{ inputs.scope }}").ToString()
+      if ([string]::IsNullOrEmpty($target))
+      {
+        throw 'No target registry provided'
+      }
+
+      $package = ${{ inputs.package }}
+      if ([string]::IsNullOrEmpty($package))
+      {
+        throw 'No package file provided'
+      }
+
+      $params = "nugettier upm publish-package --target $target --access ${{ inputs.access }}"
+
+      $token = ${{ inputs.token }}
+      if (![string]::IsNullOrEmpty($token))
+      {
+        $params = "$params --token $token"
+      }
+
+      $npmrc = ${{ inputs.npmrc }}
+      if (![string]::IsNullOrEmpty($npmrc))
+      {
+        $params = "$params --npmrc $npmrc"
+      }
+
+      if ($${{ inputs.dry-run }})
+      {
+        $params = "$params --dry-run"
+      }
+
+      $params = "$params $package"
+      echo $params
+
+      Push-Location ${{ inputs.working-directory }}
+      & dotnet $params
+      Pop-Location
