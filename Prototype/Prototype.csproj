@@ -33,7 +33,7 @@
     <PackageReference Include="NuGet.Protocol" Version="6.9.1" />
     <PackageReference Include="NuGet.Resolver" Version="6.9.1" />
     <PackageReference Include="Xunit" Version="2.7.1" />
-    <PackageReference Include="ZLogger" Version="2.3.1" />
+    <PackageReference Include="ZLogger" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup Label="embedded resources">
