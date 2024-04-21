@@ -25,7 +25,7 @@ jobs:
         shell: pwsh
         run: |
           $files = (fdfind -tf --no-ignore nupkg$)
-          echo "files='$files'" >> $Env:GITHUB_OUTPUT
+          echo "files=$files" >> $Env:GITHUB_OUTPUT
       - uses: kagekirin/gha-utils/.github/actions/gh-create-release@main
         with:
           title: Release ${{ github.action_ref }}
