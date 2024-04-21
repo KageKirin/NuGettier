@@ -1,0 +1,36 @@
+name: release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # allow GITHUB_TOKEN to create releases
+    steps:
+      - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
+      - uses: ./.github/jobactions/build
+        with:
+          framework: net8.0
+          configuration: Release
+          exclude: Prototype
+      - uses: kagekirin/gha-dotnet/.github/actions/nuget-pack@main
+        with:
+          framework: net8.0
+      - id: get-nuget-files
+        name: Retrieve .nuget files
+        shell: pwsh
+        run: |
+          $files = (fdfind -tf --no-ignore nupkg$)
+          echo "files='$files'" >> $Env:GITHUB_OUTPUT
+      - uses: kagekirin/gha-utils/.github/actions/gh-create-release@main
+        with:
+          title: Release ${{ github.action_ref }}
+          generate-notes: true
+          files: |
+            ${{ steps.get-nuget-files.outputs.files }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
