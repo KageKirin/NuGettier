@@ -37,7 +37,13 @@ runs:
     run: |-
       dotnet tool install NuGettier -g --prerelease
       curl -LO https://github.com/KageKirin/NuGettier/blob/main/appconfig.json
-      echo '$HOME/.dotnet/tools' >> $GITHUB_PATH
+
+      if [[ ":$PATH:" == *":$HOME/.dotnet/tools:"* ]]; then
+        echo "$HOME/.dotnet/tools is already part of the \$PATH environment variable"
+      else
+        echo "Adding $HOME/.dotnet/tools to the \$PATH environment variable"
+        echo $HOME/.dotnet/tools >> $GITHUB_PATH
+      fi
 
   - name: Verify installation
     shell: bash
