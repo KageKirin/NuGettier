@@ -2,6 +2,13 @@ name: Install NuGettier
 description: >-
   GitHub Action to install NuGettier
 
+inputs:
+  accept-license:
+    description: "[YES|NO] Must be set explicitly to 'YES' to accept the license. Install won't proceed without."
+    required: false
+    default: NO
+
+
 runs:
   using: composite
   steps:
