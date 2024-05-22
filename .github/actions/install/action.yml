@@ -1,4 +1,7 @@
 name: Install NuGettier
+description: >-
+  GitHub Action to install NuGettier
+
 runs:
   using: composite
   steps:
