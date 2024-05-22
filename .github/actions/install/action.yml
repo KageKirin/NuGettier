@@ -14,9 +14,11 @@ runs:
     run: |-
       dotnet tool install NuGettier -g --prerelease
       curl -LO https://github.com/KageKirin/NuGettier/blob/main/appconfig.json
-      echo "~/.dotnet/tools" >> $GITHUB_PATH
+      echo '$HOME/.dotnet/tools' >> $GITHUB_PATH
+
   - name: Verify installation
     shell: bash
     run: |-
+      echo $PATH
       which dotnet-nugettier
       dotnet nugettier --version
