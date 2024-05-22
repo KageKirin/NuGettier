@@ -56,3 +56,5 @@ jobs:
     needs: nuget
     steps:
     - uses: kagekirin/nugettier/.github/actions/install@main
+      with:
+        accept-license: YES

@@ -42,7 +42,9 @@ inputs:
 runs:
   using: composite
   steps:
-  - use: kagekirin/nugettier/.github/actions/install@main
+  - uses: kagekirin/nugettier/.github/actions/install@main
+    with:
+      accept-license: YES
   - name: NuGettier Publish Package
     shell: pwsh
     run: |-
