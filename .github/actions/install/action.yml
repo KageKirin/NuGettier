@@ -15,10 +15,23 @@ runs:
   - name: Display license
     shell: bash
     run: |-
-      echo "By running this installation script"
-      echo "you automatically agree to the license terms of this Software Product"
-      echo ""
       curl -s https://raw.githubusercontent.com/KageKirin/NuGettier/main/LICENSE
+
+  - name: Check license acceptation
+    shell: bash
+    run: |-
+      accept=${{ inputs.accept-license }}
+      if [ "${accept,,}" == "yes" ]; then
+        echo "Thank you for accepting the license terms."
+        echo "Installation can proceed."
+        exit 0
+      else
+        echo "Sorry, but you have to explicitly accept the license terms"
+        echo "by setting accept-license to 'yes'."
+        echo "Installation cannot proceed"
+        exit 1
+      fi
+
   - name: Install
     shell: bash
     run: |-
