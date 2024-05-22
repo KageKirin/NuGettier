@@ -87,6 +87,8 @@ jobs:
     steps:
     - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
     - uses: ./.github/actions/install
+      with:
+        accept-license: YES
     - id: display-help
       shell: pwsh
       run: dotnet nugettier --help
