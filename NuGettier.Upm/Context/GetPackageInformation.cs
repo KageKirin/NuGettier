@@ -29,6 +29,8 @@ public partial class Context
     )
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+        Logger.LogTrace("getting package information for {0} (prerelease: {1})", packageIdVersion, preRelease);
+
         packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         var packageSearchMetadata = await base.GetPackageInformation(
             packageIdVersion: packageIdVersion,

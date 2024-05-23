@@ -28,12 +28,15 @@ public partial class Context
     )
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+        Logger.LogTrace("fetching {0} (prerelease: {1})", packageIdVersion, preRelease);
         using var nugetLogger = NuGetLogger.Create(LoggerFactory);
 
         packageIdVersion.SplitPackageIdVersion(out var packageId, out var version, out var latest);
         IEnumerable<FindPackageByIdResource> resources = await Repositories.GetResourceAsync<FindPackageByIdResource>(
             cancellationToken
         );
+        Logger.LogTrace("trying to get '{0}' version {1} (latest: {2})", packageId, version, latest);
+
         IEnumerable<NuGetVersion> versions = (
             await resources.GetAllVersionsAsync(packageId, Cache, nugetLogger, cancellationToken)
         ).Distinct();
@@ -43,11 +46,13 @@ public partial class Context
         {
             Logger.LogTrace("fetching latest version for {0}", packageId);
             packageVersion = versions.Last();
+            Logger.LogTrace("latest version is {0}", packageVersion);
         }
         else if (version != null)
         {
             Logger.LogTrace("fetching version {1} for {0}", packageId, version);
             packageVersion = new NuGetVersion(version);
+            Logger.LogTrace("required version is {0}", packageVersion);
         }
         Logger.LogDebug("fetching {0}@{1}", packageId, packageVersion);
 
@@ -84,6 +89,10 @@ public partial class Context
                     );
 
                     return packageStream;
+                }
+                else
+                {
+                    Logger.LogDebug("package {0}@{1} does not exist on {2}", packageId, packageVersion, resource);
                 }
             }
         }
