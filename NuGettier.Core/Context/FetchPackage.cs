@@ -90,6 +90,10 @@ public partial class Context
 
                     return packageStream;
                 }
+                else
+                {
+                    Logger.LogDebug("package {0}@{1} does not exist on {2}", packageId, packageVersion, resource);
+                }
             }
         }
 
