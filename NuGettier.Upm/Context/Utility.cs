@@ -111,6 +111,8 @@ public partial class Context
         Assert.NotNull(metadata);
 
         var packageRule = GetPackageRule(packageId);
+        Assert.NotNull(packageRule);
+
         string namingTemplate = !string.IsNullOrEmpty(packageRule.Name)
             ? packageRule.Name
             : Context.DefaultPackageRule.Name;
