@@ -26,11 +26,14 @@ public partial class Context
         var packageRulesByLengthDescending = PackageRules.OrderByDescending(r => r.Id.Length);
 
         // search for equality first, then regex to have e.g. a specific rule for "System.Text.Json" and a generic rule for "System.Text.*" that don't overlap
-        var packageRule = packageRulesByLengthDescending
-            .Where(r => r.Id == packageId)
-            .FirstOrDefault(
-                packageRulesByLengthDescending.Where(r => Regex.IsMatch(r.Id, packageId)).FirstOrDefault(defaultRule)
-            );
+        var packageRule =
+            packageRulesByLengthDescending
+                .Where(r => r.Id == packageId)
+                .FirstOrDefault()
+            ?? packageRulesByLengthDescending
+                .Where(r => Regex.IsMatch(r.Id, packageId))
+                .FirstOrDefault()
+            ?? defaultRule;
 
         // create and return new package rule if retrieved one does not contain important information
         if (
