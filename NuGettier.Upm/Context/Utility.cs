@@ -37,6 +37,7 @@ public partial class Context
                 .Where(r => Regex.IsMatch(r.Id, packageId, RegexOptions.IgnoreCase))
                 .FirstOrDefault()
             ?? defaultRule;
+        Assert.NotNull(packageRule);
 
         // create and return new package rule if retrieved one does not contain important information
         if (
