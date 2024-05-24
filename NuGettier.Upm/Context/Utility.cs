@@ -70,6 +70,7 @@ public partial class Context
 
         // get packageRule for this package
         var packageRule = GetPackageRule(packageJson.Name);
+        Assert.NotNull(packageRule);
 
         // patch packageJson.Name, .Version and .MinUnityVersion
         packageJson.Name = PatchPackageId(packageId: packageJson.Name);
