@@ -29,17 +29,35 @@ public partial class Context
         var packageRulesByLengthDescending = PackageRules.OrderByDescending(r => r.Id.Length);
 
         // search for equality first, then regex to have e.g. a specific rule for "System.Text.Json" and a generic rule for "System.Text.*" that don't overlap
-        var packageRule =
-            packageRulesByLengthDescending
-                .Where(r => r.Id == packageId)
-                .FirstOrDefault()
-            ?? packageRulesByLengthDescending
+        var packageRule = packageRulesByLengthDescending.Where(r => r.Id == packageId).FirstOrDefault(defaultRule);
+
+        if (packageRule == defaultRule)
+        {
+            Logger.LogTrace("could not find direct match for package {0}", packageId);
+
+            // thus trying to match per regex
+            packageRule = packageRulesByLengthDescending
                 .Where(r => Regex.IsMatch(r.Id, packageId))
-                .FirstOrDefault()
-            ?? packageRulesByLengthDescending
+                .FirstOrDefault(defaultRule);
+        }
+
+        if (packageRule == defaultRule)
+        {
+            Logger.LogTrace("could not find case-sensitive regex match for package {0}", packageId);
+
+            // thus trying to match per case-insensitive regex
+            packageRule = packageRulesByLengthDescending
                 .Where(r => Regex.IsMatch(r.Id, packageId, RegexOptions.IgnoreCase))
-                .FirstOrDefault()
-            ?? defaultRule;
+                .FirstOrDefault(defaultRule);
+        }
+
+        if (packageRule == defaultRule)
+        {
+            Logger.LogTrace(
+                "could not find direct case-insensitive match for package {0} thus defaulting to default rule",
+                packageId
+            );
+        }
         Assert.NotNull(packageRule);
 
         Logger.LogTrace(
