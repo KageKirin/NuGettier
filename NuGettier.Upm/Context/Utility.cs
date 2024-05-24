@@ -60,6 +60,7 @@ public partial class Context
             || string.IsNullOrEmpty(packageRule.Framework)
         )
         {
+            Logger.LogTrace("creating new package rule b/c retrieved one does not contain important information");
             packageRule = new PackageRule(
                 Id: packageRule.Id,
                 Name: string.IsNullOrEmpty(packageRule.Name) ? defaultRule.Name : packageRule.Name,
