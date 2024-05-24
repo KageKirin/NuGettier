@@ -107,7 +107,7 @@ public partial class Context
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
 
         Logger.LogTrace($"before: {packageId}");
-        var metadata = CachedMetadata[packageId.ToLowerInvariant()];
+        CachedMetadata.TryGetValue(packageId.ToLowerInvariant(), out var metadata);
         Assert.NotNull(metadata);
 
         var packageRule = GetPackageRule(packageId);
