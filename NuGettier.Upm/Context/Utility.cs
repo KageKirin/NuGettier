@@ -19,7 +19,10 @@ public partial class Context
     public PackageRule GetPackageRule(string packageId)
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
+        Logger.LogTrace("getting package rule for {0}", packageId);
+
         var defaultRule = PackageRules.Where(r => string.IsNullOrEmpty(r.Id)).FirstOrDefault() ?? DefaultPackageRule;
+        Logger.LogTrace("default rule is system rule: {0}", defaultRule == DefaultPackageRule);
 
         // descending order used for regex match, so that `.*` will match last
         // rationale: this allows to have generic rules for e.g. "Microsoft.Extensions.Logging.*" and "Microsoft.Extensions.*" that don't overlap
@@ -39,6 +42,17 @@ public partial class Context
             ?? defaultRule;
         Assert.NotNull(packageRule);
 
+        Logger.LogTrace(
+            "retrieved package rule for {0}: {1}@{2}, framework: {3}, excluded: {4}, ignored: {5}, recursive: {6}",
+            packageId,
+            packageRule.Name,
+            packageRule.Version,
+            packageRule.Framework,
+            packageRule.IsExcluded,
+            packageRule.IsIgnored,
+            packageRule.IsRecursive
+        );
+
         // create and return new package rule if retrieved one does not contain important information
         if (
             string.IsNullOrEmpty(packageRule.Name)
@@ -46,7 +60,8 @@ public partial class Context
             || string.IsNullOrEmpty(packageRule.Framework)
         )
         {
-            return new PackageRule(
+            Logger.LogTrace("creating new package rule b/c retrieved one does not contain important information");
+            packageRule = new PackageRule(
                 Id: packageRule.Id,
                 Name: string.IsNullOrEmpty(packageRule.Name) ? defaultRule.Name : packageRule.Name,
                 Version: string.IsNullOrEmpty(packageRule.Version) ? defaultRule.Version : packageRule.Version,
@@ -56,6 +71,17 @@ public partial class Context
                 IsRecursive: packageRule.IsRecursive
             );
         }
+
+        Logger.LogTrace(
+            "returned package rule for {0}: {1}@{2}, framework: {3}, excluded: {4}, ignored: {5}, recursive: {6}",
+            packageId,
+            packageRule.Name,
+            packageRule.Version,
+            packageRule.Framework,
+            packageRule.IsExcluded,
+            packageRule.IsIgnored,
+            packageRule.IsRecursive
+        );
 
         return packageRule;
     }
