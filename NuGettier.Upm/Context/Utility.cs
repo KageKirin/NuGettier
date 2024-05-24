@@ -33,6 +33,9 @@ public partial class Context
             ?? packageRulesByLengthDescending
                 .Where(r => Regex.IsMatch(r.Id, packageId))
                 .FirstOrDefault()
+            ?? packageRulesByLengthDescending
+                .Where(r => Regex.IsMatch(r.Id, packageId, RegexOptions.IgnoreCase))
+                .FirstOrDefault()
             ?? defaultRule;
 
         // create and return new package rule if retrieved one does not contain important information
