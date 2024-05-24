@@ -19,7 +19,7 @@ public partial class Context
     public PackageRule GetPackageRule(string packageId)
     {
         using var scope = Logger.TraceLocation().BeginScope(this.__METHOD__());
-        var defaultRule = PackageRules.Where(r => string.IsNullOrEmpty(r.Id)).FirstOrDefault(DefaultPackageRule);
+        var defaultRule = PackageRules.Where(r => string.IsNullOrEmpty(r.Id)).FirstOrDefault() ?? DefaultPackageRule;
 
         // descending order used for regex match, so that `.*` will match last
         // rationale: this allows to have generic rules for e.g. "Microsoft.Extensions.Logging.*" and "Microsoft.Extensions.*" that don't overlap
@@ -37,6 +37,7 @@ public partial class Context
                 .Where(r => Regex.IsMatch(r.Id, packageId, RegexOptions.IgnoreCase))
                 .FirstOrDefault()
             ?? defaultRule;
+        Assert.NotNull(packageRule);
 
         // create and return new package rule if retrieved one does not contain important information
         if (
@@ -69,6 +70,7 @@ public partial class Context
 
         // get packageRule for this package
         var packageRule = GetPackageRule(packageJson.Name);
+        Assert.NotNull(packageRule);
 
         // patch packageJson.Name, .Version and .MinUnityVersion
         packageJson.Name = PatchPackageId(packageId: packageJson.Name);
@@ -109,6 +111,8 @@ public partial class Context
         Assert.NotNull(metadata);
 
         var packageRule = GetPackageRule(packageId);
+        Assert.NotNull(packageRule);
+
         string namingTemplate = !string.IsNullOrEmpty(packageRule.Name)
             ? packageRule.Name
             : Context.DefaultPackageRule.Name;
@@ -130,6 +134,8 @@ public partial class Context
 
         Logger.LogTrace($"before: {packageId}: {packageVersion}");
         var packageRule = GetPackageRule(packageId);
+        Assert.NotNull(packageRule);
+
         var versionRegex = !string.IsNullOrEmpty(packageRule.Version)
             ? packageRule.Version
             : Context.DefaultPackageRule.Version;
