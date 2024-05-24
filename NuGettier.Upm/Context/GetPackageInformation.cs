@@ -39,7 +39,8 @@ public partial class Context
         );
         if (packageSearchMetadata != null)
         {
-            CachedMetadata[packageId.ToLowerInvariant()] = packageSearchMetadata;
+            if (!CachedMetadata.ContainsKey(packageId.ToLowerInvariant()))
+                CachedMetadata[packageId.ToLowerInvariant()] = packageSearchMetadata;
 
             var packageDependencyGroup = NuGetFrameworkUtility.GetNearest<PackageDependencyGroup>(
                 packageSearchMetadata.DependencySets,
@@ -65,7 +66,11 @@ public partial class Context
                 foreach (var metadata in dependencyPackageSearchMetadata)
                 {
                     if (metadata != null)
-                        CachedMetadata[metadata.Identity.Id.ToLowerInvariant()] = metadata;
+                    {
+                        var metadataId = metadata.Identity.Id.ToLowerInvariant();
+                        if (!CachedMetadata.ContainsKey(metadataId))
+                            CachedMetadata[metadataId] = metadata;
+                    }
                 }
             }
         }
