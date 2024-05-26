@@ -52,7 +52,7 @@ public partial record class PackageJson
     [JsonPropertyName("repository")]
     public Repository Repository { get; set; } = new Repository();
 
-    [JsonPropertyName("publishingConfiguration")]
+    [JsonPropertyName("publishConfig")]
     public PublishingConfiguration PublishingConfiguration { get; set; } = new PublishingConfiguration();
 
     public static PackageJson? FromJson(in string json)
