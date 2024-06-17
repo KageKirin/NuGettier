@@ -1,0 +1,181 @@
+name: NuGettier Pack
+description: >
+  Repack the given NuPkg at the given version as Unity package
+
+inputs:
+  registry:
+    description: Target NPM registry to publish to
+    required: false
+    default: https://npm.pkg.github.com/@${{ github.repository_owner }}
+  package:
+    description: NuGet package name
+    required: true
+  version:
+    description: NuGet package version. Defaults to 'latest'.
+    required: false
+    default: 'latest'
+  prerelease:
+    description: whether to include prerelease versions
+    required: false
+    default: 'true'
+  amalgamate:
+    description: whether to create amalgamate version
+    required: false
+    default: 'false'
+  unity:
+    description: minimum Unity version required by package.json. Defaults to 2022.3.
+    required: false
+    default: '2022.3'
+  additional-sources:
+    description: >
+      source NuGet repositories to fetch from, ';token' if a token is required
+      space-separated list
+    default: >
+      https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json;${{ github.token }}
+    required: false
+  prerelease-suffix:
+    description: version prerelease suffix ('foobar' -> '1.2.3-foobar+buildmeta)
+    required: false
+    default: ''
+  buildmeta-suffix:
+    description: version buildmeta suffix ('foobar' -> '1.2.3-prerelease+foobar)
+    required: false
+    default: ''
+  repository:
+    description: NPM package repository URL, assigned to `{.repository.url`}
+    required: false
+    default: ''
+  directory:
+    description: NPM package directory path, assigned to `{.repository.directory`}
+    required: false
+    default: ''
+
+
+outputs:
+  packagefile:
+    description: Path to the created package file (tgz).
+    value: ${{ steps.pack.outputs.packagefile }}
+
+runs:
+  using: composite
+  steps:
+  - id: prepare
+    name: Prepare configuration
+    shell: python
+    env:
+      inputs_additional_sources: ${{ inputs.additional-sources }}
+    run: |
+      import os, sys, pprint
+      from urllib.parse import urlparse, urljoin
+      from pathlib import Path
+
+      additional_sources = str(os.getenv("inputs_additional_sources", "")).split()
+
+      with open(".netconfig.user", "w") as fh:
+          for source in additional_sources:
+              s = source.split(";")
+              url = urlparse(s[0])
+              pprint.pp(url)
+              registry_path = url.geturl().replace(f'{url.scheme}://', '')
+
+              print(f'[source "{registry_path}"]')
+              print(f'[source "{registry_path}"]', file = fh)
+              print(f'protocol = {url.scheme}')
+              print(f'protocol = {url.scheme}', file = fh)
+              if len(s) > 1:
+                  print(f'password = {s[1]}')
+                  print(f'password = {s[1]}', file = fh)
+              print('', file = fh)
+
+  - id: pack
+    name: Pack
+    shell: python
+    env:
+      inputs_registry: ${{ inputs.registry }}
+      inputs_package: ${{ inputs.package }}
+      inputs_version: ${{ inputs.version }}
+      inputs_prerelease: ${{ inputs.prerelease }}
+      inputs_amalgamate: ${{ inputs.amalgamate }}
+      inputs_unity: ${{ inputs.unity }}
+      inputs_additional_sources: ${{ inputs.additional-sources }}
+      inputs_prerelease_suffix: ${{ inputs.prerelease-suffix }}
+      inputs_buildmeta_suffix: ${{ inputs.buildmeta-suffix }}
+      inputs_repository: ${{ inputs.repository }}
+      inputs_directory: ${{ inputs.directory }}
+    run: |
+      import os, sys, pprint
+      from pathlib import Path
+
+
+      registry = str(os.getenv("inputs_registry"))
+      assert registry
+      assert len(registry) > 0
+
+      package = str(os.getenv("inputs_package"))
+      assert package
+      assert len(package) > 0
+
+      version = str(os.getenv("inputs_version", "latest"))
+      assert version
+
+      prerelease = os.getenv("inputs_prerelease", "true") == "true"
+      amalgamate = os.getenv("inputs_amalgamate", "false") == "true"
+
+      unity = str(os.getenv("inputs_unity"))
+      assert unity
+      assert len(unity) > 0
+
+      prerelease_suffix = str(os.getenv("inputs_prerelease_suffix", ""))
+      buildmeta_suffix = str(os.getenv("inputs_buildmeta_suffix", ""))
+      repository = str(os.getenv("inputs_repository", ""))
+      directory = str(os.getenv("inputs_directory", ""))
+
+      cmd = ["dotnet", "nugettier", "upm"]
+
+      if amalgamate:
+          cmd += ["amalgamate", "pack"]
+      else:
+          cmd += ["pack"]
+
+      if len(version):
+          cmd += [f"{package}@{version}"]
+      else:
+          cmd += [package]
+
+      cmd += ["--target", registry.lower()]
+      cmd += ["--unity", unity]
+      cmd += ["--outputDirectory", "."]
+
+      if prerelease_suffix and len(prerelease_suffix):
+          cmd += ["--prerelease-suffix", prerelease_suffix]
+
+      if buildmeta_suffix and len(buildmeta_suffix):
+          cmd += ["--buildmeta-suffix", buildmeta_suffix]
+
+      if repository and len(repository):
+          cmd += ["--repository", repository]
+
+      if directory and len(directory):
+          cmd += ["--directory", directory]
+
+      command = " ".join(cmd)
+      print(command)
+      err = os.system(command)
+
+      files = Path('.').rglob(f"{package}*.tgz")
+      assert len(files)
+      packagefile = files[0]
+
+      with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+          print(f"packagefile={packagefile}")
+          print(f"packagefile={packagefile}", file=fh)
+
+      exit(err)
+
+
+  - id: verify-outputs
+    name: Verify
+    shell: cat {0}
+    run: |
+      steps.pack.outputs.packagefile
+      ${{ steps.pack.outputs.packagefile }}
