@@ -1,0 +1,42 @@
+name: test-pack-action
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+        - .github/actions/nugettier-pack/*
+        - .github/workflows/test-pack-action.yml
+  push:
+    paths:
+      - .github/actions/nugettier-pack/*
+      - .github/workflows/test-pack-action.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: read
+    strategy:
+      matrix:
+        version: ['latest', '0.0.35']
+        amalgamate: ['false', 'true']
+        target:
+        - npmjs
+        - github
+        include:
+          - target: npmjs
+            registry: https://registry.npmjs.org/
+          - target: github
+            registry: https://npm.pkg.github.com/@${{ github.repository_owner }}/
+    steps:
+    - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
+    - uses: ./.github/actions/install
+      with:
+        accept-license: YES
+    - uses: ./.github/actions/nugettier-pack
+      with:
+        registry: ${{ matrix.registry }}
+        package: Keillogs
+        version: ${{ matrix.version }}
+        amalgamate: ${{ matrix.amalgamate }}
+        additional-sources: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json;${{ secrets.GITHUB_TOKEN }}
